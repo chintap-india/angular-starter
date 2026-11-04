@@ -1,0 +1,13 @@
+# Chintap Angular Starter (https://angular-starter.chintap.com)
+# Robots & AI Agent Crawling Policy
+
+User-agent: *
+Allow: /
+
+# Canonical Sitemap
+Sitemap: https://angular-starter.chintap.com/sitemap.xml
+
+# LLM & AI Agent Discoverability (LLMO)
+# LLM Context: https://angular-starter.chintap.com/llms.txt
+# Full Documentation: https://angular-starter.chintap.com/llms-full.txt
+# Agent Resource Discovery: https://angular-starter.chintap.com/.well-known/ard.json

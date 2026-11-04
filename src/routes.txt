@@ -1,0 +1,6 @@
+/
+/features
+/best-practices
+/about
+/contact
+/404

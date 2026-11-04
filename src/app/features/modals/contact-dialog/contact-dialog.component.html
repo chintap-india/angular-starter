@@ -1,0 +1,40 @@
+<div
+  class="max-h-[88vh] max-h-[88dvh] flex flex-col p-5 sm:p-7 max-w-xl w-full mx-auto bg-stone-50 dark:bg-stone-900 text-stone-900 dark:text-stone-100 rounded-3xl border border-stone-200 dark:border-stone-800 shadow-2xl transition-colors overflow-hidden"
+  role="dialog"
+  aria-labelledby="contact-title"
+  aria-describedby="contact-desc"
+>
+  <!-- Fixed Header -->
+  <div class="flex-shrink-0 flex items-start justify-between pb-3 border-b border-stone-200 dark:border-stone-800 mb-3">
+    <div>
+      <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#ea1c24]">Start a Conversation</span>
+      <h2 id="contact-title" class="text-xl sm:text-2xl font-extrabold text-stone-900 dark:text-stone-50 font-heading mt-0.5">
+        Have something in mind?
+      </h2>
+      <p id="contact-desc" class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 mt-0.5">
+        You don't need a complete brief. A good conversation is a perfectly reasonable place to start.
+      </p>
+    </div>
+    <button
+      type="button"
+      (click)="dialogRef.close()"
+      aria-label="Close dialog"
+      class="modal-close-btn w-8 h-8 rounded-full flex items-center justify-center bg-stone-200/70 hover:bg-stone-300 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24] cursor-pointer flex-shrink-0 mt-1"
+      title="Close dialog"
+    >
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M18 6L6 18M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Scrollable Form Container with reusable ContactFormComponent -->
+  <div class="flex-1 overflow-y-auto overscroll-contain pr-1">
+    <app-contact-form
+      [initialData]="data"
+      [isModal]="true"
+      (formSubmitted)="dialogRef.close(true)"
+      (formCancelled)="dialogRef.close(false)"
+    ></app-contact-form>
+  </div>
+</div>

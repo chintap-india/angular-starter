@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 70" width="240" height="70">
+  <g fill="none" fill-rule="evenodd">
+    <!-- Netlify mark -->
+    <path fill="#00C7B7" d="M38.5 12.3c.7-.6 1.8-.6 2.5 0l16.7 15.2c.7.6.7 1.7 0 2.4L41 45.1c-.7.6-1.8.6-2.5 0L21.8 29.9c-.7-.6-.7-1.7 0-2.4l16.7-15.2z"/>
+    <path fill="#05BDD6" d="M29 32.5l9.5-8.6 9.5 8.6-9.5 8.6z"/>
+    <!-- Netlify wordmark -->
+    <text x="75" y="46" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="34" fill="#00C7B7" letter-spacing="-0.5">Netlify</text>
+  </g>
+</svg>

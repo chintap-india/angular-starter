@@ -1,0 +1,242 @@
+<form
+  [formGroup]="contactForm"
+  #formDirective="ngForm"
+  (ngSubmit)="onSubmit(formDirective)"
+  class="space-y-4"
+  novalidate
+  aria-label="Contact form"
+>
+  <!-- Hidden form-name input for Netlify bots -->
+  <input type="hidden" name="form-name" value="contact" />
+
+  <!-- Speech error alert -->
+  @if (speechError()) {
+    <div
+      role="alert"
+      class="p-3 text-xs rounded-xl bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/60 flex items-center justify-between gap-2"
+    >
+      <div class="flex items-center gap-2">
+        <mat-icon class="!w-4 !h-4 !text-[16px] text-amber-600 dark:text-amber-400">warning</mat-icon>
+        <span>{{ speechError() }}</span>
+      </div>
+      <button
+        type="button"
+        (click)="dismissSpeechError()"
+        class="text-amber-700 dark:text-amber-300 hover:text-amber-900 font-bold text-xs"
+        aria-label="Dismiss message"
+      >
+        ✕
+      </button>
+    </div>
+  }
+
+  <!-- Active speech recording banner -->
+  @if (isListening()) {
+    <div
+      class="p-2.5 rounded-xl bg-[#ea1c24]/10 border border-[#ea1c24]/30 text-stone-900 dark:text-stone-100 flex items-center justify-between text-xs font-mono"
+    >
+      <div class="flex items-center gap-2">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ea1c24] opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-[#ea1c24]"></span>
+        </span>
+        <span class="font-bold text-[#ea1c24]">Listening for {{ activeSpeechField() }}...</span>
+        @if (interimTranscript()) {
+          <span class="italic text-stone-500 dark:text-stone-400 truncate max-w-[200px]">"{{ interimTranscript() }}"</span>
+        }
+      </div>
+      <div class="flex items-center gap-2">
+        <button
+          type="button"
+          (click)="toggleSpeechLocale()"
+          class="px-2 py-0.5 rounded bg-stone-200 dark:bg-stone-800 hover:bg-stone-300 dark:hover:bg-stone-700 font-mono text-[10px] text-stone-700 dark:text-stone-300"
+          [attr.aria-label]="'Switch accent locale: current ' + speechLocale()"
+        >
+          {{ speechLocale() === 'en-IN' ? '🇮🇳 IN' : '🌐 US' }}
+        </button>
+        <button
+          type="button"
+          (click)="stopSpeechRecognition()"
+          class="text-xs font-bold text-[#ea1c24] hover:underline cursor-pointer"
+        >
+          Done
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- 1. Inquiry Intent Selector -->
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>What are you exploring?</mat-label>
+    <mat-select formControlName="intent" id="contact-intent" aria-label="What are you exploring?">
+      <mat-option value="problem">An everyday problem that needs a better solution</mat-option>
+      <mat-option value="idea">An idea that hasn't found its shape yet</mat-option>
+      <mat-option value="connected">A physical, digital, or connected product</mat-option>
+      <mat-option value="academy">An Academy cohort or hands-on engineering programme</mat-option>
+      <mat-option value="collaboration">A partnership or shared possibility</mat-option>
+      <mat-option value="issue">Report a broken link or page issue</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- 2. Name & Email Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Your Name</mat-label>
+      <input
+        matInput
+        id="contact-name"
+        name="name"
+        autocomplete="name"
+        formControlName="name"
+        placeholder="Name"
+        required
+        aria-required="true"
+      />
+      @if (isSpeechSupported()) {
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="toggleSpeechRecognition('name', $event)"
+          [matTooltip]="isListeningFor('name') ? 'Listening for your name... click to stop' : 'Dictate your name (speech to text)'"
+          [attr.aria-label]="isListeningFor('name') ? 'Stop name voice dictation' : 'Dictate your name'"
+          class="relative !w-9 !h-9 text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors self-center mr-1"
+          [class.!text-[#ea1c24]]="isListeningFor('name')"
+        >
+          <mat-icon class="!w-5 !h-5 !text-[20px]">{{ isListeningFor('name') ? 'mic' : 'mic_none' }}</mat-icon>
+          @if (isListeningFor('name')) {
+            <span class="absolute top-1.5 right-1.5 flex h-2.5 w-2.5" aria-hidden="true">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ea1c24] opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ea1c24]"></span>
+            </span>
+          }
+        </button>
+      }
+      @if (contactForm.get('name')?.invalid && contactForm.get('name')?.touched) {
+        <mat-error role="alert">Name is required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Email Address</mat-label>
+      <input
+        matInput
+        id="contact-email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        formControlName="email"
+        placeholder="you@domain.com"
+        required
+        aria-required="true"
+      />
+      @if (isSpeechSupported()) {
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="toggleSpeechRecognition('email', $event)"
+          [matTooltip]="isListeningFor('email') ? 'Listening for email... click to stop' : 'Dictate your email address (speech to text)'"
+          [attr.aria-label]="isListeningFor('email') ? 'Stop email voice dictation' : 'Dictate your email address'"
+          class="relative !w-9 !h-9 text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors self-center mr-1"
+          [class.!text-[#ea1c24]]="isListeningFor('email')"
+        >
+          <mat-icon class="!w-5 !h-5 !text-[20px]">{{ isListeningFor('email') ? 'mic' : 'mic_none' }}</mat-icon>
+          @if (isListeningFor('email')) {
+            <span class="absolute top-1.5 right-1.5 flex h-2.5 w-2.5" aria-hidden="true">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ea1c24] opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ea1c24]"></span>
+            </span>
+          }
+        </button>
+      }
+      @if (contactForm.get('email')?.invalid && contactForm.get('email')?.touched) {
+        <mat-error role="alert">Valid email is required</mat-error>
+      }
+    </mat-form-field>
+  </div>
+
+  <!-- 3. Organization (Optional) -->
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Organization or Project (Optional)</mat-label>
+    <input
+      matInput
+      id="contact-org"
+      name="organization"
+      autocomplete="organization"
+      formControlName="organization"
+      placeholder="e.g. Company, team, or independent"
+    />
+  </mat-form-field>
+
+  <!-- 4. Message -->
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Tell us what's on your mind</mat-label>
+    <textarea
+      matInput
+      id="contact-message"
+      name="message"
+      formControlName="message"
+      [rows]="isModal ? 3 : 5"
+      [placeholder]="getMessagePlaceholder()"
+      required
+      aria-required="true"
+    ></textarea>
+    @if (isSpeechSupported()) {
+      <button
+        mat-icon-button
+        matSuffix
+        type="button"
+        (click)="toggleSpeechRecognition('message', $event)"
+        [matTooltip]="isListeningFor('message') ? 'Listening... click to stop' : 'Dictate your note (speech to text)'"
+        [attr.aria-label]="isListeningFor('message') ? 'Stop message voice dictation' : 'Dictate note with microphone'"
+        class="relative !w-9 !h-9 text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors self-start mt-2 mr-1"
+        [class.!text-[#ea1c24]]="isListeningFor('message')"
+      >
+        <mat-icon class="!w-5 !h-5 !text-[20px]">{{ isListeningFor('message') ? 'mic' : 'mic_none' }}</mat-icon>
+        @if (isListeningFor('message')) {
+          <span class="absolute top-1.5 right-1.5 flex h-2.5 w-2.5" aria-hidden="true">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ea1c24] opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ea1c24]"></span>
+          </span>
+        }
+      </button>
+    }
+    @if (contactForm.get('message')?.invalid && contactForm.get('message')?.touched) {
+      <mat-error role="alert">A message of at least 10 characters is required</mat-error>
+    }
+  </mat-form-field>
+
+  <!-- Reassurance note & Submit Actions -->
+  <div class="pt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <p class="text-xs text-stone-500 dark:text-stone-400">
+      No pitches, no pressure, and never spam.
+    </p>
+
+    <div class="flex items-center gap-3 justify-end">
+      @if (isModal) {
+        <button
+          type="button"
+          (click)="formCancelled.emit()"
+          class="px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white transition-colors cursor-pointer"
+        >
+          Cancel
+        </button>
+      }
+
+      <button
+        type="submit"
+        [disabled]="isSubmitting || contactForm.invalid"
+        class="inline-flex items-center justify-center gap-2 px-6 sm:px-7 py-3 rounded-full bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 font-bold text-xs sm:text-sm hover:bg-stone-800 dark:hover:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24] cursor-pointer"
+        aria-label="Send your note to Chintap"
+      >
+        <span>{{ isSubmitting ? 'Sending...' : 'Send Note' }}</span>
+        @if (!isSubmitting) {
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        }
+      </button>
+    </div>
+  </div>
+</form>

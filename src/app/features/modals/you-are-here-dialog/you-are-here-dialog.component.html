@@ -1,0 +1,375 @@
+<div
+  class="relative flex flex-col w-[96vw] max-w-[1040px] h-[92vh] h-[92dvh] sm:h-[88vh] sm:max-h-[820px] bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 rounded-3xl overflow-hidden border border-stone-200 dark:border-stone-800 shadow-2xl transition-colors overscroll-none"
+  role="dialog"
+  aria-modal="true"
+  aria-label="You Are Here — Interactive Site Map Constellation"
+>
+  <!-- Modal Header Bar -->
+  <header class="flex items-center justify-between px-6 py-4 border-b border-stone-200 dark:border-stone-800 bg-white/90 dark:bg-stone-900/90 backdrop-blur-md z-30 flex-shrink-0">
+    <div class="flex items-center gap-3 min-w-0 pr-4">
+      <div class="w-2.5 h-2.5 rounded-full bg-[#ea1c24] animate-pulse flex-shrink-0"></div>
+      <div class="min-w-0">
+        <h2 class="text-sm sm:text-base font-bold text-stone-900 dark:text-stone-50 font-heading tracking-tight truncate flex items-center gap-2">
+          <span>You Are Here</span>
+          <span class="text-xs font-mono font-normal text-stone-400 dark:text-stone-500">· Site Constellation</span>
+        </h2>
+        <p class="text-[11px] text-stone-600 dark:text-stone-400 truncate">
+          <span class="hidden sm:inline">Click any page to expand its section networks · Click 'Visit Page' to navigate</span>
+          <span class="inline sm:hidden">Tap any page to expand · Tap 'Visit Page' to navigate</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Centered Controls Cluster -->
+    <div class="flex items-center gap-2 flex-shrink-0">
+      <!-- Zoom Out -->
+      <button
+        type="button"
+        (click)="zoomOut()"
+        [disabled]="currentZoom <= 0.5"
+        aria-label="Zoom out"
+        class="w-8 h-8 rounded-full border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 hover:bg-stone-100 dark:hover:bg-stone-700 disabled:opacity-40 disabled:cursor-not-allowed text-stone-700 dark:text-stone-200 flex items-center justify-center transition shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24]"
+      >
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M 5 12 L 19 12" />
+        </svg>
+      </button>
+
+      <!-- Zoom Level Pill & Reset -->
+      <button
+        type="button"
+        (click)="resetZoom()"
+        [attr.aria-label]="'Reset zoom scale to ' + (isMobile() ? '50%' : '100%')"
+        class="px-2.5 h-8 rounded-full border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 hover:bg-stone-100 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 font-mono text-[11px] font-semibold flex items-center justify-center transition shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24]"
+        [title]="'Reset zoom and center (' + (isMobile() ? '50%' : '100%') + ')'"
+      >
+        {{ zoomPercentage }}
+      </button>
+
+      <!-- Zoom In -->
+      <button
+        type="button"
+        (click)="zoomIn()"
+        [disabled]="currentZoom >= 2.5"
+        aria-label="Zoom in"
+        class="w-8 h-8 rounded-full border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 hover:bg-stone-100 dark:hover:bg-stone-700 disabled:opacity-40 disabled:cursor-not-allowed text-stone-700 dark:text-stone-200 flex items-center justify-center transition shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24]"
+      >
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M 12 5 L 12 19 M 5 12 L 19 12" />
+        </svg>
+      </button>
+
+      <!-- Save as Image (PNG) Button -->
+      <button
+        type="button"
+        (click)="exportAsImage()"
+        [disabled]="isExporting()"
+        aria-label="Save constellation map as PNG image"
+        class="w-8 h-8 rounded-full border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 hover:bg-stone-100 dark:hover:bg-stone-700 disabled:opacity-40 disabled:cursor-not-allowed text-stone-700 dark:text-stone-200 flex items-center justify-center transition shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24]"
+        title="Save as Image (PNG) · Or right-click graph"
+      >
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+      </button>
+
+      <div class="h-4 w-px bg-stone-300 dark:bg-stone-700 mx-1"></div>
+
+      <!-- Close Button -->
+      <button
+        type="button"
+        (click)="dialogRef.close()"
+        aria-label="Close dialog"
+        class="modal-close-btn w-8 h-8 rounded-full border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 hover:bg-stone-100 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 flex items-center justify-center transition shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24]"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 18 6 L 6 18 M 6 6 L 18 18" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Interactive Constellation Canvas Area -->
+  <main
+    class="relative flex-1 w-full h-full overflow-hidden bg-stone-50 dark:bg-stone-950 cursor-grab active:cursor-grabbing select-none touch-none overscroll-none"
+    (wheel)="onWheel($event)"
+    (pointerdown)="onPointerDown($event)"
+    (pointermove)="onPointerMove($event)"
+    (pointerup)="onPointerUp($event)"
+    (pointercancel)="onPointerUp($event)"
+    (touchstart)="onTouchStart($event)"
+    (touchmove)="onTouchMove($event)"
+    (touchend)="onTouchEnd($event)"
+    (touchcancel)="onTouchEnd($event)"
+    (contextmenu)="onContextMenu($event)"
+  >
+    <!-- Background Technical Grid Lines -->
+    <div
+      class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none"
+      style="background-size: 32px 32px; background-image: linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px);"
+    ></div>
+
+    <!-- Scalable & Pannable Vector Canvas -->
+    <div
+      class="w-full h-full flex items-center justify-center pointer-events-none select-none"
+      [style.transform]="'translate3d(' + panX() + 'px, ' + panY() + 'px, 0px) scale(' + currentZoom + ')'"
+      [style.transition]="isDragging() ? 'none' : 'transform 0.18s cubic-bezier(0.16, 1, 0.3, 1)'"
+      style="transform-origin: center center; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden;"
+    >
+      <svg
+        viewBox="0 0 900 650"
+        class="network-graph-svg w-[900px] h-[650px] overflow-visible"
+        [class.pointer-events-none]="isDragging()"
+        [class.pointer-events-auto]="!isDragging()"
+        (contextmenu)="onContextMenu($event)"
+        role="img"
+        aria-label="Chintap Site Constellation Map"
+      >
+        <title>Chintap Site Constellation</title>
+
+        <defs>
+          <!-- Radiating Beacon Glow for Active Location -->
+          <radialGradient id="youAreHereGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ea1c24" stop-opacity="0.45" />
+            <stop offset="60%" stop-color="#ea1c24" stop-opacity="0.15" />
+            <stop offset="100%" stop-color="#ea1c24" stop-opacity="0" />
+          </radialGradient>
+
+          <radialGradient id="centerNucleusGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ea1c24" stop-opacity="0.25" />
+            <stop offset="100%" stop-color="#ea1c24" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        <!-- Harmonic Orbital Rings -->
+        <ellipse cx="450" cy="350" [attr.rx]="outerOrbitalRadius.rx" [attr.ry]="outerOrbitalRadius.ry" class="stroke-stone-200 dark:stroke-stone-800/80 pointer-events-none" stroke-width="1" stroke-dasharray="3 4" fill="none" />
+        <ellipse cx="450" cy="350" [attr.rx]="innerOrbitalRadius.rx" [attr.ry]="innerOrbitalRadius.ry" class="stroke-stone-200/60 dark:stroke-stone-800/40 pointer-events-none" stroke-width="0.75" stroke-dasharray="2 4" fill="none" />
+
+        <!-- Radial Connector Vectors from Center Nucleus to Each Page -->
+        @for (node of allNodes; track node.id) {
+          <line
+            x1="450"
+            y1="350"
+            [attr.x2]="node.x"
+            [attr.y2]="node.y"
+            [class.stroke-[#ea1c24]]="node.id === activePageId() || node.id === selectedNodeId()"
+            [class.stroke-stone-300]="node.id !== activePageId() && node.id !== selectedNodeId()"
+            class="dark:stroke-stone-700/80 transition-colors pointer-events-none"
+            [attr.stroke-width]="node.id === activePageId() ? '2' : (node.id === selectedNodeId() ? '1.5' : '1.25')"
+            [attr.stroke-dasharray]="node.id === activePageId() ? 'none' : '3 3'"
+          />
+        }
+
+        <!-- Center Nucleus: CHINTAP -->
+        <g class="cursor-pointer group/center" (click)="navigateToRoute('/')">
+          <circle cx="450" cy="350" r="38" class="fill-transparent" pointer-events="all" />
+          <circle cx="450" cy="350" r="26" fill="url(#centerNucleusGlow)" class="beacon-pulse pointer-events-none" />
+          <circle cx="450" cy="350" r="16" class="stroke-[#ea1c24]/40 fill-none pointer-events-none" stroke-width="1" stroke-dasharray="2 3" />
+          <circle cx="450" cy="350" r="9" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-md pointer-events-none" stroke-width="2.5" />
+          <text
+            x="450"
+            y="384"
+            text-anchor="middle"
+            font-family="var(--font-brand)"
+            style="font-family: var(--font-brand) !important; font-weight: 800 !important;"
+            class="font-brand text-[18px] font-extrabold tracking-tight select-none"
+          >
+            <tspan class="fill-stone-900 dark:fill-white">chin</tspan><tspan class="fill-[#ea1c24]">tap</tspan>
+          </text>
+          <text x="450" y="400" text-anchor="middle" class="text-[10px] font-medium fill-stone-500 dark:fill-stone-400">
+            Things · Apps · Possibilities
+          </text>
+        </g>
+
+        <!-- Page Constellation Nodes and Children -->
+        @for (node of allNodes; track node.id) {
+          <!-- Child Section Branches (when expanded) -->
+          @if (isExpanded(node.id)) {
+            @for (child of node.children; track child.id) {
+              <!-- Branch Vector to Child Section -->
+              <line
+                [attr.x1]="node.x"
+                [attr.y1]="node.y"
+                [attr.x2]="node.x + child.dx"
+                [attr.y2]="node.y + child.dy"
+                class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none"
+                stroke-width="1.25"
+                stroke-dasharray="2 2"
+              />
+
+              <!-- Child Section Satellite Node -->
+              <g
+                class="cursor-pointer group/child"
+                (click)="selectChild(child.id, node.id, $event)"
+              >
+                <circle [attr.cx]="node.x + child.dx" [attr.cy]="node.y + child.dy" r="18" class="fill-transparent" pointer-events="all" />
+                <circle
+                  [attr.cx]="node.x + child.dx"
+                  [attr.cy]="node.y + child.dy"
+                  r="5"
+                  [class.stroke-[#ea1c24]]="selectedChildId() === child.id"
+                  class="fill-white dark:fill-stone-900 stroke-stone-600 dark:stroke-stone-400 group-hover/child:stroke-[#ea1c24] transition-colors pointer-events-none"
+                  stroke-width="1.5"
+                />
+                <circle
+                  [attr.cx]="node.x + child.dx"
+                  [attr.cy]="node.y + child.dy"
+                  r="1.75"
+                  [class.fill-[#ea1c24]]="selectedChildId() === child.id"
+                  class="fill-stone-600 dark:fill-stone-400 group-hover/child:fill-[#ea1c24] transition-colors pointer-events-none"
+                />
+                <text
+                  [attr.x]="node.x + child.dx + (child.dx >= 0 ? 12 : -12)"
+                  [attr.y]="node.y + child.dy + 3"
+                  [attr.text-anchor]="child.dx >= 0 ? 'start' : 'end'"
+                  [class.fill-[#ea1c24]]="selectedChildId() === child.id"
+                  class="text-[11.5px] font-semibold fill-stone-800 dark:fill-stone-200 group-hover/child:fill-[#ea1c24] transition-colors pointer-events-none"
+                >
+                  {{ child.label }}
+                </text>
+                <text
+                  [attr.x]="node.x + child.dx + (child.dx >= 0 ? 12 : -12)"
+                  [attr.y]="node.y + child.dy + 16"
+                  [attr.text-anchor]="child.dx >= 0 ? 'start' : 'end'"
+                  class="text-[9.5px] fill-stone-500 dark:fill-stone-400 pointer-events-none font-medium"
+                >
+                  {{ child.sublabel }}
+                </text>
+              </g>
+            }
+          }
+
+          <!-- Page Node Group -->
+          <g
+            class="cursor-pointer group/node"
+            (click)="toggleNode(node.id, $event)"
+          >
+            <!-- Invisible generous hit target -->
+            <circle [attr.cx]="node.x" [attr.cy]="node.y" r="28" class="fill-transparent" pointer-events="all" />
+
+            <!-- Active "YOU ARE HERE" Beacon Rings -->
+            @if (node.id === activePageId()) {
+              <circle
+                [attr.cx]="node.x"
+                [attr.cy]="node.y"
+                r="30"
+                fill="url(#youAreHereGlow)"
+                class="beacon-pulse pointer-events-none"
+              />
+              <circle
+                [attr.cx]="node.x"
+                [attr.cy]="node.y"
+                r="18"
+                class="stroke-[#ea1c24] fill-none pointer-events-none"
+                stroke-width="1.5"
+                stroke-dasharray="2 3"
+              />
+            }
+
+            <!-- Node Outer Boundary Circle -->
+            <circle
+              [attr.cx]="node.x"
+              [attr.cy]="node.y"
+              r="8"
+              [class.stroke-[#ea1c24]]="node.id === activePageId() || node.id === selectedNodeId()"
+              class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors shadow-sm pointer-events-none"
+              stroke-width="2"
+            />
+
+            <!-- Node Center Core -->
+            <circle
+              [attr.cx]="node.x"
+              [attr.cy]="node.y"
+              r="2.5"
+              [class.fill-[#ea1c24]]="node.id === activePageId() || node.id === selectedNodeId()"
+              class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors pointer-events-none"
+            />
+
+            <!-- Page Title Label -->
+            <text
+              [attr.x]="node.x + node.labelOffset.x"
+              [attr.y]="node.y + node.labelOffset.y"
+              [attr.text-anchor]="node.labelOffset.anchor"
+              [class.fill-[#ea1c24]]="node.id === activePageId() || node.id === selectedNodeId()"
+              class="text-[14px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors pointer-events-none tracking-tight"
+            >
+              {{ node.title }}
+            </text>
+
+            <!-- Page Subtitle Tagline -->
+            <text
+              [attr.x]="node.x + node.labelOffset.x"
+              [attr.y]="node.y + node.labelOffset.y + 14"
+              [attr.text-anchor]="node.labelOffset.anchor"
+              class="text-[10px] fill-stone-500 dark:fill-stone-400 pointer-events-none font-medium"
+            >
+              {{ node.tagline }}
+            </text>
+
+            <!-- Floating "YOU ARE HERE" Badge for Current Page -->
+            @if (node.id === activePageId()) {
+              <g [attr.transform]="'translate(' + (node.x - 44) + ', ' + (node.y - 42) + ')'" class="pointer-events-none">
+                <rect width="88" height="20" rx="10" class="fill-[#ea1c24] shadow-md" />
+                <circle cx="12" cy="10" r="3" class="fill-white animate-pulse" />
+                <text x="48" y="14" text-anchor="middle" class="text-[9.5px] font-extrabold fill-white uppercase tracking-wider">
+                  You Are Here
+                </text>
+              </g>
+            }
+          </g>
+        }
+      </svg>
+    </div>
+
+    <!-- Interaction Floating Hint Pill -->
+    <div class="absolute top-4 left-6 z-20 pointer-events-none flex items-center gap-2">
+      <span class="px-3 py-1 rounded-full bg-white/90 dark:bg-stone-900/90 border border-stone-200 dark:border-stone-800 text-[10.5px] font-mono text-stone-600 dark:text-stone-300 shadow-sm backdrop-blur-md">
+        <span class="hidden sm:inline">Scroll or pinch to zoom · Drag to pan · Click any page to expand</span>
+        <span class="inline sm:hidden">Pinch to zoom · Drag to pan · Tap to expand</span>
+      </span>
+    </div>
+  </main>
+
+  <!-- Bottom Inspector & Navigation Drawer -->
+  <footer class="px-6 py-4 border-t border-stone-200 dark:border-stone-800 bg-white/95 dark:bg-stone-900/95 backdrop-blur-md z-30 flex-shrink-0">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="min-w-0 flex-1">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#ea1c24]">
+            {{ selectedPageNode().title }}
+          </span>
+          @if (isCurrentLocation()) {
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#ea1c24]/10 text-[#ea1c24] text-[9.5px] font-bold">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#ea1c24]"></span>
+              Current Location
+            </span>
+          }
+        </div>
+        <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-snug line-clamp-2">
+          {{ selectedPageNode().description }}
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3 flex-shrink-0 w-full sm:w-auto justify-end">
+        <button
+          type="button"
+          (click)="toggleNode(selectedPageNode().id)"
+          class="px-4 py-2 rounded-full border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 hover:bg-stone-100 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 text-xs font-bold transition shadow-xs cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24]"
+        >
+          {{ isExpanded(selectedPageNode().id) ? 'Collapse Sections −' : 'Expand Sections +' }}
+        </button>
+
+        <button
+          type="button"
+          (click)="navigateToSelected()"
+          class="px-5 py-2 rounded-full bg-stone-900 dark:bg-stone-100 hover:bg-[#ea1c24] dark:hover:bg-[#ea1c24] text-white dark:text-stone-900 hover:dark:text-white text-xs font-bold transition shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24]"
+        >
+          Visit Page →
+        </button>
+      </div>
+    </div>
+  </footer>
+</div>

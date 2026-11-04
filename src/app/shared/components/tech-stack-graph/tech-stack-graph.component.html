@@ -1,0 +1,671 @@
+<div class="space-y-6">
+
+  <!-- Interactive SVG Architecture Topology Diagram -->
+  <div class="relative w-full rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-md p-4 sm:p-6 lg:p-8 overflow-hidden select-none">
+    
+    <!-- Top Bar Controls -->
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-3 border-b border-stone-100 dark:border-stone-800">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-[#ea1c24] animate-pulse"></span>
+        <span class="text-xs font-mono font-bold tracking-wider uppercase text-stone-700 dark:text-stone-300">
+          Architecture Topology Diagram · 12-Week Curriculum
+        </span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <span class="text-[11px] font-mono text-stone-500 dark:text-stone-400">
+          Tap or click any node to inspect
+        </span>
+
+        @if (allowExpand) {
+          <!-- Floating Maximize Diagram Action Badge -->
+          <button
+            type="button"
+            (click)="openExpandedView($event)"
+            aria-label="Maximize architecture diagram"
+            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white transition-all text-xs font-mono font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#ea1c24] cursor-pointer shadow-2xs"
+            title="Maximize diagram"
+          >
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+            </svg>
+            <span class="inline">Maximize</span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Scalable Vector Graphic Architecture Diagram -->
+    <div class="w-full overflow-x-auto pb-2">
+      <svg
+        viewBox="0 0 940 580"
+        class="tech-stack-svg w-full h-auto overflow-visible"
+        role="img"
+        aria-label="Full-Stack and Mobile App Technology Stack Architecture Diagram"
+      >
+        <title>Full-Stack &amp; Mobile App Technology Stack Architecture</title>
+        <desc>1. Foundations &amp; Tools (Weeks 1–2), 2. Backend &amp; Real-Time APIs (Weeks 3–4), 3. Web Engineering (Weeks 5–7), 4. Mobile App Engineering (Weeks 8–9), 5. Live Project &amp; DevOps (Weeks 10–12)</desc>
+
+        <defs>
+          <filter id="shadowFilter" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.08" />
+          </filter>
+        </defs>
+
+        <!-- Technical Framing Corners (Signature Chintap Graphic) -->
+        <path
+          d="M 14 24 L 14 14 L 24 14 M 916 14 L 926 14 L 926 24 M 926 556 L 926 566 L 916 566 M 24 566 L 14 566 L 14 556"
+          class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none"
+          stroke-width="1.25"
+          fill="none"
+        />
+
+        <!-- Restrained Section Header inside Canvas -->
+        <text x="24" y="26" class="text-[10px] font-mono font-semibold tracking-wider fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          SYSTEM ARCHITECTURE
+        </text>
+        <text x="916" y="26" text-anchor="end" class="text-[10px] font-mono font-medium tracking-wider fill-stone-400 dark:fill-stone-500 pointer-events-none">
+          PHASES 1–5 · WEEKS 1–12 CURRICULUM ORDER
+        </text>
+
+        <!-- ============================================================= -->
+        <!-- TIER 3: WEB ENGINEERING (WEEKS 5–7)                           -->
+        <!-- ============================================================= -->
+        <g class="pointer-events-none">
+          <rect
+            x="35"
+            y="42"
+            width="575"
+            height="96"
+            rx="16"
+            class="fill-stone-50/80 dark:fill-stone-950/40 stroke-stone-200 dark:stroke-stone-800/80"
+            stroke-width="1"
+            stroke-dasharray="3 3"
+          />
+          <text x="50" y="59" class="text-[9.5px] font-mono font-bold tracking-wider fill-stone-500 dark:fill-stone-400 uppercase">
+            3. Web Engineering · Angular &amp; React (Weeks 5–7)
+          </text>
+        </g>
+
+        <!-- ============================================================= -->
+        <!-- TIER 4: MOBILE APP ENGINEERING (WEEKS 8–9)                    -->
+        <!-- ============================================================= -->
+        <g class="pointer-events-none">
+          <rect
+            x="625"
+            y="42"
+            width="280"
+            height="96"
+            rx="16"
+            class="fill-stone-50/80 dark:fill-stone-950/40 stroke-stone-200 dark:stroke-stone-800/80"
+            stroke-width="1"
+            stroke-dasharray="3 3"
+          />
+          <text x="640" y="59" class="text-[9.5px] font-mono font-bold tracking-wider fill-stone-500 dark:fill-stone-400 uppercase">
+            4. Mobile App Engineering (Weeks 8–9)
+          </text>
+        </g>
+
+        <!-- ============================================================= -->
+        <!-- TIER 1: FOUNDATIONS & TOOLS CONTAINER (WEEKS 1–2)             -->
+        <!-- ============================================================= -->
+        <g class="pointer-events-none">
+          <rect
+            x="35"
+            y="178"
+            width="240"
+            height="240"
+            rx="16"
+            class="fill-stone-50/60 dark:fill-stone-950/30 stroke-stone-200 dark:stroke-stone-800/80"
+            stroke-width="1"
+            stroke-dasharray="3 3"
+          />
+          <text x="50" y="196" class="text-[9.5px] font-mono font-bold tracking-wider fill-stone-500 dark:fill-stone-400 uppercase">
+            1. Foundations &amp; Tools (Weeks 1–2)
+          </text>
+        </g>
+
+        <!-- ============================================================= -->
+        <!-- TIER 2: BACKEND & REAL-TIME APIS CONTAINER (WEEKS 3–4)        -->
+        <!-- ============================================================= -->
+        <g class="pointer-events-none">
+          <rect
+            x="305"
+            y="178"
+            width="330"
+            height="240"
+            rx="16"
+            class="fill-stone-50/60 dark:fill-stone-950/30 stroke-stone-200 dark:stroke-stone-800/80"
+            stroke-width="1"
+            stroke-dasharray="3 3"
+          />
+          <text x="320" y="196" class="text-[9.5px] font-mono font-bold tracking-wider fill-stone-500 dark:fill-stone-400 uppercase">
+            2. Backend &amp; Real-Time APIs (Weeks 3–4)
+          </text>
+        </g>
+
+        <!-- ============================================================= -->
+        <!-- TIER 5: LIVE PROJECT & DEVOPS CONTAINER (WEEKS 10–12)         -->
+        <!-- ============================================================= -->
+        <g class="pointer-events-none">
+          <rect
+            x="665"
+            y="178"
+            width="240"
+            height="240"
+            rx="16"
+            class="fill-stone-50/60 dark:fill-stone-950/30 stroke-stone-200 dark:stroke-stone-800/80"
+            stroke-width="1"
+            stroke-dasharray="3 3"
+          />
+          <text x="680" y="196" class="text-[9.5px] font-mono font-bold tracking-wider fill-stone-500 dark:fill-stone-400 uppercase">
+            5. Live Project &amp; DevOps (Weeks 10–12)
+          </text>
+        </g>
+
+        <!-- ============================================================= -->
+        <!-- BASE: CONTINUOUS AI-ASSISTED ENGINEERING WORKFLOW             -->
+        <!-- ============================================================= -->
+        <g class="pointer-events-none">
+          <rect
+            x="35"
+            y="436"
+            width="870"
+            height="112"
+            rx="16"
+            class="fill-stone-50/80 dark:fill-stone-950/40 stroke-stone-200 dark:stroke-stone-800/80"
+            stroke-width="1"
+            stroke-dasharray="3 3"
+          />
+          <text x="50" y="454" class="text-[9.5px] font-mono font-bold tracking-wider fill-stone-500 dark:fill-stone-400 uppercase">
+            AI-Assisted Engineering Workflow (Continuous Across All Phases)
+          </text>
+        </g>
+
+        <!-- ============================================================= -->
+        <!-- DATA FLOW CONNECTORS & PROTOCOL LABELS                        -->
+        <!-- ============================================================= -->
+        
+        <!-- Connector: Angular -> NestJS -->
+        <path
+          d="M 175 128 L 175 160 Q 175 170 190 170 L 380 170 Q 395 170 395 185 L 395 210"
+          [attr.stroke]="isConnectionHighlighted('angular', 'nestjs') ? '#ea1c24' : '#a8a29e'"
+          [attr.stroke-width]="isConnectionHighlighted('angular', 'nestjs') ? 2.25 : 1.25"
+          [attr.stroke-dasharray]="isConnectionHighlighted('angular', 'nestjs') ? 'none' : '3 3'"
+          fill="none"
+          class="transition-all duration-300 pointer-events-none"
+        />
+        <!-- Angular Protocol Pill -->
+        <g class="pointer-events-none">
+          <rect x="235" y="161" width="82" height="18" rx="9" class="fill-white dark:fill-stone-900 stroke-stone-300 dark:stroke-stone-700" stroke-width="1" />
+          <text x="276" y="173" text-anchor="middle" class="text-[8.5px] font-mono font-bold fill-stone-700 dark:fill-stone-300">
+            HTTP / REST
+          </text>
+        </g>
+
+        <!-- Connector: React -> NestJS -->
+        <path
+          d="M 470 128 L 470 210"
+          [attr.stroke]="isConnectionHighlighted('react', 'nestjs') ? '#ea1c24' : '#a8a29e'"
+          [attr.stroke-width]="isConnectionHighlighted('react', 'nestjs') ? 2.25 : 1.25"
+          [attr.stroke-dasharray]="isConnectionHighlighted('react', 'nestjs') ? 'none' : '3 3'"
+          fill="none"
+          class="transition-all duration-300 pointer-events-none"
+        />
+        <!-- React Protocol Pill -->
+        <g class="pointer-events-none">
+          <rect x="424" y="155" width="92" height="18" rx="9" class="fill-white dark:fill-stone-900 stroke-stone-300 dark:stroke-stone-700" stroke-width="1" />
+          <text x="470" y="167" text-anchor="middle" class="text-[8.5px] font-mono font-bold fill-stone-700 dark:fill-stone-300">
+            REST &amp; WebSockets
+          </text>
+        </g>
+
+        <!-- Connector: React Native -> NestJS -->
+        <path
+          d="M 762 128 L 762 160 Q 762 170 747 170 L 545 170 Q 530 170 530 185 L 530 210"
+          [attr.stroke]="isConnectionHighlighted('react-native', 'nestjs') ? '#ea1c24' : '#a8a29e'"
+          [attr.stroke-width]="isConnectionHighlighted('react-native', 'nestjs') ? 2.25 : 1.25"
+          [attr.stroke-dasharray]="isConnectionHighlighted('react-native', 'nestjs') ? 'none' : '3 3'"
+          fill="none"
+          class="transition-all duration-300 pointer-events-none"
+        />
+        <!-- React Native Protocol Pill -->
+        <g class="pointer-events-none">
+          <rect x="618" y="161" width="94" height="18" rx="9" class="fill-white dark:fill-stone-900 stroke-stone-300 dark:stroke-stone-700" stroke-width="1" />
+          <text x="665" y="173" text-anchor="middle" class="text-[8.5px] font-mono font-bold fill-stone-700 dark:fill-stone-300">
+            Mobile APIs / WS
+          </text>
+        </g>
+
+        <!-- Connector: NestJS -> MongoDB -->
+        <path
+          d="M 470 282 L 470 338"
+          [attr.stroke]="isConnectionHighlighted('nestjs', 'mongodb') ? '#ea1c24' : '#10b981'"
+          [attr.stroke-width]="isConnectionHighlighted('nestjs', 'mongodb') ? 2.5 : 1.5"
+          fill="none"
+          class="transition-all duration-300 pointer-events-none"
+        />
+        <!-- MongoDB Protocol Pill -->
+        <g class="pointer-events-none">
+          <rect x="414" y="302" width="112" height="18" rx="9" class="fill-white dark:fill-stone-900 stroke-stone-300 dark:stroke-stone-700" stroke-width="1" />
+          <text x="470" y="314" text-anchor="middle" class="text-[8.5px] font-mono font-bold fill-emerald-600 dark:fill-emerald-400">
+            Mongoose ODM / CRUD
+          </text>
+        </g>
+
+        <!-- Connector: TypeScript -> NestJS -->
+        <path
+          d="M 255 302 L 320 248"
+          [attr.stroke]="isConnectionHighlighted('typescript', 'nestjs') ? '#ea1c24' : '#3b82f6'"
+          [attr.stroke-width]="isConnectionHighlighted('typescript', 'nestjs') ? 2.25 : 1.25"
+          stroke-dasharray="2 3"
+          fill="none"
+          class="transition-all duration-300 pointer-events-none"
+        />
+        <!-- TypeScript Protocol Pill -->
+        <g class="pointer-events-none">
+          <rect x="250" y="268" width="84" height="16" rx="8" class="fill-white dark:fill-stone-900 stroke-blue-300 dark:stroke-blue-800" stroke-width="1" />
+          <text x="292" y="279" text-anchor="middle" class="text-[8px] font-mono font-bold fill-blue-600 dark:fill-blue-400">
+            Shared DTOs
+          </text>
+        </g>
+
+        <!-- Connector: NestJS -> DevOps -->
+        <path
+          d="M 620 248 L 685 302"
+          [attr.stroke]="isConnectionHighlighted('nestjs', 'devops') ? '#ea1c24' : '#a855f7'"
+          [attr.stroke-width]="isConnectionHighlighted('nestjs', 'devops') ? 2.25 : 1.25"
+          stroke-dasharray="2 3"
+          fill="none"
+          class="transition-all duration-300 pointer-events-none"
+        />
+        <!-- DevOps Protocol Pill -->
+        <g class="pointer-events-none">
+          <rect x="615" y="268" width="84" height="16" rx="8" class="fill-white dark:fill-stone-900 stroke-purple-300 dark:stroke-purple-800" stroke-width="1" />
+          <text x="657" y="279" text-anchor="middle" class="text-[8px] font-mono font-bold fill-purple-600 dark:fill-purple-400">
+            E2E &amp; CI/CD
+          </text>
+        </g>
+
+        <!-- AI Rays Upward to Architecture Tiers -->
+        <path
+          d="M 155 466 L 155 418 M 470 466 L 470 418 M 785 466 L 785 418"
+          stroke="#ea1c24"
+          stroke-opacity="0.3"
+          stroke-width="1"
+          stroke-dasharray="2 3"
+          fill="none"
+          class="pointer-events-none"
+        />
+
+        <!-- ============================================================= -->
+        <!-- INTERACTIVE NODE 1: ANGULAR (PHASE 3 · WEB CLIENT)            -->
+        <!-- ============================================================= -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('angular', $event)"
+          aria-label="Angular Web Application Client (Weeks 5–7)"
+        >
+          <rect
+            x="55"
+            y="70"
+            width="245"
+            height="58"
+            rx="12"
+            class="tech-node-card"
+            [class.active-node]="isNodeActive('angular')"
+            filter="url(#shadowFilter)"
+          />
+          <image href="images/tech/angular.svg" x="68" y="81" width="36" height="36" />
+          <text x="114" y="93" class="text-[13px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors">
+            Angular
+          </text>
+          <text x="114" y="110" class="text-[10px] font-medium fill-stone-500 dark:fill-stone-400">
+            Phase 3 · Signals, Components &amp; Forms
+          </text>
+        </g>
+
+        <!-- ============================================================= -->
+        <!-- INTERACTIVE NODE 2: REACT (PHASE 3 · WEB CLIENT)              -->
+        <!-- ============================================================= -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('react', $event)"
+          aria-label="React Component Web Client (Weeks 5–7)"
+        >
+          <rect
+            x="347"
+            y="70"
+            width="245"
+            height="58"
+            rx="12"
+            class="tech-node-card"
+            [class.active-node]="isNodeActive('react')"
+            filter="url(#shadowFilter)"
+          />
+          <image href="images/tech/react.svg" x="360" y="81" width="36" height="36" />
+          <text x="406" y="93" class="text-[13px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors">
+            React
+          </text>
+          <text x="406" y="110" class="text-[10px] font-medium fill-stone-500 dark:fill-stone-400">
+            Phase 3 · Hooks &amp; Custom State Workflows
+          </text>
+        </g>
+
+        <!-- ============================================================= -->
+        <!-- INTERACTIVE NODE 3: REACT NATIVE + EXPO (PHASE 4 · MOBILE)    -->
+        <!-- ============================================================= -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('react-native', $event)"
+          aria-label="React Native and Expo Mobile Client (Weeks 8–9)"
+        >
+          <rect
+            x="642"
+            y="70"
+            width="245"
+            height="58"
+            rx="12"
+            class="tech-node-card"
+            [class.active-node]="isNodeActive('react-native')"
+            filter="url(#shadowFilter)"
+          />
+          <image href="images/tech/react.svg" x="652" y="83" width="30" height="30" />
+          <image href="images/tech/expo.svg" x="684" y="85" width="26" height="26" class="dark:invert" />
+          <text x="718" y="93" class="text-[13px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors">
+            React Native + Expo
+          </text>
+          <text x="718" y="110" class="text-[10px] font-medium fill-stone-500 dark:fill-stone-400">
+            Phase 4 · iOS &amp; Android Native Apps
+          </text>
+        </g>
+
+        <!-- ============================================================= -->
+        <!-- INTERACTIVE NODE 4: NESTJS (PHASE 2 · BACKEND & APIS)         -->
+        <!-- ============================================================= -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('nestjs', $event)"
+          aria-label="NestJS Modular REST and Real-Time Gateway (Weeks 3–4)"
+        >
+          <rect
+            x="320"
+            y="210"
+            width="300"
+            height="72"
+            rx="14"
+            class="tech-node-card"
+            [class.active-node]="isNodeActive('nestjs')"
+            filter="url(#shadowFilter)"
+          />
+          <image href="images/tech/nestjs.svg" x="336" y="223" width="46" height="46" />
+          <text x="394" y="235" class="text-[15px] font-extrabold fill-stone-950 dark:fill-stone-50 group-hover/node:fill-[#ea1c24] transition-colors">
+            NestJS
+          </text>
+          <text x="394" y="252" class="text-[11px] font-semibold fill-stone-700 dark:fill-stone-300">
+            Phase 2 · REST &amp; Real-Time WebSockets
+          </text>
+          <text x="394" y="268" class="text-[9.5px] font-mono fill-stone-500 dark:fill-stone-400">
+            Modular Architecture · DI · Guards · JWT
+          </text>
+        </g>
+
+        <!-- ============================================================= -->
+        <!-- INTERACTIVE NODE 5: MONGODB (PHASE 2 · DATA PERSISTENCE)      -->
+        <!-- ============================================================= -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('mongodb', $event)"
+          aria-label="MongoDB and Mongoose Document Database (Weeks 3–4)"
+        >
+          <rect
+            x="338"
+            y="338"
+            width="264"
+            height="70"
+            rx="14"
+            class="tech-node-card"
+            [class.active-node]="isNodeActive('mongodb')"
+            filter="url(#shadowFilter)"
+          />
+          <image href="images/tech/mongodb.svg" x="354" y="352" width="42" height="42" />
+          <text x="408" y="365" class="text-[14px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors">
+            MongoDB &amp; Mongoose
+          </text>
+          <text x="408" y="383" class="text-[10.5px] font-medium fill-stone-600 dark:fill-stone-400">
+            Phase 2 · Schema Modeling &amp; Persistence
+          </text>
+          <text x="408" y="397" class="text-[9px] font-mono fill-emerald-600 dark:fill-emerald-400">
+            Validation · Aggregation Pipelines · Indexes
+          </text>
+        </g>
+
+        <!-- ============================================================= -->
+        <!-- INTERACTIVE NODE 6: JS & TYPESCRIPT (PHASE 1 · FOUNDATIONS)   -->
+        <!-- ============================================================= -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('typescript', $event)"
+          aria-label="JavaScript and TypeScript Foundations (Weeks 1–2)"
+        >
+          <rect
+            x="50"
+            y="210"
+            width="210"
+            height="186"
+            rx="14"
+            class="tech-node-card"
+            [class.active-node]="isNodeActive('typescript')"
+            filter="url(#shadowFilter)"
+          />
+          <!-- Logos JS and TS -->
+          <image href="images/tech/javascript.svg" x="65" y="226" width="34" height="34" />
+          <image href="images/tech/typescript.svg" x="106" y="226" width="34" height="34" />
+
+          <text x="65" y="282" class="text-[13.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors">
+            JS &amp; TypeScript
+          </text>
+          <text x="65" y="300" class="text-[10px] font-semibold fill-blue-600 dark:fill-blue-400">
+            Phase 1 · Typed Foundation
+          </text>
+          
+          <line x1="65" y1="310" x2="245" y2="310" class="stroke-stone-200 dark:stroke-stone-800" stroke-width="1" />
+          
+          <text x="65" y="328" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-400">
+            • Modern TypeScript &amp; JS
+          </text>
+          <text x="65" y="346" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-400">
+            • Git Branching, PRs &amp; Reviews
+          </text>
+          <text x="65" y="364" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-400">
+            • Web Architecture &amp; HTTP
+          </text>
+          <text x="65" y="382" class="text-[9px] font-mono fill-stone-400 dark:fill-stone-500">
+            Powers Web, Mobile &amp; API
+          </text>
+        </g>
+
+        <!-- ============================================================= -->
+        <!-- INTERACTIVE NODE 7: TESTING & DEVOPS (PHASE 5 · LIVE PROJECT) -->
+        <!-- ============================================================= -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('devops', $event)"
+          aria-label="Testing and DevOps (Weeks 10–12)"
+        >
+          <rect
+            x="680"
+            y="210"
+            width="210"
+            height="186"
+            rx="14"
+            class="tech-node-card"
+            [class.active-node]="isNodeActive('devops')"
+            filter="url(#shadowFilter)"
+          />
+          <!-- Logos Playwright and Docker -->
+          <image href="images/tech/playwright.svg" x="695" y="226" width="34" height="34" />
+          <image href="images/tech/docker.svg" x="736" y="226" width="34" height="34" />
+
+          <text x="695" y="282" class="text-[13.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors">
+            Testing &amp; DevOps
+          </text>
+          <text x="695" y="300" class="text-[10px] font-semibold fill-purple-600 dark:fill-purple-400">
+            Phase 5 · Quality &amp; Cloud Delivery
+          </text>
+
+          <line x1="695" y1="310" x2="875" y2="310" class="stroke-stone-200 dark:stroke-stone-800" stroke-width="1" />
+
+          <text x="695" y="328" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-400">
+            • Playwright E2E Automation
+          </text>
+          <text x="695" y="346" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-400">
+            • Docker Containerization
+          </text>
+          <text x="695" y="364" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-400">
+            • GitHub Actions CI/CD
+          </text>
+          <text x="695" y="382" class="text-[9px] font-mono fill-stone-400 dark:fill-stone-500">
+            Cloud Edge Deployments
+          </text>
+        </g>
+
+        <!-- ============================================================= -->
+        <!-- INTERACTIVE NODE 8: AI AS CO-PILOT (CONTINUOUS WORKFLOW)      -->
+        <!-- ============================================================= -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('ai', $event)"
+          aria-label="AI as Co-Pilot Continuous Engineering Workflow (Continuous Across All Phases)"
+        >
+          <rect
+            x="48"
+            y="466"
+            width="844"
+            height="66"
+            rx="12"
+            class="tech-node-card"
+            [class.active-node]="isNodeActive('ai')"
+            filter="url(#shadowFilter)"
+          />
+          <image href="images/tech/ai-sparkle.svg" x="64" y="482" width="34" height="34" />
+          <text x="110" y="494" class="text-[13.5px] font-bold fill-stone-950 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors">
+            AI as Co-Pilot — Continuous Engineering Workflow (Continuous Across All Phases)
+          </text>
+          <text x="110" y="514" class="text-[10.5px] font-medium fill-stone-600 dark:fill-stone-300">
+            Task Decomposition · Unit &amp; E2E Test Synthesis · Systematic Debugging · Automated Pull Request Reviews across all layers
+          </text>
+        </g>
+
+      </svg>
+    </div>
+
+    @if (!isInspectionModal) {
+      <!-- Quick Select Technology Filter Strip -->
+      <div class="mt-4 pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center gap-2 overflow-x-auto pb-1 text-xs">
+        <span class="text-[11px] font-mono text-stone-500 dark:text-stone-400 shrink-0">Technologies:</span>
+        @for (n of allNodes(); track n.id) {
+          <button
+            type="button"
+            (click)="selectNode(n.id, $event)"
+            [class.!bg-[#ea1c24]]="isNodeActive(n.id)"
+            [class.!text-white]="isNodeActive(n.id)"
+            [class.!border-[#ea1c24]]="isNodeActive(n.id)"
+            class="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-700 dark:text-stone-300 font-medium text-xs hover:border-stone-400 dark:hover:border-stone-600 transition-all cursor-pointer"
+          >
+            @for (logo of n.logoUrls; track logo) {
+              <img [src]="logo" [alt]="n.name" class="w-3.5 h-3.5 object-contain" />
+            }
+            <span>{{ n.name }}</span>
+          </button>
+        }
+      </div>
+    }
+
+  </div>
+
+  <!-- Interactive Node Inspection Details Card -->
+  @if (activeNode(); as node) {
+    <div class="p-5 sm:p-6 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-sm hover:border-stone-400 dark:hover:border-stone-600 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-stone-100 dark:border-stone-800">
+        
+        <div class="flex items-center gap-3.5">
+          <!-- Logo Container -->
+          <div class="w-12 h-12 rounded-2xl bg-stone-100 dark:bg-stone-800/80 p-2 flex items-center justify-center gap-1.5 shadow-2xs">
+            @for (logo of node.logoUrls; track logo) {
+              <img [src]="logo" [alt]="node.name" class="w-7 h-7 object-contain" />
+            }
+          </div>
+
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <h4 class="text-xl font-extrabold text-stone-950 dark:text-white font-heading">
+                {{ node.name }}
+              </h4>
+              @if (node.phaseNumber) {
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold tracking-wide bg-[#ea1c24]/10 text-[#ea1c24] border border-[#ea1c24]/20">
+                  Phase {{ node.phaseNumber }} · {{ node.weeks }}
+                </span>
+              } @else {
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold tracking-wide bg-[#ea1c24]/10 text-[#ea1c24] border border-[#ea1c24]/20">
+                  {{ node.phase }}
+                </span>
+              }
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold tracking-wide bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700">
+                {{ node.tier }}
+              </span>
+            </div>
+            <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 mt-0.5">
+              {{ node.role }}
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5 text-xs text-stone-500 dark:text-stone-400 font-mono">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#ea1c24]"></span>
+          <span>Selected Technology Node</span>
+        </div>
+
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 pt-5">
+        
+        <!-- Left: Description -->
+        <div class="md:col-span-6 space-y-3">
+          <span class="text-xs font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 block">
+            Curriculum Phase &amp; Architectural Purpose
+          </span>
+          <p class="text-sm text-stone-700 dark:text-stone-300 leading-relaxed font-medium">
+            {{ node.description }}
+          </p>
+          <div class="pt-2 text-xs font-mono text-stone-500 dark:text-stone-400">
+            @if (node.phaseNumber) {
+              Taught in: <span class="font-bold text-stone-800 dark:text-stone-200">{{ node.phase }} ({{ node.weeks }})</span>
+            } @else {
+              Scope: <span class="font-bold text-stone-800 dark:text-stone-200">{{ node.phase }}</span>
+            }
+          </div>
+        </div>
+
+        <!-- Right: Cohort Skills Taught -->
+        <div class="md:col-span-6 space-y-3">
+          <span class="text-xs font-mono font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400 block">
+            Core Engineering Topics in Cohort
+          </span>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-stone-800 dark:text-stone-200 font-medium">
+            @for (skill of node.skills; track skill) {
+              <li class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#ea1c24] shrink-0"></span>
+                <span class="leading-snug">{{ skill }}</span>
+              </li>
+            }
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  }
+
+</div>

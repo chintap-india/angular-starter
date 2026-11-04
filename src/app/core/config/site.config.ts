@@ -1,0 +1,110 @@
+import { InjectionToken } from '@angular/core';
+
+export interface SiteConfig {
+  name: string;
+  shortName: string;
+  tagline: string;
+  description: string;
+  baseUrl: string;
+  defaultOgImage: string;
+  locale: string;
+  themeColor: string;
+  author: {
+    name: string;
+    url: string;
+    email: string;
+  };
+  organization: {
+    name: string;
+    legalName: string;
+    url: string;
+    logo: string;
+    email: string;
+    address: {
+      streetAddress: string;
+      addressLocality: string;
+      addressRegion: string;
+      postalCode: string;
+      addressCountry: string;
+    };
+    geo: {
+      latitude: number;
+      longitude: number;
+    };
+  };
+  social: {
+    github: string;
+    twitter?: string;
+    linkedin?: string;
+  };
+  ai: {
+    llmsTxtUrl: string;
+    llmsFullTxtUrl: string;
+    ardManifestUrl: string;
+  };
+  features: {
+    seo: boolean;
+    aeo: boolean;
+    llmo: boolean;
+    geo: boolean;
+    ssr: boolean;
+    darkTheme: boolean;
+  };
+}
+
+export const DEFAULT_SITE_CONFIG: SiteConfig = {
+  name: 'Chintap Angular Starter',
+  shortName: 'Angular Starter',
+  tagline: 'SEO, AEO, LLMO, GEO & SSR Ready Starter Kit',
+  description:
+    'Enterprise-grade Angular 22 starter kit equipped with out-of-the-box best practices for Search Engine Optimization (SEO), Answer Engine Optimization (AEO), Large Language Model Optimization (LLMO), Generative Engine Optimization (GEO), and Static Site Generation (SSG).',
+  baseUrl: 'https://angular-starter.chintap.com',
+  defaultOgImage: 'https://angular-starter.chintap.com/images/chintap-og.jpg',
+  locale: 'en_US',
+  themeColor: '#18181b',
+  author: {
+    name: 'Bharath Chetty',
+    url: 'https://github.com/001bharathchetty',
+    email: 'hello@chintap.com',
+  },
+  organization: {
+    name: 'Chintap',
+    legalName: 'Chintap',
+    url: 'https://chintap.com',
+    logo: 'https://angular-starter.chintap.com/images/chintap-logo-dark.png',
+    email: 'hello@chintap.com',
+    address: {
+      streetAddress: 'Flat No. 403, 1st Cross, Manjunatha Nagar, Raghuvanahalli, Kanakapura Main Road',
+      addressLocality: 'Bengaluru',
+      addressRegion: 'Karnataka',
+      postalCode: '560109',
+      addressCountry: 'IN',
+    },
+    geo: {
+      latitude: 12.8767,
+      longitude: 77.5387,
+    },
+  },
+  social: {
+    github: 'https://github.com/001bharathchetty/chintap-angular-starter',
+    twitter: 'https://x.com/chintap',
+  },
+  ai: {
+    llmsTxtUrl: '/llms.txt',
+    llmsFullTxtUrl: '/llms-full.txt',
+    ardManifestUrl: '/.well-known/ard.json',
+  },
+  features: {
+    seo: true,
+    aeo: true,
+    llmo: true,
+    geo: true,
+    ssr: true,
+    darkTheme: true,
+  },
+};
+
+export const SITE_CONFIG = new InjectionToken<SiteConfig>('SITE_CONFIG', {
+  providedIn: 'root',
+  factory: () => DEFAULT_SITE_CONFIG,
+});

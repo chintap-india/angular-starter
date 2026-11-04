@@ -1,0 +1,443 @@
+@import "tailwindcss";
+@import "@angular/material/prebuilt-themes/azure-blue.css";
+
+@variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-brand: 'Poppins', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Roboto", system-ui, sans-serif;
+    --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Roboto", system-ui, sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Roboto", "Helvetica Neue", system-ui, sans-serif;
+    --color-brand-red: #ea1c24;
+  }
+
+  html {
+    font-family: var(--font-body);
+    scroll-behavior: smooth;
+    color: #1c1917;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, .font-heading {
+    font-family: var(--font-heading);
+    letter-spacing: -0.025em;
+  }
+
+  .font-brand {
+    font-family: var(--font-brand);
+  }
+
+  .font-cursive {
+    font-family: 'Ephesis', 'Corinthia', cursive, sans-serif;
+  }
+
+  .font-corinthia {
+    font-family: 'Corinthia', cursive, sans-serif;
+  }
+
+  .font-ephesis {
+    font-family: 'Ephesis', cursive, sans-serif;
+  }
+
+  .font-windsong {
+    font-family: 'WindSong', cursive, sans-serif;
+  }
+}
+
+/* Page Hero & Header Large Material Icons */
+.page-hero-icon {
+  font-size: 3.5rem !important;
+  width: 3.5rem !important;
+  height: 3.5rem !important;
+  line-height: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+@media (min-width: 1024px) {
+  .page-hero-icon {
+    font-size: 4.5rem !important;
+    width: 4.5rem !important;
+    height: 4.5rem !important;
+  }
+}
+
+/* Strict Accessibility: High-contrast keyboard focus indicators */
+*:focus-visible {
+  outline: 3px solid #1c1917 !important;
+  outline-offset: 3px !important;
+  border-radius: 4px;
+}
+
+html.dark *:focus-visible {
+  outline: 3px solid #fafaf9 !important;
+  outline-offset: 3px !important;
+}
+
+/* Dark mode body */
+html.dark body {
+  background-color: #0c0a09;
+  color: #fafaf9;
+}
+
+/* Accessible Skip-to-content Link */
+.skip-link {
+  position: absolute;
+  top: -999px;
+  left: 1.5rem;
+  background: #1c1917;
+  color: #fafaf9;
+  padding: 0.75rem 1.5rem;
+  z-index: 99999;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  text-decoration: underline;
+  transition: top 0.2s ease-in-out;
+}
+
+.skip-link:focus {
+  top: 1.5rem;
+}
+
+html.dark .skip-link {
+  background: #fafaf9;
+  color: #0c0a09;
+}
+
+/* Button typography overrides */
+.mat-mdc-button-base {
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Accessible form fields contrast */
+.mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+  color: #44403c !important;
+}
+
+html.dark .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+  color: #d6d3d1 !important;
+}
+
+.mat-mdc-form-field input::placeholder,
+.mat-mdc-form-field textarea::placeholder {
+  color: #57534e !important;
+}
+
+html.dark .mat-mdc-form-field input::placeholder,
+html.dark .mat-mdc-form-field textarea::placeholder {
+  color: #a8a29e !important;
+}
+
+html.dark .mat-mdc-input-element {
+  color: #fafaf9 !important;
+}
+
+html.dark .mat-mdc-select-value {
+  color: #fafaf9 !important;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 1.5rem !important;
+  background-color: #fafaf9 !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  max-height: 90vh !important;
+  max-height: 90dvh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface > * {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  min-height: 0 !important;
+}
+
+html.dark .mat-mdc-dialog-container .mdc-dialog__surface {
+  background-color: #1c1917 !important;
+  color: #fafaf9 !important;
+  border: 1px solid #292524 !important;
+}
+
+/* Graph Inspection Modal: snugly sized around graph visualization without excess width or background spill */
+.graph-modal-panel.mat-mdc-dialog-panel {
+  max-width: min(94vw, 540px) !important;
+  width: 100% !important;
+  margin: auto !important;
+}
+
+.you-are-here-panel.mat-mdc-dialog-panel {
+  max-width: min(96vw, 1040px) !important;
+}
+
+.tech-stack-modal-panel.mat-mdc-dialog-panel {
+  max-width: min(96vw, 1200px) !important;
+  width: 100% !important;
+  margin: auto !important;
+}
+
+.video-modal-panel.mat-mdc-dialog-panel {
+  max-width: min(95vw, 860px) !important;
+  width: 100% !important;
+  margin: auto !important;
+}
+
+.contact-modal-panel.mat-mdc-dialog-panel {
+  max-width: min(94vw, 580px) !important;
+  width: 100% !important;
+  margin: auto !important;
+}
+
+/* Dialog overscroll containment & mobile pull-to-refresh prevention */
+.mat-mdc-dialog-container,
+.mat-mdc-dialog-panel,
+.cdk-overlay-pane,
+.you-are-here-panel,
+.tech-stack-modal-panel,
+.graph-modal-panel,
+.video-modal-panel,
+.contact-modal-panel {
+  overscroll-behavior: none !important;
+  overscroll-behavior-y: none !important;
+}
+
+.you-are-here-panel main,
+.tech-stack-modal-panel div[class*="min-h"],
+.graph-modal-panel div[class*="min-h"] {
+  touch-action: none !important;
+  overscroll-behavior: none !important;
+  overscroll-behavior-y: none !important;
+}
+
+.graph-modal-panel .mdc-dialog__surface,
+.tech-stack-modal-panel .mdc-dialog__surface,
+.contact-modal-panel .mdc-dialog__surface {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  overflow: visible !important;
+  padding: 0 !important;
+  max-height: 94vh !important;
+  max-height: 94dvh !important;
+}
+
+/* ==============================================================================
+   Modal Dialog Close Button Centering Standards
+   Prevents font-metric baseline shift and MDC inline-block layout offsets,
+   guaranteeing mathematical 100% horizontal & vertical centering of 'X' icons.
+   ============================================================================== */
+.modal-close-btn,
+.mat-mdc-icon-button.modal-close-btn,
+.cdk-overlay-pane .mat-mdc-dialog-container button[aria-label*="lose"],
+.cdk-overlay-pane .mat-mdc-dialog-container button[aria-label*="Close"],
+.cdk-overlay-pane .mat-mdc-dialog-container .modal-close-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  line-height: 1 !important;
+}
+
+.modal-close-btn svg,
+.mat-mdc-icon-button.modal-close-btn svg,
+.cdk-overlay-pane .mat-mdc-dialog-container button[aria-label*="lose"] svg,
+.cdk-overlay-pane .mat-mdc-dialog-container button[aria-label*="Close"] svg {
+  display: block !important;
+  margin: auto !important;
+  vertical-align: middle !important;
+  flex-shrink: 0 !important;
+}
+
+.modal-close-btn .mat-icon,
+.mat-mdc-icon-button.modal-close-btn .mat-icon,
+.cdk-overlay-pane .mat-mdc-dialog-container button[aria-label*="lose"] .mat-icon,
+.cdk-overlay-pane .mat-mdc-dialog-container button[aria-label*="Close"] .mat-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  margin: auto !important;
+  vertical-align: middle !important;
+}
+
+/* Mobile dialog responsiveness: maximize viewable area on modern mobile heights */
+@media (max-width: 640px) {
+  .cdk-overlay-pane {
+    max-width: calc(100vw - 16px) !important;
+    margin: 8px auto !important;
+  }
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 1.5rem !important;
+    max-height: 94dvh !important;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Suppress Netlify badge iframe if injected at edge */
+iframe[src*="netlify"],
+iframe[title*="Netlify" i],
+iframe[id*="netlify" i],
+iframe[class*="netlify" i],
+.netlify-badge,
+#netlify-badge {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
+
+/* Network Graph Keyframe Animations */
+@keyframes beaconPulse {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.15);
+  }
+}
+
+.beacon-pulse {
+  animation: beaconPulse 3.6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+  pointer-events: none;
+}
+
+/* Graph typography: Clean, restrained Roboto sans-serif */
+.network-graph-svg text {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif !important;
+  letter-spacing: -0.01em;
+}
+
+.network-graph-svg text.font-brand,
+.network-graph-svg tspan.font-brand,
+.network-graph-svg .font-brand {
+  font-family: var(--font-brand) !important;
+}
+
+.network-graph-svg text.font-mono-tag {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  letter-spacing: 0.05em;
+}
+
+.network-graph-svg text.font-cursive,
+.network-graph-svg tspan.font-cursive,
+.network-graph-svg .font-cursive {
+  font-family: 'Ephesis', 'Corinthia', cursive, sans-serif !important;
+}
+
+.graph-node {
+  transition: filter 0.2s ease;
+  pointer-events: auto;
+}
+
+.graph-node:hover {
+  filter: drop-shadow(0 2px 6px rgba(234, 28, 36, 0.25));
+}
+
+.graph-node text {
+  transition: fill 0.2s ease, opacity 0.2s ease;
+}
+
+.graph-node:hover text {
+  fill: #ea1c24 !important;
+}
+
+.graph-edge {
+  transition: stroke 0.25s ease, opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.cursor-zoom-in {
+  cursor: zoom-in;
+}
+
+/* Serene backdrop blur for graph inspection dialog */
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(12, 10, 9, 0.72) !important;
+}
+
+/* Technology Stack Architecture Topology Graph */
+.tech-stack-svg g,
+.tech-stack-svg rect {
+  outline: none !important;
+}
+
+.tech-node-card {
+  fill: #ffffff;
+  stroke: #e7e5e4;
+  stroke-width: 1.25px;
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+
+html.dark .tech-node-card {
+  fill: #1c1917;
+  stroke: #44403c;
+}
+
+.tech-node-card.active-node {
+  stroke: #ea1c24 !important;
+  stroke-width: 2.5px !important;
+}
+
+.tech-node-card:not(.active-node):hover {
+  stroke: #ea1c24;
+}
+
+.tech-stack-modal-panel {
+  max-width: min(96vw, 1150px) !important;
+  width: 100% !important;
+}
+
+/* Unified Card Hover Standard */
+.card-hover,
+.chintap-card {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.card-hover:hover,
+.chintap-card:hover {
+  border-color: #a8a29e !important;
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04) !important;
+  transform: translateY(-2px) !important;
+}
+
+html.dark .card-hover:hover,
+html.dark .chintap-card:hover {
+  border-color: #57534e !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4), 0 2px 8px -1px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* GPU Compositor Optimization: Restrict transitions to transform, opacity, and colors to eliminate non-composited box-shadow animations */
+.transition,
+.transition-all,
+.card-hover,
+.chintap-card {
+  transition-property: transform, translate, scale, rotate, opacity, color, background-color, border-color !important;
+}
+
+
+

@@ -1,0 +1,120 @@
+<div class="relative overflow-x-clip transition-colors duration-200">
+  
+  <!-- Hero Section -->
+  <section class="relative pt-12 pb-16 sm:pt-16 sm:pb-20 lg:pt-16 lg:pb-24 border-b border-stone-200 dark:border-stone-800" aria-labelledby="not-found-title">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        
+        <!-- Left Narrative (5 cols on lg) -->
+        <div class="lg:col-span-5 max-w-2xl">
+          
+          <!-- Subtle Tagline Badge -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-200 dark:bg-stone-800 text-stone-800 dark:text-stone-200 text-xs font-semibold tracking-wide mb-5">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#ea1c24] animate-pulse"></span>
+            <span>{{ content.notFound.badge }}</span>
+          </div>
+
+          <!-- H1 -->
+          <h1 id="not-found-title" class="text-3xl sm:text-5xl lg:text-4xl xl:text-5xl font-extrabold text-stone-900 dark:text-stone-50 font-heading tracking-tight leading-[1.15] mb-4">
+            {{ content.notFound.title }}
+          </h1>
+
+          <!-- H2 Subtitle -->
+          <h2 class="text-2xl sm:text-3xl font-bold text-stone-800 dark:text-stone-200 font-heading mb-6">
+            {{ content.notFound.subtitle }}
+          </h2>
+
+          <!-- Missing Route Notice with Signature Red Accent Border -->
+          <div class="space-y-3.5 text-base sm:text-lg text-stone-800 dark:text-stone-200 leading-relaxed pl-4 border-l-2 border-[#ea1c24]/80 mb-8">
+            <p>
+              The address
+              <code class="px-2 py-0.5 rounded font-mono text-sm sm:text-base font-semibold text-[#ea1c24] bg-stone-200 dark:bg-stone-800 break-all select-all">
+                {{ attemptedPath() }}
+              </code>
+              could not be found on Chintap.
+            </p>
+            @for (p of content.notFound.paragraphs; track p) {
+              <p>{{ p }}</p>
+            }
+          </div>
+
+          <!-- Action Button Cluster -->
+          <div class="pt-2">
+            <!-- Primary Actions Row -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <!-- Back to Home -->
+              <a
+                routerLink="/"
+                mat-flat-button
+                class="mdc-button mat-mdc-button-base !bg-stone-900 dark:!bg-stone-100 !text-white dark:!text-stone-900 hover:!bg-stone-800 dark:hover:!bg-white !px-6 !py-3 !rounded-full !font-bold text-sm tracking-tight shadow-sm transition inline-flex items-center justify-center gap-2 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24]"
+                [attr.aria-label]="content.notFound.homeCta.ariaLabel"
+              >
+                <span>{{ content.notFound.homeCta.text }}</span>
+              </a>
+
+              <!-- Play 404 Runner Game Shortcut -->
+              <button
+                type="button"
+                mat-stroked-button
+                (click)="playGame()"
+                class="mdc-button mat-mdc-button-base !border-stone-300 dark:!border-stone-700 hover:!border-stone-400 dark:hover:!border-stone-600 !bg-white dark:!bg-stone-900 !text-stone-800 dark:!text-stone-200 hover:!text-stone-950 dark:hover:!text-white !px-5 !py-3 !rounded-full !font-semibold text-sm transition inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24]"
+                aria-label="Play the Chin-o-saur 404 Runner Mini-Game"
+              >
+                <span class="text-base leading-none">🦖</span>
+                <span>Play 404 Runner</span>
+              </button>
+            </div>
+
+            <!-- Route Missing Reporting Helper Row -->
+            <div class="pt-3.5 flex flex-wrap items-center gap-2.5 text-xs text-stone-500 dark:text-stone-400 font-medium select-none">
+              <span class="hidden sm:inline">Route missing?</span>
+
+              <!-- 1-Click Instant Report Button -->
+              <button
+                type="button"
+                (click)="reportQuickly()"
+                [disabled]="isReporting() || reported()"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 text-xs font-medium transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24]"
+                [attr.aria-label]="content.notFound.quickReport.ariaLabel"
+                [title]="reported() ? 'Report has been received' : 'Instantly log this missing route to the team'"
+              >
+                <mat-icon class="!w-3.5 !h-3.5 !text-[14px] leading-none text-[#ea1c24]">
+                  {{ reported() ? 'check_circle' : (isReporting() ? 'sync' : 'flag') }}
+                </mat-icon>
+                <span>
+                  {{ reported() ? 'Report Sent ✓' : (isReporting() ? 'Sending Report...' : '1-Click Report') }}
+                </span>
+              </button>
+
+              <span>or</span>
+
+              <!-- Report on Contact Page -->
+              <a
+                routerLink="/contact"
+                [queryParams]="contactQueryParams"
+                class="hover:text-stone-900 dark:hover:text-white underline underline-offset-2 transition"
+                [attr.aria-label]="content.notFound.reportCta.ariaLabel"
+              >
+                {{ content.notFound.reportCta.text }}
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Chin-o-saur Runner Game Stage (Expanded & Prominent) -->
+        <div id="chinosaur-stage" class="mt-8 lg:mt-0 flex flex-col lg:col-span-7 justify-center items-center w-full">
+          <div class="w-full max-w-2xl xl:max-w-3xl">
+            <app-dino-game></app-dino-game>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Navigation Pathways Section -->
+  <app-explore-next page="home" variant="section"></app-explore-next>
+</div>

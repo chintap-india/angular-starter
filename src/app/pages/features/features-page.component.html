@@ -1,0 +1,72 @@
+<div class="min-h-screen py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+  <!-- Header Section -->
+  <header class="text-center max-w-3xl mx-auto mb-16">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs font-semibold uppercase tracking-wider mb-4 border border-stone-200 dark:border-stone-700">
+      <mat-icon class="!text-sm !w-4 !h-4 text-emerald-600 dark:text-emerald-400">verified</mat-icon>
+      Enterprise Architecture
+    </div>
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-stone-900 dark:text-white tracking-tight mb-6">
+      Features & Technology Stack
+    </h1>
+    <p class="text-lg text-stone-600 dark:text-stone-400 leading-relaxed">
+      A meticulously crafted stack designed to eliminate boilerplate and give developers an unfair advantage in performance, accessibility, search ranking, and AI engine discoverability.
+    </p>
+  </header>
+
+  <!-- Feature Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+    @for (feature of features; track feature.title) {
+      <div class="bg-white dark:bg-stone-900 rounded-2xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-900 dark:text-white">
+              <mat-icon class="!text-2xl !w-6 !h-6">{{ feature.icon }}</mat-icon>
+            </div>
+            <span class="text-xs font-mono font-medium px-2.5 py-1 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400">
+              {{ feature.version }}
+            </span>
+          </div>
+
+          <span class="text-xs font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-500">
+            {{ feature.category }}
+          </span>
+          <h2 class="text-xl font-bold text-stone-900 dark:text-white mt-1 mb-3">
+            {{ feature.title }}
+          </h2>
+          <p class="text-sm text-stone-600 dark:text-stone-400 leading-relaxed mb-6">
+            {{ feature.description }}
+          </p>
+        </div>
+
+        <div class="pt-4 border-t border-stone-100 dark:border-stone-800/80">
+          <ul class="space-y-2">
+            @for (point of feature.highlights; track point) {
+              <li class="flex items-start gap-2 text-xs text-stone-700 dark:text-stone-300">
+                <mat-icon class="!text-sm !w-4 !h-4 text-emerald-500 mt-0.5 shrink-0">check_circle</mat-icon>
+                <span>{{ point }}</span>
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Bottom CTA -->
+  <div class="bg-gradient-to-r from-stone-900 to-stone-800 text-white rounded-3xl p-8 sm:p-12 text-center max-w-4xl mx-auto shadow-xl">
+    <h2 class="text-2xl sm:text-3xl font-bold mb-4">
+      Ready to explore the best practice guidelines?
+    </h2>
+    <p class="text-stone-300 text-base max-w-2xl mx-auto mb-8">
+      Dive into our in-depth guides covering SEO meta dynamics, Answer Engine Optimization (AEO), and Generative AI Knowledge Graph schemas.
+    </p>
+    <div class="flex flex-wrap items-center justify-center gap-4">
+      <a routerLink="/best-practices" mat-flat-button class="!bg-white !text-stone-900 !font-semibold !px-6 !py-3 !rounded-xl">
+        Explore Best Practices →
+      </a>
+      <a [href]="siteConfig.social.github" target="_blank" rel="noopener noreferrer" mat-stroked-button class="!text-white !border-stone-600 !font-medium !px-6 !py-3 !rounded-xl">
+        View on GitHub
+      </a>
+    </div>
+  </div>
+</div>

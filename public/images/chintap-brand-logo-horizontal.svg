@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800;900&amp;family=Space+Grotesk:wght@700&amp;display=swap');
+      .brand-title {
+        font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-weight: 900;
+      }
+      .brand-sub {
+        font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, monospace;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+      }
+    </style>
+  </defs>
+  <g transform="translate(100, 200)">
+    <!-- Horizontal Emblem Lockup -->
+    <g transform="translate(0, -110) scale(0.1754)">
+      <path d="M 519 574.69 A 204 204 0 1 1 733 574.69 L 733 484 A 107 107 0 0 0 519 484 Z" fill="#EA1C24" />
+      <path d="M 620 409 L 640 410 L 651 413 L 664 419 L 683 435 L 689 443 L 696 457 L 700 473 L 700 643 L 703 646 L 743 664 L 881 724 L 893 732 L 904 743 L 910 752 L 917 769 L 920 790 L 920 911 L 918 932 L 910 961 L 903 977 L 890 998 L 883 1007 L 863 1027 L 838 1044 L 821 1052 L 806 1057 L 778 1062 L 566 1062 L 542 1057 L 520 1047 L 503 1035 L 482 1012 L 344 794 L 338 781 L 335 764 L 337 748 L 341 737 L 350 724 L 365 712 L 377 707 L 388 705 L 410 707 L 428 715 L 440 724 L 535 820 L 551 835 L 552 834 L 552 475 L 555 461 L 563 444 L 567 438 L 581 424 L 599 414 L 620 409 Z" fill="#111111" />
+    </g>
+
+    <!-- Typography -->
+    <g transform="translate(260, 0)">
+      <text x="0" y="20" class="brand-title" font-size="118" fill="#111111" letter-spacing="-3">chin<tspan fill="#EA1C24">tap</tspan></text>
+      <text x="4" y="74" class="brand-sub" font-size="25" fill="#111111">THINGS. APPS. POSSIBILITIES.</text>
+    </g>
+  </g>
+</svg>

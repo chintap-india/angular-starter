@@ -1,0 +1,59 @@
+<div class="max-h-[85vh] max-h-[85dvh] flex flex-col p-5 sm:p-8 max-w-xl w-full mx-auto bg-stone-50 dark:bg-stone-900 text-stone-900 dark:text-stone-100 transition-colors" role="dialog" aria-labelledby="legal-title">
+  <!-- Fixed Header -->
+  <div class="flex-shrink-0 flex items-start justify-between pb-4 border-b border-stone-200 dark:border-stone-800">
+    <div>
+      <span class="text-xs font-bold uppercase tracking-wider text-[#ea1c24]">Chintap Governance</span>
+      <h2 id="legal-title" class="text-2xl font-bold text-stone-900 dark:text-stone-50 font-heading mt-1">
+        {{ data.title }}
+      </h2>
+      @if (data.lastUpdated) {
+        <p class="text-xs text-stone-700 dark:text-stone-300 mt-0.5">Last updated: {{ data.lastUpdated }}</p>
+      }
+    </div>
+    <button
+      type="button"
+      (click)="dialogRef.close()"
+      aria-label="Close dialog"
+      class="modal-close-btn w-8 h-8 rounded-full flex items-center justify-center bg-stone-200/70 hover:bg-stone-300 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24] cursor-pointer flex-shrink-0 mt-1"
+      title="Close dialog"
+    >
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M18 6L6 18M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Scrollable Content Body -->
+  <div class="flex-1 overflow-y-auto overscroll-contain py-4 pr-1 space-y-6 text-sm text-stone-800 dark:text-stone-200 leading-relaxed min-h-0">
+    @if (data.sections && data.sections.length > 0) {
+      @for (sec of data.sections; track sec.heading) {
+        <div class="space-y-1.5">
+          @if (sec.heading) {
+            <h3 class="font-bold text-stone-900 dark:text-stone-100 text-sm">
+              {{ sec.heading }}
+            </h3>
+          }
+          <p class="text-xs sm:text-sm text-stone-700 dark:text-stone-200 leading-relaxed">
+            {{ sec.text }}
+          </p>
+        </div>
+      }
+    } @else if (data.paragraphs && data.paragraphs.length > 0) {
+      @for (para of data.paragraphs; track para) {
+        <p class="text-xs sm:text-sm text-stone-700 dark:text-stone-200 leading-relaxed">{{ para }}</p>
+      }
+    }
+  </div>
+
+  <!-- Pinned Footer Action (Always visible at the bottom) -->
+  <div class="flex-shrink-0 pt-4 border-t border-stone-200 dark:border-stone-800 flex justify-end bg-stone-50 dark:bg-stone-900">
+    <button
+      mat-flat-button
+      (click)="dialogRef.close()"
+      aria-label="Close legal dialog"
+      class="!bg-stone-900 dark:!bg-stone-100 !text-white dark:!text-stone-900 px-7 py-2.5 font-bold hover:!bg-stone-800 dark:hover:!bg-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24]"
+    >
+      Close
+    </button>
+  </div>
+</div>

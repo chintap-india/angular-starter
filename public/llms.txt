@@ -1,0 +1,41 @@
+# Chintap Angular Starter
+
+> Enterprise-grade Angular 22 starter kit loaded with best practices for SEO, AEO, LLMO, GEO, and SSR/SSG.
+
+Chintap Angular Starter is a modern, opinionated, production-ready Angular template designed for developers building high-performance web applications that excel in traditional search engines (Google, Bing) and AI-driven answer/generative engines (Perplexity, ChatGPT Search, Claude, Gemini, Apple Intelligence).
+
+## Core Capabilities & Pillars
+
+- **SSR & SSG (Server-Side Rendering & Static Site Generation)**: Powered by Angular 22 `@angular/ssr` with client hydration and event replay (`provideClientHydration(withEventReplay())`). All public routes pre-render to pure semantic HTML for instant FCP and zero-JS bot crawlability.
+- **SEO (Search Engine Optimization)**: Programmatic meta tag management (`Title`, `Meta`, `DOCUMENT`), 100% compliant OpenGraph, Twitter Cards, canonical tag governance (automatic removal on 404/noindex routes), and XML Sitemap.
+- **AEO (Answer Engine Optimization)**: Direct Q&A structuring, definition lists, concise summary blocks (40-60 words), and Schema.org `FAQPage` JSON-LD structured data generation designed for Google AI Overviews and voice search.
+- **LLMO (Large Language Model Optimization)**: Machine-readable markdown files (`/llms.txt`, `/llms-full.txt`), Agent Resource Discovery (`/.well-known/ard.json`), and clean robots crawling guidelines.
+- **GEO (Generative Engine Optimization)**: Authoritative entity graph modeling (`Organization`, `WebSite`, `WebPage`, `SoftwareApplication`, `TechArticle`), explicit version matrices, and factual citation markers.
+- **Modern UI Architecture**: Angular Material 3 (`@angular/material`), Tailwind CSS 4 (`@import "tailwindcss"` + `@variant dark`), and reactive Dark/Light theme switching with persistence.
+
+## Key Technical Specifications
+
+- **Framework**: Angular 22 (Standalone Components, Signals Reactivity, Modern Control Flow `@if`, `@for`, `@let`)
+- **Rendering**: `@angular/build:application` with prerender (`discoverRoutes: true`, `routesFile: src/routes.txt`)
+- **Styling**: Tailwind CSS 4 + Angular Material 3
+- **Test Runner**: Vitest (`npm test`, `npm run test:run`)
+- **Deployment**: Netlify Edge Serverless with CSP, HSTS, and 301 canonical redirects
+
+## Primary Routes & Manifest
+
+- [Home](https://angular-starter.chintap.com/): Starter kit overview, 5-pillar capability matrix, live CLI quickstart, interactive AEO FAQ accordion, and inquiry modal.
+- [Features](https://angular-starter.chintap.com/features): Architectural breakdown of Angular 22 Signals, Material 3, Tailwind 4, and SSG performance metrics.
+- [Best Practices](https://angular-starter.chintap.com/best-practices): Complete technical reference guide for configuring SEO, AEO, LLMO, GEO, and SSR.
+- [About](https://angular-starter.chintap.com/about): Entity knowledge graph demonstration with Organization and Author metadata.
+- [Contact](https://angular-starter.chintap.com/contact): Accessible Netlify Forms implementation with Angular reactive form validation and Material dialogs.
+- [404 Not Found](https://angular-starter.chintap.com/404): Search-compliant 404 route with noindex robots directives.
+
+## Configuration Single Source of Truth
+
+All application metadata, canonical URLs, social profiles, and organization details are centralized in:
+`src/app/core/config/site.config.ts`
+
+## Extended Documentation
+
+- [Full Content & Developer Guide](https://angular-starter.chintap.com/llms-full.txt): Complete textual technical reference and architectural rules.
+- [Agent Resource Discovery Manifest](https://angular-starter.chintap.com/.well-known/ard.json): Machine discovery descriptor for AI agents.

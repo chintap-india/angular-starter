@@ -1,0 +1,128 @@
+<div
+  class="relative h-[90vh] h-[90dvh] max-h-[94vh] max-h-[94dvh] flex flex-col w-full max-w-7xl mx-auto bg-stone-50/98 dark:bg-stone-900/98 text-stone-900 dark:text-stone-100 rounded-3xl border border-stone-200 dark:border-stone-800 shadow-2xl backdrop-blur-xl transition-colors overflow-hidden overscroll-none"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="tech-stack-inspect-title"
+>
+  <!-- Fixed Header -->
+  <header class="flex-shrink-0 flex items-center justify-between px-4 py-3 sm:px-6 sm:py-3.5 border-b border-stone-200 dark:border-stone-800 bg-stone-100/70 dark:bg-stone-950/50 backdrop-blur-md">
+    <div class="space-y-0.5 pr-2">
+      <div class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#ea1c24] animate-pulse"></span>
+        <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-stone-600 dark:text-stone-400">
+          ARCHITECTURE TOPOLOGY
+        </span>
+      </div>
+      <h2 id="tech-stack-inspect-title" class="text-base sm:text-lg font-extrabold text-stone-900 dark:text-white font-heading tracking-tight leading-tight">
+        Full-Stack &amp; Mobile Technology Stack
+      </h2>
+      <p class="text-xs text-stone-600 dark:text-stone-300 font-medium">
+        Interactive System Architecture &amp; Competency Map
+      </p>
+    </div>
+
+    <!-- Zoom & Close Controls -->
+    <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+      <!-- Zoom Out -->
+      <button
+        type="button"
+        (click)="zoomOut()"
+        [disabled]="currentZoom <= 0.6"
+        aria-label="Zoom out graph"
+        class="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-stone-200/80 dark:bg-stone-800/80 hover:bg-stone-300 dark:hover:bg-stone-700 disabled:opacity-40 disabled:cursor-not-allowed text-stone-800 dark:text-stone-200 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24] cursor-pointer"
+        title="Zoom Out"
+      >
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+        </svg>
+      </button>
+
+      <!-- Zoom Reset / Current Scale Pill -->
+      <button
+        type="button"
+        (click)="resetZoom()"
+        aria-label="Reset zoom scale to 100%"
+        class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-semibold bg-stone-200/80 dark:bg-stone-800/80 hover:bg-stone-300 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24] select-none cursor-pointer"
+        title="Reset Zoom (100%)"
+      >
+        {{ zoomPercentage }}
+      </button>
+
+      <!-- Zoom In -->
+      <button
+        type="button"
+        (click)="zoomIn()"
+        [disabled]="currentZoom >= 2.0"
+        aria-label="Zoom in graph"
+        class="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-stone-200/80 dark:bg-stone-800/80 hover:bg-stone-300 dark:hover:bg-stone-700 disabled:opacity-40 disabled:cursor-not-allowed text-stone-800 dark:text-stone-200 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24] cursor-pointer"
+        title="Zoom In"
+      >
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+      </button>
+
+      <!-- Close Button -->
+      <button
+        type="button"
+        (click)="closeDialog()"
+        aria-label="Close architecture inspection dialog"
+        class="modal-close-btn w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-stone-200/80 dark:bg-stone-800/80 hover:bg-stone-300 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24] cursor-pointer"
+        title="Close"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Interactive Graph Viewport Area (Full-bleed, wheel zoom & drag pan) -->
+  <div
+    class="flex-1 overflow-auto relative p-3 sm:p-6 flex flex-col items-center justify-start bg-stone-100/50 dark:bg-stone-950/40 select-none cursor-grab active:cursor-grabbing touch-none overscroll-none"
+    (wheel)="onWheel($event)"
+    (pointerdown)="onPointerDown($event)"
+    (pointermove)="onPointerMove($event)"
+    (pointerup)="onPointerUp($event)"
+    (pointercancel)="onPointerUp($event)"
+    (touchstart)="onTouchStart($event)"
+    (touchmove)="onTouchMove($event)"
+    (touchend)="onTouchEnd($event)"
+    (touchcancel)="onTouchEnd($event)"
+    title="Scroll or pinch to zoom, drag to pan"
+  >
+    <div
+      class="w-full max-w-6xl flex items-center justify-center select-none"
+      [style.transform]="'translate3d(' + panX() + 'px, ' + panY() + 'px, 0px) scale(' + currentZoom + ')'"
+      [style.transition]="isDragging() ? 'none' : 'transform 0.18s cubic-bezier(0.16, 1, 0.3, 1)'"
+      [class.pointer-events-none]="isDragging()"
+      [class.pointer-events-auto]="!isDragging()"
+      style="transform-origin: top center; will-change: transform; backface-visibility: hidden; -webkit-backface-visibility: hidden;"
+    >
+      <app-tech-stack-graph [allowExpand]="false" [isInspectionModal]="true" class="w-full"></app-tech-stack-graph>
+    </div>
+
+    <!-- Minimal Scroll & Pan Hint Pill -->
+    <div class="fixed bottom-16 right-6 px-3 py-1 rounded-full bg-stone-200/80 dark:bg-stone-800/80 text-stone-600 dark:text-stone-300 text-[10px] font-mono tracking-wide pointer-events-none backdrop-blur-xs select-none shadow-sm z-20">
+      <span class="hidden sm:inline">Scroll or pinch to zoom · Drag to pan</span>
+      <span class="inline sm:hidden">Pinch to zoom · Drag to pan</span>
+    </div>
+  </div>
+
+  <!-- Footer with Done Button -->
+  <footer class="flex-shrink-0 px-4 py-3 sm:px-6 sm:py-3 border-t border-stone-200 dark:border-stone-800 bg-white/95 dark:bg-stone-900/95 flex items-center justify-between gap-3">
+    <div class="text-xs text-stone-500 dark:text-stone-400 font-mono hidden sm:block">
+      Select any node to inspect role, purpose, and topics.
+    </div>
+    <div class="flex items-center justify-end w-full sm:w-auto">
+      <button
+        type="button"
+        (click)="closeDialog()"
+        aria-label="Close expanded architecture viewer"
+        class="w-full sm:w-auto px-5 py-2 rounded-full bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-xs font-bold tracking-tight shadow hover:bg-stone-800 dark:hover:bg-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24] cursor-pointer"
+      >
+        Done
+      </button>
+    </div>
+  </footer>
+</div>

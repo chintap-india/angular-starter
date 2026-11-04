@@ -1,0 +1,26 @@
+<!-- Strict Accessibility: Skip to Main Content Landmark Link -->
+<a href="#main-content" class="skip-link">
+  Skip to main content
+</a>
+
+<!-- Simple Page Load Spinner for Route Transitions -->
+@if (isNavigating()) {
+  <!-- Top Accent Progress Bar -->
+  <div class="fixed top-0 left-0 right-0 z-50 h-0.5 bg-[#ea1c24] animate-pulse pointer-events-none" role="progressbar" aria-label="Loading page" aria-busy="true"></div>
+
+  <!-- Centered Simple Spinner Backdrop -->
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-stone-50/50 dark:bg-stone-950/50 backdrop-blur-[1px] pointer-events-none transition-opacity duration-200" aria-live="polite" aria-label="Loading page">
+    <div class="w-10 h-10 rounded-full border-[3px] border-stone-300/80 dark:border-stone-700/80 border-t-[#ea1c24] animate-spin"></div>
+  </div>
+}
+
+<!-- Primary Navigation Header -->
+<app-navbar></app-navbar>
+
+<!-- Main Landmark Container with Router Outlet -->
+<main id="main-content" tabindex="-1" class="focus:outline-none min-h-[calc(100vh-160px)]">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Footer -->
+<app-footer></app-footer>

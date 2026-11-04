@@ -1,0 +1,309 @@
+<!-- Sticky Navigation Header with Dark & Light theme support -->
+<header class="sticky top-0 z-40 bg-stone-50/95 dark:bg-stone-950/95 backdrop-blur-md border-b border-stone-200 dark:border-stone-800 transition-colors duration-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    
+    <!-- Brand Identity with Chintap Logo -->
+    <a routerLink="/" class="flex items-center gap-3.5 group focus:outline-none focus:ring-2 focus:ring-stone-900 dark:focus:ring-stone-100 rounded-xl p-1" aria-label="chintap — Things. Apps. Possibilities. (Home)">
+      <!-- Logo Icon -->
+      <div class="relative w-10 h-10 flex-shrink-0 flex items-center justify-center">
+        @if (themeService.isDark()) {
+          <img
+            src="images/chintap-emblem-dark.svg"
+            alt="Chintap Tap Icon"
+            width="40"
+            height="40"
+            class="w-full h-full object-contain drop-shadow"
+          />
+        } @else {
+          <img
+            src="images/chintap-emblem-light.svg"
+            alt="Chintap Tap Icon"
+            width="40"
+            height="40"
+            class="w-full h-full object-contain drop-shadow-sm"
+          />
+        }
+      </div>
+
+      <div class="flex flex-col">
+        <span class="font-extrabold text-2xl tracking-tight font-brand leading-none">
+          <span class="text-stone-900 dark:text-white">chin</span><span class="text-[#ea1c24]">tap</span>
+        </span>
+        <span class="text-[11px] font-semibold text-stone-700 dark:text-stone-300 tracking-wide mt-1">
+          Things. Apps. Possibilities.
+        </span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation Links with Active Highlighting -->
+    <nav class="hidden lg:flex items-center gap-3 xl:gap-5 2xl:gap-7" aria-label="Primary Navigation">
+      <a
+        routerLink="/"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="text-stone-950 dark:text-white font-bold border-b-2 border-[#ea1c24]"
+        class="text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white pb-1 transition-colors duration-150 whitespace-nowrap"
+      >
+        Home
+      </a>
+      <a
+        routerLink="/features"
+        routerLinkActive="text-stone-950 dark:text-white font-bold border-b-2 border-[#ea1c24]"
+        class="text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white pb-1 transition-colors duration-150 whitespace-nowrap"
+      >
+        Features
+      </a>
+      <a
+        routerLink="/best-practices"
+        routerLinkActive="text-stone-950 dark:text-white font-bold border-b-2 border-[#ea1c24]"
+        class="text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white pb-1 transition-colors duration-150 whitespace-nowrap"
+      >
+        Best Practices
+      </a>
+      <a
+        routerLink="/about"
+        routerLinkActive="text-stone-950 dark:text-white font-bold border-b-2 border-[#ea1c24]"
+        class="text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white pb-1 transition-colors duration-150 whitespace-nowrap"
+      >
+        About
+      </a>
+      <a
+        routerLink="/contact"
+        routerLinkActive="text-stone-950 dark:text-white font-bold border-b-2 border-[#ea1c24]"
+        class="text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white pb-1 transition-colors duration-150 whitespace-nowrap"
+      >
+        Contact
+      </a>
+      <a
+        [href]="siteConfig.social.github"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-1.5 text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white pb-1 transition-colors duration-150 whitespace-nowrap"
+      >
+        <span>GitHub</span>
+        <mat-icon class="!text-xs !w-3.5 !h-3.5">open_in_new</mat-icon>
+      </a>
+
+      <!-- You Are Here Beacon Button in Primary Nav -->
+      <button
+        type="button"
+        (click)="openYouAreHere()"
+        class="relative inline-flex items-center justify-center p-2 rounded-full text-stone-700 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white hover:bg-stone-200/70 dark:hover:bg-stone-800/70 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24] cursor-pointer group"
+        matTooltip="You Are Here — Site Constellation"
+        aria-label="Open You Are Here interactive site constellation"
+      >
+        <!-- Pulsing Red Beacon Dot -->
+        <span class="absolute top-1 right-1 flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ea1c24] opacity-80"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-[#ea1c24]"></span>
+        </span>
+        <!-- Small Radar/Beacon Icon -->
+        <svg class="w-4 h-4 text-stone-600 dark:text-stone-300 group-hover:text-stone-950 dark:group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke-dasharray="2 3" opacity="0.6" />
+          <circle cx="12" cy="12" r="5" />
+          <circle cx="12" cy="12" r="1.5" fill="#ea1c24" stroke="#ea1c24" />
+        </svg>
+      </button>
+    </nav>
+
+    <!-- CTA & Theme Toggle Actions -->
+    <div class="hidden lg:flex items-center gap-3">
+      <!-- Theme Switcher Button -->
+      <button
+        type="button"
+        (click)="themeService.toggleTheme()"
+        class="p-2.5 rounded-full text-stone-700 dark:text-stone-200 hover:bg-stone-200/70 dark:hover:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-stone-900 dark:focus:ring-stone-100 transition cursor-pointer group"
+        [attr.aria-label]="themeService.isDark() ? 'Switch to light theme' : 'Switch to dark theme'"
+        [matTooltip]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+      >
+        @if (themeService.isDark()) {
+          <!-- Sun icon with rays when in dark mode (click to switch to light mode) -->
+          <svg class="w-5 h-5 text-stone-200 group-hover:text-white transition-transform duration-300 group-hover:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2" />
+            <path d="M12 20v2" />
+            <path d="m4.93 4.93 1.41 1.41" />
+            <path d="m17.66 17.66 1.41 1.41" />
+            <path d="M2 12h2" />
+            <path d="M20 12h2" />
+            <path d="m6.34 17.66-1.41 1.41" />
+            <path d="m19.07 4.93-1.41 1.41" />
+          </svg>
+        } @else {
+          <!-- Crescent moon icon for dark mode switch -->
+          <svg class="w-5 h-5 text-stone-700 group-hover:text-stone-950 transition-transform duration-300 group-hover:-rotate-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+          </svg>
+        }
+      </button>
+
+      <!-- Primary Let's Talk CTA button -->
+      <button
+        type="button"
+        (click)="openContactDialog()"
+        mat-flat-button
+        aria-label="Let's talk with Chintap"
+        class="!bg-stone-900 dark:!bg-stone-100 !text-white dark:!text-stone-900 hover:!bg-stone-800 dark:hover:!bg-white !px-5 !py-2 !rounded-full !font-bold text-xs sm:text-sm tracking-tight shadow-sm transition inline-flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24] cursor-pointer"
+      >
+        Let's Talk
+      </button>
+    </div>
+
+    <!-- Mobile Actions: You Are Here Beacon + Theme toggle + Menu Hamburger -->
+    <div class="flex items-center gap-1.5 lg:hidden">
+      <!-- You Are Here Beacon (Mobile Direct) -->
+      <button
+        type="button"
+        (click)="openYouAreHere()"
+        class="relative p-2 rounded-lg text-stone-800 dark:text-stone-200 hover:bg-stone-200/60 dark:hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-900 dark:focus-visible:ring-stone-100 cursor-pointer"
+        aria-label="Open You Are Here interactive site constellation"
+        matTooltip="You Are Here — Site Constellation"
+      >
+        <span class="absolute top-1.5 right-1.5 flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ea1c24] opacity-80"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-[#ea1c24]"></span>
+        </span>
+        <svg class="w-4 h-4 text-stone-700 dark:text-stone-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke-dasharray="2 3" opacity="0.6" />
+          <circle cx="12" cy="12" r="5" />
+          <circle cx="12" cy="12" r="1.5" fill="#ea1c24" stroke="#ea1c24" />
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        (click)="themeService.toggleTheme()"
+        class="p-2 rounded-lg text-stone-800 dark:text-stone-200 hover:bg-stone-200/60 dark:hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-900 dark:focus-visible:ring-stone-100 cursor-pointer"
+        [attr.aria-label]="themeService.isDark() ? 'Switch to light theme' : 'Switch to dark theme'"
+        [matTooltip]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+      >
+        @if (themeService.isDark()) {
+          <!-- Sun icon with rays when in dark mode (click to switch to light mode) -->
+          <svg class="w-5 h-5 text-stone-200 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2" />
+            <path d="M12 20v2" />
+            <path d="m4.93 4.93 1.41 1.41" />
+            <path d="m17.66 17.66 1.41 1.41" />
+            <path d="M2 12h2" />
+            <path d="M20 12h2" />
+            <path d="m6.34 17.66-1.41 1.41" />
+            <path d="m19.07 4.93-1.41 1.41" />
+          </svg>
+        } @else {
+          <!-- Crescent moon icon for dark mode switch -->
+          <svg class="w-5 h-5 text-stone-800 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+          </svg>
+        }
+      </button>
+
+      <button
+        type="button"
+        (click)="toggleMobileMenu()"
+        class="p-2 rounded-lg text-stone-800 dark:text-stone-200 hover:bg-stone-200/60 dark:hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-900 dark:focus-visible:ring-stone-100"
+        [attr.aria-expanded]="mobileMenuOpen()"
+        aria-controls="mobile-menu"
+        aria-label="Toggle navigation menu"
+      >
+        @if (mobileMenuOpen()) {
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        } @else {
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <line x1="4" y1="18" x2="20" y2="18"></line>
+          </svg>
+        }
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown Navigation Menu -->
+  @if (mobileMenuOpen()) {
+    <div id="mobile-menu" class="lg:hidden border-t border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950 px-6 pt-4 pb-6 space-y-3 shadow-lg" role="region" aria-label="Mobile Navigation Menu">
+      <a
+        routerLink="/"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="text-[#ea1c24] dark:text-[#ff6b6b] font-bold"
+        (click)="mobileMenuOpen.set(false)"
+        class="block py-2 text-base font-semibold text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white"
+      >
+        Home
+      </a>
+      <a
+        routerLink="/features"
+        routerLinkActive="text-[#ea1c24] dark:text-[#ff6b6b] font-bold"
+        (click)="mobileMenuOpen.set(false)"
+        class="block py-2 text-base font-semibold text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white"
+      >
+        Features
+      </a>
+      <a
+        routerLink="/best-practices"
+        routerLinkActive="text-[#ea1c24] dark:text-[#ff6b6b] font-bold"
+        (click)="mobileMenuOpen.set(false)"
+        class="block py-2 text-base font-semibold text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white"
+      >
+        Best Practices
+      </a>
+      <a
+        routerLink="/about"
+        routerLinkActive="text-[#ea1c24] dark:text-[#ff6b6b] font-bold"
+        (click)="mobileMenuOpen.set(false)"
+        class="block py-2 text-base font-semibold text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white"
+      >
+        About
+      </a>
+      <a
+        routerLink="/contact"
+        routerLinkActive="text-[#ea1c24] dark:text-[#ff6b6b] font-bold"
+        (click)="mobileMenuOpen.set(false)"
+        class="block py-2 text-base font-semibold text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white"
+      >
+        Contact
+      </a>
+      <a
+        [href]="siteConfig.social.github"
+        target="_blank"
+        rel="noopener noreferrer"
+        (click)="mobileMenuOpen.set(false)"
+        class="flex items-center gap-1.5 py-2 text-base font-semibold text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white"
+      >
+        <span>GitHub Repository</span>
+        <mat-icon class="!text-sm !w-4 !h-4">open_in_new</mat-icon>
+      </a>
+
+      <!-- You Are Here in Mobile Menu -->
+      <button
+        type="button"
+        (click)="openYouAreHere(); mobileMenuOpen.set(false)"
+        class="flex items-center gap-3 py-2 text-base font-semibold text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white w-full text-left cursor-pointer group"
+        aria-label="Open You Are Here interactive site constellation"
+      >
+        <span class="relative flex h-2.5 w-2.5 shrink-0">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ea1c24] opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#ea1c24]"></span>
+        </span>
+        <span class="flex items-center gap-2">
+          <span>You Are Here</span>
+          <span class="text-xs font-mono text-stone-400 dark:text-stone-500 font-normal">· Constellation</span>
+        </span>
+      </button>
+
+      <div class="pt-3 border-t border-stone-200 dark:border-stone-800">
+        <button
+          type="button"
+          (click)="openContactDialog(); mobileMenuOpen.set(false)"
+          mat-flat-button
+          aria-label="Let's talk with Chintap"
+          class="w-full !bg-stone-900 dark:!bg-stone-100 !text-white dark:!text-stone-900 font-bold py-2.5 !rounded-full text-center block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24] cursor-pointer"
+        >
+          Let's Talk
+        </button>
+      </div>
+    </div>
+  }
+</header>

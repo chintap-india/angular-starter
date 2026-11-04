@@ -1,0 +1,197 @@
+<div
+  class="relative w-full rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-xl overflow-hidden flex flex-col transition-colors duration-200"
+  role="region"
+  aria-label="Chin-o-saur 404 Runner Mini-Game"
+>
+
+  <!-- Top Arcade Status Bar -->
+  <div class="flex items-center justify-between px-3.5 py-2.5 bg-stone-100/80 dark:bg-stone-800/80 border-b border-stone-200 dark:border-stone-800 text-xs font-mono select-none">
+    
+    <!-- Title / Brand Badge -->
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-2 h-2 rounded-full bg-[#ea1c24] animate-pulse"></span>
+      <span class="font-bold tracking-wider text-stone-900 dark:text-stone-100 uppercase">
+        Chin-o-saur Run
+      </span>
+      <span class="hidden sm:inline-block text-[10px] text-stone-600 dark:text-stone-300">
+        v1.0
+      </span>
+    </div>
+
+    <!-- Controls: Sound Toggle & Pause -->
+    <div class="flex items-center gap-1.5">
+      <button
+        type="button"
+        (click)="toggleSound()"
+        mat-icon-button
+        class="!w-7 !h-7 !p-0 text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition"
+        [attr.aria-label]="soundEnabled() ? 'Mute 8-bit sound' : 'Unmute 8-bit sound'"
+        [matTooltip]="soundEnabled() ? 'Sound: On' : 'Sound: Off'"
+      >
+        <mat-icon class="!w-4 !h-4 !text-[16px] leading-none">
+          {{ soundEnabled() ? 'volume_up' : 'volume_off' }}
+        </mat-icon>
+      </button>
+
+      @if (gameState() === 'playing' || gameState() === 'paused') {
+        <button
+          type="button"
+          (click)="togglePause()"
+          mat-icon-button
+          class="!w-7 !h-7 !p-0 text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition"
+          [attr.aria-label]="gameState() === 'paused' ? 'Resume game' : 'Pause game'"
+          [matTooltip]="gameState() === 'paused' ? 'Resume (P)' : 'Pause (P)'"
+        >
+          <mat-icon class="!w-4 !h-4 !text-[16px] leading-none">
+            {{ gameState() === 'paused' ? 'play_arrow' : 'pause' }}
+          </mat-icon>
+        </button>
+      }
+    </div>
+
+  </div>
+
+  <!-- Game Stage Container -->
+  <div class="relative w-full aspect-[18/7] min-h-[220px] sm:min-h-[250px] md:min-h-[270px] bg-stone-50 dark:bg-stone-950 flex items-center justify-center overflow-hidden select-none">
+    
+    <!-- Game Canvas -->
+    <canvas
+      #gameCanvas
+      (click)="jump()"
+      class="w-full h-full cursor-pointer block select-none focus:outline-none"
+      tabindex="0"
+      aria-label="Game canvas: Press Space or tap to jump over obstacles"
+    ></canvas>
+
+    <!-- Overlay: IDLE (Start Screen) -->
+    @if (gameState() === 'idle') {
+      <div class="absolute inset-0 bg-stone-900/40 dark:bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center p-4 text-center z-10 transition-all">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 dark:bg-stone-900/90 text-[#ea1c24] text-[11px] font-mono font-bold tracking-wide shadow-sm mb-2.5">
+          <span>🦖 TAPPY THE CHIN-O-SAUR</span>
+        </div>
+        
+        <h3 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-white font-heading mb-1.5 drop-shadow-sm">
+          Uncharted 404 Territory
+        </h3>
+
+        <p class="text-xs sm:text-sm text-stone-100 max-w-md mb-4 leading-relaxed drop-shadow-sm">
+          Leap over <span class="text-red-400 font-semibold">Scope Creep</span> & <span class="text-amber-300 font-semibold">Half-Baked Ideas</span>. Collect Eureka moments!
+        </p>
+
+        <button
+          type="button"
+          (click)="startGame()"
+          class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#ea1c24] hover:bg-[#d0151c] text-white text-sm sm:text-base font-bold shadow-lg hover:shadow-xl transition transform active:scale-95 cursor-pointer"
+          aria-label="Start Chin-o-saur Runner Game"
+        >
+          <mat-icon class="!w-5 !h-5 !text-[20px] leading-none">play_arrow</mat-icon>
+          <span>Press Space or Tap to Play</span>
+        </button>
+      </div>
+    }
+
+    <!-- Overlay: GAMEOVER Screen -->
+    @if (gameState() === 'gameover') {
+      <div class="absolute inset-0 bg-stone-950/80 backdrop-blur-[3px] flex flex-col items-center justify-center p-4 text-center z-10 animate-fadeIn">
+        
+        <div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#ea1c24]/20 border border-[#ea1c24]/40 text-[#ea1c24] text-[10px] font-mono font-bold uppercase tracking-wider mb-1.5">
+          <span>Game Over</span>
+        </div>
+
+        <h3 class="text-lg sm:text-2xl font-extrabold text-white font-heading mb-1">
+          404: Run Concluded
+        </h3>
+
+        <!-- Witty Quip Card -->
+        <p class="text-xs sm:text-sm md:text-base text-stone-200 italic max-w-lg mb-2.5 leading-snug px-3">
+          “{{ lastQuip() }}”
+        </p>
+
+        <!-- Score summary -->
+        <div class="flex items-center gap-3 text-xs sm:text-sm font-mono text-stone-300 mb-3.5">
+          <span>Score: <strong class="text-white font-bold">{{ score() }}</strong></span>
+          <span class="text-stone-500">|</span>
+          <span>Best: <strong class="text-amber-400 font-bold">{{ highScore() }}</strong></span>
+          @if (isNewHighScore()) {
+            <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-bold uppercase">
+              New Record!
+            </span>
+          }
+        </div>
+
+        <button
+          type="button"
+          (click)="restartGame()"
+          class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#ea1c24] hover:bg-[#d0151c] text-white text-xs sm:text-sm font-bold shadow-lg transition transform active:scale-95 cursor-pointer"
+          aria-label="Restart game and try again"
+        >
+          <mat-icon class="!w-4 !h-4 !text-[18px] leading-none">replay</mat-icon>
+          <span>Tap to Try Again</span>
+        </button>
+      </div>
+    }
+
+    <!-- Overlay: PAUSED Screen -->
+    @if (gameState() === 'paused') {
+      <div class="absolute inset-0 bg-stone-900/60 backdrop-blur-[2px] flex flex-col items-center justify-center p-4 text-center z-10">
+        <h3 class="text-base font-bold text-white font-heading mb-1">
+          Paused
+        </h3>
+        <p class="text-xs text-stone-300 mb-3">
+          Tapping the chin and catching your breath.
+        </p>
+        <button
+          type="button"
+          (click)="togglePause()"
+          class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-stone-100 text-stone-900 text-xs font-bold shadow transition cursor-pointer"
+          aria-label="Resume game"
+        >
+          <mat-icon class="!w-4 !h-4 !text-[16px] leading-none">play_arrow</mat-icon>
+          <span>Resume</span>
+        </button>
+      </div>
+    }
+
+  </div>
+
+  <!-- Bottom Mobile Controls & Keyboard Hint Bar -->
+  <div class="px-3.5 py-2.5 bg-stone-50 dark:bg-stone-900/90 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between gap-3 text-xs">
+    
+    <!-- Desktop Keyboard Instructions -->
+    <div class="hidden sm:flex items-center gap-3 text-[11px] text-stone-500 dark:text-stone-400 font-mono">
+      <span><kbd class="px-1.5 py-0.5 rounded bg-stone-200 dark:bg-stone-800 text-stone-800 dark:text-stone-200 text-[10px] font-semibold">Space</kbd> / <kbd class="px-1.5 py-0.5 rounded bg-stone-200 dark:bg-stone-800 text-stone-800 dark:text-stone-200 text-[10px] font-semibold">↑</kbd> Jump</span>
+      <span><kbd class="px-1.5 py-0.5 rounded bg-stone-200 dark:bg-stone-800 text-stone-800 dark:text-stone-200 text-[10px] font-semibold">↓</kbd> Duck</span>
+      <span><kbd class="px-1.5 py-0.5 rounded bg-stone-200 dark:bg-stone-800 text-stone-800 dark:text-stone-200 text-[10px] font-semibold">P</kbd> Pause</span>
+    </div>
+
+    <!-- Mobile Touch Action Buttons -->
+    <div class="flex sm:hidden items-center justify-between w-full gap-2">
+      <!-- Duck Touch Button -->
+      <button
+        type="button"
+        (touchstart)="setDuck(true); $event.preventDefault()"
+        (touchend)="setDuck(false); $event.preventDefault()"
+        (mousedown)="setDuck(true)"
+        (mouseup)="setDuck(false)"
+        class="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-200 font-bold text-xs uppercase tracking-wider active:bg-stone-200 dark:active:bg-stone-700 select-none touch-manipulation"
+        aria-label="Duck under flying obstacles"
+      >
+        <mat-icon class="!w-4 !h-4 !text-[16px] leading-none">arrow_downward</mat-icon>
+        <span>Duck</span>
+      </button>
+
+      <!-- Jump Touch Button -->
+      <button
+        type="button"
+        (click)="jump()"
+        class="flex-2 inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-[#ea1c24] text-white font-bold text-xs uppercase tracking-wider active:bg-[#d0151c] shadow-md select-none touch-manipulation"
+        aria-label="Jump over ground obstacles"
+      >
+        <mat-icon class="!w-4 !h-4 !text-[16px] leading-none">arrow_upward</mat-icon>
+        <span>Jump</span>
+      </button>
+    </div>
+
+  </div>
+
+</div>

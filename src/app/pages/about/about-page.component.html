@@ -1,0 +1,108 @@
+<div class="relative overflow-x-clip transition-colors duration-200">
+  
+  <!-- Hero Section -->
+  <section class="relative pt-12 pb-16 sm:pt-16 sm:pb-20 lg:pt-16 lg:pb-24 border-b border-stone-200 dark:border-stone-800" aria-labelledby="about-title">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
+        
+        <!-- Left Narrative (7 cols on md, 7 cols on lg) -->
+        <div class="md:col-span-7 lg:col-span-7 max-w-3xl">
+          
+          <!-- Subtle Tagline Badge -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-200 dark:bg-stone-800 text-stone-800 dark:text-stone-200 text-xs font-semibold tracking-wide mb-5">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#ea1c24]"></span>
+            <span>Chintap Philosophy</span>
+          </div>
+
+          <!-- H1 -->
+          <h1 id="about-title" class="text-3xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-stone-900 dark:text-stone-50 font-heading tracking-tight leading-[1.12] mb-4">
+            About <span class="font-brand font-extrabold tracking-tight"><span class="text-stone-900 dark:text-white">chin</span><span class="text-[#ea1c24]">tap</span></span>.
+          </h1>
+
+          <!-- H2 Subtitle -->
+          <h2 class="text-2xl sm:text-3xl font-bold text-stone-800 dark:text-stone-200 font-heading mb-6">
+            {{ content.about.subtitle }}
+          </h2>
+
+          <!-- Intro Narrative with Red Accent Border -->
+          <div class="space-y-3.5 text-base sm:text-lg text-stone-800 dark:text-stone-200 leading-relaxed pl-4 border-l-2 border-[#ea1c24]/80">
+            @for (p of content.about.intro; track p) {
+              <p>{{ p }}</p>
+            }
+          </div>
+
+        </div>
+
+        <!-- Right Column: Relational Network Graph (Responsive across mobile & desktop) -->
+        <div class="mt-8 md:mt-0 flex md:col-span-5 lg:col-span-5 justify-center md:justify-end items-center">
+          <div class="relative w-full max-w-[340px] sm:max-w-[380px] md:max-w-[420px] lg:max-w-[460px] aspect-square rounded-3xl p-4 sm:p-6 bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 shadow-xl flex items-center justify-center text-center group hover:scale-[1.01] transition-all duration-300">
+            <app-network-graph mode="about"></app-network-graph>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Body Content -->
+  <section class="py-16 sm:py-20 lg:py-24 bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Sections from public/contents.md in 2-Column Responsive Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+      @for (sec of content.about.sections; track sec.title; let idx = $index; let last = $last) {
+        <article
+          [class.md:col-span-2]="last"
+          class="p-8 sm:p-10 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-sm flex flex-col justify-between hover:border-stone-400 dark:hover:border-stone-600 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+        >
+          <div [class.max-w-3xl]="last">
+            <span class="text-xs font-mono font-bold text-stone-700 dark:text-stone-300 tracking-widest block mb-3">
+              PERSPECTIVE 0{{ idx + 1 }}
+            </span>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-stone-100 font-heading mb-6 tracking-tight">
+              {{ sec.title }}
+            </h3>
+            <div class="space-y-4 text-stone-800 dark:text-stone-200 text-base sm:text-lg leading-relaxed">
+              @for (para of sec.paragraphs; track para) {
+                <p>{{ para }}</p>
+              }
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+
+    <!-- Next Logical Paths -->
+    <app-explore-next page="about"></app-explore-next>
+
+    <!-- CTA Callout -->
+    <div class="mt-20 p-8 sm:p-12 rounded-3xl bg-stone-900 text-white dark:bg-stone-900 border border-stone-800 text-center space-y-6">
+      <h3 class="text-3xl font-extrabold font-heading text-white">
+        {{ content.about.cta.headline }}
+      </h3>
+      <div class="max-w-2xl mx-auto space-y-3 text-stone-200 text-base sm:text-lg leading-relaxed">
+        @for (para of content.about.cta.paragraphs; track para) {
+          <p>{{ para }}</p>
+        }
+        <p class="font-semibold text-white pt-2">
+          {{ content.about.cta.prompt }}
+        </p>
+      </div>
+      <div class="pt-4">
+        <button
+          type="button"
+          (click)="openContactModal('general')"
+          mat-flat-button
+          [attr.aria-label]="content.about.cta.ariaLabel"
+          class="!bg-white !text-stone-900 hover:!bg-stone-100 px-8 py-3.5 !rounded-full !font-bold text-base transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24] cursor-pointer"
+        >
+          {{ content.about.cta.actionText }}
+        </button>
+      </div>
+    </div>
+
+    </div>
+  </section>
+</div>

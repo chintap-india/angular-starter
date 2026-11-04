@@ -1,0 +1,174 @@
+<div
+  class="flex flex-col p-4 sm:p-6 max-w-4xl w-full mx-auto bg-stone-50 dark:bg-stone-900 text-stone-900 dark:text-stone-100 transition-colors"
+  role="dialog"
+  aria-labelledby="intro-video-title"
+>
+  <!-- Header -->
+  <div class="flex-shrink-0 flex items-start justify-between pb-3 sm:pb-4 border-b border-stone-200 dark:border-stone-800">
+    <div>
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-stone-200/80 dark:bg-stone-800 text-stone-800 dark:text-stone-200 text-[11px] font-semibold tracking-wide mb-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#ea1c24] animate-pulse"></span>
+        <span>Chintap Intro &bull; 0:20</span>
+      </div>
+      <h2 id="intro-video-title" class="text-xl sm:text-2xl font-extrabold text-stone-900 dark:text-stone-50 font-heading tracking-tight">
+        Things. Apps. Possibilities.
+      </h2>
+      <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 mt-0.5">
+        Exploring ideas & building useful things across physical and digital worlds.
+      </p>
+    </div>
+    <button
+      type="button"
+      (click)="close()"
+      aria-label="Close intro video dialog"
+      class="modal-close-btn w-8 h-8 rounded-full flex items-center justify-center bg-stone-200/70 hover:bg-stone-300 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ea1c24] cursor-pointer flex-shrink-0 mt-1"
+      title="Close intro video dialog"
+    >
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M18 6L6 18M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Video Stage -->
+  <div class="py-4">
+    <div
+      #videoContainer
+      class="relative w-full aspect-[864/496] bg-black rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-stone-200 dark:border-stone-800 select-none group"
+    >
+      <!-- Native Video Element -->
+      <video
+        #videoPlayer
+        src="chintap-video.mp4"
+        playsinline
+        preload="metadata"
+        (click)="togglePlay()"
+        (timeupdate)="onTimeUpdate()"
+        (loadedmetadata)="onLoadedMetadata()"
+        (ended)="onEnded()"
+        class="w-full h-full object-contain cursor-pointer"
+        aria-label="Chintap 20-second introduction video"
+      ></video>
+
+      <!-- Center Big Play / Replay Button Overlay (when paused or ended) -->
+      @if (!isPlaying() || hasEnded()) {
+        <div
+          (click)="togglePlay()"
+          class="absolute inset-0 flex items-center justify-center bg-black/35 backdrop-blur-[2px] cursor-pointer transition-opacity"
+          aria-hidden="true"
+        >
+          <button
+            type="button"
+            class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#ea1c24] text-white flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-transform"
+            [attr.aria-label]="hasEnded() ? 'Replay video' : 'Play video'"
+          >
+            <mat-icon class="!w-9 !h-9 !text-[36px] flex items-center justify-center translate-x-0.5">
+              {{ hasEnded() ? 'replay' : 'play_arrow' }}
+            </mat-icon>
+          </button>
+        </div>
+      }
+
+      <!-- Custom Video Controls Overlay Bar -->
+      <div
+        class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-3 sm:p-4 flex flex-col gap-2 transition-opacity duration-200 group-hover:opacity-100"
+        [class.opacity-100]="!isPlaying()"
+      >
+        <!-- Timeline Scrubber Bar -->
+        <div
+          (click)="onSeek($event)"
+          class="w-full h-1.5 sm:h-2 bg-white/30 hover:h-2.5 rounded-full cursor-pointer relative transition-all"
+          role="slider"
+          [attr.aria-valuenow]="currentTime()"
+          [attr.aria-valuemin]="0"
+          [attr.aria-valuemax]="duration()"
+          aria-label="Video progress scrubber"
+        >
+          <div
+            class="h-full bg-[#ea1c24] rounded-full relative"
+            [style.width.%]="progressPercent()"
+          >
+            <span class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-3.5 h-3.5 bg-white rounded-full shadow scale-0 group-hover:scale-100 transition-transform"></span>
+          </div>
+        </div>
+
+        <!-- Buttons Row -->
+        <div class="flex items-center justify-between text-white text-xs sm:text-sm">
+          <!-- Left: Play/Pause + Time -->
+          <div class="flex items-center gap-3">
+            <button
+              type="button"
+              (click)="togglePlay()"
+              class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/20 transition focus:outline-none focus-visible:ring-1 focus-visible:ring-white"
+              [attr.aria-label]="isPlaying() ? 'Pause' : 'Play'"
+            >
+              <mat-icon class="!w-5 !h-5 !text-[20px] flex items-center justify-center">
+                {{ isPlaying() ? 'pause' : 'play_arrow' }}
+              </mat-icon>
+            </button>
+
+            <span class="font-mono text-xs text-stone-300">
+              {{ timeDisplay() }}
+            </span>
+          </div>
+
+          <!-- Right: Mute/Unmute + Fullscreen -->
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              (click)="toggleMute()"
+              class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/20 transition focus:outline-none focus-visible:ring-1 focus-visible:ring-white"
+              [attr.aria-label]="isMuted() ? 'Unmute video' : 'Mute video'"
+            >
+              <mat-icon class="!w-5 !h-5 !text-[20px] flex items-center justify-center">
+                {{ isMuted() ? 'volume_off' : 'volume_up' }}
+              </mat-icon>
+            </button>
+
+            <button
+              type="button"
+              (click)="toggleFullscreen()"
+              class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/20 transition focus:outline-none focus-visible:ring-1 focus-visible:ring-white"
+              aria-label="Toggle fullscreen video"
+            >
+              <mat-icon class="!w-5 !h-5 !text-[20px] flex items-center justify-center">fullscreen</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dialog Footer Actions -->
+  <div class="flex-shrink-0 pt-3 border-t border-stone-200 dark:border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-3 bg-stone-50 dark:bg-stone-900">
+    <div class="text-xs text-stone-600 dark:text-stone-400 text-center sm:text-left">
+      Ready to explore an idea or build together?
+    </div>
+    <div class="flex items-center gap-2.5 w-full sm:w-auto justify-end">
+      <button
+        type="button"
+        (click)="navigateAndClose('/what-we-do')"
+        mat-stroked-button
+        class="!border-stone-300 dark:!border-stone-700 !text-stone-800 dark:!text-stone-200 !rounded-full !text-xs !font-semibold"
+      >
+        What we do
+      </button>
+      <button
+        type="button"
+        (click)="navigateAndClose('/contact')"
+        mat-flat-button
+        class="!bg-[#ea1c24] !text-white !rounded-full !text-xs !font-bold hover:!bg-[#d0171e]"
+      >
+        Let's Talk
+      </button>
+      <button
+        type="button"
+        (click)="close()"
+        mat-button
+        class="!text-stone-600 dark:!text-stone-400 !rounded-full !text-xs"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</div>

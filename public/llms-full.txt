@@ -1,0 +1,137 @@
+# Chintap Angular Starter — Full Technical Reference & Architecture Documentation
+
+## Executive Overview
+
+Chintap Angular Starter is an enterprise-grade, high-performance starter template built with Angular 22, Tailwind CSS 4, Angular Material 3, and `@angular/ssr`. It provides web developers and engineering teams with out-of-the-box infrastructure designed to achieve perfect Lighthouse scores and maximum discoverability across both traditional search engines (Google, Bing) and AI generative answer engines (Perplexity, ChatGPT Search, Claude, Google Gemini, Apple Intelligence).
+
+---
+
+## 1. Architecture & Technology Stack
+
+| Layer | Technology | Version | Purpose |
+| :--- | :--- | :--- | :--- |
+| **Framework** | Angular | `^22.2.0` | Standalone components, Signal-based state, modern control flow (`@if`, `@for`, `@let`), `inject()` pattern. |
+| **Component Suite** | Angular Material | `^22.2.0` | Material Design 3 interactive components (`MatToolbar`, `MatButton`, `MatIcon`, `MatCard`, `MatExpansionModule`, `MatDialog`, `MatSnackBar`). |
+| **Styling** | Tailwind CSS | `^4.3.0` | Modern utility CSS with native CSS variables, responsive utilities, and `@variant dark`. |
+| **SSR / SSG** | `@angular/ssr` | `^22.2.0` | Build-time Static Site Generation (SSG) with client hydration and event replay. |
+| **Test Suite** | Vitest | `^5.0.0` | Fast, lightweight ESM-native test runner. |
+| **Hosting** | Netlify / Edge | Latest | Static pre-rendered CDN hosting with edge caching, automated security headers, and Netlify Forms. |
+
+---
+
+## 2. The 5 Pillars: Technical Implementations
+
+### Pillar 1: Search Engine Optimization (SEO)
+- **Programmatic Meta Tag Management**: Powered by `SeoService`, which wraps Angular's `Title` and `Meta` services.
+- **Title Formatting**: Adheres to the standard `Brand — Tagline` on the root route and `Page Title — Brand` on sub-routes, automatically deduplicating repeated brand strings.
+- **Canonical URL Enforcement**: Adds `<link rel="canonical" href="...">` in the document head matching the exact rendered route. Critically, the canonical tag is removed on `noindex` pages (such as `/404`) to prevent search engine indexing conflicts.
+- **OpenGraph & Twitter Cards**: Generates complete social sharing cards (og:title, og:description, og:url, og:image, og:image:width 1200, og:image:height 630, twitter:card summary_large_image).
+- **XML Sitemap**: Maintained at `/sitemap.xml` with `<loc>`, `<lastmod>`, `<changefreq>`, and `<priority>`.
+- **RFC-compliant robots.txt**: Declares allowed paths and references the sitemap and LLM context endpoints.
+
+### Pillar 2: Answer Engine Optimization (AEO)
+- **Problem**: Modern search behavior increasingly relies on AI Overviews (Google AI, Bing Copilot) and voice search assistants (Siri, Alexa). These systems extract concise, factual answers directly from structured web pages.
+- **Solution**:
+  1. Content layout uses high-intent Question headings (`<h2>` or `<h3>`) immediately followed by concise 40–60 word declarative answers.
+  2. The `SeoService` provides `generateFaqSchema(faqs)` which injects Schema.org `FAQPage` JSON-LD into the page.
+  3. Interactive UI uses Angular Material `MatAccordion` and `MatExpansionPanel` to display FAQs while keeping the content fully available in the server-rendered DOM.
+
+### Pillar 3: Large Language Model Optimization (LLMO)
+- **Problem**: AI models and RAG (Retrieval-Augmented Generation) crawlers need lightweight, parseable representations of website documentation without having to execute complex client-side JavaScript.
+- **Solution**:
+  1. `/llms.txt`: Standardized markdown file following https://llmstxt.org detailing project capabilities, primary routes, and technical specifications.
+  2. `/llms-full.txt`: Monolithic comprehensive documentation covering all architecture and code patterns.
+  3. `/.well-known/ard.json`: Agent Resource Discovery standard descriptor for AI systems to discover plain-text endpoints.
+  4. Server headers in `_headers` and `netlify.toml` ensure plain text files are served as `text/plain` or `text/markdown` with CORS `Access-Control-Allow-Origin: *`.
+
+### Pillar 4: Generative Engine Optimization (GEO)
+- **Problem**: Generative search engines (Perplexity, ChatGPT Search, Gemini) rank and synthesize answers based on entity authority, factual density, and clear citations.
+- **Solution**:
+  1. **Entity Graph Modeling**: Injects a unified Schema.org `@graph` connecting `Organization`, `WebSite`, `WebPage`, `BreadcrumbList`, and `SoftwareApplication`.
+  2. **Authoritative Signals**: Explicit citations, author metadata, postal address, and geo-coordinates in JSON-LD.
+  3. **Freshness & Versioning**: Version matrices and semantic timestamps allow generative models to confirm content currency.
+
+### Pillar 5: Server-Side Rendering (SSR) & Static Site Generation (SSG)
+- **Implementation**: Angular 22 `@angular/build:application` pre-renders all static routes defined in `src/routes.txt` at build time.
+- **Hydration**: Client hydration with event replay enabled (`provideClientHydration(withEventReplay())`).
+- **Safety**: Services checking `window` or `document` use `isPlatformBrowser(this.platformId)` to prevent SSR crashes during build.
+
+---
+
+## 3. Site Configuration Single Source of Truth
+
+To rebrand or configure this starter kit for your own project, edit `src/app/core/config/site.config.ts`:
+
+```typescript
+export const DEFAULT_SITE_CONFIG: SiteConfig = {
+  name: 'Your App Name',
+  shortName: 'YourApp',
+  tagline: 'Your Compelling Tagline',
+  description: 'Your 150-160 character meta description.',
+  baseUrl: 'https://yourdomain.com',
+  defaultOgImage: 'https://yourdomain.com/images/og-image.jpg',
+  locale: 'en_US',
+  themeColor: '#0f172a',
+  author: {
+    name: 'Your Name',
+    url: 'https://yourportfolio.com',
+    email: 'contact@yourdomain.com',
+  },
+  organization: {
+    name: 'Your Company',
+    legalName: 'Your Company Inc.',
+    url: 'https://yourdomain.com',
+    logo: 'https://yourdomain.com/images/logo.png',
+    email: 'hello@yourdomain.com',
+    address: {
+      streetAddress: '123 Market St',
+      addressLocality: 'San Francisco',
+      addressRegion: 'CA',
+      postalCode: '94105',
+      addressCountry: 'US',
+    },
+    geo: {
+      latitude: 37.7749,
+      longitude: -122.4194,
+    },
+  },
+  social: {
+    github: 'https://github.com/your-username/your-repo',
+    twitter: '@yourhandle',
+  },
+  ai: {
+    llmsTxtUrl: '/llms.txt',
+    llmsFullTxtUrl: '/llms-full.txt',
+    ardManifestUrl: '/.well-known/ard.json',
+  },
+  features: {
+    seo: true,
+    aeo: true,
+    llmo: true,
+    geo: true,
+    ssr: true,
+    darkTheme: true,
+  },
+};
+```
+
+---
+
+## 4. Developer Commands
+
+```bash
+# Install dependencies
+npm install
+
+# Start local dev server (http://localhost:4200)
+npm start
+
+# Run unit and SEO test suite
+npm test
+npm run test:run
+
+# Build production static pre-rendered distribution
+npm run build
+```
+
+© Chintap. Open-source under MIT / Apache-2.0.

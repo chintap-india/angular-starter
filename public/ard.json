@@ -1,0 +1,34 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ards-project/ard-spec/main/spec/schemas/ard-entry.schema.json",
+  "version": "1.0",
+  "provider": {
+    "name": "Chintap Angular Starter",
+    "url": "https://angular-starter.chintap.com"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:angular-starter.chintap.com:docs:llms-txt",
+      "displayName": "Chintap Angular Starter LLM Context & Architecture Overview",
+      "type": "text/markdown",
+      "description": "Plaintext LLM and AI agent architectural overview and service summary of Chintap Angular Starter.",
+      "url": "https://angular-starter.chintap.com/llms.txt",
+      "representativeQueries": [
+        "Chintap Angular Starter LLM context and documentation",
+        "Angular 22 SEO AEO LLMO GEO starter kit overview",
+        "Angular starter technical specifications"
+      ]
+    },
+    {
+      "identifier": "urn:air:angular-starter.chintap.com:docs:full-contents",
+      "displayName": "Complete Starter Kit Documentation",
+      "type": "text/markdown",
+      "description": "Structured Markdown containing complete text, architecture details, and developer guide.",
+      "url": "https://angular-starter.chintap.com/llms-full.txt",
+      "representativeQueries": [
+        "Angular starter complete guide and code patterns",
+        "Angular SEO AEO LLMO GEO best practices",
+        "Angular 22 SSR SSG configuration"
+      ]
+    }
+  ]
+}

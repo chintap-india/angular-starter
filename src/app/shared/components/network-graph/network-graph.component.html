@@ -1,0 +1,1789 @@
+<div
+  class="relative w-full h-full flex items-center justify-center p-1 sm:p-2 select-none"
+  [class.cursor-zoom-in]="allowExpand"
+  (click)="allowExpand ? openExpandedView($event) : clearSelection($event)"
+>
+  @if (allowExpand) {
+    <!-- Floating Expand Diagram Action Badge -->
+    <button
+      type="button"
+      (click)="openExpandedView($event)"
+      aria-label="View expanded diagram"
+      class="absolute top-2 right-2 z-10 p-1.5 rounded-lg bg-stone-100/90 dark:bg-stone-800/90 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white transition-all backdrop-blur-sm opacity-60 group-hover/graph:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#ea1c24] cursor-pointer shadow-xs"
+      title="Expand diagram"
+    >
+      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+      </svg>
+    </button>
+  }
+
+  <!-- Active Node Inspection Floating Bar -->
+  @if (activeNodeInfo(); as info) {
+    <div
+      class="absolute bottom-2 inset-x-2 z-20 px-3.5 py-2.5 rounded-2xl bg-white/95 dark:bg-stone-900/95 border border-stone-200 dark:border-stone-800 shadow-xl backdrop-blur-md flex items-start justify-between gap-3 text-left transition-all"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="min-w-0 flex-1">
+        <div class="flex items-center gap-1.5 mb-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#ea1c24] flex-shrink-0"></span>
+          <span class="text-[9.5px] font-mono font-bold uppercase tracking-wider text-stone-900 dark:text-stone-100">
+            {{ info.label }}
+          </span>
+        </div>
+        <p class="text-[11px] sm:text-xs text-stone-700 dark:text-stone-300 leading-snug break-words">
+          {{ info.detail }}
+        </p>
+      </div>
+      <div class="flex items-center gap-1.5 flex-shrink-0 pt-0.5">
+        @if (info.route) {
+          <a
+            [routerLink]="info.route"
+            (click)="$event.stopPropagation()"
+            class="px-2.5 py-1 rounded-full bg-[#ea1c24] text-white text-[10px] font-bold tracking-wide hover:bg-[#d0171e] transition focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#ea1c24] whitespace-nowrap"
+          >
+            {{ info.routeLabel || 'Explore →' }}
+          </a>
+        }
+        <button
+          type="button"
+          (click)="clearSelection($event)"
+          aria-label="Dismiss detail"
+          class="p-1 rounded-full text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition"
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  }
+
+  @switch (mode) {
+
+    <!-- =============================================================== -->
+    <!-- 1. HOME: The Possibility Space (Authoritative Brief)            -->
+    <!-- =============================================================== -->
+    @case ('home') {
+      <svg
+        viewBox="0 0 320 320"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="The Possibility Space: Things, Apps, and Possibilities branching from Chintap"
+      >
+        <title>The Possibility Space</title>
+        <desc>Graph tracing an idea from a thought into physical things, purposeful apps, and open possibilities converging at Chintap</desc>
+
+        <defs>
+          <radialGradient id="beaconGlowHome" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ea1c24" stop-opacity="0.30" />
+            <stop offset="100%" stop-color="#ea1c24" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+
+        <!-- Technical Framing Corners -->
+        <path
+          d="M 12 22 L 12 12 L 22 12 M 298 12 L 308 12 L 308 22 M 308 298 L 308 308 L 298 308 M 22 308 L 12 308 L 12 298"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1.25"
+          fill="none"
+        />
+
+        <!-- Restrained Header -->
+        <text x="16" y="24" class="text-[10px] font-semibold tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          The Possibility Space
+        </text>
+        <text x="304" y="24" text-anchor="end" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          Things · Apps · Possibilities
+        </text>
+
+        <!-- Subtle Axis Guides -->
+        <line x1="160" y1="36" x2="160" y2="284" class="stroke-stone-200 dark:stroke-stone-800/80 pointer-events-none" stroke-width="0.75" stroke-dasharray="2 4" />
+        <line x1="34" y1="146" x2="286" y2="146" class="stroke-stone-200 dark:stroke-stone-800/80 pointer-events-none" stroke-width="0.75" stroke-dasharray="2 4" />
+
+        <!-- Optional Entry Node: A Thought ("What if?") -->
+        <path
+          d="M 62 70 Q 105 105, 145 135"
+          class="stroke-[#ea1c24]/50 dark:stroke-[#ea1c24]/60 pointer-events-none"
+          stroke-width="1.25"
+          stroke-dasharray="3 3"
+          fill="none"
+        />
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('home-thought', $event)"
+        >
+          <!-- Invisible generous hit target to prevent any mouse flutter -->
+          <circle cx="62" cy="70" r="24" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="62"
+            cy="70"
+            r="5"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'home-thought'"
+            class="fill-white dark:fill-stone-900 stroke-stone-500 dark:stroke-stone-400 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.5"
+          />
+          <text x="62" y="46" text-anchor="middle" class="text-[11.5px] font-bold fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            A Thought
+          </text>
+          <text x="62" y="58" text-anchor="middle" class="text-[9.5px] font-semibold fill-[#ea1c24]">
+            What if?
+          </text>
+        </g>
+
+        <!-- Interconnecting Branch Triad Arcs -->
+        <path
+          d="M 248 76 C 270 140, 270 185, 248 222"
+          class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none"
+          stroke-width="1"
+          stroke-dasharray="3 3"
+          fill="none"
+        />
+        <path
+          d="M 248 222 C 185 252, 135 252, 72 222"
+          class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none"
+          stroke-width="1"
+          stroke-dasharray="3 3"
+          fill="none"
+        />
+
+        <!-- Branch Vectors from CHINTAP -->
+        <line x1="160" y1="145" x2="248" y2="76" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="145" x2="72" y2="222" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="145" x2="248" y2="222" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+
+        <!-- Branch 1: THINGS -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('home-things', $event)"
+        >
+          <circle cx="248" cy="76" r="26" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="248"
+            cy="76"
+            r="8"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'home-things'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="248" cy="76" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="248" y="98" text-anchor="middle" class="text-[13.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Things
+          </text>
+          <text x="248" y="112" text-anchor="middle" class="text-[10px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            Physical products
+          </text>
+        </g>
+
+        <!-- Branch 2: APPS -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('home-apps', $event)"
+        >
+          <circle cx="72" cy="222" r="26" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="72"
+            cy="222"
+            r="8"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'home-apps'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="72" cy="222" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="72" y="244" text-anchor="middle" class="text-[13.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Apps
+          </text>
+          <text x="72" y="258" text-anchor="middle" class="text-[10px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            Purposeful software
+          </text>
+        </g>
+
+        <!-- Branch 3: POSSIBILITIES -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('home-possibilities', $event)"
+        >
+          <circle cx="248" cy="222" r="26" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="248"
+            cy="222"
+            r="8"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'home-possibilities'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="248" cy="222" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="248" y="244" text-anchor="middle" class="text-[13.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Possibilities
+          </text>
+          <text x="248" y="258" text-anchor="middle" class="text-[10px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            The undefined
+          </text>
+        </g>
+
+        <!-- Central CHINTAP Nucleus -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('home-chintap', $event)"
+        >
+          <circle cx="160" cy="144" r="28" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="144" r="20" fill="url(#beaconGlowHome)" class="beacon-pulse pointer-events-none" />
+          <circle cx="160" cy="144" r="14" class="stroke-[#ea1c24]/40 fill-none pointer-events-none" stroke-width="1" stroke-dasharray="2 3" />
+          <circle cx="160" cy="144" r="8" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm pointer-events-none" stroke-width="2" />
+          <text
+            x="160"
+            y="172"
+            text-anchor="middle"
+            font-family="var(--font-brand)"
+            style="font-family: var(--font-brand) !important; font-weight: 800 !important;"
+            class="font-brand text-[17px] font-extrabold tracking-tight select-none"
+          >
+            <tspan class="fill-stone-900 dark:fill-white">chin</tspan><tspan class="fill-[#ea1c24]">tap</tspan>
+          </text>
+          <text x="160" y="186" text-anchor="middle" class="text-[9.5px] font-semibold tracking-wider fill-stone-600 dark:fill-stone-300">
+            Things · Apps · Possibilities
+          </text>
+        </g>
+
+        <!-- Authoritative Supporting Line -->
+        <text x="160" y="304" text-anchor="middle" class="text-[10px] font-medium tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          An idea doesn't have to know what it will become
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- 2. HOW WE WORK: The Learning Loop (Authoritative Brief)         -->
+    <!-- =============================================================== -->
+    @case ('how-we-work') {
+      <svg
+        viewBox="0 0 320 320"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="The Learning Loop: Explore, Make, Learn, and Rethink around The Right Thing for the Job"
+      >
+        <title>The Learning Loop</title>
+        <desc>Iterative learning loop showing Explore, Make, Learn, and Rethink cycling around the central goal of building the right thing for the job</desc>
+
+        <path
+          d="M 14 24 L 14 14 L 24 14 M 296 14 L 306 14 L 306 24 M 306 296 L 306 306 L 296 306 M 24 306 L 14 306 L 14 296"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1.25"
+          fill="none"
+        />
+        <text x="16" y="24" class="text-[10px] font-semibold tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          The Learning Loop
+        </text>
+        <text x="304" y="24" text-anchor="end" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          Four Guiding Principles
+        </text>
+
+        <!-- Circular Iterative Flow Perimeter (Continuous Learning Loop) -->
+        <circle cx="160" cy="160" r="92" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1.25" stroke-dasharray="3 3" fill="none" />
+
+        <!-- Radial Connectors to Center -->
+        <line x1="160" y1="68" x2="160" y2="160" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" />
+        <line x1="252" y1="160" x2="160" y2="160" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" />
+        <line x1="160" y1="252" x2="160" y2="160" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" />
+        <line x1="68" y1="160" x2="160" y2="160" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" />
+
+        <!-- Stage 1: EXPLORE (Top) -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('hww-explore', $event)"
+        >
+          <circle cx="160" cy="68" r="24" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="160"
+            cy="68"
+            r="7.5"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'hww-explore'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="160" cy="68" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="160" y="50" text-anchor="middle" class="text-[13px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Explore
+          </text>
+          <text x="160" y="86" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            Understand &amp; question
+          </text>
+        </g>
+
+        <!-- Stage 2: MAKE (Right) -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('hww-make', $event)"
+        >
+          <circle cx="252" cy="160" r="24" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="252"
+            cy="160"
+            r="7.5"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'hww-make'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="252" cy="160" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="252" y="178" text-anchor="middle" class="text-[13px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Make
+          </text>
+          <text x="252" y="192" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            Prototype &amp; learn
+          </text>
+        </g>
+
+        <!-- Stage 3: LEARN (Bottom) -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('hww-learn', $event)"
+        >
+          <circle cx="160" cy="252" r="24" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="160"
+            cy="252"
+            r="7.5"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'hww-learn'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="160" cy="252" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="160" y="274" text-anchor="middle" class="text-[13px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Learn
+          </text>
+          <text x="160" y="238" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            See what works
+          </text>
+        </g>
+
+        <!-- Stage 4: RETHINK (Left) -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('hww-rethink', $event)"
+        >
+          <circle cx="68" cy="160" r="24" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="68"
+            cy="160"
+            r="7.5"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'hww-rethink'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="68" cy="160" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="68" y="142" text-anchor="middle" class="text-[13px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Rethink
+          </text>
+          <text x="68" y="180" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            Refine or simplify
+          </text>
+        </g>
+
+        <!-- Central Anchor: THE RIGHT THING FOR THE JOB -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('hww-right-thing', $event)"
+        >
+          <circle cx="160" cy="160" r="26" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="160" r="16" class="fill-[#ea1c24]/10 stroke-[#ea1c24]/40 pointer-events-none" stroke-width="1" stroke-dasharray="2 2" />
+          <circle cx="160" cy="160" r="7" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm pointer-events-none" stroke-width="1.75" />
+          <text x="160" y="136" text-anchor="middle" class="font-brand text-[12.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            The Right Thing
+          </text>
+          <text x="160" y="184" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-400">
+            for the job
+          </text>
+        </g>
+
+        <!-- Authoritative Supporting Line -->
+        <text x="160" y="304" text-anchor="middle" class="text-[10px] font-medium tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          Progress means getting closer to a useful result
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- 3. WHAT WE DO: Let Problem Choose Form (Authoritative Brief)    -->
+    <!-- =============================================================== -->
+    @case ('what-we-do') {
+      <svg
+        viewBox="0 0 320 320"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="Let the Problem Choose the Form: Diverging paths converging on What Makes Sense"
+      >
+        <title>Let the Problem Choose the Form</title>
+        <desc>Graph tracing from problem/possibility through physical, software, combination, and alternative approaches to what makes sense</desc>
+
+        <path
+          d="M 14 24 L 14 14 L 24 14 M 296 14 L 306 14 L 306 24 M 306 296 L 306 306 L 296 306 M 24 306 L 14 306 L 14 296"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1.25"
+          fill="none"
+        />
+        <text x="16" y="24" class="text-[10px] font-semibold tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          Choose the Form
+        </text>
+        <text x="304" y="24" text-anchor="end" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          What we do
+        </text>
+
+        <!-- Diverging Paths from Problem -->
+        <path d="M 55 160 C 95 160, 115 72, 160 72" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" fill="none" />
+        <path d="M 55 160 C 95 160, 115 128, 160 128" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" fill="none" />
+        <path d="M 55 160 C 95 160, 115 192, 160 192" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" fill="none" />
+        <path d="M 55 160 C 95 160, 115 248, 160 248" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" fill="none" />
+
+        <!-- Converging Paths to What Makes Sense -->
+        <path d="M 160 72 C 205 72, 225 160, 265 160" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" fill="none" />
+        <path d="M 160 128 C 205 128, 225 160, 265 160" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" fill="none" />
+        <path d="M 160 192 C 205 192, 225 160, 265 160" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" fill="none" />
+        <path d="M 160 248 C 205 248, 225 160, 265 160" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" fill="none" />
+
+        <!-- Origin Node: THE PROBLEM / THE POSSIBILITY -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('wwd-problem', $event)"
+        >
+          <circle cx="55" cy="160" r="24" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="55"
+            cy="160"
+            r="7.5"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'wwd-problem'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="55" cy="160" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="55" y="140" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            The Problem
+          </text>
+          <text x="55" y="182" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            Starting point
+          </text>
+        </g>
+
+        <!-- 4 Paths -->
+        <!-- Path 1: A PHYSICAL THING -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('wwd-physical', $event)"
+        >
+          <circle cx="160" cy="72" r="22" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="160"
+            cy="72"
+            r="6.5"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'wwd-physical'"
+            class="fill-white dark:fill-stone-900 stroke-stone-700 dark:stroke-stone-300 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.5"
+          />
+          <text x="160" y="58" text-anchor="middle" class="text-[11px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            A physical thing
+          </text>
+          <text x="160" y="87" text-anchor="middle" class="text-[9px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            Use · Hold · Experience
+          </text>
+        </g>
+
+        <!-- Path 2: SOFTWARE -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('wwd-software', $event)"
+        >
+          <circle cx="160" cy="128" r="22" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="160"
+            cy="128"
+            r="6.5"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'wwd-software'"
+            class="fill-white dark:fill-stone-900 stroke-stone-700 dark:stroke-stone-300 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.5"
+          />
+          <text x="160" y="116" text-anchor="middle" class="text-[11px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Software
+          </text>
+          <text x="160" y="143" text-anchor="middle" class="text-[9px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            Clear purpose
+          </text>
+        </g>
+
+        <!-- Path 3: A COMBINATION -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('wwd-combination', $event)"
+        >
+          <circle cx="160" cy="192" r="22" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="160"
+            cy="192"
+            r="6.5"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'wwd-combination'"
+            class="fill-white dark:fill-stone-900 stroke-stone-700 dark:stroke-stone-300 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.5"
+          />
+          <text x="160" y="180" text-anchor="middle" class="text-[11px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            A combination
+          </text>
+          <text x="160" y="207" text-anchor="middle" class="text-[9px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            Physical + digital
+          </text>
+        </g>
+
+        <!-- Path 4: ANOTHER APPROACH -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('wwd-another', $event)"
+        >
+          <circle cx="160" cy="248" r="22" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="160"
+            cy="248"
+            r="6.5"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'wwd-another'"
+            class="fill-white dark:fill-stone-900 stroke-stone-700 dark:stroke-stone-300 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.5"
+          />
+          <text x="160" y="236" text-anchor="middle" class="text-[11px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Another approach
+          </text>
+          <text x="160" y="263" text-anchor="middle" class="text-[9px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            Re-examine framing
+          </text>
+        </g>
+
+        <!-- Destination Node: WHAT MAKES SENSE? -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('wwd-makes-sense', $event)"
+        >
+          <circle cx="265" cy="160" r="26" class="fill-transparent" pointer-events="all" />
+          <circle cx="265" cy="160" r="14" class="fill-[#ea1c24]/10 stroke-[#ea1c24]/40 pointer-events-none" stroke-width="1" stroke-dasharray="2 2" />
+          <circle cx="265" cy="160" r="7" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm pointer-events-none" stroke-width="1.75" />
+          <text x="265" y="138" text-anchor="middle" class="text-[12px] font-bold fill-[#ea1c24]">
+            What Makes
+          </text>
+          <text x="265" y="150" text-anchor="middle" class="text-[12px] font-bold fill-[#ea1c24]">
+            Sense?
+          </text>
+          <text x="265" y="182" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300">
+            The right form
+          </text>
+        </g>
+
+        <!-- Authoritative Supporting Line -->
+        <text x="160" y="304" text-anchor="middle" class="text-[10px] font-medium tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          The form should follow the function, not the other way around
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- 4. EXPLORATIONS: Open Questions (Authoritative Brief)           -->
+    <!-- =============================================================== -->
+    @case ('explorations') {
+      <svg
+        viewBox="0 0 320 320"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="Open Questions: Inquiries worth following branching into open endpoints"
+      >
+        <title>Open Questions</title>
+        <desc>Branching map from questions worth following through five inquiries into open endpoints</desc>
+
+        <path
+          d="M 14 24 L 14 14 L 24 14 M 296 14 L 306 14 L 306 24 M 306 296 L 306 306 L 296 306 M 24 306 L 14 306 L 14 296"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1.25"
+          fill="none"
+        />
+        <text x="16" y="24" class="text-[10px] font-semibold tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          Open Questions
+        </text>
+        <text x="304" y="24" text-anchor="end" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          Explorations
+        </text>
+
+        <!-- Branching Lines from Questions Worth Following -->
+        <line x1="68" y1="160" x2="165" y2="68" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" />
+        <line x1="68" y1="160" x2="185" y2="114" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" />
+        <line x1="68" y1="160" x2="160" y2="160" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" />
+        <line x1="68" y1="160" x2="185" y2="206" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" />
+        <line x1="68" y1="160" x2="165" y2="252" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" />
+
+        <!-- Open-ended Dashed Extensions to Endpoints -->
+        <line x1="165" y1="68" x2="268" y2="56" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" stroke-dasharray="2 3" />
+        <line x1="185" y1="114" x2="282" y2="110" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" stroke-dasharray="2 3" />
+        <line x1="185" y1="206" x2="282" y2="210" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" stroke-dasharray="2 3" />
+        <line x1="165" y1="252" x2="268" y2="264" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" stroke-dasharray="2 3" />
+
+        <!-- Root Node: QUESTIONS WORTH FOLLOWING -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('exp-questions', $event)"
+        >
+          <circle cx="68" cy="160" r="24" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="68"
+            cy="160"
+            r="7.5"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'exp-questions'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="68" cy="160" r="2.5" class="fill-[#ea1c24]" />
+          <text x="68" y="140" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Questions
+          </text>
+          <text x="68" y="182" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            worth following
+          </text>
+        </g>
+
+        <!-- 5 Content Inquiry Nodes -->
+        <g class="cursor-pointer group/node" (click)="selectNode('exp-growing', $event)">
+          <circle cx="165" cy="68" r="20" class="fill-transparent" pointer-events="all" />
+          <circle cx="165" cy="68" r="6" class="fill-white dark:fill-stone-900 stroke-stone-700 dark:stroke-stone-300 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.5" />
+          <text x="165" y="54" text-anchor="middle" class="text-[10px] font-semibold fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Growing together
+          </text>
+        </g>
+
+        <g class="cursor-pointer group/node" (click)="selectNode('exp-habits', $event)">
+          <circle cx="185" cy="114" r="20" class="fill-transparent" pointer-events="all" />
+          <circle cx="185" cy="114" r="6" class="fill-white dark:fill-stone-900 stroke-stone-700 dark:stroke-stone-300 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.5" />
+          <text x="185" y="102" text-anchor="middle" class="text-[10px] font-semibold fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Small habits
+          </text>
+        </g>
+
+        <g class="cursor-pointer group/node" (click)="selectNode('exp-conversations', $event)">
+          <circle cx="160" cy="160" r="20" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="160" r="6" class="fill-white dark:fill-stone-900 stroke-stone-700 dark:stroke-stone-300 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.5" />
+          <text x="160" y="148" text-anchor="middle" class="text-[10px] font-semibold fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Better conversations
+          </text>
+        </g>
+
+        <g class="cursor-pointer group/node" (click)="selectNode('exp-everyday', $event)">
+          <circle cx="185" cy="206" r="20" class="fill-transparent" pointer-events="all" />
+          <circle cx="185" cy="206" r="6" class="fill-white dark:fill-stone-900 stroke-stone-700 dark:stroke-stone-300 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.5" />
+          <text x="185" y="224" text-anchor="middle" class="text-[10px] font-semibold fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Everyday life easier
+          </text>
+        </g>
+
+        <g class="cursor-pointer group/node" (click)="selectNode('exp-connections', $event)">
+          <circle cx="165" cy="252" r="20" class="fill-transparent" pointer-events="all" />
+          <circle cx="165" cy="252" r="6" class="fill-white dark:fill-stone-900 stroke-stone-700 dark:stroke-stone-300 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.5" />
+          <text x="165" y="270" text-anchor="middle" class="text-[10px] font-semibold fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Unexpected connections
+          </text>
+        </g>
+
+        <!-- Open Endpoints (Open circles showing unfinalized explorations) -->
+        <g class="cursor-pointer group/node" (click)="selectNode('exp-question', $event)">
+          <circle cx="268" cy="56" r="16" class="fill-transparent" pointer-events="all" />
+          <circle cx="268" cy="56" r="4.5" class="fill-none stroke-stone-400 dark:stroke-stone-500 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.2" stroke-dasharray="2 2" />
+          <text x="275" y="59" text-anchor="start" class="text-[8.5px] font-medium fill-stone-600 dark:fill-stone-400 group-hover/node:fill-[#ea1c24] transition-colors duration-200">A question</text>
+        </g>
+        <g class="cursor-pointer group/node" (click)="selectNode('exp-experiment', $event)">
+          <circle cx="282" cy="110" r="16" class="fill-transparent" pointer-events="all" />
+          <circle cx="282" cy="110" r="4.5" class="fill-none stroke-stone-400 dark:stroke-stone-500 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.2" stroke-dasharray="2 2" />
+          <text x="289" y="113" text-anchor="start" class="text-[8.5px] font-medium fill-stone-600 dark:fill-stone-400 group-hover/node:fill-[#ea1c24] transition-colors duration-200">An experiment</text>
+        </g>
+        <g class="cursor-pointer group/node" (click)="selectNode('exp-concept', $event)">
+          <circle cx="282" cy="210" r="16" class="fill-transparent" pointer-events="all" />
+          <circle cx="282" cy="210" r="4.5" class="fill-none stroke-stone-400 dark:stroke-stone-500 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.2" stroke-dasharray="2 2" />
+          <text x="289" y="213" text-anchor="start" class="text-[8.5px] font-medium fill-stone-600 dark:fill-stone-400 group-hover/node:fill-[#ea1c24] transition-colors duration-200">A concept</text>
+        </g>
+        <g class="cursor-pointer group/node" (click)="selectNode('exp-direction', $event)">
+          <circle cx="268" cy="264" r="16" class="fill-transparent" pointer-events="all" />
+          <circle cx="268" cy="264" r="4.5" class="fill-none stroke-stone-400 dark:stroke-stone-500 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.2" stroke-dasharray="2 2" />
+          <text x="275" y="267" text-anchor="start" class="text-[8.5px] font-medium fill-stone-600 dark:fill-stone-400 group-hover/node:fill-[#ea1c24] transition-colors duration-200">New direction</text>
+        </g>
+
+        <!-- Authoritative Supporting Line -->
+        <text x="160" y="304" text-anchor="middle" class="text-[10px] font-medium tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          An exploration is a question worth spending time with
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- 5. PARTNERS: Different Strengths, Shared Possibilities          -->
+    <!-- =============================================================== -->
+    @case ('partners') {
+      <svg
+        viewBox="0 0 320 320"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="Different Strengths, Shared Possibilities: Partnership ecosystem with Chintap, MockWin, and Figcube"
+      >
+        <title>Different Strengths, Shared Possibilities</title>
+        <desc>Bilateral network connecting different strengths and shared possibilities with Chintap, MockWin, and Figcube</desc>
+
+        <path
+          d="M 14 24 L 14 14 L 24 14 M 296 14 L 306 14 L 306 24 M 306 296 L 306 306 L 296 306 M 24 306 L 14 306 L 14 296"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1.25"
+          fill="none"
+        />
+        <text x="18" y="24" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          Shared Possibilities
+        </text>
+        <text x="302" y="24" text-anchor="end" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          Partners
+        </text>
+
+        <!-- Main Connectors -->
+        <line x1="72" y1="95" x2="248" y2="95" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="72" y1="95" x2="160" y2="155" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" />
+        <line x1="248" y1="95" x2="160" y2="155" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" />
+        <line x1="160" y1="155" x2="82" y2="240" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" />
+        <line x1="160" y1="155" x2="238" y2="240" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" />
+
+        <!-- Node 1: DIFFERENT STRENGTHS -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('part-strengths', $event)"
+        >
+          <circle cx="72" cy="95" r="24" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="72"
+            cy="95"
+            r="8"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'part-strengths'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="72" cy="95" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="72" y="72" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Different Strengths
+          </text>
+          <text x="72" y="117" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-500 dark:fill-stone-400 group-hover/node:fill-stone-700 dark:group-hover/node:fill-stone-300 transition-colors duration-200">
+            Creative · Practical
+          </text>
+        </g>
+
+        <!-- Node 2: SHARED POSSIBILITY -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('part-possibility', $event)"
+        >
+          <circle cx="248" cy="95" r="24" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="248"
+            cy="95"
+            r="8"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'part-possibility'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="248" cy="95" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="248" y="72" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Shared Possibility
+          </text>
+          <text x="248" y="117" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-500 dark:fill-stone-400 group-hover/node:fill-stone-700 dark:group-hover/node:fill-stone-300 transition-colors duration-200">
+            Worthwhile effort
+          </text>
+        </g>
+
+        <!-- Central Node: CHINTAP — MAKE IT MAKE SENSE -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('part-chintap', $event)"
+        >
+          <circle cx="160" cy="155" r="26" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="155" r="16" class="fill-[#ea1c24]/10 stroke-[#ea1c24]/40 pointer-events-none" stroke-width="1" stroke-dasharray="2 2" />
+          <circle cx="160" cy="155" r="7.5" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm pointer-events-none" stroke-width="1.75" />
+          <text
+            x="160"
+            y="180"
+            text-anchor="middle"
+            font-family="var(--font-brand)"
+            style="font-family: var(--font-brand) !important; font-weight: 800 !important;"
+            class="font-brand text-[15.5px] font-extrabold tracking-tight select-none"
+          >
+            <tspan class="fill-stone-900 dark:fill-white">chin</tspan><tspan class="fill-[#ea1c24]">tap</tspan>
+          </text>
+          <text x="160" y="193" text-anchor="middle" class="text-[9.5px] font-semibold fill-stone-500 dark:fill-stone-400">
+            Make it make sense
+          </text>
+        </g>
+
+        <!-- Partner 1: MOCKWIN -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('part-mockwin', $event)"
+        >
+          <circle cx="82" cy="240" r="24" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="82"
+            cy="240"
+            r="7.5"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'part-mockwin'"
+            class="fill-white dark:fill-stone-900 stroke-[#ea1c24] group-hover/node:stroke-[#d0171e] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <text x="82" y="260" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            MockWin
+          </text>
+          <text x="82" y="272" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-500 dark:fill-stone-400 group-hover/node:fill-stone-700 dark:group-hover/node:fill-stone-300 transition-colors duration-200">
+            Evaluation &amp; depth
+          </text>
+        </g>
+
+        <!-- Partner 2: FIGCUBE -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('part-figcube', $event)"
+        >
+          <circle cx="238" cy="240" r="24" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="238"
+            cy="240"
+            r="7.5"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'part-figcube'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <text x="238" y="260" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Figcube
+          </text>
+          <text x="238" y="272" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-500 dark:fill-stone-400 group-hover/node:fill-stone-700 dark:group-hover/node:fill-stone-300 transition-colors duration-200">
+            Digital products
+          </text>
+        </g>
+
+        <!-- Authoritative Supporting Line -->
+        <text x="160" y="306" text-anchor="middle" class="text-[10px] font-medium tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          A useful connection begins with a reason to work together
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- CUSTOMERS: Good Conversations & Client Engagements             -->
+    <!-- =============================================================== -->
+    @case ('customers') {
+      <svg
+        viewBox="0 0 320 320"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="Customers Graph: Good conversations, shared context, and client engagements around Chintap"
+      >
+        <!-- Background Radial Grid Circles -->
+        <circle cx="160" cy="155" r="55" class="stroke-stone-200/70 dark:stroke-stone-800/80 fill-none" stroke-width="1" stroke-dasharray="3 3" />
+        <circle cx="160" cy="155" r="95" class="stroke-stone-200/50 dark:stroke-stone-800/60 fill-none" stroke-width="1" />
+
+        <!-- Connecting Lines -->
+        <line x1="160" y1="155" x2="76" y2="95" class="stroke-stone-300 dark:stroke-stone-700" stroke-width="1.5" />
+        <line x1="160" y1="155" x2="244" y2="95" class="stroke-stone-300 dark:stroke-stone-700" stroke-width="1.5" />
+        <line x1="160" y1="155" x2="160" y2="245" class="stroke-[#ea1c24]/60 dark:stroke-[#ea1c24]/50" stroke-width="1.75" stroke-dasharray="4 2" />
+
+        <!-- Node 1: GOOD CONVERSATIONS -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('cust-conversation', $event)"
+        >
+          <circle cx="76" cy="95" r="24" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="76"
+            cy="95"
+            r="8"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'cust-conversation'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="76" cy="95" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="76" y="72" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Conversations
+          </text>
+          <text x="76" y="117" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-500 dark:fill-stone-400 group-hover/node:fill-stone-700 dark:group-hover/node:fill-stone-300 transition-colors duration-200">
+            Context · Clarity
+          </text>
+        </g>
+
+        <!-- Node 2: TRUST & DISCRETION -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('cust-discretion', $event)"
+        >
+          <circle cx="244" cy="95" r="24" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="244"
+            cy="95"
+            r="8"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'cust-discretion'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="244" cy="95" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="244" y="72" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Trust &amp; Discretion
+          </text>
+          <text x="244" y="117" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-500 dark:fill-stone-400 group-hover/node:fill-stone-700 dark:group-hover/node:fill-stone-300 transition-colors duration-200">
+            Work that matters
+          </text>
+        </g>
+
+        <!-- Central Node: CHINTAP -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('cust-chintap', $event)"
+        >
+          <circle cx="160" cy="155" r="26" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="155" r="16" class="fill-[#ea1c24]/10 stroke-[#ea1c24]/40 pointer-events-none" stroke-width="1" stroke-dasharray="2 2" />
+          <circle cx="160" cy="155" r="7.5" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm pointer-events-none" stroke-width="1.75" />
+          <text
+            x="160"
+            y="180"
+            text-anchor="middle"
+            font-family="var(--font-brand)"
+            style="font-family: var(--font-brand) !important; font-weight: 800 !important;"
+            class="font-brand text-[15.5px] font-extrabold tracking-tight select-none"
+          >
+            <tspan class="fill-stone-900 dark:fill-white">chin</tspan><tspan class="fill-[#ea1c24]">tap</tspan>
+          </text>
+          <text x="160" y="193" text-anchor="middle" class="text-[9.5px] font-semibold fill-stone-500 dark:fill-stone-400">
+            Good conversations
+          </text>
+        </g>
+
+        <!-- Customer Node: ASTAR ELECTRICALS -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('cust-astar', $event)"
+        >
+          <circle cx="160" cy="245" r="24" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="160"
+            cy="245"
+            r="8.5"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'cust-astar'"
+            class="fill-white dark:fill-stone-900 stroke-[#ea1c24] group-hover/node:stroke-[#d0171e] transition-colors duration-200"
+            stroke-width="2"
+          />
+          <circle cx="160" cy="245" r="3" class="fill-[#ea1c24]" />
+          <text x="160" y="268" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            AStar Electricals
+          </text>
+          <text x="160" y="280" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-500 dark:fill-stone-400 group-hover/node:fill-stone-700 dark:group-hover/node:fill-stone-300 transition-colors duration-200">
+            Brand &amp; Communication
+          </text>
+        </g>
+
+        <!-- Authoritative Supporting Line -->
+        <text x="160" y="306" text-anchor="middle" class="text-[10px] font-medium tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          Good work comes from good conversations
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- 6. ABOUT: Three Perspectives (Authoritative Brief)              -->
+    <!-- =============================================================== -->
+    @case ('about') {
+      <svg
+        viewBox="0 0 320 320"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="Three Perspectives: No Single Box, Explore & Make, and Work in Progress around Chintap"
+      >
+        <title>Three Perspectives</title>
+        <desc>Constellation of Chintap's three core perspectives: No Single Box, Explore & Make, and Work in Progress centered around Curiosity by Nature</desc>
+
+        <path
+          d="M 14 24 L 14 14 L 24 14 M 296 14 L 306 14 L 306 24 M 306 296 L 306 306 L 296 306 M 24 306 L 14 306 L 14 296"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1.25"
+          fill="none"
+        />
+        <text x="16" y="24" class="text-[10px] font-semibold tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          Chintap Philosophy
+        </text>
+        <text x="276" y="24" text-anchor="end" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          Three Perspectives
+        </text>
+
+        <!-- Outer Relational Constellation Triangle -->
+        <line x1="160" y1="66" x2="244" y2="224" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" stroke-dasharray="3 3" />
+        <line x1="244" y1="224" x2="76" y2="224" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" stroke-dasharray="3 3" />
+        <line x1="76" y1="224" x2="160" y2="66" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" stroke-dasharray="3 3" />
+
+        <!-- Radial Connectors from Center Anchor -->
+        <line x1="160" y1="146" x2="160" y2="66" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="146" x2="244" y2="224" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="146" x2="76" y2="224" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+
+        <!-- Perspective 01: NO SINGLE BOX (Top) -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('abt-no-box', $event)"
+        >
+          <circle cx="160" cy="66" r="28" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="160"
+            cy="66"
+            r="8"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'abt-no-box'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="160" cy="66" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="160" y="48" text-anchor="middle" class="text-[13.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            No Single Box
+          </text>
+          <text x="160" y="86" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            01 · Beyond categories
+          </text>
+        </g>
+
+        <!-- Perspective 02: EXPLORE & MAKE (Bottom-Right) -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('abt-explore-make', $event)"
+        >
+          <circle cx="244" cy="224" r="28" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="244"
+            cy="224"
+            r="8"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'abt-explore-make'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="244" cy="224" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="244" y="246" text-anchor="middle" class="text-[13.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Explore &amp; Make
+          </text>
+          <text x="244" y="260" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            02 · Practical curiosity
+          </text>
+        </g>
+
+        <!-- Perspective 03: WORK IN PROGRESS (Bottom-Left) -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('abt-work-in-progress', $event)"
+        >
+          <circle cx="76" cy="224" r="28" class="fill-transparent" pointer-events="all" />
+          <circle
+            cx="76"
+            cy="224"
+            r="8"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'abt-work-in-progress'"
+            class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
+            stroke-width="1.75"
+          />
+          <circle cx="76" cy="224" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="76" y="246" text-anchor="middle" class="text-[13.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Work in Progress
+          </text>
+          <text x="76" y="260" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
+            03 · Open by design
+          </text>
+        </g>
+
+        <!-- Central Anchor: CHINTAP -->
+        <g
+          class="cursor-pointer group/node"
+          (click)="selectNode('abt-chintap', $event)"
+        >
+          <circle cx="160" cy="146" r="28" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="146" r="18" class="fill-[#ea1c24]/10 stroke-[#ea1c24]/40 pointer-events-none" stroke-width="1" stroke-dasharray="2 2" />
+          <circle
+            cx="160"
+            cy="146"
+            r="8"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'abt-chintap'"
+            class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm pointer-events-none"
+            stroke-width="2"
+          />
+          <text
+            x="160"
+            y="172"
+            text-anchor="middle"
+            font-family="var(--font-brand)"
+            style="font-family: var(--font-brand) !important; font-weight: 800 !important;"
+            class="font-brand text-[17px] font-extrabold tracking-tight select-none"
+          >
+            <tspan class="fill-stone-900 dark:fill-white">chin</tspan><tspan class="fill-[#ea1c24]">tap</tspan>
+          </text>
+          <text x="160" y="186" text-anchor="middle" class="text-[9.5px] font-semibold tracking-wider fill-stone-600 dark:fill-stone-300">
+            Curious by nature
+          </text>
+        </g>
+
+        <!-- Authoritative Supporting Line -->
+        <text x="160" y="304" text-anchor="middle" class="text-[10px] font-medium tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          Follow a worthwhile idea · Don't force a predefined category
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- 7. BUILDING TEAMS: Build Around the Work (Authoritative Brief)   -->
+    <!-- =============================================================== -->
+    @case ('building-teams') {
+      <svg
+        viewBox="0 0 320 320"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="Build Around the Work: Sequential progression and feedback loop with MockWin partner integration"
+      >
+        <title>Build Around the Work</title>
+        <desc>Process sequence from work to be done through capabilities, people, shared way of working, and growing capability</desc>
+
+        <path
+          d="M 14 24 L 14 14 L 24 14 M 296 14 L 306 14 L 306 24 M 306 296 L 306 306 L 296 306 M 24 306 L 14 306 L 14 296"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1.25"
+          fill="none"
+        />
+        <text x="18" y="24" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          Build Around the Work
+        </text>
+        <text x="302" y="24" text-anchor="end" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          Teams
+        </text>
+
+        <!-- Sequential Flow Lines -->
+        <line x1="58" y1="90" x2="160" y2="68" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="68" x2="262" y2="90" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="262" y1="90" x2="240" y2="215" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="240" y1="215" x2="80" y2="215" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+
+        <!-- Feedback Loop: from Way of Working back to Work to be Done -->
+        <path
+          d="M 80 215 C 38 180, 38 120, 58 90"
+          class="stroke-[#ea1c24]/50 dark:stroke-[#ea1c24]/60 pointer-events-none"
+          stroke-width="1.25"
+          stroke-dasharray="3 3"
+          fill="none"
+        />
+
+        <!-- Connectors to MockWin in center -->
+        <line x1="160" y1="68" x2="160" y2="150" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" stroke-dasharray="2 2" />
+        <line x1="240" y1="215" x2="160" y2="150" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" stroke-dasharray="2 2" />
+
+        <!-- Step 1: THE WORK TO BE DONE -->
+        <g class="cursor-pointer group/node" (click)="selectNode('teams-work', $event)">
+          <circle cx="58" cy="90" r="24" class="fill-transparent" pointer-events="all" />
+          <circle cx="58" cy="90" r="7.5" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="58" cy="90" r="2" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="58" y="72" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            The Work
+          </text>
+          <text x="58" y="112" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-500 dark:fill-stone-400 group-hover/node:fill-stone-700 dark:group-hover/node:fill-stone-300 transition-colors duration-200">
+            To be done
+          </text>
+        </g>
+
+        <!-- Step 2: CAPABILITIES NEEDED -->
+        <g class="cursor-pointer group/node" (click)="selectNode('teams-capabilities', $event)">
+          <circle cx="160" cy="68" r="24" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="68" r="7" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <text x="160" y="52" text-anchor="middle" class="text-[11.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Capabilities Needed
+          </text>
+        </g>
+
+        <!-- Step 3: PEOPLE & TEAM -->
+        <g class="cursor-pointer group/node" (click)="selectNode('teams-people', $event)">
+          <circle cx="262" cy="90" r="24" class="fill-transparent" pointer-events="all" />
+          <circle cx="262" cy="90" r="7.5" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="262" cy="90" r="2" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="262" y="72" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            People &amp; Team
+          </text>
+          <text x="262" y="112" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-500 dark:fill-stone-400 group-hover/node:fill-stone-700 dark:group-hover/node:fill-stone-300 transition-colors duration-200">
+            Shared direction
+          </text>
+        </g>
+
+        <!-- Step 4: SHARED WAY OF WORKING -->
+        <g class="cursor-pointer group/node" (click)="selectNode('teams-way', $event)">
+          <circle cx="240" cy="215" r="24" class="fill-transparent" pointer-events="all" />
+          <circle cx="240" cy="215" r="7.5" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <text x="240" y="238" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Shared Way
+          </text>
+          <text x="240" y="251" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-500 dark:fill-stone-400 group-hover/node:fill-stone-700 dark:group-hover/node:fill-stone-300 transition-colors duration-200">
+            of working
+          </text>
+        </g>
+
+        <!-- Step 5: CAPABILITY THAT CAN GROW -->
+        <g class="cursor-pointer group/node" (click)="selectNode('teams-grow', $event)">
+          <circle cx="80" cy="215" r="24" class="fill-transparent" pointer-events="all" />
+          <circle cx="80" cy="215" r="7.5" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <text x="80" y="238" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Capability
+          </text>
+          <text x="80" y="251" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-500 dark:fill-stone-400 group-hover/node:fill-stone-700 dark:group-hover/node:fill-stone-300 transition-colors duration-200">
+            that can grow
+          </text>
+        </g>
+
+        <!-- Center Partner Node: MOCKWIN -->
+        <g class="cursor-pointer group/node" (click)="selectNode('teams-mockwin', $event)">
+          <circle cx="160" cy="150" r="26" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="150" r="16" class="fill-[#ea1c24]/10 stroke-[#ea1c24]/40 pointer-events-none" stroke-width="1" stroke-dasharray="2 2" />
+          <circle cx="160" cy="150" r="7.5" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm pointer-events-none" stroke-width="1.75" />
+          <text x="160" y="174" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            MockWin
+          </text>
+          <text x="160" y="187" text-anchor="middle" class="text-[9.5px] fill-[#ea1c24] font-semibold">
+            Technical depth
+          </text>
+        </g>
+
+        <!-- Authoritative Supporting Line -->
+        <text x="160" y="306" text-anchor="middle" class="text-[10px] font-medium tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          The answers shape the team — not the other way around
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- 8. CONTACT: A Starting Point (Authoritative Brief)              -->
+    <!-- =============================================================== -->
+    @case ('contact') {
+      <svg
+        viewBox="0 0 320 320"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="A Starting Point: A Question, A Conversation, and A Possible Next Step"
+      >
+        <title>A Starting Point</title>
+        <desc>Minimal sequential pathway moving from a question through direct conversation to a possible next step</desc>
+
+        <path
+          d="M 14 24 L 14 14 L 24 14 M 296 14 L 306 14 L 306 24 M 306 296 L 306 306 L 296 306 M 24 306 L 14 306 L 14 296"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1.25"
+          fill="none"
+        />
+        <text x="18" y="24" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          A Starting Point
+        </text>
+        <text x="302" y="24" text-anchor="end" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          Conversation
+        </text>
+
+        <!-- Trajectory Vector -->
+        <line x1="60" y1="155" x2="160" y2="155" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="155" x2="260" y2="155" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+
+        <!-- Directional Flow Marks -->
+        <path d="M 108 151 L 112 155 L 108 159" class="stroke-stone-400 dark:stroke-stone-600 pointer-events-none" stroke-width="1.25" fill="none" />
+        <path d="M 208 151 L 212 155 L 208 159" class="stroke-stone-400 dark:stroke-stone-600 pointer-events-none" stroke-width="1.25" fill="none" />
+
+        <!-- Step 1: A QUESTION -->
+        <g class="cursor-pointer group/node" (click)="selectNode('cnt-question', $event)">
+          <circle cx="60" cy="155" r="24" class="fill-transparent" pointer-events="all" />
+          <circle cx="60" cy="155" r="8" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="60" cy="155" r="2" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="60" y="134" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            A Question
+          </text>
+          <text x="60" y="176" text-anchor="middle" class="text-[10px] font-medium fill-stone-500 dark:fill-stone-400 group-hover/node:fill-stone-700 dark:group-hover/node:fill-stone-300 transition-colors duration-200">
+            What if?
+          </text>
+        </g>
+
+        <!-- Step 2: A CONVERSATION (Center Highlight) -->
+        <g class="cursor-pointer group/node" (click)="selectNode('cnt-conversation', $event)">
+          <circle cx="160" cy="155" r="26" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="155" r="16" class="fill-[#ea1c24]/10 stroke-[#ea1c24]/40 pointer-events-none" stroke-width="1" stroke-dasharray="2 2" />
+          <circle cx="160" cy="155" r="8" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm pointer-events-none" stroke-width="1.75" />
+          <text x="160" y="132" text-anchor="middle" class="font-brand text-[13.5px] font-bold fill-stone-900 dark:fill-stone-100">
+            A Conversation
+          </text>
+          <text x="160" y="182" text-anchor="middle" class="text-[10.5px] font-semibold fill-[#ea1c24]">
+            hello&#64;chintap.com
+          </text>
+        </g>
+
+        <!-- Step 3: A POSSIBLE NEXT STEP -->
+        <g class="cursor-pointer group/node" (click)="selectNode('cnt-next-step', $event)">
+          <circle cx="260" cy="155" r="24" class="fill-transparent" pointer-events="all" />
+          <circle cx="260" cy="155" r="8" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="260" cy="155" r="2" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="260" y="134" text-anchor="middle" class="text-[12px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            A Next Step
+          </text>
+          <text x="260" y="176" text-anchor="middle" class="text-[10px] font-medium fill-stone-500 dark:fill-stone-400 group-hover/node:fill-stone-700 dark:group-hover/node:fill-stone-300 transition-colors duration-200">
+            Let's see
+          </text>
+        </g>
+
+        <!-- Authoritative Supporting Line -->
+        <text x="160" y="306" text-anchor="middle" class="text-[10px] font-medium tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          Let's see where the conversation leads
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- 9. HOME NARRATIVE 01: It Could Be a Thing / App                 -->
+    <!-- =============================================================== -->
+    @case ('home-thing-app') {
+      <svg
+        viewBox="0 0 320 220"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="The Idea: Physical Hardware or Purposeful Software"
+      >
+        <title>The Idea</title>
+        <path
+          d="M 12 18 L 12 10 L 20 10 M 300 10 L 308 10 L 308 18 M 308 202 L 308 210 L 300 210 M 20 210 L 12 210 L 12 202"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1"
+          fill="none"
+        />
+        <text x="16" y="18" class="text-[7.5px] font-medium tracking-wider fill-stone-500 dark:fill-stone-400">
+          01 // Architecture
+        </text>
+        <text x="304" y="18" text-anchor="end" class="text-[7.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400">
+          Form follows the idea
+        </text>
+
+        <!-- Central Idea Node -->
+        <g class="group/node">
+          <circle cx="160" cy="110" r="14" class="fill-[#ea1c24]/10 stroke-[#ea1c24]/40 transition-colors duration-200 group-hover/node:stroke-[#ea1c24]" stroke-width="1" stroke-dasharray="2 2" pointer-events="none" />
+          <circle cx="160" cy="110" r="6" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm" stroke-width="1.5" pointer-events="none" />
+          <text x="160" y="92" text-anchor="middle" class="text-[9.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            The Idea
+          </text>
+          <text x="160" y="132" text-anchor="middle" class="text-[7px] fill-stone-500 dark:fill-stone-400">
+            Form uncommitted
+          </text>
+        </g>
+
+        <!-- Vector to Physical Hardware (Left) -->
+        <line x1="160" y1="110" x2="68" y2="75" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" />
+        <g class="group/node">
+          <circle cx="68" cy="75" r="5" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.5" pointer-events="none" />
+          <circle cx="68" cy="75" r="1.5" class="fill-stone-800 dark:fill-stone-200" pointer-events="none" />
+          <text x="68" y="60" text-anchor="middle" class="text-[8.5px] font-semibold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            Physical Hardware
+          </text>
+          <text x="68" y="93" text-anchor="middle" class="text-[7px] fill-stone-500 dark:fill-stone-400">
+            Objects · Electronics
+          </text>
+        </g>
+
+        <!-- Vector to Purposeful Software (Right) -->
+        <line x1="160" y1="110" x2="252" y2="75" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" />
+        <g class="group/node">
+          <circle cx="252" cy="75" r="5" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.5" pointer-events="none" />
+          <circle cx="252" cy="75" r="1.5" class="fill-stone-800 dark:fill-stone-200" pointer-events="none" />
+          <text x="252" y="60" text-anchor="middle" class="text-[8.5px] font-semibold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            Purposeful Software
+          </text>
+          <text x="252" y="93" text-anchor="middle" class="text-[7px] fill-stone-500 dark:fill-stone-400">
+            Web · Mobile · Apps
+          </text>
+        </g>
+
+        <!-- Vector to Both (Bottom) -->
+        <line x1="160" y1="110" x2="160" y2="175" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.25" stroke-dasharray="2 3" />
+        <g class="group/node">
+          <circle cx="160" cy="175" r="5" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.5" pointer-events="none" />
+          <circle cx="160" cy="175" r="1.5" class="fill-[#ea1c24]" pointer-events="none" />
+          <text x="160" y="195" text-anchor="middle" class="text-[8.5px] font-semibold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            Connected Hybrid
+          </text>
+          <text x="160" y="206" text-anchor="middle" class="text-[7px] fill-[#ea1c24] font-medium">
+            Hardware + Software
+          </text>
+        </g>
+
+        <!-- Connecting bridge between Physical and Digital -->
+        <path d="M 68 75 Q 160 38, 252 75" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" stroke-dasharray="2 3" fill="none" />
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- 10. HOME NARRATIVE 02: So, What Could It Be?                    -->
+    <!-- =============================================================== -->
+    @case ('home-what-could-it-be') {
+      <svg
+        viewBox="0 0 320 220"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="Exploring between what if and why not"
+      >
+        <title>What Could It Be</title>
+        <path
+          d="M 12 18 L 12 10 L 20 10 M 300 10 L 308 10 L 308 18 M 308 202 L 308 210 L 300 210 M 20 210 L 12 210 L 12 202"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1"
+          fill="none"
+        />
+        <text x="16" y="18" class="text-[7.5px] font-medium tracking-wider fill-stone-500 dark:fill-stone-400">
+          02 // Exploration Space
+        </text>
+        <text x="304" y="18" text-anchor="end" class="text-[7.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400">
+          What if? ➔ Why not?
+        </text>
+
+        <!-- Exploration Path traversing from WHAT IF to WHY NOT -->
+        <path
+          d="M 44 110 C 80 60, 100 160, 150 105 C 190 60, 220 150, 276 110"
+          class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none"
+          stroke-width="1.5"
+          fill="none"
+        />
+
+        <!-- Node 1: What if? -->
+        <g class="group/node">
+          <circle cx="44" cy="110" r="5" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.5" pointer-events="none" />
+          <circle cx="44" cy="110" r="1.5" class="fill-stone-800 dark:fill-stone-200" pointer-events="none" />
+          <text x="44" y="95" text-anchor="middle" class="text-[8.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            What if?
+          </text>
+          <text x="44" y="128" text-anchor="middle" class="text-[7px] fill-stone-500 dark:fill-stone-400">
+            Problem Inquiry
+          </text>
+        </g>
+
+        <!-- Node 2: Hypothesis Testing -->
+        <g class="group/node">
+          <circle cx="106" cy="132" r="3.5" class="fill-stone-200 dark:fill-stone-800 stroke-stone-400 dark:stroke-stone-600 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1" pointer-events="none" />
+          <text x="106" y="150" text-anchor="middle" class="text-[7px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            Hypothesis Testing
+          </text>
+        </g>
+
+        <!-- Node 3: Empirical Evaluation -->
+        <g class="group/node">
+          <circle cx="150" cy="105" r="4.5" class="fill-white dark:fill-stone-900 stroke-stone-700 dark:stroke-stone-300 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.5" pointer-events="none" />
+          <circle cx="150" cy="105" r="1.5" class="fill-stone-700 dark:fill-stone-300" pointer-events="none" />
+          <text x="150" y="88" text-anchor="middle" class="text-[7.5px] font-semibold fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            Empirical Evaluation
+          </text>
+        </g>
+
+        <!-- Node 4: Why Not? -->
+        <g class="group/node">
+          <circle cx="276" cy="110" r="6" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm" stroke-width="1.75" pointer-events="none" />
+          <text x="276" y="95" text-anchor="middle" class="text-[9px] font-bold fill-[#ea1c24]">
+            Why not?
+          </text>
+          <text x="276" y="128" text-anchor="middle" class="text-[7px] fill-stone-500 dark:fill-stone-400">
+            New Direction
+          </text>
+        </g>
+
+        <!-- Footer -->
+        <text x="160" y="196" text-anchor="middle" class="text-[7.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400">
+          Between What If? and Why Not?
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- 11. HOME NARRATIVE 03: Thinking Is Only Beginning               -->
+    <!-- =============================================================== -->
+    @case ('home-thinking') {
+      <svg
+        viewBox="0 0 320 220"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="Thinking to Making: Problem framing, prototyping, evaluation, and simplest answer"
+      >
+        <title>Thinking to Making</title>
+        <path
+          d="M 12 18 L 12 10 L 20 10 M 300 10 L 308 10 L 308 18 M 308 202 L 308 210 L 300 210 M 20 210 L 12 210 L 12 202"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1"
+          fill="none"
+        />
+        <text x="16" y="18" class="text-[7.5px] font-medium tracking-wider fill-stone-500 dark:fill-stone-400">
+          03 // Iterative Cycle
+        </text>
+        <text x="304" y="18" text-anchor="end" class="text-[7.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400">
+          Thinking ➔ Making
+        </text>
+
+        <!-- Loop Path connecting iterative stages -->
+        <ellipse cx="160" cy="115" rx="105" ry="50" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" stroke-dasharray="3 3" fill="none" />
+
+        <!-- 1. Problem Framing -->
+        <g class="group/node">
+          <circle cx="85" cy="80" r="4.5" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.5" pointer-events="none" />
+          <text x="85" y="66" text-anchor="middle" class="text-[8px] font-semibold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            Problem Framing
+          </text>
+        </g>
+
+        <!-- 2. Tangible Prototyping -->
+        <g class="group/node">
+          <circle cx="235" cy="80" r="4.5" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.5" pointer-events="none" />
+          <text x="235" y="66" text-anchor="middle" class="text-[8px] font-semibold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            Tangible Prototyping
+          </text>
+        </g>
+
+        <!-- Core Outcome: Simplest Answer -->
+        <g class="group/node">
+          <circle cx="160" cy="115" r="11" class="stroke-[#ea1c24]/40 fill-none" stroke-width="1" stroke-dasharray="2 2" pointer-events="none" />
+          <circle cx="160" cy="115" r="6" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm" stroke-width="1.5" pointer-events="none" />
+          <text x="160" y="138" text-anchor="middle" class="text-[9px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            Simplest Answer
+          </text>
+        </g>
+
+        <!-- Footer -->
+        <text x="160" y="196" text-anchor="middle" class="text-[7.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400">
+          Make something we can learn from
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- 12. HOME NARRATIVE 04: That's Where Chintap Begins              -->
+    <!-- =============================================================== -->
+    @case ('home-begins') {
+      <svg
+        viewBox="0 0 320 220"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="Where Chintap Begins: Shared inquiry and technical craft"
+      >
+        <title>Where Chintap Begins</title>
+        <path
+          d="M 12 18 L 12 10 L 20 10 M 300 10 L 308 10 L 308 18 M 308 202 L 308 210 L 300 210 M 20 210 L 12 210 L 12 202"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1"
+          fill="none"
+        />
+        <text x="16" y="18" class="text-[7.5px] font-medium tracking-wider fill-stone-500 dark:fill-stone-400">
+          04 // Collaborative Origins
+        </text>
+        <text x="304" y="18" text-anchor="end" class="text-[7.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400">
+          Shared Direction
+        </text>
+
+        <!-- Dual Streams -->
+        <line x1="56" y1="85" x2="160" y2="120" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="264" y1="85" x2="160" y2="120" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+
+        <!-- Shared Inquiry (Left) -->
+        <g class="group/node">
+          <circle cx="56" cy="85" r="5.5" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.5" pointer-events="none" />
+          <circle cx="56" cy="85" r="1.5" class="fill-stone-800 dark:fill-stone-200" pointer-events="none" />
+          <text x="56" y="70" text-anchor="middle" class="text-[8.5px] font-semibold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            Shared Inquiry
+          </text>
+          <text x="56" y="104" text-anchor="middle" class="text-[7px] fill-stone-500 dark:fill-stone-400">
+            A Question
+          </text>
+        </g>
+
+        <!-- Technical Craft (Right) -->
+        <g class="group/node">
+          <circle cx="264" cy="85" r="5.5" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.5" pointer-events="none" />
+          <circle cx="264" cy="85" r="1.5" class="fill-stone-800 dark:fill-stone-200" pointer-events="none" />
+          <text x="264" y="70" text-anchor="middle" class="text-[8.5px] font-semibold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            Technical Craft
+          </text>
+          <text x="264" y="104" text-anchor="middle" class="text-[7px] fill-stone-500 dark:fill-stone-400">
+            Curiosity
+          </text>
+        </g>
+
+        <!-- Central Destination: CHINTAP -->
+        <g class="group/node">
+          <circle cx="160" cy="120" r="14" class="fill-[#ea1c24]/10 stroke-[#ea1c24]/40 transition-colors duration-200 group-hover/node:stroke-[#ea1c24]" stroke-width="1" stroke-dasharray="2 2" pointer-events="none" />
+          <circle cx="160" cy="120" r="6" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm" stroke-width="1.75" pointer-events="none" />
+          <text
+            x="160"
+            y="142"
+            text-anchor="middle"
+            font-family="var(--font-brand)"
+            style="font-family: var(--font-brand) !important; font-weight: 800 !important;"
+            class="font-brand text-[11px] font-extrabold tracking-tight select-none"
+          >
+            <tspan class="fill-stone-900 dark:fill-white">chin</tspan><tspan class="fill-[#ea1c24]">tap</tspan>
+          </text>
+        </g>
+
+        <!-- Radiating Possibility Vector -->
+        <line x1="160" y1="120" x2="160" y2="175" class="stroke-[#ea1c24] pointer-events-none" stroke-width="1.5" />
+        <circle cx="160" cy="175" r="3.5" class="fill-white dark:fill-stone-900 stroke-[#ea1c24] pointer-events-none" stroke-width="1.5" />
+        <text x="160" y="192" text-anchor="middle" class="text-[8px] font-semibold fill-stone-800 dark:fill-stone-200">
+          Useful things to make
+        </text>
+
+        <!-- Footer -->
+        <text x="160" y="208" text-anchor="middle" class="text-[7px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400">
+          Possibilities worth following
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- ACADEMY: From Ideas to Life (The Maker's Journey)               -->
+    <!-- =============================================================== -->
+    @case ('academy') {
+      <svg
+        viewBox="0 0 320 320"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="Academy by Chintap: The Maker's Journey from Ideas to Shipped Products"
+      >
+        <title>Academy by Chintap — The Maker's Journey</title>
+        <desc>Circular maker workflow connecting Imagine, Explore, Learn, Build, Test, and Launch around Academy by Chintap</desc>
+
+        <!-- Technical Framing Corners -->
+        <path
+          d="M 12 22 L 12 12 L 22 12 M 298 12 L 308 12 L 308 22 M 308 298 L 308 308 L 298 308 M 22 308 L 12 308 L 12 298"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1.25"
+          fill="none"
+        />
+
+        <!-- Restrained Header -->
+        <text x="16" y="24" class="pointer-events-none select-none">
+          <tspan
+            font-family="'Ephesis', 'Corinthia', cursive, sans-serif"
+            style="font-family: 'Ephesis', 'Corinthia', cursive, sans-serif !important;"
+            class="font-cursive text-lg font-bold fill-[#ea1c24]"
+          >Academy</tspan>
+          <tspan class="text-[9px] font-medium tracking-wide fill-stone-600 dark:fill-stone-300"> by </tspan>
+          <tspan class="font-brand text-[9.5px] font-extrabold fill-stone-900 dark:fill-stone-100">chin</tspan><tspan class="font-brand text-[9.5px] font-extrabold fill-[#ea1c24]">tap</tspan>
+        </text>
+        <text x="304" y="24" text-anchor="end" class="text-[9px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          From Ideas to Life
+        </text>
+
+        <!-- Subtle Orbital Cycle Guides -->
+        <circle cx="160" cy="160" r="100" class="stroke-stone-200 dark:stroke-stone-800/80 pointer-events-none" stroke-width="0.75" stroke-dasharray="3 4" fill="none" />
+        <line x1="160" y1="60" x2="246" y2="110" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1.25" />
+        <line x1="246" y1="110" x2="246" y2="210" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1.25" />
+        <line x1="246" y1="210" x2="160" y2="260" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1.25" />
+        <line x1="160" y1="260" x2="74" y2="210" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1.25" />
+        <line x1="74" y1="210" x2="74" y2="110" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1.25" />
+        <line x1="74" y1="110" x2="160" y2="60" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1.25" />
+
+        <!-- Radial Connectors to Center -->
+        <line x1="160" y1="60" x2="160" y2="160" class="stroke-[#ea1c24]/20 pointer-events-none" stroke-width="1" stroke-dasharray="2 3" />
+        <line x1="246" y1="110" x2="160" y2="160" class="stroke-[#ea1c24]/20 pointer-events-none" stroke-width="1" stroke-dasharray="2 3" />
+        <line x1="246" y1="210" x2="160" y2="160" class="stroke-[#ea1c24]/20 pointer-events-none" stroke-width="1" stroke-dasharray="2 3" />
+        <line x1="160" y1="260" x2="160" y2="160" class="stroke-[#ea1c24]/20 pointer-events-none" stroke-width="1" stroke-dasharray="2 3" />
+        <line x1="74" y1="210" x2="160" y2="160" class="stroke-[#ea1c24]/20 pointer-events-none" stroke-width="1" stroke-dasharray="2 3" />
+        <line x1="74" y1="110" x2="160" y2="160" class="stroke-[#ea1c24]/20 pointer-events-none" stroke-width="1" stroke-dasharray="2 3" />
+
+        <!-- 01 Imagine Node (Top) -->
+        <g class="cursor-pointer group/node" (click)="selectNode('acd-imagine', $event)">
+          <circle cx="160" cy="60" r="22" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="60" r="6" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.75" pointer-events="none" />
+          <circle cx="160" cy="60" r="1.5" class="fill-stone-800 dark:fill-stone-200" pointer-events="none" />
+          <text x="160" y="44" text-anchor="middle" class="text-[9px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            01 Imagine
+          </text>
+        </g>
+
+        <!-- 02 Explore Node (Top-Right) -->
+        <g class="cursor-pointer group/node" (click)="selectNode('acd-explore', $event)">
+          <circle cx="246" cy="110" r="22" class="fill-transparent" pointer-events="all" />
+          <circle cx="246" cy="110" r="6" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.75" pointer-events="none" />
+          <circle cx="246" cy="110" r="1.5" class="fill-stone-800 dark:fill-stone-200" pointer-events="none" />
+          <text x="256" y="106" text-anchor="start" class="text-[9px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            02 Explore
+          </text>
+        </g>
+
+        <!-- 03 Learn Node (Bottom-Right) -->
+        <g class="cursor-pointer group/node" (click)="selectNode('acd-learn', $event)">
+          <circle cx="246" cy="210" r="22" class="fill-transparent" pointer-events="all" />
+          <circle cx="246" cy="210" r="6" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.75" pointer-events="none" />
+          <circle cx="246" cy="210" r="1.5" class="fill-stone-800 dark:fill-stone-200" pointer-events="none" />
+          <text x="256" y="214" text-anchor="start" class="text-[9px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            03 Learn
+          </text>
+        </g>
+
+        <!-- 04 Build Node (Bottom) -->
+        <g class="cursor-pointer group/node" (click)="selectNode('acd-build', $event)">
+          <circle cx="160" cy="260" r="22" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="260" r="6" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.75" pointer-events="none" />
+          <circle cx="160" cy="260" r="1.5" class="fill-stone-800 dark:fill-stone-200" pointer-events="none" />
+          <text x="160" y="280" text-anchor="middle" class="text-[9px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            04 Build
+          </text>
+        </g>
+
+        <!-- 05 Test Node (Bottom-Left) -->
+        <g class="cursor-pointer group/node" (click)="selectNode('acd-test', $event)">
+          <circle cx="74" cy="210" r="22" class="fill-transparent" pointer-events="all" />
+          <circle cx="74" cy="210" r="6" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.75" pointer-events="none" />
+          <circle cx="74" cy="210" r="1.5" class="fill-stone-800 dark:fill-stone-200" pointer-events="none" />
+          <text x="64" y="214" text-anchor="end" class="text-[9px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            05 Test
+          </text>
+        </g>
+
+        <!-- 06 Launch Node (Top-Left) -->
+        <g class="cursor-pointer group/node" (click)="selectNode('acd-launch', $event)">
+          <circle cx="74" cy="110" r="22" class="fill-transparent" pointer-events="all" />
+          <circle cx="74" cy="110" r="6" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 transition-colors duration-150 group-hover/node:stroke-[#ea1c24]" stroke-width="1.75" pointer-events="none" />
+          <circle cx="74" cy="110" r="1.5" class="fill-stone-800 dark:fill-stone-200" pointer-events="none" />
+          <text x="64" y="106" text-anchor="end" class="text-[9px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-150">
+            06 Launch
+          </text>
+        </g>
+
+        <!-- Central Hub Node: Academy by Chintap -->
+        <g class="cursor-pointer group/node" (click)="selectNode('acd-center', $event)">
+          <circle cx="160" cy="160" r="28" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="160" r="16" class="fill-[#ea1c24]/10 stroke-[#ea1c24]/50 transition-colors duration-200 group-hover/node:stroke-[#ea1c24]" stroke-width="1.25" stroke-dasharray="3 3" pointer-events="none" />
+          <circle cx="160" cy="160" r="7" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm" stroke-width="2" pointer-events="none" />
+          <text
+            x="160"
+            y="190"
+            text-anchor="middle"
+            font-family="'Ephesis', 'Corinthia', cursive, sans-serif"
+            style="font-family: 'Ephesis', 'Corinthia', cursive, sans-serif !important; font-size: 26px !important; font-weight: 700 !important;"
+            class="font-cursive text-[26px] font-bold fill-[#ea1c24] group-hover/node:opacity-85 transition-all duration-150 select-none"
+          >
+            Academy
+          </text>
+        </g>
+
+        <!-- Subtitle Footer -->
+        <text x="160" y="304" text-anchor="middle" class="text-[7.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          Imagine · Explore · Learn · Build · Test · Launch
+        </text>
+      </svg>
+    }
+
+    <!-- Fallback default -->
+    @default {
+      <svg
+        viewBox="0 0 320 320"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="Chintap Relational System Graph"
+      >
+        <title>Chintap Relational System Graph</title>
+        <circle cx="160" cy="160" r="7" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900" stroke-width="2" />
+        <text
+          x="160"
+          y="182"
+          text-anchor="middle"
+          font-family="var(--font-brand)"
+          style="font-family: var(--font-brand) !important; font-weight: 800 !important;"
+          class="font-brand text-[13px] font-extrabold tracking-tight select-none"
+        >
+          <tspan class="fill-stone-900 dark:fill-white">chin</tspan><tspan class="fill-[#ea1c24]">tap</tspan>
+        </text>
+      </svg>
+    }
+  }
+</div>
