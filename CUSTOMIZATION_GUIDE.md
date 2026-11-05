@@ -280,6 +280,24 @@ Check `dist/chintap-angular-starter/browser/` to ensure all routes generated sta
 
 ---
 
+## 💸 100% Free-Tier Architecture (Zero Subscriptions, Zero Surprise Costs)
+
+This starter kit is engineered to run **entirely on permanent free tiers** with zero credit card requirements and zero paid subscriptions:
+
+| Capability | Free Tier Limit | Starter Kit Strategy |
+|---|---|---|
+| **Hosting & CDN** | 100 GB/month bandwidth | All pages pre-rendered statically (SSG). Zero server runtime cost. |
+| **Build & Deploy** | 300 build minutes/month | Optimized esbuild pipeline completes builds in under 60 seconds (~5 build minutes/month for typical workflows). |
+| **Authentication** | 1,000 active users/month | **Default**: 100% local, offline-first session state via `localStorage`. **Optional**: If you enable Netlify Identity, it runs inside Netlify's free 1,000 active users tier with zero paid plans. |
+| **Contact Forms** | 100 submissions/month | Netlify Forms handles up to 100 free submissions/month. Includes automatic client-side fallback so visitors never experience blocked submissions. |
+| **Custom Domains & SSL** | Unlimited free domains | Automated Let's Encrypt SSL certificates are provided free by Netlify with zero renewal fees. |
+| **Dependencies** | MIT / Open-Source | Zero paid SaaS SDKs, zero API keys required, and zero tracking scripts. |
+
+> [!IMPORTANT]
+> **No Paid Add-Ons**: Do NOT enable Netlify Analytics ($9/mo) or Netlify Large Media unless explicitly needed. The template includes zero paid add-ons and is 100% operational on Netlify's Free Starter Plan.
+
+---
+
 ## 🚀 One-Click Deployment
 
 ### Netlify (Recommended)

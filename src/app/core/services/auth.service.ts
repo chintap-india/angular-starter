@@ -17,6 +17,14 @@ declare global {
 
 const AUTH_STORAGE_KEY = 'chintap_auth_profile_v1';
 
+/**
+ * AuthService — 100% Free-Tier & Local-First Authentication.
+ *
+ * Designed with a ZERO-SUBSCRIPTION policy:
+ * - Default: Local browser state via localStorage with zero external network requests.
+ * - Optional: Netlify Identity integration stays strictly within Netlify's free tier
+ *   (up to 1,000 active users/month without any paid add-ons or credit cards).
+ */
 @Injectable({
   providedIn: 'root',
 })
