@@ -25,7 +25,7 @@
   <!-- Sections -->
   <div class="space-y-16 mb-20">
     @for (section of sections; track section.id) {
-      <section [id]="section.id" class="bg-white dark:bg-stone-900 rounded-3xl p-8 sm:p-10 border border-stone-200 dark:border-stone-800 shadow-sm scroll-mt-24">
+      <section [id]="section.id" class="card-hover bg-white dark:bg-stone-900 rounded-3xl p-8 sm:p-10 border border-stone-200 dark:border-stone-800 shadow-sm hover:shadow-md hover:border-stone-400 dark:hover:border-stone-600 hover:-translate-y-0.5 transition-all duration-200 scroll-mt-24">
         <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-200 text-xs font-bold font-mono">
             {{ section.pillar }}

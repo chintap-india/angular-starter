@@ -65,7 +65,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       @for (pillar of pillars; track pillar.acronym) {
-        <div class="bg-white dark:bg-stone-900 rounded-3xl p-8 border border-stone-200 dark:border-stone-800 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+        <div class="card-hover bg-white dark:bg-stone-900 rounded-3xl p-8 border border-stone-200 dark:border-stone-800 shadow-sm hover:shadow-md hover:border-stone-400 dark:hover:border-stone-600 hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-6">
               <span class="text-xs font-bold font-mono px-3 py-1 rounded-lg bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-white border border-stone-200 dark:border-stone-700">
@@ -96,7 +96,7 @@
       }
 
       <!-- 6th Card: All-in-One Config -->
-      <div class="bg-gradient-to-br from-stone-900 to-stone-800 text-white rounded-3xl p-8 shadow-md flex flex-col justify-between">
+      <div class="card-hover bg-gradient-to-br from-stone-900 to-stone-800 text-white rounded-3xl p-8 shadow-md hover:shadow-lg border border-stone-700/60 hover:border-stone-500 hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between">
         <div>
           <div class="flex items-center justify-between mb-6">
             <span class="text-xs font-bold font-mono px-3 py-1 rounded-lg bg-stone-800 text-stone-300 border border-stone-700">
@@ -141,32 +141,36 @@
       @for (faq of faqs; track faq.question) {
         <mat-expansion-panel
           [expanded]="$first"
-          class="!rounded-2xl !border !border-stone-200 dark:!border-stone-800 !bg-white dark:!bg-stone-900/90 !shadow-sm hover:!border-stone-300 dark:hover:!border-stone-700 transition-all duration-200 overflow-hidden"
+          class="card-hover !rounded-2xl !border !border-stone-200 dark:!border-stone-800 !bg-white dark:!bg-stone-900 shadow-xs hover:shadow-md hover:!border-stone-400 dark:hover:!border-stone-600 hover:-translate-y-0.5 transition-all duration-200 overflow-hidden mb-4 last:mb-0"
         >
           <mat-expansion-panel-header class="!py-4.5 !px-5 sm:!px-6">
-            <mat-panel-title class="!font-bold !text-base sm:!text-lg !text-stone-900 dark:!text-stone-100 flex flex-wrap items-center gap-2.5">
-              @if (faq.category) {
-                <span class="text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700 shrink-0">
-                  {{ faq.category }}
+            <mat-panel-title class="w-full !m-0 !overflow-visible">
+              <div class="flex flex-col items-start gap-1 py-0.5 text-left w-full pr-4">
+                @if (faq.category) {
+                  <span class="text-[11px] font-mono font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400">
+                    {{ faq.category }}
+                  </span>
+                }
+                <span class="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 leading-snug">
+                  {{ faq.question }}
                 </span>
-              }
-              <span>{{ faq.question }}</span>
+              </div>
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <div class="px-1 py-3 text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed space-y-4">
+          <div class="pt-2 pb-5 px-1 sm:px-2 text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed space-y-4">
             <p>{{ faq.answer }}</p>
 
             @if (faq.details && faq.details.length > 0) {
-              <div class="pt-3 border-t border-stone-100 dark:border-stone-800/80">
-                <ul class="grid grid-cols-1 gap-2.5">
+              <div class="pt-4 border-t border-stone-100 dark:border-stone-800/80">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   @for (detail of faq.details; track detail) {
-                    <li class="flex items-start gap-2.5 text-xs sm:text-sm text-stone-700 dark:text-stone-300">
+                    <div class="flex items-start gap-2.5 p-3 rounded-xl bg-stone-50 dark:bg-stone-800/50 border border-stone-100 dark:border-stone-800/80 text-xs sm:text-sm text-stone-700 dark:text-stone-300">
                       <mat-icon class="!text-sm !w-4 !h-4 text-emerald-500 mt-0.5 shrink-0">check_circle</mat-icon>
                       <span>{{ detail }}</span>
-                    </li>
+                    </div>
                   }
-                </ul>
+                </div>
               </div>
             }
           </div>
