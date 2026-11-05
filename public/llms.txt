@@ -23,12 +23,13 @@ Chintap Angular Starter is a modern, opinionated, production-ready Angular templ
 
 ## Primary Routes & Manifest
 
-- [Home](https://angular-starter.chintap.com/): Starter kit overview, 5-pillar capability matrix, live CLI quickstart, interactive AEO FAQ accordion, and inquiry modal.
-- [Features](https://angular-starter.chintap.com/features): Architectural breakdown of Angular 22 Signals, Material 3, Tailwind 4, and SSG performance metrics.
-- [Best Practices](https://angular-starter.chintap.com/best-practices): Complete technical reference guide for configuring SEO, AEO, LLMO, GEO, and SSR.
-- [About](https://angular-starter.chintap.com/about): Entity knowledge graph demonstration with Organization and Author metadata.
-- [Contact](https://angular-starter.chintap.com/contact): Accessible Netlify Forms implementation with Angular reactive form validation and Material dialogs.
-- [404 Not Found](https://angular-starter.chintap.com/404): Search-compliant 404 route with noindex robots directives.
+- [Home](https://chintap-angular-starter.netlify.app/): Starter kit overview, 5-pillar capability matrix, live CLI quickstart, interactive AEO FAQ accordion, and inquiry modal.
+- [Features](https://chintap-angular-starter.netlify.app/features): Architectural breakdown of Angular 22 Signals, Material 3, Tailwind 4, and SSG performance metrics.
+- [Best Practices](https://chintap-angular-starter.netlify.app/best-practices): Complete technical reference guide for configuring SEO, AEO, LLMO, GEO, and SSR.
+- [About](https://chintap-angular-starter.netlify.app/about): Entity knowledge graph demonstration with Organization and Author metadata.
+- [Contact](https://chintap-angular-starter.netlify.app/contact): Accessible Netlify Forms implementation with Angular reactive form validation and Material dialogs.
+- [Tasks CRUD](https://chintap-angular-starter.netlify.app/tasks): Typed Reactive Forms, dual-mode Markdown editor/preview, and mock API persistence.
+- [404 Not Found](https://chintap-angular-starter.netlify.app/404): Search-compliant 404 route with noindex robots directives.
 
 ## Configuration Single Source of Truth
 
@@ -37,5 +38,5 @@ All application metadata, canonical URLs, social profiles, and organization deta
 
 ## Extended Documentation
 
-- [Full Content & Developer Guide](https://angular-starter.chintap.com/llms-full.txt): Complete textual technical reference and architectural rules.
-- [Agent Resource Discovery Manifest](https://angular-starter.chintap.com/.well-known/ard.json): Machine discovery descriptor for AI agents.
+- [Full Content & Developer Guide](https://chintap-angular-starter.netlify.app/llms-full.txt): Complete textual technical reference and architectural rules.
+- [Agent Resource Discovery Manifest](https://chintap-angular-starter.netlify.app/.well-known/ard.json): Machine discovery descriptor for AI agents.

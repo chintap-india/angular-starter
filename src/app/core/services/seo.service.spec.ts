@@ -135,13 +135,13 @@ describe('SeoService', () => {
       expect(metaTags['og:description']).toBe(
         'Explore Angular 22 Signals, Material 3, Tailwind 4, and SSG features.'
       );
-      expect(metaTags['og:url']).toBe('https://angular-starter.chintap.com/features');
+      expect(metaTags['og:url']).toBe('https://chintap-angular-starter.netlify.app/features');
       expect(metaTags['og:image']).toBe(
-        'https://angular-starter.chintap.com/images/chintap-og.jpg'
+        'https://chintap-angular-starter.netlify.app/images/chintap-og.jpg'
       );
       expect(metaTags['twitter:title']).toBe('Features — Angular Starter');
       expect(metaTags['twitter:card']).toBe('summary_large_image');
-      expect(canonicalHref).toBe('https://angular-starter.chintap.com/features');
+      expect(canonicalHref).toBe('https://chintap-angular-starter.netlify.app/features');
     });
 
     it('should correctly configure social tags for root homepage', () => {
@@ -152,8 +152,8 @@ describe('SeoService', () => {
       });
 
       expect(currentTitle).toBe('Angular Starter — SEO, AEO, LLMO, GEO & SSR Ready Starter Kit');
-      expect(metaTags['og:url']).toBe('https://angular-starter.chintap.com/');
-      expect(canonicalHref).toBe('https://angular-starter.chintap.com/');
+      expect(metaTags['og:url']).toBe('https://chintap-angular-starter.netlify.app/');
+      expect(canonicalHref).toBe('https://chintap-angular-starter.netlify.app/');
     });
 
     it('should set robots meta tag and remove canonical href on noindex pages like 404', () => {
@@ -163,7 +163,7 @@ describe('SeoService', () => {
         description: 'Test page',
         url: '/about',
       });
-      expect(canonicalHref).toBe('https://angular-starter.chintap.com/about');
+      expect(canonicalHref).toBe('https://chintap-angular-starter.netlify.app/about');
       expect(metaTags['robots']).toContain('index, follow');
 
       // Now set 404 with noindex, follow
@@ -211,7 +211,7 @@ describe('SeoService', () => {
       expect(appSchema.name).toBe('Chintap Angular Starter');
       expect(appSchema.applicationCategory).toBe('DeveloperApplication');
       expect(appSchema.version).toBe('1.0.0');
-      expect((appSchema as any).softwareVersion).toBe('1.1.0');
+      expect((appSchema as any).softwareVersion).toBe(DEFAULT_SITE_CONFIG.version);
     });
   });
 });

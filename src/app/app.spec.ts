@@ -53,7 +53,7 @@ describe('App Root Component & Starter Architecture', () => {
   describe('Centralized Site Config (SITE_CONFIG)', () => {
     it('should have valid starter kit defaults configured', () => {
       expect(DEFAULT_SITE_CONFIG.name).toBe('Chintap Angular Starter');
-      expect(DEFAULT_SITE_CONFIG.baseUrl).toBe('https://angular-starter.chintap.com');
+      expect(DEFAULT_SITE_CONFIG.baseUrl).toBe('https://chintap-angular-starter.netlify.app');
       expect(DEFAULT_SITE_CONFIG.author.name).toBe('Bharath Chetty');
     });
 

@@ -2,7 +2,7 @@
 
 > **Production-grade Angular 22 starter kit with out-of-the-box best practices for SEO, AEO, LLMO, GEO, and SSR/SSG.**
 
-[![Version](https://img.shields.io/badge/version-1.1.0-10b981.svg?style=flat)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.1.1-10b981.svg?style=flat)](CHANGELOG.md)
 [![Angular](https://img.shields.io/badge/Angular-22-dd0031.svg?style=flat&logo=angular)](https://angular.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8%2B-blue.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38bdf8.svg?style=flat&logo=tailwindcss)](https://tailwindcss.com/)

@@ -3,15 +3,15 @@
   "version": "1.0",
   "provider": {
     "name": "Chintap Angular Starter",
-    "url": "https://angular-starter.chintap.com"
+    "url": "https://chintap-angular-starter.netlify.app"
   },
   "entries": [
     {
-      "identifier": "urn:air:angular-starter.chintap.com:docs:llms-txt",
+      "identifier": "urn:air:chintap-angular-starter.netlify.app:docs:llms-txt",
       "displayName": "Chintap Angular Starter LLM Context & Architecture Overview",
       "type": "text/markdown",
       "description": "Plaintext LLM and AI agent architectural overview and service summary of Chintap Angular Starter.",
-      "url": "https://angular-starter.chintap.com/llms.txt",
+      "url": "https://chintap-angular-starter.netlify.app/llms.txt",
       "representativeQueries": [
         "Chintap Angular Starter LLM context and documentation",
         "Angular 22 SEO AEO LLMO GEO starter kit overview",
@@ -19,11 +19,11 @@
       ]
     },
     {
-      "identifier": "urn:air:angular-starter.chintap.com:docs:full-contents",
+      "identifier": "urn:air:chintap-angular-starter.netlify.app:docs:full-contents",
       "displayName": "Complete Starter Kit Documentation",
       "type": "text/markdown",
       "description": "Structured Markdown containing complete text, architecture details, and developer guide.",
-      "url": "https://angular-starter.chintap.com/llms-full.txt",
+      "url": "https://chintap-angular-starter.netlify.app/llms-full.txt",
       "representativeQueries": [
         "Angular starter complete guide and code patterns",
         "Angular SEO AEO LLMO GEO best practices",

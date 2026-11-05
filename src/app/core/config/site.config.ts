@@ -61,14 +61,14 @@ export interface SiteConfig {
 }
 
 export const DEFAULT_SITE_CONFIG: SiteConfig = {
-  version: '1.1.0',
+  version: '1.1.1',
   name: 'Chintap Angular Starter',
   shortName: 'Angular Starter',
   tagline: 'SEO, AEO, LLMO, GEO & SSR Ready Starter Kit',
   description:
     'Enterprise-grade Angular 22 starter kit equipped with out-of-the-box best practices for Search Engine Optimization (SEO), Answer Engine Optimization (AEO), Large Language Model Optimization (LLMO), Generative Engine Optimization (GEO), and Static Site Generation (SSG).',
-  baseUrl: 'https://angular-starter.chintap.com',
-  defaultOgImage: 'https://angular-starter.chintap.com/images/chintap-og.jpg',
+  baseUrl: 'https://chintap-angular-starter.netlify.app',
+  defaultOgImage: 'https://chintap-angular-starter.netlify.app/images/chintap-og.jpg',
   locale: 'en_US',
   themeColor: '#18181b',
   brand: {
@@ -87,7 +87,7 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
     name: 'Chintap',
     legalName: 'Chintap',
     url: 'https://chintap.com',
-    logo: 'https://angular-starter.chintap.com/images/chintap-logo-dark.png',
+    logo: 'https://chintap-angular-starter.netlify.app/images/logo-light.svg',
     email: 'hello@chintap.com',
     address: {
       streetAddress: 'Flat No. 403, 1st Cross, Manjunatha Nagar, Raghuvanahalli, Kanakapura Main Road',

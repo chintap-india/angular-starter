@@ -16,6 +16,16 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 
 ---
 
+## [1.1.1] - 2026-11-05
+
+### Changed
+- **Production URL Alignment**: Configured official production domain `https://chintap-angular-starter.netlify.app` across `site.config.ts`, `sitemap.xml`, `robots.txt`, `.well-known/ard.json`, `llms.txt`, and root `index.html`.
+- **Netlify Edge Headers**: Added `Content-Type: text/plain; charset=utf-8` and CORS headers for `/llms.txt` and `/llms-full.txt` in `netlify.toml`.
+- **Netlify Identity CSP**: Added `https://identity.netlify.com` to `script-src` and `connect-src` directives in `netlify.toml` for seamless auth widget compatibility.
+- **Sitemap Coverage**: Added `/tasks` canonical entry to `sitemap.xml`.
+
+---
+
 ## [1.1.0] - 2026-11-05
 
 ### Added
