@@ -19,18 +19,6 @@ This directory contains the canonical text content for all pages and legal polic
 
 ---
 
-## Managing Partners & Collaborators (`partners.json`)
-
-Partner directory entries on `/partners` are driven by `content/partners.json`. Each entry supports:
-- `id`: Unique kebab-case slug (e.g. `zoho`, `netlify`).
-- `name`: Partner / organization name.
-- `category`: Category name used for chip filtering (e.g. `Platform`, `Technology`, `Media`, `Design`).
-- `description`: 1-2 sentence description of the collaboration.
-- `logoUrl`: Path to SVG or PNG logo in `public/images/partners/` (or leave empty `""` to display an automatic stylish monogram emblem).
-- `websiteUrl`: External URL (e.g. `https://example.com`) or internal route (e.g. `/contact`).
-
----
-
 ## Brand Essence & Tone of Voice
 
 - **Brand Name**: Chintap (`chin` in default text color, `tap` in brand red `#ea1c24`)

@@ -43,12 +43,11 @@ src/
 │   │       ├── consultation-dialog/   # Inquiry & consultation modal with Netlify Form
 │   │       └── service-detail-dialog/ # Drill-down detail modal for complex services
 │   ├── features/                      # Route-level page components (lazy-loadable)
-│   │   ├── home/                      # Landing page, hero, proof points, value proposition
-│   │   ├── about/                     # About company, mission, vision, differentiators
-│   │   ├── services/                  # Service catalogue & detail views
-│   │   ├── industries/                # Sector-specific solutions
-│   │   ├── how-we-work/               # Process roadmap & methodology
-│   │   ├── leadership/                # Team profiles, track records & credentials
+│   │   ├── home/                      # Starter kit home, quickstart & 5 pillars matrix
+│   │   ├── features/                  # Architectural breakdown & modern tech stack
+│   │   ├── best-practices/            # 5 Pillars of Discovery (SEO, AEO, LLMO, GEO, SSR)
+│   │   ├── tasks/                     # Interactive Tasks CRUD, forms & mock API demo
+│   │   ├── about/                     # About Chintap, mission & philosophy
 │   │   └── contact/                   # Contact information & direct Netlify form
 │   ├── app.component.ts               # Root component (Navbar + RouterOutlet + Footer)
 │   ├── app.routes.ts                  # Application route definitions with prerender targets
@@ -364,11 +363,10 @@ npm install @angular/ssr@^22.2.0 @angular/platform-server@^22.2.0
 Maintain an explicit route manifest file listing all canonical static routes to guarantee pre-rendering at build time:
 ```
 /
+/features
+/best-practices
+/tasks
 /about
-/services
-/industries
-/how-we-work
-/leadership
 /contact
 ```
 
@@ -389,27 +387,32 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./pages/home/home-page.component').then(m => m.HomePageComponent),
-    title: 'Brand | Tagline — Core Proposition'
+    title: 'Chintap Angular Starter | SEO, AEO, LLMO, GEO & SSR Ready Starter Kit'
   },
   {
-    path: 'what-we-do',
-    loadComponent: () => import('./pages/what-we-do/what-we-do-page.component').then(m => m.WhatWeDoPageComponent),
-    title: 'What We Do | Products & Solutions | Brand'
+    path: 'features',
+    loadComponent: () => import('./pages/features/features-page.component').then(m => m.FeaturesPageComponent),
+    title: 'Features & Architecture | Chintap Angular Starter'
   },
   {
-    path: 'how-we-work',
-    loadComponent: () => import('./pages/how-we-work/how-we-work-page.component').then(m => m.HowWeWorkPageComponent),
-    title: 'How We Work | Methodology & Process | Brand'
+    path: 'best-practices',
+    loadComponent: () => import('./pages/best-practices/best-practices-page.component').then(m => m.BestPracticesPageComponent),
+    title: 'SEO, AEO, LLMO, GEO & SSR Best Practices Guide | Chintap Angular Starter'
+  },
+  {
+    path: 'tasks',
+    loadComponent: () => import('./pages/tasks/tasks-page.component').then(m => m.TasksPageComponent),
+    title: 'Tasks CRUD Module — Typed Forms & Mock API | Chintap Angular Starter'
   },
   {
     path: 'about',
     loadComponent: () => import('./pages/about/about-page.component').then(m => m.AboutPageComponent),
-    title: 'About Us | Vision & Identity | Brand'
+    title: 'About | Chintap Angular Starter'
   },
   {
     path: 'contact',
     loadComponent: () => import('./pages/contact/contact-page.component').then(m => m.ContactPageComponent),
-    title: 'Contact Us | Start a Conversation | Brand'
+    title: "Let's Talk | Contact Chintap Angular Starter"
   },
   {
     path: '**',
@@ -817,13 +820,19 @@ Generate a valid XML sitemap indexing all canonical prerendered routes with expl
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://<production-domain>/what-we-do</loc>
+    <loc>https://<production-domain>/features</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://<production-domain>/how-we-work</loc>
+    <loc>https://<production-domain>/best-practices</loc>
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://<production-domain>/tasks</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -1320,7 +1329,7 @@ Before declaring an SEO or release milestone complete, execute two distinct veri
    - `npm run build` (SSG pre-renders all 8 routes without hydration errors).
    - Verify generated files in `dist/*/browser/` (`robots.txt`, `sitemap.xml`, `llms.txt`, `contents.md`, and static HTML for all routes).
 2. **Live Production Remote Verification**:
-   - Query all canonical routes (`https://chintap.com/`, `/what-we-do`, `/explorations`, `/building-teams`, `/partners`, `/how-we-work`, `/about`, `/contact`) with `curl -ILs` to confirm HTTP 200.
+   - Query all canonical routes (`https://chintap-angular-starter.netlify.app/`, `/features`, `/best-practices`, `/tasks`, `/about`, `/contact`, `/404`) with `curl -ILs` to confirm HTTP 200.
    - Verify direct 301 redirects from `http://`, `www.`, and `*.netlify.app`.
    - Verify `robots.txt`, `sitemap.xml`, `llms.txt`, and `contents.md` return HTTP 200 with matching Content-Type and accurate entity data.
 

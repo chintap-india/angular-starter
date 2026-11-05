@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
 import { APP_VERSION } from '../version';
-import { PartnerItem } from '../models/partner.model';
-import { CustomerItem } from '../models/customer.model';
-import partnersData from '../../../../content/partners.json';
-import customersData from '../../../../content/customers.json';
 
 export interface ContentSectionItem {
   title: string;
@@ -17,15 +13,13 @@ export interface ContentSectionItem {
 
 export type PageKey =
   | 'home'
-  | 'what-we-do'
-  | 'how-we-work'
-  | 'explorations'
-  | 'building-teams'
-  | 'partners'
-  | 'customers'
+  | 'features'
+  | 'best-practices'
+  | 'tasks'
   | 'about'
   | 'contact'
-  | 'academy';
+  | 'not-found'
+  | string;
 
 export interface NextPathItem {
   badge: string;
@@ -65,7 +59,7 @@ export class ContentService {
     }
   };
 
-  // Home Page (lines 1-55 in public/contents.md)
+  // Home Page
   readonly home = {
     title: 'Things. Apps. Possibilities.',
     hook: 'Ever caught yourself wondering, what if?',
@@ -122,315 +116,7 @@ export class ContentService {
     }
   };
 
-  // What We Do Page (lines 61-129 in public/contents.md)
-  readonly whatWeDo = {
-    title: 'What we do.',
-    subtitle: 'It depends on the idea.',
-    intro: [
-      'Some ideas are easier to explain once you can see them. Some need a little exploring before they make sense. And some turn out to be something quite different from what you first imagined.',
-      "That's part of the fun.",
-      'At Chintap, we explore ideas, build products, and work on problems that are worth solving. Sometimes that means making something physical. Sometimes it means writing software. Sometimes it means bringing the two together.',
-      'The starting point can be almost anything. What matters is figuring out what to do with it.'
-    ],
-    sections: [
-      {
-        title: 'Things you can use, hold, wear, or play with.',
-        paragraphs: [
-          'Not everything belongs on a screen.',
-          'Some ideas call for something tangible — an object, a product, a useful tool, or a hands-on experience. Others might involve electronics, sensors, or devices that interact with the world around them.',
-          "The interesting question isn't just what we can make. It's what would make sense to make."
-        ]
-      },
-      {
-        title: 'Apps that have a reason to exist.',
-        paragraphs: [
-          "Software can do a lot. That doesn't mean every problem needs another app.",
-          'Sometimes a simple tool is enough. Sometimes an idea calls for a web application, a mobile experience, or software that connects systems and makes a complicated process feel straightforward.',
-          'We like technology that serves a purpose — something people can use, something that solves a real problem, something that earns its place.'
-        ]
-      },
-      {
-        title: "And sometimes, it's both.",
-        paragraphs: [
-          'A physical product might become more useful with an app. A device might need software to make it work. A digital experience might be better when it connects to something in the real world.',
-          'This is where things get particularly interesting.',
-          'When hardware, software, people, and the world around them come together, the possibilities change. We like exploring those connections without assuming that every idea needs them.'
-        ]
-      },
-      {
-        title: "From “what if?” to “let's see.”",
-        paragraphs: [
-          "You don't always need a finished specification to begin.",
-          "Maybe you have a problem that keeps coming back. Maybe you have an idea but aren't sure whether it's practical. Maybe you know what you want to achieve but haven't figured out the best way to get there.",
-          'We can start by understanding the problem, exploring possible approaches, and working out what is worth trying.',
-          'That might lead to a prototype, a first version, a complete product, or simply a better understanding of the problem.',
-          'Not every exploration needs to become a product. But every worthwhile attempt should teach us something.'
-        ]
-      },
-      {
-        title: 'Our ideas. Your ideas. Somewhere in between.',
-        paragraphs: [
-          'Some things begin as ideas of our own. We explore them, build them, and see where they lead.',
-          "Other things begin with someone else's question, challenge, or ambition. We enjoy working with people who want to explore a possibility and turn it into something useful.",
-          'And sometimes, the most interesting ideas emerge when different perspectives come together.',
-          "We're open to all three."
-        ],
-        link: {
-          text: "Explore what we're thinking about →",
-          url: '/explorations',
-          ariaLabel: "Explore what we're thinking about at Chintap"
-        }
-      }
-    ],
-    cta: {
-      headline: 'Have an idea?',
-      paragraphs: [
-        "It doesn't have to be fully formed. You don't need all the answers before starting a conversation.",
-        "Tell us what you're thinking about, what you're trying to solve, or what you've been wondering whether it's possible to make.",
-        "We'll take it from there."
-      ],
-      actionText: 'Get in Touch',
-      ariaLabel: 'Get in touch with Chintap about your idea',
-      link: '/contact'
-    }
-  };
-
-  // Explorations Page
-  readonly explorations = {
-    title: 'Explorations.',
-    subtitle: 'Some thoughts are worth following.',
-    intro: [
-      'Not every idea begins with a plan. Sometimes it begins with a question, a small frustration, or the feeling that something could work a little better.',
-      'A passing thought becomes something you return to. You look at it from another angle. You wonder who else might have thought about it. And gradually, a possibility begins to take shape.',
-      'This is where some of our own explorations begin.'
-    ],
-    sections: [
-      {
-        title: 'The little things matter.',
-        paragraphs: [
-          'Much of everyday life is made up of small moments, familiar routines, and conversations we barely notice.',
-          "A habit we're trying to build. A thought that's difficult to explain. A question a child asks. A conversation between people who want the best for someone but don't always find it easy to connect.",
-          'None of these may seem like a big problem on its own. Yet sometimes, a small change in how we approach them can make a meaningful difference.',
-          "We're curious about those possibilities."
-        ]
-      },
-      {
-        title: 'Growing up, growing together.',
-        paragraphs: [
-          "Children learn and grow in ways that don't always fit neatly into plans or expectations.",
-          'The people around them — parents, teachers, and other caregivers — each see a different part of that journey. There are everyday discoveries, small milestones, questions, challenges, and moments worth noticing.',
-          'What might help those people understand one another a little better? What could make it easier to encourage independence, nurture useful habits, or stay connected to the things that matter?',
-          "We don't assume there's one answer. We're interested in exploring what might help."
-        ]
-      },
-      {
-        title: 'Small habits. Everyday possibilities.',
-        paragraphs: [
-          'Some changes begin with grand intentions. Others begin with one small thing repeated, remembered, or made a little easier.',
-          'A routine that becomes more natural. A child learning to take ownership of a task. A family finding a rhythm that works for them. A simple way to pause and reflect on the day.',
-          'We\'re interested in how thoughtful ideas and useful tools might support these everyday moments — without turning life into another system to manage.',
-          'Sometimes, simpler is better.'
-        ]
-      },
-      {
-        title: 'Better conversations begin somewhere.',
-        paragraphs: [
-          'People can care about the same things and still struggle to share what they see, what they need, or what they hope for.',
-          'A little more understanding can change a conversation. A useful prompt can help someone find the words. A simple way to share an observation can bring different perspectives closer together.',
-          "We're curious about the things that help people communicate more meaningfully — especially when their shared understanding matters.",
-          'Not more noise. Not communication for its own sake. Just better ways to connect when it counts.'
-        ]
-      },
-      {
-        title: 'Ideas are allowed to change.',
-        paragraphs: [
-          "An exploration isn't a promise that a particular product will exist.",
-          'Some ideas become clearer as we spend time with them. Some lead to experiments or early versions. Some change direction. Others teach us something useful and then make room for a different question.',
-          'We want to give ideas enough space to develop before deciding what they should become.',
-          'A product, an app, a physical thing, a collaboration — or something we haven\'t imagined yet.',
-          'The form should follow the function, not the other way around.'
-        ]
-      },
-      {
-        title: 'Building something takes people.',
-        paragraphs: [
-          'Sometimes an idea needs more than time and curiosity. It needs people who can bring it to life, learn together, and take responsibility for what comes next.',
-          'We also work with organisations that want to bring the right people together and build teams around meaningful work.'
-        ],
-        link: {
-          text: 'Building teams →',
-          url: '/building-teams',
-          ariaLabel: 'Learn more about building teams with Chintap'
-        }
-      },
-      {
-        title: 'This is only the beginning.',
-        paragraphs: [
-          "These are some of the questions we're interested in exploring. They aren't a fixed list, a finished catalogue, or a declaration of everything Chintap will do.",
-          'As thoughts develop, some may become things you can see, use, and experience. Others may remain questions for a while longer. New ones will find their way in.',
-          "That's part of the process.",
-          'We\'re here to stay curious, try things, learn, and see where a worthwhile thought might lead.'
-        ]
-      }
-    ],
-    cta: {
-      headline: 'Have a thought of your own?',
-      paragraphs: [
-        "Maybe something here connects with a question you've been asking. Maybe your experience gives you a different perspective. Or perhaps you've been thinking about something entirely unrelated.",
-        "We'd be glad to hear about it."
-      ],
-      prompt: "Have a thought worth exploring? Let's talk.",
-      actionText: "Let's Talk",
-      ariaLabel: "Have a thought worth exploring? Let's talk with Chintap",
-      link: '/contact'
-    }
-  };
-
-  // Building Teams Page
-  readonly buildingTeams = {
-    title: 'Building teams.',
-    subtitle: 'Good work needs the right people.',
-    intro: [
-      'Sometimes the ambition is clear, but the way to get there isn\'t.',
-      'An organisation may be starting something new. An existing team may need to take on a different kind of work. A promising idea may need people with the right mix of skills, experience, and shared direction to move beyond the drawing board.',
-      'Building the team is part of building the thing.',
-      'That\'s where we can help.'
-    ],
-    sections: [
-      {
-        title: 'Start with what needs to happen.',
-        paragraphs: [
-          'Before thinking about roles, structures, or headcount, it helps to understand the work ahead.',
-          'What are you trying to make possible? What needs to happen that isn\'t happening today? What should the team be able to do, and what would meaningful progress look like?',
-          'The answers shape the team — not the other way around.',
-          'Sometimes that means bringing a new team together from the beginning. Sometimes it means strengthening an existing group or helping an organisation develop a capability it wants to own.',
-          'There isn\'t one template for every situation.'
-        ]
-      },
-      {
-        title: 'More than filling seats.',
-        paragraphs: [
-          'A team is more than a collection of people with matching job descriptions.',
-          'People need to understand what they\'re working towards, how their work fits together, and how to make good decisions when the answers aren\'t obvious. They need room to learn, take responsibility, and improve the way they work.',
-          'We pay attention to those things as well as the practical work of getting a team in place.',
-          'The aim isn\'t simply to assemble a group. It\'s to help create the conditions in which that group can do meaningful work well.'
-        ]
-      },
-      {
-        title: 'Built for the work ahead.',
-        paragraphs: [
-          'Some teams are small and focused. Others grow into larger groups with their own practices, leadership, and ways of working.',
-          'A new capability may begin with a few people and develop into a lasting centre of expertise. An organisation may need help getting started, finding its footing, and becoming confident enough to carry the work forward on its own.',
-          'The right approach depends on where you\'re starting and what you want the team to become.',
-          'We work through those questions with you, keeping the needs of the work and the people doing it in view.'
-        ]
-      }
-    ],
-    partner: {
-      eyebrow: 'Technology partner',
-      badge: 'AI interview platform',
-      name: 'MockWin',
-      description: 'Adaptive AI interview simulations for job seekers and automated screening infrastructure for modern hiring teams. An intelligent evaluation partner helping organisations assess technical and communicative depth with clarity.',
-      logoUrl: 'images/partners/mockwin.svg',
-      websiteUrl: 'https://mockwin.ai',
-      ariaLabel: 'Visit MockWin website (opens in a new tab)'
-    },
-    cta: {
-      headline: 'A useful place to begin.',
-      paragraphs: [
-        'You don\'t need a complete organisation chart or a finished hiring plan.',
-        'You might know the outcome you\'re aiming for but be unsure how to build towards it. You might have a team that needs a fresh direction. Or you might be considering a new capability and want to think through what it would take.',
-        'Bring us the situation as it is. We can explore what the next sensible step might be.'
-      ],
-      prompt: 'Building something new? Let\'s talk.',
-      actionText: "Let's Talk",
-      ariaLabel: 'Building something new? Let\'s talk with Chintap',
-      link: '/contact'
-    }
-  };
-
-  // Partners Page
-  readonly partners = {
-    title: 'Partners.',
-    subtitle: 'Better things can happen together.',
-    items: (partnersData as unknown) as PartnerItem[],
-    intro: [
-      'Some ideas need a different perspective. Some need a skill we don\'t have in the room. Others need the right introduction, a shared effort, or someone who sees the same possibility and wants to help explore it.',
-      'Good partnerships aren\'t built by matching labels. They begin when people find a reason to work together.',
-      'That\'s what we\'re interested in at Chintap.'
-    ],
-    sections: [
-      {
-        title: 'Different strengths. Shared possibilities.',
-        paragraphs: [
-          'The right person or organisation might help shape an idea, bring it into the world, help it reach the people it is meant for, or make the next step possible.',
-          'Sometimes the contribution is creative. Sometimes it\'s practical. Sometimes it\'s a platform, a connection, an audience, or experience we can learn from.',
-          'There\'s no single kind of partner we\'re looking for, and no fixed formula for how a partnership should work.',
-          'What matters is whether there\'s something worthwhile we can do together.'
-        ]
-      },
-      {
-        title: 'Start with what you bring.',
-        paragraphs: [
-          'You might have a capability, a community, a platform, an idea, or simply a perspective that changes how we see a problem.',
-          'You might be exploring something of your own and wondering whether there\'s a natural connection with Chintap. Or you may have come across something we\'re doing and see a way we could help each other.',
-          'You don\'t need to arrive with a formal proposal or a fully worked-out plan.',
-          'A good conversation is often enough to discover whether there\'s a fit.'
-        ]
-      },
-      {
-        title: 'Make it make sense.',
-        paragraphs: [
-          'We believe partnerships work best when the purpose is clear, the expectations are honest, and everyone has a reason to be involved.',
-          'Not every conversation will become a collaboration. That\'s fine. The point is to find the connections that are useful to the people involved and meaningful to the work.',
-          'If there\'s a possibility worth exploring, we can work out the shape together.'
-        ]
-      }
-    ],
-    cta: {
-      headline: 'Something we could do together?',
-      paragraphs: [
-        'Tell us a little about what you have in mind, what you bring, or what you\'d like to explore.',
-        'We\'ll start there.'
-      ],
-      prompt: "Let's talk.",
-      actionText: "Let's Talk",
-      ariaLabel: "Let's talk about partnering with Chintap",
-      link: '/contact'
-    }
-  };
-
-  // Customers Page
-  readonly customers = {
-    title: 'Customers.',
-    subtitle: 'Good work comes from good conversations.',
-    items: (customersData as unknown) as CustomerItem[],
-    intro: [
-      'Every piece of work begins somewhere. Sometimes with a question, sometimes with a challenge, and sometimes with someone who sees an opportunity to do things a little differently.',
-      'We\'ve had the opportunity to work with people and businesses across different kinds of work. Each brings its own context, needs and way of looking at things.',
-      'Here are a few of the people we\'ve worked with and some of the things we\'ve helped bring together.'
-    ],
-    confidentiality: {
-      title: 'More work, different stories.',
-      paragraphs: [
-        'Not every engagement can be shared publicly. Some work is best kept between the people involved. Where we can, we\'ll share a little about what we worked on, without necessarily naming the organisation.',
-        'The work matters. So does the trust that makes it possible.'
-      ]
-    },
-    cta: {
-      headline: 'Have a project in mind?',
-      paragraphs: [
-        'Every good piece of work begins with a simple conversation.',
-        'Tell us what you\'re trying to solve, build, or articulate.'
-      ],
-      prompt: "Let's talk.",
-      actionText: "Let's Talk",
-      ariaLabel: "Let's talk about your project with Chintap",
-      link: '/contact'
-    }
-  };
-
-  // About Chintap Page (lines 136-186 in public/contents.md)
+  // About Chintap Page
   readonly about = {
     title: 'About Chintap.',
     subtitle: 'Curious by nature.',
@@ -483,70 +169,7 @@ export class ContentService {
     }
   };
 
-  // How We Work Page (lines 193-257 in public/contents.md)
-  readonly howWeWork = {
-    title: 'How we work.',
-    subtitle: "First, let's figure it out.",
-    intro: [
-      "Not every idea arrives with a plan. Sometimes there's a clear problem and an obvious place to begin. Sometimes there's only a hunch that something could work better.",
-      'Either way, we start by getting curious.',
-      "What's the problem? Who is it affecting? What would a better outcome look like? And is there a simpler way to get there?",
-      'The answers help us figure out what to do next.'
-    ],
-    sections: [
-      {
-        title: 'Explore before you commit.',
-        paragraphs: [
-          'There is rarely just one way to approach a problem.',
-          "We look at different possibilities, question our assumptions, and consider what makes sense given the time, resources, and outcome we're aiming for.",
-          "Sometimes the right answer is an app. Sometimes it's a physical product. Sometimes it's a combination of things. And sometimes, exploring an idea reveals that the problem needs a completely different approach.",
-          "We'd rather discover that early than build the wrong thing beautifully."
-        ]
-      },
-      {
-        title: 'Make something we can learn from.',
-        paragraphs: [
-          'An idea can sound perfect until you try it.',
-          "That's why we like making things tangible as early as it makes sense — a sketch, a working example, a prototype, or a first version that people can actually use.",
-          "The point isn't to rush towards a finished product. It's to move beyond assumptions and learn something useful.",
-          "What works? What's awkward? What did we miss? What could be simpler?",
-          'Those questions are part of making something good.'
-        ]
-      },
-      {
-        title: "Keep what works. Rethink what doesn't.",
-        paragraphs: [
-          'Building something rarely follows a perfectly straight line.',
-          'New information changes the picture. An experiment opens up another possibility. A small improvement makes a bigger difference than expected.',
-          'We pay attention to what happens when an idea meets the real world. We refine what works, reconsider what doesn\'t, and keep the original problem in sight.',
-          "Progress isn't about sticking to the first plan at all costs. It's about getting closer to a useful result."
-        ]
-      },
-      {
-        title: "Know when it's enough.",
-        paragraphs: [
-          "More features don't automatically make a better product. More technology doesn't automatically make a better solution.",
-          'Sometimes a small, focused tool is all that\'s needed. Sometimes a problem deserves a more ambitious approach.',
-          'We try to match the effort to the opportunity — making sensible choices about complexity, cost, and what actually matters.',
-          "The goal is not to build the biggest thing possible. It's to build the right thing for the job."
-        ]
-      }
-    ],
-    cta: {
-      headline: 'Good things can start with a conversation.',
-      paragraphs: [
-        "You don't need a finished brief, a complete specification, or all the answers.",
-        "Bring us a problem, an idea, or even a question you've been thinking about. We can work out what deserves exploring, what might be possible, and whether there's something worth building together.",
-        "Sometimes the next step is a prototype. Sometimes it's a different perspective. Sometimes it's discovering that the simplest answer was there all along."
-      ],
-      prompt: "Have something worth exploring? Let's talk.",
-      actionText: "Let's Talk",
-      ariaLabel: "Have something worth exploring? Let's talk with Chintap",
-      link: '/contact'
-    }
-  };
-
-  // Let's Talk / Contact Page (lines 263-297 in public/contents.md)
+  // Let's Talk / Contact Page
   readonly contact = {
     title: "Let's talk.",
     subtitle: 'Every interesting thing starts somewhere.',
@@ -579,214 +202,6 @@ export class ContentService {
         'Bengaluru, Karnataka - 560109, India.'
       ],
       full: 'Flat No. 403, 1st Cross, Manjunatha Nagar, Raghuvanahalli, Kanakapura Main Road, Bengaluru, Karnataka - 560109, India.'
-    }
-  };
-
-  // Academy by Chintap (content/academy.md)
-  readonly academy = {
-    badge: 'Academy by Chintap • From ideas to life',
-    title: 'Academy by Chintap',
-    subtitle: 'From ideas to life.',
-    manifesto: "You don't come here just to learn technology. You come here to discover what you can create with it.",
-    motto: 'Imagine · Explore · Learn · Build · Test · Launch',
-    intro: [
-      'Every great product starts somewhere. A thought, a problem worth solving, a little curiosity, or an idea that refuses to go away.',
-      'At Academy by Chintap, we help turn that starting point into something real.',
-      'Explore technology, learn by doing, experiment with ideas, build meaningful things, and discover what you\'re capable of creating.'
-    ],
-    approach: {
-      headline: "More than learning. It's about making.",
-      lead: 'Knowing something is one thing. Knowing what to do with it is another.',
-      description: 'We believe the best way to learn is to create. To explore possibilities, ask questions, make mistakes, solve problems, and gradually turn ideas into working products.',
-      pillars: [
-        {
-          num: '01',
-          name: 'Curiosity',
-          description: 'Develop the habit of asking questions and exploring possibilities.'
-        },
-        {
-          num: '02',
-          name: 'Understanding',
-          description: 'Learn the core principles behind modern software, systems, and digital products.'
-        },
-        {
-          num: '03',
-          name: 'Creation',
-          description: 'Move from passive learning to building functional, real-world applications.'
-        },
-        {
-          num: '04',
-          name: 'Experimentation',
-          description: 'Try ideas freely, learn through iteration, and discover what works.'
-        },
-        {
-          num: '05',
-          name: 'Confidence',
-          description: 'Gain the practical experience needed to build and ship independently.'
-        }
-      ]
-    },
-    exploration: {
-      headline: 'What can you explore?',
-      lead: 'The world of technology is vast. At Academy by Chintap, you can explore the ideas, tools, and practices that bring modern products to life.',
-      dimensions: [
-        {
-          code: '01',
-          title: 'Ideas & Product Thinking',
-          description: 'How ideas evolve from a thought into a product people actually use.',
-          tag: 'Product Discovery'
-        },
-        {
-          code: '02',
-          title: 'Web Applications & Experiences',
-          description: 'Modern front-end and full-stack development that powers the modern web.',
-          tag: 'Web Platforms'
-        },
-        {
-          code: '03',
-          title: 'Mobile Applications',
-          description: 'Building useful, intuitive experiences for Android and iOS devices.',
-          tag: 'iOS & Android'
-        },
-        {
-          code: '04',
-          title: 'Backend Systems & Intelligence',
-          description: 'Designing APIs, databases, business logic, and cloud services that scale.',
-          tag: 'APIs & Cloud'
-        },
-        {
-          code: '05',
-          title: 'Data & Connectivity',
-          description: 'Working with data, real-time communication, and connected systems.',
-          tag: 'Realtime Data'
-        },
-        {
-          code: '06',
-          title: 'AI & Emerging Technologies',
-          description: 'Understanding and applying artificial intelligence and intelligent tools in practical ways.',
-          tag: 'AI Tools & Agents'
-        },
-        {
-          code: '07',
-          title: 'Code Quality & Craftsmanship',
-          description: 'Writing clean, maintainable, readable code and building with care.',
-          tag: 'Engineering Craft'
-        },
-        {
-          code: '08',
-          title: 'From Idea to Deployment',
-          description: 'Going through the full lifecycle: building, testing, deploying, and maintaining products.',
-          tag: 'CI/CD & DevOps'
-        }
-      ]
-    },
-    journey: {
-      headline: 'Learn by building.',
-      lead: "Learning shouldn't be about sitting through lectures and memorizing syntax. At Academy by Chintap, you learn the way real products are built:",
-      closing: 'Think of something. Build something. Make it happen.',
-      steps: [
-        {
-          step: '01',
-          name: 'Imagine',
-          description: 'Start with an idea or a problem worth solving.'
-        },
-        {
-          step: '02',
-          name: 'Explore',
-          description: 'Understand the possibilities and choose the right approach.'
-        },
-        {
-          step: '03',
-          name: 'Learn',
-          description: 'Pick up the tools, concepts, and skills you need along the way.'
-        },
-        {
-          step: '04',
-          name: 'Build',
-          description: 'Turn the idea into a working product, step by step.'
-        },
-        {
-          step: '05',
-          name: 'Test',
-          description: 'Refine, optimize, and make sure it works well.'
-        },
-        {
-          step: '06',
-          name: 'Launch',
-          description: 'Share it with the world.'
-        }
-      ]
-    },
-    flagshipCohort: {
-      eyebrow: 'Flagship learning programme',
-      title: 'The Full-Stack & Mobile App Development Cohort',
-      description: 'Our flagship cohort is an intensive, hands-on learning experience designed to take you from fundamentals to building and deploying modern web and mobile applications.',
-      highlights: [
-        {
-          label: 'Duration',
-          value: '12 weeks of structured, project-driven learning.'
-        },
-        {
-          label: 'Format',
-          value: 'Small cohorts with direct mentorship and code reviews. Maximum of 15 participants per batch.'
-        },
-        {
-          label: 'Focus',
-          value: 'Modern full-stack web, cross-platform mobile, backend APIs, cloud deployment, and AI-assisted workflows.'
-        },
-        {
-          label: 'Outcome',
-          value: 'A fully functional, production-ready product designed, built, and shipped by you.'
-        },
-        {
-          label: 'AI as Co-Pilot',
-          value: 'Learn how to use modern AI development tools effectively to accelerate your workflow without losing foundational engineering principles.'
-        }
-      ],
-      ctaText: 'Inquire About the Cohort',
-      ctaUrl: '/contact',
-      ctaAriaLabel: 'Inquire about joining the Full-Stack and Mobile App Development Cohort'
-    },
-    audiences: {
-      headline: 'Who is it for?',
-      lead: 'Academy by Chintap is for anyone who wants to build:',
-      items: [
-        {
-          title: 'Students & graduates',
-          description: 'Bridge the gap between academic theory and real-world software creation.'
-        },
-        {
-          title: 'Career switchers',
-          description: 'Transition into tech with practical, portfolio-backed engineering experience.'
-        },
-        {
-          title: 'Working professionals',
-          description: 'Level up into modern full-stack development, mobile apps, and AI tooling.'
-        },
-        {
-          title: 'Founders & creators',
-          description: 'Learn to prototype and launch your own digital products and MVPs.'
-        },
-        {
-          title: 'Curious minds',
-          description: 'Anyone who wants to understand how software works and experience the joy of making.'
-        }
-      ]
-    },
-    belief: {
-      headline: 'Our belief',
-      quote: "You don't come here just to learn technology. You come here to discover what you can create with it.",
-      motto: 'Think of something. Build something. Make it happen.',
-      inquireCta: {
-        text: 'Inquire about Academy',
-        url: '/contact',
-        ariaLabel: 'Inquire about Academy by Chintap programmes and cohorts'
-      },
-      exploreCta: {
-        text: 'Explore what we do',
-        url: '/what-we-do',
-        ariaLabel: 'Explore what we do at Chintap'
-      }
     }
   };
 
@@ -845,262 +260,158 @@ export class ContentService {
   readonly nextPathsMap: Record<PageKey, NextPathItem[]> = {
     'home': [
       {
-        badge: 'Capabilities',
-        title: 'What we do',
-        description: 'From physical hardware to purposeful software — exploring how an idea finds the form that makes sense.',
-        url: '/what-we-do',
-        actionText: 'Explore what we do',
-        ariaLabel: 'Explore What We Do at Chintap'
+        badge: 'Architecture',
+        title: 'Features & Stack',
+        description: 'Explore Angular 22, Signals, Tailwind CSS 4, Vitest, and Netlify Free Tier.',
+        url: '/features',
+        actionText: 'Explore features',
+        ariaLabel: 'Explore starter kit features and architecture'
       },
       {
-        badge: 'Process',
-        title: 'How we work',
-        description: 'The iterative learning loop, early prototypes, and finding the simplest answer for the job.',
-        url: '/how-we-work',
-        actionText: 'Explore how we work',
-        ariaLabel: 'Explore How We Work at Chintap'
+        badge: 'Optimization',
+        title: '5 Discovery Pillars',
+        description: 'In-depth guide for Technical SEO, AEO, LLMO, GEO, and SSR Hydration.',
+        url: '/best-practices',
+        actionText: 'Read guide',
+        ariaLabel: 'Read the 5 Pillars of Discovery guide'
       },
       {
-        badge: 'Inquiries',
-        title: 'Explorations',
-        description: 'Open questions, active experiments, and possibilities we are curious enough to pursue.',
-        url: '/explorations',
-        actionText: 'See explorations',
-        ariaLabel: 'See active explorations at Chintap'
+        badge: 'Demo',
+        title: 'Tasks CRUD Showcase',
+        description: 'Interactive module featuring Reactive Forms, Markdown preview, and Mock API.',
+        url: '/tasks',
+        actionText: 'Try demo',
+        ariaLabel: 'Try the interactive Tasks CRUD showcase'
       }
     ],
-    'what-we-do': [
+    'features': [
       {
-        badge: 'Process',
-        title: 'How we work',
-        description: 'See how our iterative prototyping loop guides ideas from problem framing to the simplest answer.',
-        url: '/how-we-work',
-        actionText: 'Read how we work',
-        ariaLabel: 'Read How We Work at Chintap'
+        badge: 'Discovery',
+        title: '5 Discovery Pillars',
+        description: 'Deep dive into Technical SEO, AEO, LLMO, GEO, and SSR Hydration.',
+        url: '/best-practices',
+        actionText: 'Read best practices',
+        ariaLabel: 'Read best practices guide'
       },
       {
-        badge: 'Inquiries',
-        title: 'Explorations',
-        description: 'Browse open questions, experimental concepts, and early inquiries currently in motion.',
-        url: '/explorations',
-        actionText: 'See explorations',
-        ariaLabel: 'See active explorations at Chintap'
+        badge: 'Interactive',
+        title: 'Tasks CRUD Demo',
+        description: 'Production pattern for reactive forms, mock API simulation, and offline storage.',
+        url: '/tasks',
+        actionText: 'Explore demo',
+        ariaLabel: 'Explore Tasks demo'
       },
       {
-        badge: 'Ventures',
-        title: 'Partners',
-        description: 'Discover how we collaborate with technology and manufacturing specialists like Figcube.',
-        url: '/partners',
-        actionText: 'Meet our partners',
-        ariaLabel: 'Meet partners of Chintap'
-      }
-    ],
-    'how-we-work': [
-      {
-        badge: 'People',
-        title: 'Building teams',
-        description: 'The work shapes the capabilities needed — how we assemble small, high-agency teams.',
-        url: '/building-teams',
-        actionText: 'Explore building teams',
-        ariaLabel: 'Explore Building Teams at Chintap'
-      },
-      {
-        badge: 'Capabilities',
-        title: 'What we do',
-        description: 'From hardware tools to purposeful apps, explore the range of forms that emerge from the loop.',
-        url: '/what-we-do',
-        actionText: 'Explore what we do',
-        ariaLabel: 'Explore What We Do at Chintap'
-      },
-      {
-        badge: 'Inquiries',
-        title: 'Explorations',
-        description: 'See how our hands-on prototyping philosophy applies to open questions and active experiments.',
-        url: '/explorations',
-        actionText: 'See explorations',
-        ariaLabel: 'See active explorations at Chintap'
-      }
-    ],
-    'explorations': [
-      {
-        badge: 'Capabilities',
-        title: 'What we do',
-        description: 'See how raw inquiries and initial prototypes mature into complete, purposeful products.',
-        url: '/what-we-do',
-        actionText: 'Explore what we do',
-        ariaLabel: 'Explore What We Do at Chintap'
-      },
-      {
-        badge: 'Process',
-        title: 'How we work',
-        description: 'Dive into the craft of rapid hypothesis testing, learning loops, and honest evaluation.',
-        url: '/how-we-work',
-        actionText: 'Read how we work',
-        ariaLabel: 'Read How We Work at Chintap'
-      },
-      {
-        badge: 'Academy',
-        title: 'Academy',
-        description: 'A hands-on cohort programme to learn, build and ship real software with AI assistance.',
-        url: '/academy',
-        actionText: 'Explore Academy',
-        ariaLabel: 'Explore Academy by Chintap'
-      }
-    ],
-    'building-teams': [
-      {
-        badge: 'Ventures',
-        title: 'Partners',
-        description: 'Learn how we team up with independent builders, creators, and technology partners like Figcube.',
-        url: '/partners',
-        actionText: 'Explore partners',
-        ariaLabel: 'Explore Partners of Chintap'
-      },
-      {
-        badge: 'Process',
-        title: 'How we work',
-        description: 'The shared principles, rapid iterations, and learning rhythm our teams rally around.',
-        url: '/how-we-work',
-        actionText: 'Read how we work',
-        ariaLabel: 'Read How We Work at Chintap'
-      },
-      {
-        badge: 'Capabilities',
-        title: 'What we do',
-        description: 'Explore the spectrum of physical products and software tools our teams design and build.',
-        url: '/what-we-do',
-        actionText: 'Explore what we do',
-        ariaLabel: 'Explore What We Do at Chintap'
-      }
-    ],
-    'partners': [
-      {
-        badge: 'People',
-        title: 'Building teams',
-        description: 'How the work defines the capabilities needed, and how we assemble focused teams around it.',
-        url: '/building-teams',
-        actionText: 'Explore building teams',
-        ariaLabel: 'Explore Building Teams at Chintap'
-      },
-      {
-        badge: 'Process',
-        title: 'How we work',
-        description: 'Our open, hypothesis-driven approach to shared development and joint ventures.',
-        url: '/how-we-work',
-        actionText: 'Read how we work',
-        ariaLabel: 'Read How We Work at Chintap'
-      },
-      {
-        badge: 'Perspective',
+        badge: 'Organization',
         title: 'About Chintap',
-        description: 'The curiosity, generalist mindset, and founding principles behind everything we do.',
+        description: 'The philosophy, values, and engineering discipline driving Chintap.',
         url: '/about',
-        actionText: 'Read about Chintap',
-        ariaLabel: 'Read About Chintap'
+        actionText: 'Read about us',
+        ariaLabel: 'Read about Chintap'
+      }
+    ],
+    'best-practices': [
+      {
+        badge: 'Architecture',
+        title: 'Features & Stack',
+        description: 'Modern Angular 22 toolchain with zoneless signals and Tailwind CSS 4.',
+        url: '/features',
+        actionText: 'View features',
+        ariaLabel: 'View starter kit features'
+      },
+      {
+        badge: 'Showcase',
+        title: 'Tasks CRUD Demo',
+        description: 'Modular architecture, strictly typed reactive forms, and local persistence.',
+        url: '/tasks',
+        actionText: 'Explore demo',
+        ariaLabel: 'Explore Tasks demo'
+      },
+      {
+        badge: 'Inquiries',
+        title: "Let's Talk",
+        description: 'Have questions about customizing or deploying the starter kit? Reach out directly.',
+        url: '/contact',
+        actionText: 'Contact us',
+        ariaLabel: 'Contact Chintap'
+      }
+    ],
+    'tasks': [
+      {
+        badge: 'Architecture',
+        title: 'Features & Stack',
+        description: 'Modern Angular 22 toolchain with zoneless signals and Tailwind CSS 4.',
+        url: '/features',
+        actionText: 'View features',
+        ariaLabel: 'View starter kit features'
+      },
+      {
+        badge: 'Optimization',
+        title: '5 Discovery Pillars',
+        description: 'SEO, AEO, LLMO, GEO, and SSR practices for search and AI discovery.',
+        url: '/best-practices',
+        actionText: 'Read guide',
+        ariaLabel: 'Read best practices guide'
+      },
+      {
+        badge: 'Inquiries',
+        title: "Let's Talk",
+        description: 'Reach out to collaborate, share feedback, or ask questions.',
+        url: '/contact',
+        actionText: 'Contact us',
+        ariaLabel: 'Contact Chintap'
       }
     ],
     'about': [
       {
-        badge: 'Capabilities',
-        title: 'What we do',
-        description: 'Explore the tangible manifestations of our philosophy across hardware and software.',
-        url: '/what-we-do',
-        actionText: 'Explore what we do',
-        ariaLabel: 'Explore What We Do at Chintap'
+        badge: 'Architecture',
+        title: 'Features & Stack',
+        description: 'The zero-compromise developer toolchain: Angular 22, Signals, and Netlify.',
+        url: '/features',
+        actionText: 'View features',
+        ariaLabel: 'View starter kit features'
       },
       {
-        badge: 'Process',
-        title: 'How we work',
-        description: 'Understand our iterative method from problem framing to the simplest, most useful solution.',
-        url: '/how-we-work',
-        actionText: 'Read how we work',
-        ariaLabel: 'Read How We Work at Chintap'
+        badge: 'Discovery',
+        title: '5 Discovery Pillars',
+        description: 'Technical SEO, Answer Engine, and LLM optimization frameworks.',
+        url: '/best-practices',
+        actionText: 'Read best practices',
+        ariaLabel: 'Read best practices guide'
       },
       {
         badge: 'Inquiries',
-        title: 'Explorations',
-        description: 'See the questions and open-ended experiments currently occupying our attention.',
-        url: '/explorations',
-        actionText: 'See explorations',
-        ariaLabel: 'See active explorations at Chintap'
+        title: "Let's Talk",
+        description: 'Have a project, question, or idea? Start a conversation with us.',
+        url: '/contact',
+        actionText: 'Get in touch',
+        ariaLabel: 'Contact Chintap'
       }
     ],
     'contact': [
       {
         badge: 'Overview',
         title: 'Home',
-        description: 'Return to the possibility space: Things, apps, and ideas taking shape.',
+        description: 'Return to the starter kit overview and core architecture highlights.',
         url: '/',
         actionText: 'Back to home',
         ariaLabel: 'Return to Chintap Home'
       },
       {
-        badge: 'Process',
-        title: 'How we work',
-        description: 'What to expect when collaborating with Chintap on an idea or project.',
-        url: '/how-we-work',
-        actionText: 'Read how we work',
-        ariaLabel: 'Read How We Work at Chintap'
+        badge: 'Architecture',
+        title: 'Features & Stack',
+        description: 'Explore Angular 22, Signals, Tailwind CSS 4, Vitest, and Netlify.',
+        url: '/features',
+        actionText: 'Explore features',
+        ariaLabel: 'Explore starter kit features'
       },
       {
         badge: 'Perspective',
         title: 'About Chintap',
         description: 'Learn more about our background, values, and why we build the way we do.',
         url: '/about',
-        actionText: 'Read about Chintap',
-        ariaLabel: 'Read About Chintap'
-      }
-    ],
-    'customers': [
-      {
-        badge: 'Collaboration',
-        title: 'Partners',
-        description: 'Explore independent capabilities collaborating with Chintap across technology and platforms.',
-        url: '/partners',
-        actionText: 'Explore partners',
-        ariaLabel: 'Explore Chintap Partners'
-      },
-      {
-        badge: 'Process',
-        title: 'How we work',
-        description: 'Understand our iterative method from problem framing to the simplest, most useful solution.',
-        url: '/how-we-work',
-        actionText: 'Read how we work',
-        ariaLabel: 'Read How We Work at Chintap'
-      },
-      {
-        badge: 'Inquiries',
-        title: 'Contact',
-        description: 'Tell us about your project, challenge, or what you\'ve been wondering whether it\'s possible to make.',
-        url: '/contact',
-        actionText: "Let's Talk",
-        ariaLabel: "Let's talk with Chintap"
-      }
-    ],
-    'academy': [
-      {
-        badge: 'Capabilities',
-        title: 'What we do',
-        description: 'See the physical products, purposeful applications, and connected experiences built at Chintap.',
-        url: '/what-we-do',
-        actionText: 'Explore what we do',
-        ariaLabel: 'Explore What We Do at Chintap'
-      },
-      {
-        badge: 'Process',
-        title: 'How we work',
-        description: 'Discover the iterative discovery loop, rapid prototyping, and shipping discipline that fuels our work.',
-        url: '/how-we-work',
-        actionText: 'Read how we work',
-        ariaLabel: 'Read How We Work at Chintap'
-      },
-      {
-        badge: 'Get In Touch',
-        title: 'Contact',
-        description: 'Have a question about our cohorts or want to explore learning with Academy by Chintap?',
-        url: '/contact',
-        actionText: 'Get in touch',
-        ariaLabel: 'Contact Chintap about Academy'
+        actionText: 'Read about us',
+        ariaLabel: 'Read about Chintap'
       }
     ]
   };

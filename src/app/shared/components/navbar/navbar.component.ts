@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, DestroyRef } from '@angular/core';
+import { Component, inject, signal, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -39,15 +39,6 @@ export class NavbarComponent {
 
   readonly mobileMenuOpen = signal<boolean>(false);
   readonly currentUrl = signal<string>(this.router.url || '');
-
-  readonly isExplorationsActive = computed<boolean>(() => {
-    const rawUrl = this.currentUrl() || this.router.url || '';
-    const cleanPath = rawUrl.split('?')[0].split('#')[0].replace(/\/+$/, '') || '/';
-    return cleanPath === '/explorations' ||
-           cleanPath.startsWith('/explorations/') ||
-           cleanPath === '/building-teams' ||
-           cleanPath.startsWith('/building-teams/');
-  });
 
   constructor() {
     this.router.events.pipe(

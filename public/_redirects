@@ -1,13 +1,16 @@
-# Route Aliases
-/how-we-do    /how-we-work    301
-/dino         /game           301
-/play         /game           301
-
-# Canonical Domain Enforcement (Netlify)
-https://chintap.netlify.app/*    https://chintap.com/:splat    301!
-http://chintap.com/*    https://chintap.com/:splat    301!
-https://www.chintap.com/*    https://chintap.com/:splat    301!
-http://www.chintap.com/*    https://chintap.com/:splat    301!
+# Legacy Route Redirects to Starter Kit Pages
+/what-we-do        /features        301
+/how-we-work       /features        301
+/how-we-do         /features        301
+/explorations      /best-practices  301
+/building-teams    /features        301
+/academy           /features        301
+/academy/*         /features        301
+/partners          /about           301
+/customers         /about           301
+/todos             /tasks           301
+/dino              /features        301
+/play              /features        301
 
 # SPA Prerender / Fallback
 /*    /index.html   200

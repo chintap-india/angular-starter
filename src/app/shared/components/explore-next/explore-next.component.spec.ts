@@ -23,24 +23,24 @@ describe('ExploreNextComponent', () => {
   it('should return 3 default paths for home page', () => {
     const paths = contentService.getNextPaths('home');
     expect(paths.length).toBe(3);
-    expect(paths[0].title).toBe('What we do');
-    expect(paths[1].title).toBe('How we work');
-    expect(paths[2].title).toBe('Explorations');
+    expect(paths[0].title).toBe('Features & Stack');
+    expect(paths[1].title).toBe('5 Discovery Pillars');
+    expect(paths[2].title).toBe('Tasks CRUD Showcase');
   });
 
-  it('should return tailored paths for what-we-do page', () => {
-    const paths = contentService.getNextPaths('what-we-do');
+  it('should return tailored paths for features page', () => {
+    const paths = contentService.getNextPaths('features');
     expect(paths.length).toBe(3);
-    expect(paths[0].title).toBe('How we work');
-    expect(paths[1].title).toBe('Explorations');
-    expect(paths[2].title).toBe('Partners');
+    expect(paths[0].url).toBe('/best-practices');
+    expect(paths[1].url).toBe('/tasks');
+    expect(paths[2].url).toBe('/about');
   });
 
-  it('should return valid router links with accessible labels for how-we-work', () => {
-    const paths = contentService.getNextPaths('how-we-work');
+  it('should return valid router links with accessible labels for about page', () => {
+    const paths = contentService.getNextPaths('about');
     expect(paths.length).toBe(3);
-    expect(paths[0].url).toBe('/building-teams');
-    expect(paths[1].url).toBe('/what-we-do');
-    expect(paths[2].url).toBe('/explorations');
+    expect(paths[0].url).toBe('/features');
+    expect(paths[1].url).toBe('/best-practices');
+    expect(paths[2].url).toBe('/contact');
   });
 });
