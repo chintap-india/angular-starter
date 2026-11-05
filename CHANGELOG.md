@@ -14,6 +14,17 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.1.2] - 2026-11-05
+
+### Fixed
+- **Favicon Padding & Canvas Visibility**:
+  - Removed 42% excessive horizontal whitespace and 10% vertical dead space from `public/favicon.svg` by tightly cropping the vector viewport to `viewBox="190 30 620 940"`.
+  - Maximized visual prominence in browser tabs (16x16, 32x32, 48x48) while preserving zero distortion and exact aspect ratio of the brand gesture.
+  - Retained native `@media (prefers-color-scheme: dark)` theme adaptation in `favicon.svg` for white hand in dark mode and dark hand in light mode.
+  - Regenerated multi-resolution `public/favicon.ico` (16x16, 32x32, 48x48 RGBA) and high-contrast `public/favicon.png` (64x64) with subtle contrast layer for clarity across both light and dark operating system tab bars.
+  - Updated `public/apple-touch-icon.png` (180x180) and `public/images/apple-touch-icon-dark.png` to fill ~80% of canvas with safe-zone margins for iOS squircle rounding.
+  - Synchronized `public/images/chintap-emblem-light.svg`, `chintap-emblem-dark.svg`, and `chintap-emblem.svg` with tight viewBoxes for enhanced clarity in header and footer logos.
+
 ---
 
 ## [1.1.1] - 2026-11-05
