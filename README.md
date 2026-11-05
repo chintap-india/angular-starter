@@ -2,16 +2,19 @@
 
 > **Production-grade Angular 22 starter kit with out-of-the-box best practices for SEO, AEO, LLMO, GEO, and SSR/SSG.**
 
-[![Version](https://img.shields.io/badge/version-1.1.3-10b981.svg?style=flat)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.1.4-10b981.svg?style=flat)](CHANGELOG.md)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-chintap--angular--starter.netlify.app-00dc82.svg?style=flat&logo=netlify)](https://chintap-angular-starter.netlify.app/)
 [![Angular](https://img.shields.io/badge/Angular-22-dd0031.svg?style=flat&logo=angular)](https://angular.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8%2B-blue.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38bdf8.svg?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
 [![Material 3](https://img.shields.io/badge/Material_Design-M3-7c3aed.svg?style=flat&logo=google)](https://material.angular.io/)
 [![SSG Prerender](https://img.shields.io/badge/SSG-Prerender_7_Routes-10b981.svg?style=flat)](https://angular.dev/guide/ssr)
 [![Tests](https://img.shields.io/badge/Tests-102%2F102_Passing-brightgreen.svg?style=flat&logo=vitest)](https://vitest.dev)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Chintap Angular Starter** is a developer template for building modern, high-performance web applications that excel not just in traditional search engines, but in the emerging AI search and generative answer landscape.
+
+🌐 **Live Demo:** [https://chintap-angular-starter.netlify.app](https://chintap-angular-starter.netlify.app/)
 
 > [!TIP]
 > **Rebranding with your own brand & domain?** Check out the [**🎨 Rebranding & Customization Guide**](CUSTOMIZATION_GUIDE.md) to customize brand identity, copy, logos, and deploy in 3 simple steps without touching HTML templates!
@@ -54,7 +57,7 @@ Open [http://localhost:4200](http://localhost:4200) in your browser.
 ### 3. Run Unit Tests
 
 ```bash
-# Run unit test suite (75 tests across 12 suites)
+# Run unit test suite (102 tests across 15 suites)
 npm test
 
 # Or run tests directly with Vitest
@@ -266,6 +269,16 @@ This entire starter kit is intentionally architected to operate **100% within pe
 
 ---
 
+## 🤝 Community & Contributing
+
+Contributions, issues, and feature requests are warmly welcome!
+- 📖 [Contributing Guidelines](CONTRIBUTING.md)
+- 📜 [Code of Conduct](CODE_OF_CONDUCT.md)
+- 🔒 [Security Policy](SECURITY.md)
+- 📋 [Changelog](CHANGELOG.md)
+
+---
+
 ## 📄 License
 
-MIT License. Free to use for personal, commercial, and open-source projects.
+This project is licensed under the [MIT License](LICENSE). Free to use for personal, commercial, and open-source projects.

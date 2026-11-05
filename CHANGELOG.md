@@ -16,6 +16,15 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 
 ## [1.1.4] - 2026-11-05
 
+### Added
+- **Open-Source Repository Health & GitHub Assets**:
+  - Added official `LICENSE` (MIT License) with full attribution.
+  - Added GitHub Actions Continuous Integration pipeline (`.github/workflows/ci.yml`) running Vitest unit tests and SSG builds on push/PR.
+  - Added GitHub community health files: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and `SECURITY.md`.
+  - Added GitHub issue templates (`bug_report.md`, `feature_request.md`), PR template (`pull_request_template.md`), and Dependabot configuration (`dependabot.yml`).
+  - Added canonical content markdown files: `content/features.md`, `content/best-practices.md`, and `content/tasks.md`.
+  - Added Live Demo badge pointing to `https://chintap-angular-starter.netlify.app/` in `README.md`.
+
 ### Changed
 - **Unified Branding - Dropped "Studio" Qualification**:
   - Dropped "Studio" qualification across all brand touchpoints in favor of pure **Chintap** branding.

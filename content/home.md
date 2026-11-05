@@ -27,7 +27,7 @@ You know the feeling. A thought comes along. You turn it over in your head. You 
 
 ### Hero Actions
 - Primary Button: **Let's Talk** (links to `/contact`)
-- Secondary Button: **What we do** (links to `/what-we-do`)
+- Secondary Button: **Explore Features** (links to `/features`)
 
 ---
 
