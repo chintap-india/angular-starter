@@ -27,155 +27,97 @@ export const SITE_CONSTELLATION_NODES: ConstellationPageNode[] = [
   {
     id: 'home',
     title: 'Home',
-    tagline: 'Things. Apps. Possibilities.',
+    tagline: '5 Pillars & Architecture Overview',
     route: '/',
-    description: 'An idea doesn\'t have to know what it will become. From physical objects to software with a reason to exist.',
+    description: 'Production-ready Angular starter kit equipped with out-of-the-box best practices for the AI search and generative answer era.',
     x: 450,
-    y: 110,
-    labelOffset: { x: 0, y: -26, anchor: 'middle' },
+    y: 150,
+    labelOffset: { x: 0, y: -24, anchor: 'middle' },
     children: [
-      { id: 'home-01', label: '01 The Idea', sublabel: 'Form uncommitted', dx: -70, dy: -55 },
-      { id: 'home-02', label: '02 Exploration Space', sublabel: 'What if? ➔ Why not?', dx: -25, dy: -80 },
-      { id: 'home-03', label: '03 Iterative Cycle', sublabel: 'Thinking ➔ Making', dx: 35, dy: -80 },
-      { id: 'home-04', label: '04 Chintap Begins', sublabel: 'Shared inquiry + Craft', dx: 80, dy: -55 }
+      { id: 'home-c1', label: '01 Five Pillars', sublabel: 'SEO, AEO, LLMO, GEO, SSR', dx: -75, dy: -50 },
+      { id: 'home-c2', label: '02 Quickstart', sublabel: 'Setup & clone in seconds', dx: -25, dy: -75 },
+      { id: 'home-c3', label: '03 Schema FAQPage', sublabel: 'AI Overviews & Perplexity', dx: 30, dy: -75 },
+      { id: 'home-c4', label: '04 Zero Hardcoding', sublabel: 'Decoupled content token', dx: 80, dy: -50 }
     ]
   },
   {
-    id: 'what-we-do',
-    title: 'What we do',
-    tagline: 'It depends on the idea',
-    route: '/what-we-do',
-    description: 'Physical products, purposeful software, and connected hybrid systems — shaping forms around the core problem.',
-    x: 690,
-    y: 170,
-    labelOffset: { x: 18, y: -8, anchor: 'start' },
+    id: 'features',
+    title: 'Features',
+    tagline: 'Modern Stack & Architecture',
+    route: '/features',
+    description: 'Angular 22 Signals, TypeScript 5.8 strict mode, Tailwind CSS 4, Material 3, and Vitest test runner.',
+    x: 710,
+    y: 250,
+    labelOffset: { x: 18, y: -6, anchor: 'start' },
     children: [
-      { id: 'wwd-c1', label: 'Physical Things', sublabel: 'Use, hold, experience', dx: 60, dy: -45 },
-      { id: 'wwd-c2', label: 'Purposeful Apps', sublabel: 'Reason to exist', dx: 85, dy: -5 },
-      { id: 'wwd-c3', label: 'Connected Systems', sublabel: 'Hardware + Software', dx: 75, dy: 38 },
-      { id: 'wwd-c4', label: 'What Makes Sense', sublabel: 'Form follows the idea', dx: 45, dy: 75 }
+      { id: 'feat-c1', label: '01 Angular Signals', sublabel: 'Zoneless reactive state', dx: 65, dy: -45 },
+      { id: 'feat-c2', label: '02 TypeScript 5.8', sublabel: 'Strict compile checking', dx: 85, dy: 5 },
+      { id: 'feat-c3', label: '03 Tailwind 4 & M3', sublabel: 'Design tokens & themes', dx: 70, dy: 50 },
+      { id: 'feat-c4', label: '04 Vitest Runner', sublabel: 'Sub-2s test execution', dx: 40, dy: 80 }
     ]
   },
   {
-    id: 'how-we-work',
-    title: 'How we work',
-    tagline: 'The way we build',
-    route: '/how-we-work',
-    description: 'An iterative loop of problem framing, fast prototyping, honest learning, and finding the simplest working solution.',
-    x: 770,
-    y: 350,
-    labelOffset: { x: 18, y: 5, anchor: 'start' },
+    id: 'best-practices',
+    title: 'Best Practices',
+    tagline: 'Engineering & Search Guides',
+    route: '/best-practices',
+    description: 'Comprehensive implementation standards for traditional search, answer engines, LLM manifests, and Core Web Vitals.',
+    x: 710,
+    y: 450,
+    labelOffset: { x: 18, y: 12, anchor: 'start' },
     children: [
-      { id: 'hww-c1', label: 'The Learning Loop', sublabel: 'Cycle of discovery', dx: 65, dy: -45 },
-      { id: 'hww-c2', label: 'Tangible Prototyping', sublabel: 'Make to learn', dx: 85, dy: 5 },
-      { id: 'hww-c3', label: 'The Right Thing', sublabel: 'Simpler is often better', dx: 65, dy: 55 }
+      { id: 'bp-c1', label: '01 Traditional SEO', sublabel: 'Canonical URLs & OG tags', dx: 45, dy: -75 },
+      { id: 'bp-c2', label: '02 Answer Engines', sublabel: '40–60w concise answers', dx: 80, dy: -30 },
+      { id: 'bp-c3', label: '03 LLMO Manifests', sublabel: '/llms.txt & ard.json', dx: 80, dy: 25 },
+      { id: 'bp-c4', label: '04 Core Web Vitals', sublabel: 'Sub-100ms FCP, zero CLS', dx: 50, dy: 70 }
     ]
   },
   {
-    id: 'explorations',
-    title: 'Explorations',
-    tagline: 'Questions worth following',
-    route: '/explorations',
-    description: 'Active inquiries, experimental concepts, and curiosity-driven explorations currently in progress.',
-    x: 680,
-    y: 520,
-    labelOffset: { x: 18, y: 15, anchor: 'start' },
-    children: [
-      { id: 'exp-c1', label: 'Growing Together', sublabel: 'Children & learning', dx: 75, dy: -25 },
-      { id: 'exp-c2', label: 'Small Habits', sublabel: 'Everyday routines', dx: 80, dy: 25 },
-      { id: 'exp-c3', label: 'Better Conversations', sublabel: 'Listening & dialogue', dx: 55, dy: 65 },
-      { id: 'exp-c4', label: 'Unexpected Connections', sublabel: 'Disciplines intersect', dx: 15, dy: 80 }
-    ]
-  },
-  {
-    id: 'academy',
-    title: 'Academy',
-    tagline: 'From ideas to life',
-    route: '/academy',
-    description: 'A maker space and creative studio turning ideas into real software through hands-on full-stack & mobile cohorts.',
-    x: 580,
-    y: 560,
-    labelOffset: { x: 18, y: 15, anchor: 'start' },
-    children: [
-      { id: 'acd-c1', label: '01 Imagine', sublabel: 'Start with an idea', dx: 65, dy: -35 },
-      { id: 'acd-c2', label: '02 Learn & Build', sublabel: 'Hands-on creation', dx: 80, dy: 10 },
-      { id: 'acd-c3', label: '03 Flagship Cohort', sublabel: '12-week intensive', dx: 65, dy: 55 }
-    ]
-  },
-  {
-    id: 'building-teams',
-    title: 'Building teams',
-    tagline: 'Build around the work',
-    route: '/building-teams',
-    description: 'Understanding the problem first, then assembling high-agency specialists and capabilities around the challenge.',
+    id: 'tasks',
+    title: 'Tasks',
+    tagline: 'Typed Forms & Mock API',
+    route: '/tasks',
+    description: 'Full CRUD operations module demonstrating typed reactive forms, markdown live preview, and local-first persistence.',
     x: 450,
-    y: 575,
+    y: 550,
     labelOffset: { x: 0, y: 26, anchor: 'middle' },
     children: [
-      { id: 'team-c1', label: 'The Work to Be Done', sublabel: 'Problem first', dx: -70, dy: 55 },
-      { id: 'team-c2', label: 'Capabilities Needed', sublabel: 'Craft & judgment', dx: -20, dy: 75 },
-      { id: 'team-c3', label: 'MockWin Partner', sublabel: 'Technical depth', dx: 35, dy: 75 },
-      { id: 'team-c4', label: 'People & Team', sublabel: 'Shared momentum', dx: 80, dy: 55 }
-    ]
-  },
-  {
-    id: 'partners',
-    title: 'Partners',
-    tagline: 'Shared direction',
-    route: '/partners',
-    description: 'Independent capabilities collaborating on worthwhile challenges — including technical partner Figcube.',
-    x: 220,
-    y: 520,
-    labelOffset: { x: -18, y: 15, anchor: 'end' },
-    children: [
-      { id: 'part-c1', label: 'Different Strengths', sublabel: 'Creative & technical', dx: -75, dy: -25 },
-      { id: 'part-c2', label: 'Shared Possibility', sublabel: 'Mutual purpose', dx: -80, dy: 25 },
-      { id: 'part-c3', label: 'Figcube Partner', sublabel: 'Hardware & digital', dx: -55, dy: 65 }
-    ]
-  },
-  {
-    id: 'customers',
-    title: 'Customers',
-    tagline: 'Good conversations',
-    route: '/customers',
-    description: 'Collaborations with businesses on brand identity, design, and purposeful systems — including AStar Electricals.',
-    x: 160,
-    y: 440,
-    labelOffset: { x: -18, y: 10, anchor: 'end' },
-    children: [
-      { id: 'cust-c1', label: 'Good Conversations', sublabel: 'Clarity & dialogue', dx: -70, dy: -25 },
-      { id: 'cust-c2', label: 'Trust & Discretion', sublabel: 'Work that matters', dx: -75, dy: 25 },
-      { id: 'cust-c3', label: 'AStar Electricals', sublabel: 'Commercial brand identity', dx: -55, dy: 60 }
+      { id: 'tsk-c1', label: '01 Reactive Forms', sublabel: 'Typed validation & errors', dx: -75, dy: 50 },
+      { id: 'tsk-c2', label: '02 Markdown Preview', sublabel: 'XSS-safe live rendering', dx: -25, dy: 75 },
+      { id: 'tsk-c3', label: '03 Mock API Latency', sublabel: 'Async network simulation', dx: 30, dy: 75 },
+      { id: 'tsk-c4', label: '04 Local-First', sublabel: 'SSR-safe localStorage', dx: 80, dy: 50 }
     ]
   },
   {
     id: 'about',
-    title: 'About Chintap',
-    tagline: 'No single box',
+    title: 'About',
+    tagline: 'Ethos & Free-Tier Standards',
     route: '/about',
-    description: 'Curious by nature, practical enough to make. Following worthwhile ideas without forcing predefined categories.',
-    x: 130,
-    y: 350,
-    labelOffset: { x: -18, y: 5, anchor: 'end' },
+    description: 'Built on open-source principles with 100% free-tier architecture—zero subscriptions, zero paid add-ons, zero vendor lock-in.',
+    x: 190,
+    y: 450,
+    labelOffset: { x: -18, y: 12, anchor: 'end' },
     children: [
-      { id: 'abt-c1', label: 'Curious by Nature', sublabel: 'Lifelong inquiry', dx: -65, dy: -45 },
-      { id: 'abt-c2', label: 'Making as Thinking', sublabel: 'Hands-on philosophy', dx: -85, dy: 5 },
-      { id: 'abt-c3', label: 'Ideas Worth Following', sublabel: 'Room to breathe', dx: -65, dy: 55 }
+      { id: 'abt-c1', label: '01 100% Free-Tier', sublabel: 'Zero subscriptions or fees', dx: -50, dy: 70 },
+      { id: 'abt-c2', label: '02 Open Standards', sublabel: 'Clean MIT architecture', dx: -80, dy: 25 },
+      { id: 'abt-c3', label: '03 Developer First', sublabel: 'Clarity over complexity', dx: -80, dy: -30 },
+      { id: 'abt-c4', label: '04 Chintap Studio', sublabel: 'Things, Apps, Possibilities', dx: -45, dy: -75 }
     ]
   },
   {
     id: 'contact',
     title: 'Contact',
-    tagline: 'A starting point',
+    tagline: "Let's Talk & Collaborate",
     route: '/contact',
-    description: 'Every interesting collaboration starts with a conversation. Share an idea, question, or problem to solve.',
-    x: 210,
-    y: 170,
-    labelOffset: { x: -18, y: -8, anchor: 'end' },
+    description: 'Get in touch for developer support, starter kit feedback, suggestions, or technical collaboration.',
+    x: 190,
+    y: 250,
+    labelOffset: { x: -18, y: -6, anchor: 'end' },
     children: [
-      { id: 'cnt-c1', label: 'A Question', sublabel: 'What if?', dx: -60, dy: -45 },
-      { id: 'cnt-c2', label: 'A Conversation', sublabel: 'Start a conversation', dx: -85, dy: -5 },
-      { id: 'cnt-c3', label: 'A Next Step', sublabel: 'Making what makes sense', dx: -65, dy: 45 }
+      { id: 'cnt-c1', label: '01 Developer Support', sublabel: 'Direct guidance & answers', dx: -40, dy: 80 },
+      { id: 'cnt-c2', label: '02 Community Feedback', sublabel: 'Issues & feature requests', dx: -70, dy: 50 },
+      { id: 'cnt-c3', label: '03 Netlify Forms', sublabel: 'Headless static handling', dx: -85, dy: 5 },
+      { id: 'cnt-c4', label: '04 Collaboration', sublabel: 'Contribute on GitHub', dx: -65, dy: -45 }
     ]
   }
 ];
@@ -238,11 +180,11 @@ export class YouAreHereDialogComponent {
   }
 
   get outerOrbitalRadius(): { rx: number; ry: number } {
-    return this.isMobile() ? { rx: 264, ry: 176 } : { rx: 330, ry: 220 };
+    return this.isMobile() ? { rx: 240, ry: 160 } : { rx: 300, ry: 200 };
   }
 
   get innerOrbitalRadius(): { rx: number; ry: number } {
-    return this.isMobile() ? { rx: 176, ry: 116 } : { rx: 220, ry: 145 };
+    return this.isMobile() ? { rx: 150, ry: 100 } : { rx: 190, ry: 125 };
   }
 
   // Detect current route to identify where user is
@@ -250,6 +192,7 @@ export class YouAreHereDialogComponent {
     const url = this.router.url.split('?')[0].split('#')[0];
     if (url === '/' || url === '') return 'home';
     const clean = url.replace(/^\//, '');
+    if (clean === 'todos') return 'tasks';
     const matched = this.allNodes.find(n => n.route === url || n.id === clean);
     return matched ? matched.id : 'home';
   });

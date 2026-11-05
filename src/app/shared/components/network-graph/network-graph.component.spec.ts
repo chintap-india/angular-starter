@@ -27,16 +27,16 @@ describe('NetworkGraphComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should default to home mode and render home SVG with authoritative brief copy', () => {
+  it('should default to home mode and render home SVG with starter kit architecture', () => {
     expect(component.mode).toBe('home');
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('svg')).toBeTruthy();
-    expect(compiled.textContent).toContain('Chintap');
-    expect(compiled.textContent).toContain('Things');
-    expect(compiled.textContent).toContain('Apps');
-    expect(compiled.textContent).toContain('Possibilities');
-    expect(compiled.textContent).toContain('An idea doesn\'t have to know what it will become');
-    expect(compiled.textContent).toContain('A Thought');
+    expect(compiled.textContent).toContain('Starter Architecture');
+    expect(compiled.textContent).toContain('Features');
+    expect(compiled.textContent).toContain('5 Pillars');
+    expect(compiled.textContent).toContain('Tasks Demo');
+    expect(compiled.textContent).toContain('Built for speed, accessibility, and AI discoverability');
+    expect(compiled.textContent).toContain('Modern DX');
   });
 
   it('should render expand button when allowExpand is true and trigger dialog with tight modal configuration', async () => {
@@ -52,7 +52,7 @@ describe('NetworkGraphComponent', () => {
         panelClass: expect.arrayContaining(['graph-modal-panel']),
         data: expect.objectContaining({
           mode: 'home',
-          title: 'The Possibility Space'
+          title: 'Starter Architecture'
         })
       })
     );
@@ -67,14 +67,14 @@ describe('NetworkGraphComponent', () => {
   });
 
   it('should select node and display interactive explanation pill', () => {
-    component.selectNode('home-things');
+    component.selectNode('home-features');
     fixture.detectChanges();
-    expect(component.selectedNode()).toBe('home-things');
+    expect(component.selectedNode()).toBe('home-features');
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.textContent).toContain('Physical products and useful objects.');
+    expect(compiled.textContent).toContain('Angular 22, Signals, Tailwind CSS 4, Vitest, Netlify Free Tier.');
 
     // Clicking again should toggle selection off
-    component.selectNode('home-things');
+    component.selectNode('home-features');
     fixture.detectChanges();
     expect(component.selectedNode()).toBeNull();
   });
@@ -156,5 +156,34 @@ describe('NetworkGraphComponent', () => {
     compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.textContent).toContain('A Starting Point');
     expect(compiled.textContent).toContain('hello@chintap.com');
+  });
+
+  it('should render features, best-practices, and tasks modes with starter kit architecture', () => {
+    fixture.componentRef.setInput('mode', 'features');
+    fixture.detectChanges();
+    let compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('Modern Stack');
+    expect(compiled.textContent).toContain('Angular Signals');
+    expect(compiled.textContent).toContain('Tailwind CSS 4');
+    expect(compiled.textContent).toContain('Vitest Testing');
+
+    fixture.componentRef.setInput('mode', 'best-practices');
+    fixture.detectChanges();
+    compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('5 Pillars Framework');
+    expect(compiled.textContent).toContain('SEO');
+    expect(compiled.textContent).toContain('AEO');
+    expect(compiled.textContent).toContain('LLMO');
+    expect(compiled.textContent).toContain('GEO');
+    expect(compiled.textContent).toContain('SSR / SSG');
+
+    fixture.componentRef.setInput('mode', 'tasks');
+    fixture.detectChanges();
+    compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('Task Architecture');
+    expect(compiled.textContent).toContain('Reactive Forms');
+    expect(compiled.textContent).toContain('Markdown Preview');
+    expect(compiled.textContent).toContain('Mock API Service');
+    expect(compiled.textContent).toContain('Local Storage');
   });
 });

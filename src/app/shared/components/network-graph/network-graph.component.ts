@@ -6,6 +6,11 @@ import type { GraphInspectionData } from '../../../features/modals/graph-inspect
 
 export type NetworkGraphMode =
   | 'home'
+  | 'features'
+  | 'best-practices'
+  | 'tasks'
+  | 'about'
+  | 'contact'
   | 'home-thing-app'
   | 'home-what-could-it-be'
   | 'home-thinking'
@@ -16,8 +21,6 @@ export type NetworkGraphMode =
   | 'explorations'
   | 'partners'
   | 'customers'
-  | 'about'
-  | 'contact'
   | 'academy';
 
 export interface NodeInfo {
@@ -28,12 +31,41 @@ export interface NodeInfo {
 }
 
 export const NODE_DETAILS: Record<string, NodeInfo> = {
-  // Home
-  'home-thought': { label: 'A Thought', detail: 'What if? A passing observation or curiosity.' },
-  'home-chintap': { label: 'Chintap', detail: 'Things. Apps. Possibilities.' },
-  'home-things': { label: 'Things', detail: 'Physical products and useful objects.', route: '/what-we-do', routeLabel: 'What we do →' },
-  'home-apps': { label: 'Apps', detail: 'Software with a reason to exist.', route: '/what-we-do', routeLabel: 'What we do →' },
-  'home-possibilities': { label: 'Possibilities', detail: 'Connections, combinations, and things not yet defined.', route: '/explorations', routeLabel: 'Explorations →' },
+  // Home (Starter Kit Architecture)
+  'home-thought': { label: 'Modern Web DX', detail: 'Uncompromising developer velocity, SSG speed, and AI discoverability.', route: '/features', routeLabel: 'Explore Stack →' },
+  'home-chintap': { label: 'Chintap Starter', detail: 'Production-ready Angular 22 starter kit with 5 Pillars of discovery and modern DX.', route: '/', routeLabel: 'Home →' },
+  'home-features': { label: 'Features & Stack', detail: 'Angular 22, Signals, Tailwind CSS 4, Vitest, Netlify Free Tier.', route: '/features', routeLabel: 'View Features →' },
+  'home-best-practices': { label: '5 Pillars of Discovery', detail: 'Technical SEO, AEO, LLMO, GEO, SSR & Hydration excellence.', route: '/best-practices', routeLabel: '5 Pillars →' },
+  'home-tasks': { label: 'Interactive Tasks Demo', detail: 'Modular CRUD showcase with Reactive Forms, live Markdown, and Mock API.', route: '/tasks', routeLabel: 'Tasks Demo →' },
+  // Backward-compatible aliases for Home
+  'home-things': { label: 'Features & Stack', detail: 'Angular 22, Signals, Tailwind CSS 4, Vitest, Netlify Free Tier.', route: '/features', routeLabel: 'View Features →' },
+  'home-apps': { label: '5 Pillars of Discovery', detail: 'Technical SEO, AEO, LLMO, GEO, SSR & Hydration excellence.', route: '/best-practices', routeLabel: '5 Pillars →' },
+  'home-possibilities': { label: 'Interactive Tasks Demo', detail: 'Modular CRUD showcase with Reactive Forms, live Markdown, and Mock API.', route: '/tasks', routeLabel: 'Tasks Demo →' },
+
+  // Features (Modern Toolchain)
+  'feat-center': { label: 'Core Stack', detail: 'Modern Angular 22 web architecture and developer experience.', route: '/features', routeLabel: 'Features →' },
+  'feat-signals': { label: 'Angular Signals', detail: 'Fine-grained reactive state primitives with zoneless-ready change detection.', route: '/features', routeLabel: 'Features →' },
+  'feat-tailwind': { label: 'Tailwind CSS 4', detail: 'High-performance styling engine integrated with Material Design 3 tokens.', route: '/features', routeLabel: 'Features →' },
+  'feat-vitest': { label: 'Vitest Unit Testing', detail: 'Blazing-fast modern unit tests replacing legacy Karma and Webpack.', route: '/features', routeLabel: 'Features →' },
+  'feat-netlify': { label: 'Netlify Free Tier', detail: 'Automated CI/CD git pushes, global edge CDN, and zero maintenance overhead.', route: '/features', routeLabel: 'Features →' },
+  'feat-typescript': { label: 'TypeScript 5.9', detail: 'Strict type safety with modern ECMAScript features and decorators.', route: '/features', routeLabel: 'Features →' },
+
+  // Best Practices (5 Pillars)
+  'bp-center': { label: '5 Discovery Pillars', detail: 'Comprehensive framework for search engines and generative AI models.', route: '/best-practices', routeLabel: '5 Pillars →' },
+  'bp-seo': { label: 'Technical SEO', detail: 'Schema.org JSON-LD graphs, Canonical URLs, and OpenGraph social metadata.', route: '/best-practices', routeLabel: 'Best Practices →' },
+  'bp-aeo': { label: 'Answer Engine Optimization', detail: 'Structured Q&A for voice search and Perplexity/Google AI Overviews.', route: '/best-practices', routeLabel: 'Best Practices →' },
+  'bp-llmo': { label: 'LLM Optimization', detail: 'Clean llms.txt, llms-full.txt, and Agent Resource Discovery manifests.', route: '/best-practices', routeLabel: 'Best Practices →' },
+  'bp-geo': { label: 'Generative Engine Optimization', detail: 'Entity authority graphs and factual density for generative engines.', route: '/best-practices', routeLabel: 'Best Practices →' },
+  'bp-ssr': { label: 'SSR & Hydration', detail: 'Static prerendering with event replay client hydration.', route: '/best-practices', routeLabel: 'Best Practices →' },
+
+  // Tasks (CRUD Showcase)
+  'tsk-center': { label: 'Tasks CRUD Module', detail: 'Decoupled Angular module demonstrating enterprise form best practices.', route: '/tasks', routeLabel: 'Tasks Demo →' },
+  'tsk-forms': { label: 'Reactive Forms', detail: 'Strictly typed FormGroup validation with real-time field error messaging.', route: '/tasks', routeLabel: 'Tasks Demo →' },
+  'tsk-markdown': { label: 'Markdown Preview', detail: 'Side-by-side markdown editing with sanitized HTML rendering.', route: '/tasks', routeLabel: 'Tasks Demo →' },
+  'tsk-mock-api': { label: 'Mock API Service', detail: 'Simulated async network delay and error handling.', route: '/tasks', routeLabel: 'Tasks Demo →' },
+  'tsk-storage': { label: 'Local Persistence', detail: 'Client-side localStorage fallback for offline state resilience.', route: '/tasks', routeLabel: 'Tasks Demo →' },
+  'tsk-reactive-forms': { label: 'Reactive Forms', detail: 'Strictly typed FormGroup validation with real-time field error messaging.', route: '/tasks', routeLabel: 'Tasks Demo →' },
+  'tsk-local-storage': { label: 'Local Persistence', detail: 'Client-side localStorage fallback for offline state resilience.', route: '/tasks', routeLabel: 'Tasks Demo →' },
 
   // How We Work
   'hww-explore': { label: 'Explore', detail: 'Understand the problem and question assumptions.' },
@@ -66,21 +98,24 @@ export const NODE_DETAILS: Record<string, NodeInfo> = {
   'part-strengths': { label: 'Different Strengths', detail: 'Creative, practical, technical, community, and experience.' },
   'part-possibility': { label: 'Shared Possibility', detail: 'A reason to work together on something worthwhile.' },
   'part-chintap': { label: 'Chintap', detail: 'Make it make sense — bridging strengths into useful results.' },
-  'part-mockwin': { label: 'MockWin', detail: 'Partner in technical depth, simulation, and interview preparation.', route: '/building-teams', routeLabel: 'Building Teams →' },
+  'part-mockwin': { label: 'MockWin', detail: 'Partner in technical depth, simulation, and interview preparation.', route: '/about', routeLabel: 'About Us →' },
   'part-figcube': { label: 'Figcube', detail: 'Partner in practical digital products, publishing, and commerce.' },
 
   // Customers
   'cust-chintap': { label: 'Chintap', detail: 'Good work comes from good conversations.' },
   'cust-conversation': { label: 'Good Conversations', detail: 'Every piece of work begins with dialogue, context, and shared clarity.' },
   'cust-discretion': { label: 'Trust & Discretion', detail: 'Not every engagement is shared publicly. The work matters, and so does mutual trust.' },
-  'cust-astar': { label: 'AStar Electricals', detail: 'Brand identity, letter A & bolt mark, and business communication in Bengaluru.', route: '/customers', routeLabel: 'View Customer Story →' },
+  'cust-astar': { label: 'AStar Electricals', detail: 'Brand identity, letter A & bolt mark, and business communication in Bengaluru.', route: '/about', routeLabel: 'About Us →' },
 
   // About
-  'abt-chintap': { label: 'Chintap', detail: 'Curious about how things work, and how they could be better.' },
-  'abt-no-box': { label: 'No Single Box', detail: 'The world doesn\'t neatly separate physical from digital. We follow worthwhile ideas rather than predefined categories.' },
-  'abt-explore-make': { label: 'Explore & Make', detail: 'Curious enough to explore, practical enough to make, learn, and unlearn along the way.' },
-  'abt-work-in-progress': { label: 'Work in Progress', detail: 'Not tied to a single product or industry. Openness is intentional—there is plenty left to explore.' },
-  'abt-your-ideas': { label: 'Your Ideas', detail: 'Conversations that lead somewhere — a better question, a new perspective, or something worth building.', route: '/contact', routeLabel: 'Let\'s Talk →' },
+  'abt-chintap': { label: 'Chintap Starter', detail: 'Curious by nature. Built for modern web builders with zero-cost cloud architecture.', route: '/about', routeLabel: 'About Us →' },
+  'abt-no-box': { label: 'No Single Box', detail: 'Unifying SSG discovery, Signal reactivity, and LLM discoverability without premature compromise.', route: '/features', routeLabel: 'Features →' },
+  'abt-explore-make': { label: 'Explore & Make', detail: 'Curious enough to explore, practical enough to ship with Vitest, Netlify Free Tier, and SEO.', route: '/best-practices', routeLabel: '5 Pillars →' },
+  'abt-work-in-progress': { label: 'Work in Progress', detail: 'Tracking the forefront of Angular and modern web standards — standalone signals, esbuild, and Tailwind 4.', route: '/tasks', routeLabel: 'Tasks Demo →' },
+  'abt-your-ideas': { label: 'Your Ideas', detail: 'Conversations that lead somewhere — start building or customize the starter today.', route: '/contact', routeLabel: 'Let\'s Talk →' },
+  'abt-free-tier': { label: '100% Free Tier', detail: 'Zero subscriptions, zero surprise bills. Pure open-source and free hosting.', route: '/features', routeLabel: 'Features →' },
+  'abt-open-standards': { label: 'Open Standards', detail: 'Strict Schema.org, llms.txt, and W3C accessibility compliance.', route: '/best-practices', routeLabel: '5 Pillars →' },
+  'abt-developer-first': { label: 'Developer First', detail: 'Clarity over complexity. Sub-second test feedback and clean architecture.', route: '/tasks', routeLabel: 'Tasks Demo →' },
 
   // Building Teams
   'teams-work': { label: 'The Work to Be Done', detail: 'Start with what needs to happen before defining roles.' },
@@ -91,12 +126,13 @@ export const NODE_DETAILS: Record<string, NodeInfo> = {
   'teams-mockwin': { label: 'MockWin', detail: 'Partner for evaluating technical depth and practical capability.' },
 
   // Contact
-  'cnt-question': { label: 'A Question', detail: 'What you\'re thinking about or trying to solve.' },
-  'cnt-conversation': { label: 'A Conversation', detail: 'Reach out via our contact form — no finished brief required.', route: '/contact', routeLabel: 'Get in Touch →' },
-  'cnt-next-step': { label: 'A Possible Next Step', detail: 'Exploring together what makes sense to make.' },
+  'cnt-question': { label: 'Your Ideas & Questions', detail: 'What are you thinking about building? An app, starter kit customization, or open collaboration.', route: '/contact', routeLabel: 'Contact Us →' },
+  'cnt-conversation': { label: 'Direct Conversation', detail: 'Reach out via our contact form or hello@chintap.com. We review every note personally.', route: '/contact', routeLabel: 'Get in Touch →' },
+  'cnt-next-step': { label: 'A Next Step', detail: 'Turning questions into working production code with modern Angular 22 architecture and zero-cost cloud deployment.', route: '/features', routeLabel: 'Explore Stack →' },
+  'cnt-support': { label: 'Developer Support', detail: 'Direct assistance, community feedback, and GitHub collaboration.', route: '/contact', routeLabel: 'Support →' },
 
   // Academy
-  'acd-center': { label: 'Academy by Chintap', detail: 'From ideas to life. Imagine → Explore → Learn → Build → Test → Launch', route: '/academy', routeLabel: 'Academy' },
+  'acd-center': { label: 'Academy by Chintap', detail: 'From ideas to life. Imagine → Explore → Learn → Build → Test → Launch', route: '/about', routeLabel: 'About Us →' },
   'acd-imagine': { label: '01. Imagine', detail: 'Every great product starts with a thought, a problem worth solving, or curiosity.' },
   'acd-explore': { label: '02. Explore', detail: 'Understand possibilities, product thinking, and choose the right technical approach.' },
   'acd-learn': { label: '03. Learn', detail: 'Master modern full-stack web, mobile apps, backend APIs, and AI co-pilots.' },
@@ -107,10 +143,40 @@ export const NODE_DETAILS: Record<string, NodeInfo> = {
 
 export const GRAPH_METADATA_MAP: Record<NetworkGraphMode, { title: string; subtitle: string; excerpt: string; defaultLine: string }> = {
   'home': {
-    title: 'The Possibility Space',
-    subtitle: 'Things. Apps. Possibilities.',
-    excerpt: 'An idea doesn\'t have to know what it will become. From physical objects to software with a reason to exist, and connections not yet defined.',
-    defaultLine: 'An idea doesn\'t have to know what it will become.'
+    title: 'Starter Architecture',
+    subtitle: 'Angular 22 · 5 Pillars · Enterprise Starter',
+    excerpt: 'A production-ready foundation uniting fine-grained reactive state, full-stack static prerendering, and multi-model AI discoverability.',
+    defaultLine: 'Built for speed, accessibility, and AI discoverability.'
+  },
+  'features': {
+    title: 'Modern Stack Architecture',
+    subtitle: 'Angular 22 · Signals · Tailwind CSS 4 · Vitest · Netlify',
+    excerpt: 'A zero-compromise developer toolchain engineered for sub-second builds, strictly typed reactive state, and automated CI/CD deployments.',
+    defaultLine: 'Enterprise engineering standards with zero configuration overhead.'
+  },
+  'best-practices': {
+    title: 'The 5 Discovery Pillars',
+    subtitle: 'SEO · AEO · LLMO · GEO · SSR & Hydration',
+    excerpt: 'A comprehensive technical framework designed to ensure your web applications are discovered, understood, and cited by search engines and generative AI agents alike.',
+    defaultLine: 'Engineered for human discovery and machine intelligence.'
+  },
+  'tasks': {
+    title: 'Task Management Architecture',
+    subtitle: 'Reactive Forms · Markdown Preview · Mock API · Local Storage',
+    excerpt: 'A clean, modular CRUD implementation illustrating best practices for form validation, asynchronous state management, and markdown editing.',
+    defaultLine: 'Modular form architecture and client-side persistence.'
+  },
+  'about': {
+    title: 'Chintap Philosophy',
+    subtitle: 'Curious by nature · Built for modern builders',
+    excerpt: 'We follow worthwhile ideas rather than predefined categories. Combining practical curiosity with uncompromising craftsmanship.',
+    defaultLine: 'Curious enough to explore. Practical enough to make.'
+  },
+  'contact': {
+    title: 'A Starting Point',
+    subtitle: 'A question, a conversation, a possible next step',
+    excerpt: 'Every interesting project starts somewhere. Tell us what you are thinking about — let us see where the conversation leads.',
+    defaultLine: "Let's see where the conversation leads."
   },
   'how-we-work': {
     title: 'The Learning Loop',
@@ -142,23 +208,11 @@ export const GRAPH_METADATA_MAP: Record<NetworkGraphMode, { title: string; subti
     excerpt: 'Every piece of work begins somewhere. We work with businesses to shape identities, tools, and communications that earn their place.',
     defaultLine: 'Good work comes from good conversations.'
   },
-  'about': {
-    title: 'No Single Box',
-    subtitle: 'Curious by nature, practical enough to make',
-    excerpt: 'Follow a worthwhile idea. Don\'t force it into a predefined category.',
-    defaultLine: 'Follow a worthwhile idea. Don\'t force it into a predefined category.'
-  },
   'building-teams': {
     title: 'Build Around the Work',
     subtitle: 'The answers shape the team — not the other way around',
     excerpt: 'The answers shape the team — not the other way around. Understanding the work ahead and assembling the capabilities needed to grow.',
     defaultLine: 'The answers shape the team — not the other way around.'
-  },
-  'contact': {
-    title: 'A Starting Point',
-    subtitle: 'A question, a conversation, a possible next step',
-    excerpt: 'Every interesting product starts somewhere. Tell us what you\'re thinking about — let\'s see where the conversation leads.',
-    defaultLine: 'Let\'s see where the conversation leads.'
   },
   'academy': {
     title: 'From Ideas to Life',

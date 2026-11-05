@@ -44,20 +44,20 @@ describe('YouAreHereDialogComponent', () => {
   });
 
   it('should toggle expansion of page nodes', () => {
-    expect(component.isExpanded('what-we-do')).toBe(false);
+    expect(component.isExpanded('best-practices')).toBe(false);
 
-    component.toggleNode('what-we-do');
-    expect(component.isExpanded('what-we-do')).toBe(true);
-    expect(component.selectedNodeId()).toBe('what-we-do');
+    component.toggleNode('best-practices');
+    expect(component.isExpanded('best-practices')).toBe(true);
+    expect(component.selectedNodeId()).toBe('best-practices');
 
-    component.toggleNode('what-we-do');
-    expect(component.isExpanded('what-we-do')).toBe(false);
+    component.toggleNode('best-practices');
+    expect(component.isExpanded('best-practices')).toBe(false);
   });
 
   it('should select child section node', () => {
-    component.selectChild('wwd-c1', 'what-we-do');
-    expect(component.selectedNodeId()).toBe('what-we-do');
-    expect(component.selectedChildId()).toBe('wwd-c1');
+    component.selectChild('bp-c1', 'best-practices');
+    expect(component.selectedNodeId()).toBe('best-practices');
+    expect(component.selectedChildId()).toBe('bp-c1');
   });
 
   it('should navigate to selected page, close dialog with navigated: true, and scroll to top', () => {
@@ -65,11 +65,11 @@ describe('YouAreHereDialogComponent', () => {
     const focusMock = vi.fn();
     const getElementSpy = vi.spyOn(document, 'getElementById').mockReturnValue({ focus: focusMock } as any);
 
-    component.selectedNodeId.set('what-we-do');
+    component.selectedNodeId.set('best-practices');
     component.navigateToSelected();
 
     expect(mockDialogRef.close).toHaveBeenCalledWith({ navigated: true });
-    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/what-we-do');
+    expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/best-practices');
     expect(scrollToSpy).toHaveBeenCalledWith({ top: 0, left: 0, behavior: 'instant' });
 
     scrollToSpy.mockRestore();
@@ -146,11 +146,11 @@ describe('YouAreHereDialogComponent', () => {
     // Verify first-level edges are reduced towards center (450, 350)
     const mobileNodes = component.allNodes;
     const aboutNode = mobileNodes.find(n => n.id === 'about')!;
-    const hwwNode = mobileNodes.find(n => n.id === 'how-we-work')!;
-    // Desktop about was x: 130; on mobile with reduced edge length it is ~194
-    expect(aboutNode.x).toBeGreaterThan(130);
-    // Desktop hww was x: 770; on mobile with reduced edge length it is ~706
-    expect(hwwNode.x).toBeLessThan(770);
+    const featuresNode = mobileNodes.find(n => n.id === 'features')!;
+    // Desktop about was x: 190; on mobile with reduced edge length it is ~242
+    expect(aboutNode.x).toBeGreaterThan(180);
+    // Desktop features was x: 710; on mobile with reduced edge length it is ~658
+    expect(featuresNode.x).toBeLessThan(710);
 
     // Verify orbital rings are scaled down proportionally
     expect(component.outerOrbitalRadius.rx).toBeLessThan(330);

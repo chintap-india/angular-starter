@@ -62,17 +62,18 @@
   @switch (mode) {
 
     <!-- =============================================================== -->
-    <!-- 1. HOME: The Possibility Space (Authoritative Brief)            -->
+    <!-- =============================================================== -->
+    <!-- 1. HOME: Starter Architecture                                   -->
     <!-- =============================================================== -->
     @case ('home') {
       <svg
         viewBox="0 0 320 320"
         class="network-graph-svg w-full h-full overflow-visible"
         role="img"
-        aria-label="The Possibility Space: Things, Apps, and Possibilities branching from Chintap"
+        aria-label="Starter Architecture: Features, 5 Pillars, and Tasks Demo branching from Chintap Starter"
       >
-        <title>The Possibility Space</title>
-        <desc>Graph tracing an idea from a thought into physical things, purposeful apps, and open possibilities converging at Chintap</desc>
+        <title>Starter Architecture</title>
+        <desc>Graph tracing modern Angular 22 architecture across Features & Stack, 5 Discovery Pillars, and Interactive Tasks converging at Chintap Starter</desc>
 
         <defs>
           <radialGradient id="beaconGlowHome" cx="50%" cy="50%" r="50%">
@@ -91,17 +92,17 @@
 
         <!-- Restrained Header -->
         <text x="16" y="24" class="text-[10px] font-semibold tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
-          The Possibility Space
+          Starter Architecture
         </text>
         <text x="304" y="24" text-anchor="end" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
-          Things · Apps · Possibilities
+          Angular 22 · 5 Pillars
         </text>
 
         <!-- Subtle Axis Guides -->
         <line x1="160" y1="36" x2="160" y2="284" class="stroke-stone-200 dark:stroke-stone-800/80 pointer-events-none" stroke-width="0.75" stroke-dasharray="2 4" />
         <line x1="34" y1="146" x2="286" y2="146" class="stroke-stone-200 dark:stroke-stone-800/80 pointer-events-none" stroke-width="0.75" stroke-dasharray="2 4" />
 
-        <!-- Optional Entry Node: A Thought ("What if?") -->
+        <!-- Optional Entry Node: Modern Web DX -->
         <path
           d="M 62 70 Q 105 105, 145 135"
           class="stroke-[#ea1c24]/50 dark:stroke-[#ea1c24]/60 pointer-events-none"
@@ -124,10 +125,10 @@
             stroke-width="1.5"
           />
           <text x="62" y="46" text-anchor="middle" class="text-[11.5px] font-bold fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
-            A Thought
+            Modern DX
           </text>
           <text x="62" y="58" text-anchor="middle" class="text-[9.5px] font-semibold fill-[#ea1c24]">
-            What if?
+            Fast &amp; AI-Ready
           </text>
         </g>
 
@@ -152,72 +153,72 @@
         <line x1="160" y1="145" x2="72" y2="222" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
         <line x1="160" y1="145" x2="248" y2="222" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
 
-        <!-- Branch 1: THINGS -->
+        <!-- Branch 1: FEATURES & STACK -->
         <g
           class="cursor-pointer group/node"
-          (click)="selectNode('home-things', $event)"
+          (click)="selectNode('home-features', $event)"
         >
           <circle cx="248" cy="76" r="26" class="fill-transparent" pointer-events="all" />
           <circle
             cx="248"
             cy="76"
             r="8"
-            [class.stroke-[#ea1c24]]="selectedNode() === 'home-things'"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'home-features' || selectedNode() === 'home-things'"
             class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
             stroke-width="1.75"
           />
           <circle cx="248" cy="76" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
           <text x="248" y="98" text-anchor="middle" class="text-[13.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
-            Things
+            Features
           </text>
           <text x="248" y="112" text-anchor="middle" class="text-[10px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
-            Physical products
+            Stack &amp; Tools
           </text>
         </g>
 
-        <!-- Branch 2: APPS -->
+        <!-- Branch 2: 5 PILLARS -->
         <g
           class="cursor-pointer group/node"
-          (click)="selectNode('home-apps', $event)"
+          (click)="selectNode('home-best-practices', $event)"
         >
           <circle cx="72" cy="222" r="26" class="fill-transparent" pointer-events="all" />
           <circle
             cx="72"
             cy="222"
             r="8"
-            [class.stroke-[#ea1c24]]="selectedNode() === 'home-apps'"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'home-best-practices' || selectedNode() === 'home-apps'"
             class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
             stroke-width="1.75"
           />
           <circle cx="72" cy="222" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
           <text x="72" y="244" text-anchor="middle" class="text-[13.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
-            Apps
+            5 Pillars
           </text>
           <text x="72" y="258" text-anchor="middle" class="text-[10px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
-            Purposeful software
+            SEO · AEO · LLMO
           </text>
         </g>
 
-        <!-- Branch 3: POSSIBILITIES -->
+        <!-- Branch 3: TASKS DEMO -->
         <g
           class="cursor-pointer group/node"
-          (click)="selectNode('home-possibilities', $event)"
+          (click)="selectNode('home-tasks', $event)"
         >
           <circle cx="248" cy="222" r="26" class="fill-transparent" pointer-events="all" />
           <circle
             cx="248"
             cy="222"
             r="8"
-            [class.stroke-[#ea1c24]]="selectedNode() === 'home-possibilities'"
+            [class.stroke-[#ea1c24]]="selectedNode() === 'home-tasks' || selectedNode() === 'home-possibilities'"
             class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200"
             stroke-width="1.75"
           />
           <circle cx="248" cy="222" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
           <text x="248" y="244" text-anchor="middle" class="text-[13.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
-            Possibilities
+            Tasks Demo
           </text>
           <text x="248" y="258" text-anchor="middle" class="text-[10px] font-medium fill-stone-600 dark:fill-stone-300 group-hover/node:fill-stone-800 dark:group-hover/node:fill-stone-100 transition-colors duration-200">
-            The undefined
+            Reactive CRUD
           </text>
         </g>
 
@@ -241,13 +242,348 @@
             <tspan class="fill-stone-900 dark:fill-white">chin</tspan><tspan class="fill-[#ea1c24]">tap</tspan>
           </text>
           <text x="160" y="186" text-anchor="middle" class="text-[9.5px] font-semibold tracking-wider fill-stone-600 dark:fill-stone-300">
-            Things · Apps · Possibilities
+            Angular 22 Starter Kit
           </text>
         </g>
 
         <!-- Authoritative Supporting Line -->
         <text x="160" y="304" text-anchor="middle" class="text-[10px] font-medium tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
-          An idea doesn't have to know what it will become
+          Built for speed, accessibility, and AI discoverability
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- 1B. FEATURES: Modern Stack Architecture                         -->
+    <!-- =============================================================== -->
+    @case ('features') {
+      <svg
+        viewBox="0 0 320 320"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="Modern Stack Architecture: Angular 22, Signals, Tailwind 4, Vitest, Netlify"
+      >
+        <title>Modern Stack Architecture</title>
+        <desc>Relational graph of the modern developer toolchain centered around Angular 22</desc>
+
+        <path
+          d="M 12 22 L 12 12 L 22 12 M 298 12 L 308 12 L 308 22 M 308 298 L 308 308 L 298 308 M 22 308 L 12 308 L 12 298"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1.25"
+          fill="none"
+        />
+
+        <text x="16" y="24" class="text-[10px] font-semibold tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          Modern Stack
+        </text>
+        <text x="304" y="24" text-anchor="end" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          Angular 22 Toolchain
+        </text>
+
+        <!-- Outer Rhombus Connectors -->
+        <polygon points="160,66 250,150 160,234 70,150" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" stroke-dasharray="3 3" fill="none" />
+
+        <!-- Radial Spokes from Center -->
+        <line x1="160" y1="150" x2="160" y2="66" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="150" x2="250" y2="150" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="150" x2="160" y2="234" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="150" x2="70" y2="150" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+
+        <!-- Top Node: SIGNALS -->
+        <g class="cursor-pointer group/node" (click)="selectNode('feat-signals', $event)">
+          <circle cx="160" cy="66" r="26" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="66" r="8" [class.stroke-[#ea1c24]]="selectedNode() === 'feat-signals'" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="160" cy="66" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="160" y="48" text-anchor="middle" class="text-[12.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Angular Signals
+          </text>
+          <text x="160" y="86" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300">
+            Fine-grained reactivity
+          </text>
+        </g>
+
+        <!-- Right Node: TAILWIND CSS 4 -->
+        <g class="cursor-pointer group/node" (click)="selectNode('feat-tailwind', $event)">
+          <circle cx="250" cy="150" r="26" class="fill-transparent" pointer-events="all" />
+          <circle cx="250" cy="150" r="8" [class.stroke-[#ea1c24]]="selectedNode() === 'feat-tailwind'" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="250" cy="150" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="250" y="172" text-anchor="middle" class="text-[12.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Tailwind CSS 4
+          </text>
+          <text x="250" y="186" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300">
+            Zero-config CSS engine
+          </text>
+        </g>
+
+        <!-- Bottom Node: VITEST -->
+        <g class="cursor-pointer group/node" (click)="selectNode('feat-vitest', $event)">
+          <circle cx="160" cy="234" r="26" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="234" r="8" [class.stroke-[#ea1c24]]="selectedNode() === 'feat-vitest'" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="160" cy="234" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="160" y="254" text-anchor="middle" class="text-[12.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Vitest Testing
+          </text>
+          <text x="160" y="268" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300">
+            Sub-second unit suite
+          </text>
+        </g>
+
+        <!-- Left Node: NETLIFY FREE TIER -->
+        <g class="cursor-pointer group/node" (click)="selectNode('feat-netlify', $event)">
+          <circle cx="70" cy="150" r="26" class="fill-transparent" pointer-events="all" />
+          <circle cx="70" cy="150" r="8" [class.stroke-[#ea1c24]]="selectedNode() === 'feat-netlify'" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="70" cy="150" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="70" y="172" text-anchor="middle" class="text-[12.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Netlify Free Tier
+          </text>
+          <text x="70" y="186" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300">
+            Global Edge CI/CD
+          </text>
+        </g>
+
+        <!-- Center Node: CORE STACK -->
+        <g class="cursor-pointer group/node" (click)="selectNode('feat-center', $event)">
+          <circle cx="160" cy="150" r="28" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="150" r="16" class="fill-[#ea1c24]/10 stroke-[#ea1c24]/40 pointer-events-none" stroke-width="1" stroke-dasharray="2 2" />
+          <circle cx="160" cy="150" r="8" [class.stroke-[#ea1c24]]="selectedNode() === 'feat-center'" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm pointer-events-none" stroke-width="2" />
+          <text x="160" y="132" text-anchor="middle" class="font-brand text-[15px] font-extrabold tracking-tight fill-stone-900 dark:fill-white">
+            Core Stack
+          </text>
+          <text x="160" y="175" text-anchor="middle" class="text-[9.5px] font-semibold tracking-wider fill-[#ea1c24]">
+            Angular 22
+          </text>
+        </g>
+
+        <text x="160" y="304" text-anchor="middle" class="text-[10px] font-medium tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          Enterprise engineering standards with zero configuration overhead
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- 1C. BEST PRACTICES: 5 Discovery Pillars                         -->
+    <!-- =============================================================== -->
+    @case ('best-practices') {
+      <svg
+        viewBox="0 0 320 320"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="The 5 Discovery Pillars: SEO, AEO, LLMO, GEO, SSR & Hydration"
+      >
+        <title>The 5 Discovery Pillars</title>
+        <desc>Pentagonal graph mapping technical SEO, Answer Engines, LLM optimization, Generative Engines, and SSR/Hydration</desc>
+
+        <path
+          d="M 12 22 L 12 12 L 22 12 M 298 12 L 308 12 L 308 22 M 308 298 L 308 308 L 298 308 M 22 308 L 12 308 L 12 298"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1.25"
+          fill="none"
+        />
+
+        <text x="16" y="24" class="text-[10px] font-semibold tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          Discovery Architecture
+        </text>
+        <text x="304" y="24" text-anchor="end" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          5 Pillars Framework
+        </text>
+
+        <!-- Outer Pentagon -->
+        <polygon points="160,56 255,125 220,230 100,230 65,125" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" stroke-dasharray="3 3" fill="none" />
+
+        <!-- Radial Spokes -->
+        <line x1="160" y1="150" x2="160" y2="56" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="150" x2="255" y2="125" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="150" x2="220" y2="230" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="150" x2="100" y2="230" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="150" x2="65" y2="125" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+
+        <!-- Node 1: Technical SEO (Top) -->
+        <g class="cursor-pointer group/node" (click)="selectNode('bp-seo', $event)">
+          <circle cx="160" cy="56" r="24" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="56" r="7" [class.stroke-[#ea1c24]]="selectedNode() === 'bp-seo'" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="160" cy="56" r="2" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="160" y="40" text-anchor="middle" class="text-[11.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            SEO
+          </text>
+          <text x="160" y="74" text-anchor="middle" class="text-[9px] font-medium fill-stone-600 dark:fill-stone-300">
+            Schema.org JSON-LD
+          </text>
+        </g>
+
+        <!-- Node 2: AEO (Top-Right) -->
+        <g class="cursor-pointer group/node" (click)="selectNode('bp-aeo', $event)">
+          <circle cx="255" cy="125" r="24" class="fill-transparent" pointer-events="all" />
+          <circle cx="255" cy="125" r="7" [class.stroke-[#ea1c24]]="selectedNode() === 'bp-aeo'" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="255" cy="125" r="2" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="255" y="112" text-anchor="middle" class="text-[11.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            AEO
+          </text>
+          <text x="255" y="145" text-anchor="middle" class="text-[9px] font-medium fill-stone-600 dark:fill-stone-300">
+            Structured Q&amp;A
+          </text>
+        </g>
+
+        <!-- Node 3: LLMO (Bottom-Right) -->
+        <g class="cursor-pointer group/node" (click)="selectNode('bp-llmo', $event)">
+          <circle cx="220" cy="230" r="24" class="fill-transparent" pointer-events="all" />
+          <circle cx="220" cy="230" r="7" [class.stroke-[#ea1c24]]="selectedNode() === 'bp-llmo'" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="220" cy="230" r="2" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="220" y="250" text-anchor="middle" class="text-[11.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            LLMO
+          </text>
+          <text x="220" y="262" text-anchor="middle" class="text-[9px] font-medium fill-stone-600 dark:fill-stone-300">
+            llms.txt manifest
+          </text>
+        </g>
+
+        <!-- Node 4: GEO (Bottom-Left) -->
+        <g class="cursor-pointer group/node" (click)="selectNode('bp-geo', $event)">
+          <circle cx="100" cy="230" r="24" class="fill-transparent" pointer-events="all" />
+          <circle cx="100" cy="230" r="7" [class.stroke-[#ea1c24]]="selectedNode() === 'bp-geo'" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="100" cy="230" r="2" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="100" y="250" text-anchor="middle" class="text-[11.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            GEO
+          </text>
+          <text x="100" y="262" text-anchor="middle" class="text-[9px] font-medium fill-stone-600 dark:fill-stone-300">
+            Entity authority
+          </text>
+        </g>
+
+        <!-- Node 5: SSR / SSG (Top-Left) -->
+        <g class="cursor-pointer group/node" (click)="selectNode('bp-ssr', $event)">
+          <circle cx="65" cy="125" r="24" class="fill-transparent" pointer-events="all" />
+          <circle cx="65" cy="125" r="7" [class.stroke-[#ea1c24]]="selectedNode() === 'bp-ssr'" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="65" cy="125" r="2" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="65" y="112" text-anchor="middle" class="text-[11.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            SSR / SSG
+          </text>
+          <text x="65" y="145" text-anchor="middle" class="text-[9px] font-medium fill-stone-600 dark:fill-stone-300">
+            Event replay
+          </text>
+        </g>
+
+        <!-- Center Node: 5 PILLARS -->
+        <g class="cursor-pointer group/node" (click)="selectNode('bp-center', $event)">
+          <circle cx="160" cy="150" r="28" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="150" r="16" class="fill-[#ea1c24]/10 stroke-[#ea1c24]/40 pointer-events-none" stroke-width="1" stroke-dasharray="2 2" />
+          <circle cx="160" cy="150" r="8" [class.stroke-[#ea1c24]]="selectedNode() === 'bp-center'" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm pointer-events-none" stroke-width="2" />
+          <text x="160" y="132" text-anchor="middle" class="font-brand text-[15px] font-extrabold tracking-tight fill-stone-900 dark:fill-white">
+            5 Pillars
+          </text>
+          <text x="160" y="175" text-anchor="middle" class="text-[9.5px] font-semibold tracking-wider fill-[#ea1c24]">
+            Discovery Framework
+          </text>
+        </g>
+
+        <text x="160" y="304" text-anchor="middle" class="text-[10px] font-medium tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          Engineered for human discovery and machine intelligence
+        </text>
+      </svg>
+    }
+
+    <!-- =============================================================== -->
+    <!-- 1D. TASKS: CRUD Architecture                                    -->
+    <!-- =============================================================== -->
+    @case ('tasks') {
+      <svg
+        viewBox="0 0 320 320"
+        class="network-graph-svg w-full h-full overflow-visible"
+        role="img"
+        aria-label="Task Management Architecture: Reactive Forms, Markdown Preview, Mock API, Local Storage"
+      >
+        <title>Task Management Architecture</title>
+        <desc>Decoupled module architecture demonstrating forms best practices, markdown editing, and offline persistence</desc>
+
+        <path
+          d="M 12 22 L 12 12 L 22 12 M 298 12 L 308 12 L 308 22 M 308 298 L 308 308 L 298 308 M 22 308 L 12 308 L 12 298"
+          class="stroke-stone-300 dark:stroke-stone-700/80 pointer-events-none"
+          stroke-width="1.25"
+          fill="none"
+        />
+
+        <text x="16" y="24" class="text-[10px] font-semibold tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          Task Architecture
+        </text>
+        <text x="304" y="24" text-anchor="end" class="text-[9.5px] font-medium tracking-wide fill-stone-500 dark:fill-stone-400 pointer-events-none">
+          CRUD Showcase
+        </text>
+
+        <!-- Outer Diamond -->
+        <polygon points="160,66 250,150 160,234 70,150" class="stroke-stone-200 dark:stroke-stone-800 pointer-events-none" stroke-width="1" stroke-dasharray="3 3" fill="none" />
+
+        <!-- Radial Spokes -->
+        <line x1="160" y1="150" x2="160" y2="66" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="150" x2="250" y2="150" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="150" x2="160" y2="234" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+        <line x1="160" y1="150" x2="70" y2="150" class="stroke-stone-300 dark:stroke-stone-700 pointer-events-none" stroke-width="1.5" />
+
+        <!-- Top Node: REACTIVE FORMS -->
+        <g class="cursor-pointer group/node" (click)="selectNode('tsk-forms', $event)">
+          <circle cx="160" cy="66" r="26" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="66" r="8" [class.stroke-[#ea1c24]]="selectedNode() === 'tsk-forms' || selectedNode() === 'tsk-reactive-forms'" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="160" cy="66" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="160" y="48" text-anchor="middle" class="text-[12.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Reactive Forms
+          </text>
+          <text x="160" y="86" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300">
+            Strict type validation
+          </text>
+        </g>
+
+        <!-- Right Node: MARKDOWN PREVIEW -->
+        <g class="cursor-pointer group/node" (click)="selectNode('tsk-markdown', $event)">
+          <circle cx="250" cy="150" r="26" class="fill-transparent" pointer-events="all" />
+          <circle cx="250" cy="150" r="8" [class.stroke-[#ea1c24]]="selectedNode() === 'tsk-markdown'" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="250" cy="150" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="250" y="172" text-anchor="middle" class="text-[12.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Markdown Preview
+          </text>
+          <text x="250" y="186" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300">
+            Live rendered view
+          </text>
+        </g>
+
+        <!-- Bottom Node: MOCK API -->
+        <g class="cursor-pointer group/node" (click)="selectNode('tsk-mock-api', $event)">
+          <circle cx="160" cy="234" r="26" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="234" r="8" [class.stroke-[#ea1c24]]="selectedNode() === 'tsk-mock-api'" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="160" cy="234" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="160" y="254" text-anchor="middle" class="text-[12.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Mock API Service
+          </text>
+          <text x="160" y="268" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300">
+            Async latency &amp; errors
+          </text>
+        </g>
+
+        <!-- Left Node: LOCAL STORAGE -->
+        <g class="cursor-pointer group/node" (click)="selectNode('tsk-storage', $event)">
+          <circle cx="70" cy="150" r="26" class="fill-transparent" pointer-events="all" />
+          <circle cx="70" cy="150" r="8" [class.stroke-[#ea1c24]]="selectedNode() === 'tsk-storage' || selectedNode() === 'tsk-local-storage'" class="fill-white dark:fill-stone-900 stroke-stone-800 dark:stroke-stone-200 group-hover/node:stroke-[#ea1c24] transition-colors duration-200" stroke-width="1.75" />
+          <circle cx="70" cy="150" r="2.5" class="fill-stone-800 dark:fill-stone-200 group-hover/node:fill-[#ea1c24] transition-colors duration-200" />
+          <text x="70" y="172" text-anchor="middle" class="text-[12.5px] font-bold fill-stone-900 dark:fill-stone-100 group-hover/node:fill-[#ea1c24] transition-colors duration-200">
+            Local Storage
+          </text>
+          <text x="70" y="186" text-anchor="middle" class="text-[9.5px] font-medium fill-stone-600 dark:fill-stone-300">
+            Client persistence
+          </text>
+        </g>
+
+        <!-- Center Node: CRUD MODULE -->
+        <g class="cursor-pointer group/node" (click)="selectNode('tsk-center', $event)">
+          <circle cx="160" cy="150" r="28" class="fill-transparent" pointer-events="all" />
+          <circle cx="160" cy="150" r="16" class="fill-[#ea1c24]/10 stroke-[#ea1c24]/40 pointer-events-none" stroke-width="1" stroke-dasharray="2 2" />
+          <circle cx="160" cy="150" r="8" [class.stroke-[#ea1c24]]="selectedNode() === 'tsk-center'" class="fill-[#ea1c24] stroke-white dark:stroke-stone-900 shadow-sm pointer-events-none" stroke-width="2" />
+          <text x="160" y="132" text-anchor="middle" class="font-brand text-[15px] font-extrabold tracking-tight fill-stone-900 dark:fill-white">
+            Tasks CRUD
+          </text>
+          <text x="160" y="175" text-anchor="middle" class="text-[9.5px] font-semibold tracking-wider fill-[#ea1c24]">
+            Module Architecture
+          </text>
+        </g>
+
+        <text x="160" y="304" text-anchor="middle" class="text-[10px] font-medium tracking-wide fill-stone-600 dark:fill-stone-300 pointer-events-none">
+          Modular form architecture and client-side persistence
         </text>
       </svg>
     }
