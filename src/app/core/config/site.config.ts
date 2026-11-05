@@ -1,6 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
 export interface SiteConfig {
+  version: string;
   name: string;
   shortName: string;
   tagline: string;
@@ -60,6 +61,7 @@ export interface SiteConfig {
 }
 
 export const DEFAULT_SITE_CONFIG: SiteConfig = {
+  version: '1.1.0',
   name: 'Chintap Angular Starter',
   shortName: 'Angular Starter',
   tagline: 'SEO, AEO, LLMO, GEO & SSR Ready Starter Kit',

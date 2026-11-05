@@ -191,6 +191,7 @@ export class SeoService {
       operatingSystem: 'Any',
       description: this.siteConfig.description,
       url: this.siteConfig.baseUrl,
+      softwareVersion: this.siteConfig.version,
       author: {
         '@type': 'Person',
         name: this.siteConfig.author.name,

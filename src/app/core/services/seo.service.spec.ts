@@ -211,6 +211,7 @@ describe('SeoService', () => {
       expect(appSchema.name).toBe('Chintap Angular Starter');
       expect(appSchema.applicationCategory).toBe('DeveloperApplication');
       expect(appSchema.version).toBe('1.0.0');
+      expect((appSchema as any).softwareVersion).toBe('1.1.0');
     });
   });
 });
