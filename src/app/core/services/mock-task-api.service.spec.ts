@@ -129,7 +129,7 @@ describe('MockTaskApiService', () => {
   it('should reset tasks to initial defaults', async () => {
     await firstValueFrom(service.createTask({ title: 'Temporary Task' }));
     const resetTasks = await firstValueFrom(service.resetToDefaults());
-    expect(resetTasks.length).toBe(4);
+    expect(resetTasks.length).toBe(5);
     expect(resetTasks.find((t) => t.title === 'Temporary Task')).toBeUndefined();
   });
 });

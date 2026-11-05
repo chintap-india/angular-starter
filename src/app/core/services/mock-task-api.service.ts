@@ -84,6 +84,27 @@ Check that all static HTML routes are pre-rendered into \`dist/\`. Then test you
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
+  {
+    id: 'task-5',
+    title: 'Migrate repository remote to chintap-india/angular-starter',
+    description: `### Final Repository Migration
+Migrate the starter kit to its permanent home under the **chintap-india** organization:
+* **Target Repository**: \`https://github.com/chintap-india/angular-starter\`
+* **Remote Command**:
+\`\`\`bash
+git remote set-url origin https://github.com/chintap-india/angular-starter.git
+git push -u origin main
+\`\`\`
+* **Config Updates**:
+Update repository references in \`package.json\`, \`site.config.ts\`, \`site.content.ts\`, \`README.md\`, and \`CONTRIBUTING.md\`.
+`,
+    priority: 'high',
+    status: 'todo',
+    category: 'Deployment',
+    dueDate: '2026-11-06',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
 ];
 
 @Injectable({

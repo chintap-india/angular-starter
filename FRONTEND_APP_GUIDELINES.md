@@ -1734,6 +1734,30 @@ Whenever incrementing the version, update all five touchpoints atomically:
 4. Create annotated Git tag: `git tag -a vX.Y.Z -m "Release vX.Y.Z: Summary"`
 5. Push commit and tag to remote: `git push origin main && git push origin vX.Y.Z`
 
+---
+
+## 28. Official Organization Repository Migration Protocol
+
+When moving this starter kit to its permanent organizational home (e.g. `chintap-india/angular-starter`), preserve complete repository integrity:
+
+### 28.1 Retaining Full Git History & Tags
+Never re-initialize (`git init`) an existing production codebase or wipe git history. Instead, update the remote URL or push to the new remote:
+```bash
+# Update existing origin
+git remote set-url origin https://github.com/chintap-india/angular-starter.git
+git push -u origin main
+git push origin --tags
+```
+
+### 28.2 Atomic Codebase Reference Updates
+When changing the canonical GitHub repository:
+1. `package.json`: Update repository URL field.
+2. `src/app/core/config/site.config.ts`: Update `social.github`.
+3. `src/app/core/config/site.content.ts`: Update CLI quickstart `git clone` snippet.
+4. `README.md`: Update clone URLs, badge links, and contribution links.
+5. `CONTRIBUTING.md`: Update fork and upstream clone instructions.
+
+
 
 
 
