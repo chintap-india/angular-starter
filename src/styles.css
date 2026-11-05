@@ -439,5 +439,50 @@ html.dark .chintap-card:hover {
   transition-property: transform, translate, scale, rotate, opacity, color, background-color, border-color !important;
 }
 
+/* ==========================================================================
+   Angular Material Expansion Panel Customization & Dark Mode
+   ========================================================================== */
+.mat-expansion-panel {
+  box-shadow: none !important;
+}
+
+.mat-expansion-panel-header-title {
+  color: #1c1917 !important;
+  font-weight: 700 !important;
+}
+
+.mat-expansion-indicator::after {
+  color: #78716c !important;
+  border-color: #78716c !important;
+}
+
+html.dark .mat-expansion-panel {
+  background-color: #1c1917 !important;
+  color: #f5f5f4 !important;
+  border-color: #292524 !important;
+}
+
+html.dark .mat-expansion-panel-header {
+  background-color: transparent !important;
+}
+
+html.dark .mat-expansion-panel-header-title,
+html.dark .mat-expansion-panel-header-title span {
+  color: #fafaf9 !important;
+}
+
+html.dark .mat-expansion-panel-header-description {
+  color: #a8a29e !important;
+}
+
+html.dark .mat-expansion-indicator::after {
+  color: #e7e5e4 !important;
+  border-color: #e7e5e4 !important;
+}
+
+html.dark .mat-expansion-panel-body {
+  color: #d6d3d1 !important;
+}
+
 
 

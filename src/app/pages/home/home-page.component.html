@@ -126,27 +126,49 @@
     <div class="text-center mb-12">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-3 border border-emerald-200 dark:border-emerald-800">
         <mat-icon class="!text-sm !w-4 !h-4">schema</mat-icon>
-        Live AEO Schema Demo
+        Live AEO Schema Demo & Architecture FAQ
       </div>
       <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white tracking-tight mb-4">
         Frequently Asked Questions
       </h2>
       <p class="text-base text-stone-600 dark:text-stone-400 max-w-2xl mx-auto">
-        Every question below is rendered in semantic HTML and automatically injected into Schema.org <code>FAQPage</code> JSON-LD for Google AI Overviews and answer engines.
+        Deep dive into our Angular 22 Signals, Tailwind 4, SSG pre-rendering, and AI optimization stack. Every question is automatically injected into Schema.org <code>FAQPage</code> JSON-LD for answer engines.
       </p>
     </div>
 
     <!-- Angular Material Accordion -->
     <mat-accordion multi class="space-y-4">
       @for (faq of faqs; track faq.question) {
-        <mat-expansion-panel class="!rounded-2xl !border !border-stone-200 dark:!border-stone-800 !bg-white dark:!bg-stone-900 !shadow-xs overflow-hidden">
-          <mat-expansion-panel-header class="!py-4">
-            <mat-panel-title class="!font-bold !text-base text-stone-900 dark:text-white">
-              {{ faq.question }}
+        <mat-expansion-panel
+          [expanded]="$first"
+          class="!rounded-2xl !border !border-stone-200 dark:!border-stone-800 !bg-white dark:!bg-stone-900/90 !shadow-sm hover:!border-stone-300 dark:hover:!border-stone-700 transition-all duration-200 overflow-hidden"
+        >
+          <mat-expansion-panel-header class="!py-4.5 !px-5 sm:!px-6">
+            <mat-panel-title class="!font-bold !text-base sm:!text-lg !text-stone-900 dark:!text-stone-100 flex flex-wrap items-center gap-2.5">
+              @if (faq.category) {
+                <span class="text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700 shrink-0">
+                  {{ faq.category }}
+                </span>
+              }
+              <span>{{ faq.question }}</span>
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <div class="text-stone-600 dark:text-stone-300 text-sm leading-relaxed py-2">
+
+          <div class="px-1 py-3 text-stone-700 dark:text-stone-300 text-sm sm:text-base leading-relaxed space-y-4">
             <p>{{ faq.answer }}</p>
+
+            @if (faq.details && faq.details.length > 0) {
+              <div class="pt-3 border-t border-stone-100 dark:border-stone-800/80">
+                <ul class="grid grid-cols-1 gap-2.5">
+                  @for (detail of faq.details; track detail) {
+                    <li class="flex items-start gap-2.5 text-xs sm:text-sm text-stone-700 dark:text-stone-300">
+                      <mat-icon class="!text-sm !w-4 !h-4 text-emerald-500 mt-0.5 shrink-0">check_circle</mat-icon>
+                      <span>{{ detail }}</span>
+                    </li>
+                  }
+                </ul>
+              </div>
+            }
           </div>
         </mat-expansion-panel>
       }
