@@ -3,4 +3,5 @@
 /best-practices
 /about
 /contact
+/tasks
 /404

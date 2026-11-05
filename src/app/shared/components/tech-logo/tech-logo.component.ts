@@ -7,16 +7,16 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <div
-      class="inline-flex items-center justify-center shrink-0"
+      class="inline-flex items-center justify-center shrink-0 aspect-square"
       [ngClass]="[containerClass, sizeClasses]"
       [title]="name || nameKey"
       role="img"
       [attr.aria-label]="name || nameKey"
     >
       <img
-        [src]="'/images/tech/' + resolvedFile"
+        [src]="'images/tech/' + resolvedFile"
         [alt]="name || nameKey"
-        class="w-full h-full object-contain"
+        class="max-w-full max-h-full w-auto h-auto object-contain block m-auto shrink-0 select-none"
         [ngClass]="{'dark:invert': isMonochrome}"
         loading="lazy"
       />
@@ -47,9 +47,9 @@ export class TechLogoComponent {
       case 'sm':
         return 'w-6 h-6';
       case 'lg':
-        return 'w-10 h-10 sm:w-11 sm:h-11';
+        return 'w-9 h-9';
       case 'xl':
-        return 'w-14 h-14';
+        return 'w-12 h-12';
       case 'md':
       default:
         return 'w-8 h-8';

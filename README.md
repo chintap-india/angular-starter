@@ -6,11 +6,14 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8%2B-blue.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38bdf8.svg?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
 [![Material 3](https://img.shields.io/badge/Material_Design-M3-7c3aed.svg?style=flat&logo=google)](https://material.angular.io/)
-[![SSG Prerender](https://img.shields.io/badge/SSG-Prerender_6_Routes-10b981.svg?style=flat)](https://angular.dev/guide/ssr)
-[![Tests](https://img.shields.io/badge/Tests-75%2F75_Passing-brightgreen.svg?style=flat&logo=vitest)](https://vitest.dev)
+[![SSG Prerender](https://img.shields.io/badge/SSG-Prerender_7_Routes-10b981.svg?style=flat)](https://angular.dev/guide/ssr)
+[![Tests](https://img.shields.io/badge/Tests-Passing-brightgreen.svg?style=flat&logo=vitest)](https://vitest.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **Chintap Angular Starter** is a developer template for building modern, high-performance web applications that excel not just in traditional search engines, but in the emerging AI search and generative answer landscape.
+
+> [!TIP]
+> **Rebranding with your own brand & domain?** Check out the [**🎨 Rebranding & Customization Guide**](CUSTOMIZATION_GUIDE.md) to customize brand identity, copy, logos, and deploy in 3 simple steps without touching HTML templates!
 
 ---
 
@@ -83,6 +86,13 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
   defaultOgImage: 'https://mycoolapp.com/images/og-preview.jpg',
   locale: 'en_US',
   themeColor: '#0f172a',
+  brand: {
+    logoLight: '/images/logo-light.svg',
+    logoDark: '/images/logo-dark.svg',
+    logoAlt: 'Brand Logo',
+    favicon: '/favicon.ico',
+    ogImage: '/images/og-preview.jpg',
+  },
   author: {
     name: 'Your Name',
     url: 'https://github.com/yourhandle',
@@ -92,7 +102,7 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
     name: 'My Organization',
     legalName: 'My Organization Inc.',
     url: 'https://mycoolapp.com',
-    logo: 'https://mycoolapp.com/images/logo.png',
+    logo: 'https://mycoolapp.com/images/logo-light.svg',
     email: 'contact@mycoolapp.com',
     address: {
       streetAddress: '123 Tech Lane',
@@ -126,17 +136,39 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
 };
 ```
 
-### Injecting in Any Component or Service
+---
+
+## 📝 Decoupled Content & Copy (`site.content.ts`)
+
+To ensure **zero HTML hardcoding**, all UI headlines, hero badges, FAQ lists, feature matrix details, and legal disclaimers live in:
+
+📁 **`src/app/core/config/site.content.ts`**
+
+- **Navigation**: Customizable links and call-to-action buttons.
+- **Home**: Hero badge, split headline, CTAs, 5-Pillar cards, and interactive FAQs (which automatically populate the Schema.org `FAQPage` JSON-LD schema!).
+- **Features & Stack**: Official framework badges, doc links, and trademark notices.
+- **Footer**: Brand columns, copyright notice, and nominative fair use disclaimers.
 
 ```typescript
 import { Component, inject } from '@angular/core';
-import { SITE_CONFIG } from '../../core/config/site.config';
+import { SITE_CONTENT } from '../../core/config/site.content';
 
 @Component({ ... })
 export class MyFeatureComponent {
-  readonly siteConfig = inject(SITE_CONFIG);
+  readonly content = inject(SITE_CONTENT);
 }
 ```
+
+---
+
+## 📋 Built-In Tasks & Forms Module (`/tasks`)
+
+Explore modern enterprise Angular 22 form engineering at `/tasks`:
+- **Typed Reactive Forms**: Type-safe `FormGroup` validation with granular error messaging.
+- **Dual-Mode Markdown Editor**: Write task descriptions using GitHub-Flavored Markdown and toggle between Write and Preview modes.
+- **SSR-Safe Persistence**: Automatic synchronization with `localStorage` in browser mode with safe hydration on the server.
+- **Mock API Service**: `MockTaskApiService` simulates asynchronous latency and can easily be replaced with a real REST or GraphQL endpoint.
+- **Netlify Identity & Local Auth**: `AuthService` supporting Netlify Identity and instantaneous Lead Developer vs. Guest role testing.
 
 ---
 
@@ -160,7 +192,7 @@ This starter kit comes pre-configured with endpoints designed specifically for A
 - **Application Builder (`@angular/build:application`)**: Ultra-fast esbuild bundler with static pre-rendering.
 - **Angular Material 3**: Beautiful, accessible, theme-aware components (`MatExpansionModule`, `MatButtonModule`, `MatIconModule`, `MatDialogModule`, `MatSnackBarModule`).
 - **Tailwind CSS 4**: Modern CSS-first engine with dark theme `@variant dark` support.
-- **Vitest & Angular Unit Testing**: Lightning-fast unit tests with 100% pass guarantee.
+- **Angular Unit Testing**: Fast unit tests with 100% pass guarantee.
 - **Netlify Ready**: Zero-config deployment with `netlify.toml` pre-configured for clean URLs and header security.
 
 ---
@@ -169,8 +201,11 @@ This starter kit comes pre-configured with endpoints designed specifically for A
 
 ```
 chintap-angular-starter/
+├── CUSTOMIZATION_GUIDE.md            # Step-by-step 3-step rebrand handbook
 ├── public/
 │   ├── .well-known/ard.json          # Agent Resource Discovery manifest
+│   ├── images/                       # Drop-in logos (logo-light.svg, logo-dark.svg, og-preview.jpg)
+│   │   └── tech/                     # 1:1 Square official stack logos (Angular, Tailwind, etc.)
 │   ├── llms.txt                      # LLM-readable summary
 │   ├── llms-full.txt                 # Detailed LLM architectural guide
 │   ├── robots.txt                    # Search & AI crawler directives
@@ -178,20 +213,28 @@ chintap-angular-starter/
 ├── src/
 │   ├── app/
 │   │   ├── core/
-│   │   │   ├── config/site.config.ts # Centralized branding & config
-│   │   │   ├── services/
-│   │   │   │   ├── seo.service.ts    # SEO/AEO/GEO schema injection engine
-│   │   │   │   └── theme.service.ts  # Light/Dark mode reactive signal
+│   │   │   ├── config/
+│   │   │   │   ├── site.config.ts    # Centralized branding & config
+│   │   │   │   └── site.content.ts   # Decoupled UI copy & page content
+│   │   │   ├── models/               # Domain models & DTOs
+│   │   │   └── services/
+│   │   │       ├── auth.service.ts   # Netlify Identity & mock auth signals
+│   │   │       ├── mock-task-api.ts  # SSR-safe tasks CRUD service
+│   │   │       ├── seo.service.ts    # SEO/AEO/GEO schema injection engine
+│   │   │       └── theme.service.ts  # Light/Dark mode reactive signal
 │   │   ├── pages/
 │   │   │   ├── home/                 # Starter hero, 5-Pillar matrix & FAQ
-│   │   │   ├── features/             # Tech stack & architectural overview
+│   │   │   ├── features/             # Tech stack, official logos & disclaimers
 │   │   │   ├── best-practices/       # Developer handbook with copyable code
 │   │   │   ├── about/                # About page
 │   │   │   ├── contact/              # Interactive contact form
+│   │   │   ├── tasks/                # Tasks CRUD module with Markdown preview
 │   │   │   └── not-found/            # Accessible 404 with dinosaur Easter egg
-│   │   ├── shared/components/        # Navbar, Footer, Graph components
+│   │   ├── shared/
+│   │   │   ├── components/           # Navbar, Footer, TechLogo, Graph components
+│   │   │   └── pipes/                # Sanitized Markdown-to-HTML parser pipe
 │   │   └── app.routes.ts             # Route definitions & pre-render list
-│   ├── routes.txt                    # Routes to statically pre-render at build
+│   ├── routes.txt                    # Routes to statically pre-render at build (7 routes)
 │   └── index.html                    # Root HTML with baseline JSON-LD
 ├── angular.json                      # Build & SSG options
 ├── netlify.toml                      # Netlify edge deployment configuration

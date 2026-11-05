@@ -8,6 +8,7 @@ import { ContactDialogComponent } from '../../../features/modals/contact-dialog/
 import { LegalDialogComponent } from '../../../features/modals/legal-dialog/legal-dialog.component';
 import { ContentService } from '../../../core/services/content.service';
 import { SITE_CONFIG } from '../../../core/config/site.config';
+import { SITE_CONTENT } from '../../../core/config/site.content';
 
 @Component({
   selector: 'app-footer',
@@ -23,6 +24,7 @@ import { SITE_CONFIG } from '../../../core/config/site.config';
 export class FooterComponent {
   readonly contentService = inject(ContentService);
   readonly siteConfig = inject(SITE_CONFIG);
+  readonly content = inject(SITE_CONTENT);
   private readonly dialog = inject(MatDialog);
   readonly currentYear = new Date().getFullYear();
 

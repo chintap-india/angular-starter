@@ -7,8 +7,8 @@
       <div class="md:col-span-4 space-y-4">
         <a routerLink="/" class="flex items-center gap-3 group focus:outline-none" [attr.aria-label]="siteConfig.name + ' Home'">
           <img
-            src="images/chintap-emblem-dark.svg"
-            alt="Chintap Starter Logo"
+            [src]="siteConfig.brand.logoDark"
+            [alt]="siteConfig.brand.logoAlt"
             width="36"
             height="36"
             class="w-9 h-9 object-contain drop-shadow"
@@ -27,13 +27,14 @@
 
       <!-- Quick Navigation Links (3 cols) -->
       <nav class="md:col-span-3" aria-label="Footer Quick Navigation">
-        <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Navigation</h3>
+        <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-4">{{ content.footer.navTitle }}</h3>
         <ul class="space-y-2 text-sm text-stone-300">
           <li><a routerLink="/" class="hover:text-white transition focus-visible:outline-none focus-visible:underline">Home</a></li>
           <li><a routerLink="/features" class="hover:text-white transition focus-visible:outline-none focus-visible:underline">Features & Stack</a></li>
           <li><a routerLink="/best-practices" class="hover:text-white transition focus-visible:outline-none focus-visible:underline">Best Practices Guide</a></li>
-          <li><a routerLink="/about" class="hover:text-white transition focus-visible:outline-none focus-visible:underline">About & Entity Schema</a></li>
-          <li><a routerLink="/contact" class="hover:text-white transition focus-visible:outline-none focus-visible:underline">Contact Form</a></li>
+          <li><a routerLink="/tasks" class="hover:text-white transition focus-visible:outline-none focus-visible:underline">Project Tasks</a></li>
+          <li><a routerLink="/about" class="hover:text-white transition focus-visible:outline-none focus-visible:underline">About</a></li>
+          <li><a routerLink="/contact" class="hover:text-white transition focus-visible:outline-none focus-visible:underline">Contact</a></li>
           <li class="pt-2 mt-2 border-t border-stone-800">
             <a
               [href]="siteConfig.social.github"
@@ -50,7 +51,7 @@
 
       <!-- AI & Machine Discovery (3 cols) -->
       <nav class="md:col-span-3" aria-label="Machine Readable Endpoints">
-        <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-4">AI & Machine Readable</h3>
+        <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-4">{{ content.footer.machineTitle }}</h3>
         <ul class="space-y-2 text-sm text-stone-300 font-mono text-xs">
           <li>
             <a href="/llms.txt" target="_blank" class="hover:text-white transition flex items-center gap-1.5">
@@ -87,7 +88,7 @@
 
       <!-- Legal (2 cols) -->
       <nav class="md:col-span-2" aria-label="Legal Documents">
-        <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Legal</h3>
+        <h3 class="text-xs font-bold text-white uppercase tracking-wider mb-4">{{ content.footer.legalTitle }}</h3>
         <ul class="space-y-2.5 text-sm text-stone-300">
           <li>
             <button
@@ -127,7 +128,7 @@
     <!-- Bottom Copyright & Semantic Version Badge -->
     <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-300">
       <div>
-        &copy; {{ currentYear }} {{ siteConfig.name }}. Open-source starter kit.
+        &copy; {{ currentYear }} {{ siteConfig.name }}. {{ content.footer.copyrightNotice }}
       </div>
       <div class="flex flex-wrap items-center justify-center sm:justify-end gap-3 font-mono text-[11px]">
         <span>Angular 22.2</span>
@@ -144,7 +145,7 @@
 
     <!-- Nominative Fair Use Notice -->
     <div class="pt-4 mt-4 border-t border-stone-800/80 text-[11px] text-stone-400 font-mono text-center sm:text-left leading-relaxed">
-      All trademarks and registered trademarks referenced belong to their respective owners and are used strictly for technical identification under nominative fair use.
+      {{ content.footer.disclaimer }}
     </div>
 
   </div>

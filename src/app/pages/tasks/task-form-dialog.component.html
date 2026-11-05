@@ -1,0 +1,239 @@
+<div class="p-6 sm:p-8 max-w-2xl w-full bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 rounded-3xl border border-stone-200 dark:border-stone-800 shadow-2xl">
+  <!-- Dialog Header -->
+  <div class="flex items-center justify-between pb-4 mb-6 border-b border-stone-100 dark:border-stone-800">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+        <mat-icon>{{ isEdit ? 'edit_note' : 'add_task' }}</mat-icon>
+      </div>
+      <div>
+        <h2 class="text-xl font-bold font-heading text-stone-900 dark:text-white leading-tight">
+          {{ isEdit ? 'Edit Task' : 'Create New Task' }}
+        </h2>
+        <p class="text-xs text-stone-500 dark:text-stone-400">
+          Typed Reactive Forms with dual-mode Markdown description
+        </p>
+      </div>
+    </div>
+    <button
+      type="button"
+      (click)="cancel()"
+      class="text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 p-1.5 rounded-lg transition cursor-pointer"
+      aria-label="Close dialog"
+    >
+      <mat-icon class="!text-xl !w-5 !h-5">close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Form Body -->
+  <form [formGroup]="taskForm" (ngSubmit)="save()" class="space-y-5">
+    
+    <!-- Title Field with Character Counter & Error Handling -->
+    <div>
+      <label class="block text-xs font-semibold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
+        Task Title <span class="text-rose-500">*</span>
+      </label>
+      <input
+        type="text"
+        formControlName="title"
+        placeholder="e.g. Configure site.config.ts with production domain"
+        class="w-full px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+      />
+      @if (titleControl.invalid && (titleControl.dirty || titleControl.touched)) {
+        <p class="text-xs text-rose-500 mt-1 flex items-center gap-1 font-medium">
+          <mat-icon class="!text-xs !w-3.5 !h-3.5">error_outline</mat-icon>
+          @if (titleControl.errors?.['required']) {
+            Title is required.
+          } @else if (titleControl.errors?.['minlength']) {
+            Title must be at least 3 characters.
+          } @else if (titleControl.errors?.['maxlength']) {
+            Title cannot exceed 120 characters.
+          }
+        </p>
+      }
+    </div>
+
+    <!-- Category, Priority & Status Row -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div>
+        <label class="block text-xs font-semibold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
+          Category
+        </label>
+        <select
+          formControlName="category"
+          class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+        >
+          @for (cat of categories; track cat) {
+            <option [value]="cat">{{ cat }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
+          Priority <span class="text-rose-500">*</span>
+        </label>
+        <select
+          formControlName="priority"
+          class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+        >
+          @for (p of priorities; track p.value) {
+            <option [value]="p.value">{{ p.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
+          Status
+        </label>
+        <select
+          formControlName="status"
+          class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+        >
+          @for (s of statuses; track s.value) {
+            <option [value]="s.value">{{ s.label }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <!-- Due Date Field -->
+    <div>
+      <label class="block text-xs font-semibold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
+        Due Date (Optional)
+      </label>
+      <input
+        type="date"
+        formControlName="dueDate"
+        class="w-full px-4 py-2 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+      />
+    </div>
+
+    <!-- Dual Mode Markdown Editor & Preview -->
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <label class="text-xs font-semibold uppercase tracking-wider text-stone-700 dark:text-stone-300">
+          Description (Markdown Supported)
+        </label>
+        <!-- Editor Tabs -->
+        <div class="inline-flex p-1 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-semibold">
+          <button
+            type="button"
+            (click)="editorTab.set('write')"
+            [class.bg-white]="editorTab() === 'write'"
+            [class.dark:bg-stone-700]="editorTab() === 'write'"
+            [class.text-stone-900]="editorTab() === 'write'"
+            [class.dark:text-white]="editorTab() === 'write'"
+            [class.shadow-xs]="editorTab() === 'write'"
+            class="px-3 py-1 rounded-lg transition text-stone-600 dark:text-stone-300 cursor-pointer"
+          >
+            Write
+          </button>
+          <button
+            type="button"
+            (click)="editorTab.set('preview')"
+            [class.bg-white]="editorTab() === 'preview'"
+            [class.dark:bg-stone-700]="editorTab() === 'preview'"
+            [class.text-stone-900]="editorTab() === 'preview'"
+            [class.dark:text-white]="editorTab() === 'preview'"
+            [class.shadow-xs]="editorTab() === 'preview'"
+            class="px-3 py-1 rounded-lg transition text-stone-600 dark:text-stone-300 cursor-pointer flex items-center gap-1"
+          >
+            <mat-icon class="!text-xs !w-3.5 !h-3.5">visibility</mat-icon>
+            Preview
+          </button>
+        </div>
+      </div>
+
+      <!-- Markdown Toolbar (visible in write mode) -->
+      @if (editorTab() === 'write') {
+        <div class="flex flex-wrap items-center gap-1.5 p-2 rounded-t-xl bg-stone-100 dark:bg-stone-800 border border-b-0 border-stone-200 dark:border-stone-700 text-xs text-stone-700 dark:text-stone-300">
+          <button
+            type="button"
+            (click)="insertMarkdown('**', '**')"
+            class="px-2 py-1 rounded hover:bg-stone-200 dark:hover:bg-stone-700 font-bold transition cursor-pointer"
+            title="Bold"
+          >
+            B
+          </button>
+          <button
+            type="button"
+            (click)="insertMarkdown('*', '*')"
+            class="px-2 py-1 rounded hover:bg-stone-200 dark:hover:bg-stone-700 italic transition cursor-pointer"
+            title="Italic"
+          >
+            I
+          </button>
+          <button
+            type="button"
+            (click)="insertMarkdown('`', '`')"
+            class="px-2 py-1 rounded hover:bg-stone-200 dark:hover:bg-stone-700 font-mono transition cursor-pointer"
+            title="Inline Code"
+          >
+            &lt;/&gt;
+          </button>
+          <button
+            type="button"
+            (click)="insertMarkdown('- ')"
+            class="px-2 py-1 rounded hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer"
+            title="Bullet list"
+          >
+            • List
+          </button>
+          <button
+            type="button"
+            (click)="insertMarkdown('- [ ] ')"
+            class="px-2 py-1 rounded hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer"
+            title="Task checkbox"
+          >
+            ☑ Task
+          </button>
+          <button
+            type="button"
+            (click)="insertMarkdown('> ')"
+            class="px-2 py-1 rounded hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer"
+            title="Blockquote"
+          >
+            “ Quote
+          </button>
+        </div>
+        <textarea
+          formControlName="description"
+          rows="6"
+          placeholder="Supports # Headings, **bold**, `code`, - bullet points, and - [ ] checkboxes..."
+          class="w-full px-4 py-3 rounded-b-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+        ></textarea>
+      } @else {
+        <!-- Live Markdown Preview -->
+        <div class="w-full min-h-[160px] max-h-[300px] overflow-y-auto px-5 py-4 rounded-xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm">
+          @if (taskForm.controls.description.value) {
+            <div [innerHTML]="taskForm.controls.description.value | markdown"></div>
+          } @else {
+            <p class="text-xs text-stone-400 italic">No description provided yet. Switch to Write to enter text.</p>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex items-center justify-end gap-3 pt-4 border-t border-stone-100 dark:border-stone-800">
+      <button
+        type="button"
+        (click)="cancel()"
+        mat-stroked-button
+        class="!border-stone-300 dark:!border-stone-700 !text-stone-700 dark:!text-stone-300 !rounded-xl !px-5"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        [disabled]="taskForm.invalid"
+        mat-flat-button
+        class="!bg-emerald-600 hover:!bg-emerald-500 !text-white !font-bold !rounded-xl !px-6 shadow-md transition disabled:!opacity-50"
+      >
+        {{ isEdit ? 'Update Task' : 'Create Task' }}
+      </button>
+    </div>
+
+  </form>
+</div>

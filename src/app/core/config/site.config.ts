@@ -9,6 +9,13 @@ export interface SiteConfig {
   defaultOgImage: string;
   locale: string;
   themeColor: string;
+  brand: {
+    logoLight: string;
+    logoDark: string;
+    logoAlt: string;
+    favicon: string;
+    ogImage: string;
+  };
   author: {
     name: string;
     url: string;
@@ -62,6 +69,13 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
   defaultOgImage: 'https://angular-starter.chintap.com/images/chintap-og.jpg',
   locale: 'en_US',
   themeColor: '#18181b',
+  brand: {
+    logoLight: 'images/chintap-emblem-light.svg',
+    logoDark: 'images/chintap-emblem-dark.svg',
+    logoAlt: 'Chintap Starter Logo',
+    favicon: '/favicon.ico',
+    ogImage: 'images/chintap-og.jpg',
+  },
   author: {
     name: 'Bharath Chetty',
     url: 'https://github.com/001bharathchetty',

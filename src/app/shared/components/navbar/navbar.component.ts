@@ -12,6 +12,7 @@ import { ContentService } from '../../../core/services/content.service';
 import { ThemeService } from '../../../core/services/theme.service';
 import { ContactModalService } from '../../../core/services/contact-modal.service';
 import { SITE_CONFIG } from '../../../core/config/site.config';
+import { SITE_CONTENT } from '../../../core/config/site.content';
 
 @Component({
   selector: 'app-navbar',
@@ -29,6 +30,7 @@ export class NavbarComponent {
   readonly contentService = inject(ContentService);
   readonly themeService = inject(ThemeService);
   readonly siteConfig = inject(SITE_CONFIG);
+  readonly content = inject(SITE_CONTENT);
   private readonly contactModal = inject(ContactModalService);
   private readonly dialog = inject(MatDialog);
   private readonly scrollStrategies = inject(ScrollStrategyOptions);

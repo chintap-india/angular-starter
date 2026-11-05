@@ -8,16 +8,16 @@
       <div class="relative w-10 h-10 flex-shrink-0 flex items-center justify-center">
         @if (themeService.isDark()) {
           <img
-            src="images/chintap-emblem-dark.svg"
-            alt="Chintap Tap Icon"
+            [src]="siteConfig.brand.logoDark"
+            [alt]="siteConfig.brand.logoAlt"
             width="40"
             height="40"
             class="w-full h-full object-contain drop-shadow"
           />
         } @else {
           <img
-            src="images/chintap-emblem-light.svg"
-            alt="Chintap Tap Icon"
+            [src]="siteConfig.brand.logoLight"
+            [alt]="siteConfig.brand.logoAlt"
             width="40"
             height="40"
             class="w-full h-full object-contain drop-shadow-sm"
@@ -27,52 +27,30 @@
 
       <div class="flex flex-col">
         <span class="font-extrabold text-2xl tracking-tight font-brand leading-none">
-          <span class="text-stone-900 dark:text-white">chin</span><span class="text-[#ea1c24]">tap</span>
+          @if (content.brand.prefix && content.brand.suffix) {
+            <span class="text-stone-900 dark:text-white">{{ content.brand.prefix }}</span><span class="text-[#ea1c24]">{{ content.brand.suffix }}</span>
+          } @else {
+            <span class="text-stone-900 dark:text-white">{{ siteConfig.name }}</span>
+          }
         </span>
         <span class="text-[11px] font-semibold text-stone-700 dark:text-stone-300 tracking-wide mt-1">
-          Things. Apps. Possibilities.
+          {{ siteConfig.tagline }}
         </span>
       </div>
     </a>
 
     <!-- Desktop Navigation Links with Active Highlighting -->
     <nav class="hidden lg:flex items-center gap-3 xl:gap-5 2xl:gap-7" aria-label="Primary Navigation">
-      <a
-        routerLink="/"
-        [routerLinkActiveOptions]="{ exact: true }"
-        routerLinkActive="text-stone-950 dark:text-white font-bold border-b-2 border-[#ea1c24]"
-        class="text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white pb-1 transition-colors duration-150 whitespace-nowrap"
-      >
-        Home
-      </a>
-      <a
-        routerLink="/features"
-        routerLinkActive="text-stone-950 dark:text-white font-bold border-b-2 border-[#ea1c24]"
-        class="text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white pb-1 transition-colors duration-150 whitespace-nowrap"
-      >
-        Features
-      </a>
-      <a
-        routerLink="/best-practices"
-        routerLinkActive="text-stone-950 dark:text-white font-bold border-b-2 border-[#ea1c24]"
-        class="text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white pb-1 transition-colors duration-150 whitespace-nowrap"
-      >
-        Best Practices
-      </a>
-      <a
-        routerLink="/about"
-        routerLinkActive="text-stone-950 dark:text-white font-bold border-b-2 border-[#ea1c24]"
-        class="text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white pb-1 transition-colors duration-150 whitespace-nowrap"
-      >
-        About
-      </a>
-      <a
-        routerLink="/contact"
-        routerLinkActive="text-stone-950 dark:text-white font-bold border-b-2 border-[#ea1c24]"
-        class="text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white pb-1 transition-colors duration-150 whitespace-nowrap"
-      >
-        Contact
-      </a>
+      @for (link of content.navigation.links; track link.path) {
+        <a
+          [routerLink]="link.path"
+          [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+          routerLinkActive="text-stone-950 dark:text-white font-bold border-b-2 border-[#ea1c24]"
+          class="text-xs xl:text-sm font-semibold text-stone-700 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white pb-1 transition-colors duration-150 whitespace-nowrap"
+        >
+          {{ link.label }}
+        </a>
+      }
       <a
         [href]="siteConfig.social.github"
         target="_blank"
@@ -224,47 +202,17 @@
   <!-- Mobile Dropdown Navigation Menu -->
   @if (mobileMenuOpen()) {
     <div id="mobile-menu" class="lg:hidden border-t border-stone-200 dark:border-stone-800 bg-stone-50 dark:bg-stone-950 px-6 pt-4 pb-6 space-y-3 shadow-lg" role="region" aria-label="Mobile Navigation Menu">
-      <a
-        routerLink="/"
-        [routerLinkActiveOptions]="{ exact: true }"
-        routerLinkActive="text-[#ea1c24] dark:text-[#ff6b6b] font-bold"
-        (click)="mobileMenuOpen.set(false)"
-        class="block py-2 text-base font-semibold text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white"
-      >
-        Home
-      </a>
-      <a
-        routerLink="/features"
-        routerLinkActive="text-[#ea1c24] dark:text-[#ff6b6b] font-bold"
-        (click)="mobileMenuOpen.set(false)"
-        class="block py-2 text-base font-semibold text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white"
-      >
-        Features
-      </a>
-      <a
-        routerLink="/best-practices"
-        routerLinkActive="text-[#ea1c24] dark:text-[#ff6b6b] font-bold"
-        (click)="mobileMenuOpen.set(false)"
-        class="block py-2 text-base font-semibold text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white"
-      >
-        Best Practices
-      </a>
-      <a
-        routerLink="/about"
-        routerLinkActive="text-[#ea1c24] dark:text-[#ff6b6b] font-bold"
-        (click)="mobileMenuOpen.set(false)"
-        class="block py-2 text-base font-semibold text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white"
-      >
-        About
-      </a>
-      <a
-        routerLink="/contact"
-        routerLinkActive="text-[#ea1c24] dark:text-[#ff6b6b] font-bold"
-        (click)="mobileMenuOpen.set(false)"
-        class="block py-2 text-base font-semibold text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white"
-      >
-        Contact
-      </a>
+      @for (link of content.navigation.links; track link.path) {
+        <a
+          [routerLink]="link.path"
+          [routerLinkActiveOptions]="{ exact: link.path === '/' }"
+          routerLinkActive="text-[#ea1c24] dark:text-[#ff6b6b] font-bold"
+          (click)="mobileMenuOpen.set(false)"
+          class="block py-2 text-base font-semibold text-stone-800 dark:text-stone-200 hover:text-stone-950 dark:hover:text-white"
+        >
+          {{ link.label }}
+        </a>
+      }
       <a
         [href]="siteConfig.social.github"
         target="_blank"

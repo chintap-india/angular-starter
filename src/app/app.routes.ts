@@ -22,6 +22,16 @@ export const routes: Routes = [
     title: 'SEO, AEO, LLMO, GEO & SSR Best Practices Guide | Chintap Angular Starter',
   },
   {
+    path: 'tasks',
+    loadComponent: () =>
+      import('./pages/tasks/tasks-page.component').then(m => m.TasksPageComponent),
+    title: 'Tasks CRUD Module — Typed Forms & Mock API | Chintap Angular Starter',
+  },
+  {
+    path: 'todos',
+    redirectTo: 'tasks',
+  },
+  {
     path: 'about',
     loadComponent: () =>
       import('./pages/about/about-page.component').then(m => m.AboutPageComponent),
