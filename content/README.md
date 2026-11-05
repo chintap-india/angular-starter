@@ -6,18 +6,16 @@ This directory contains the canonical text content for all pages and legal polic
 
 ## Content Index
 
-| Page / Document | Route | Source Markdown | Angular Component / Service |
+| Page / Document | Route | Canonical Source | Angular Component / Feature |
 |:---|:---|:---|:---|
-| **Home** | `/` | [`home.md`](./home.md) | [`HomePageComponent`](../src/app/pages/home/home-page.component.ts) |
-| **What We Do** | `/what-we-do` | [`what-we-do.md`](./what-we-do.md) | [`WhatWeDoPageComponent`](../src/app/pages/what-we-do/what-we-do-page.component.ts) |
-| **Explorations** | `/explorations` | [`explorations.md`](./explorations.md) | [`ExplorationsPageComponent`](../src/app/pages/explorations/explorations-page.component.ts) |
-| **Building Teams** | `/building-teams` | [`building-teams.md`](./building-teams.md) | [`BuildingTeamsPageComponent`](../src/app/pages/building-teams/building-teams-page.component.ts) |
-| **Partners** | `/partners` | [`partners.md`](./partners.md), [`partners.json`](./partners.json) | [`PartnersPageComponent`](../src/app/pages/partners/partners-page.component.ts) |
-| **How We Work** | `/how-we-work` | [`how-we-work.md`](./how-we-work.md) | [`HowWeWorkPageComponent`](../src/app/pages/how-we-work/how-we-work-page.component.ts) |
-| **About Chintap** | `/about` | [`about.md`](./about.md) | [`AboutPageComponent`](../src/app/pages/about/about-page.component.ts) |
-| **Let's Talk (Contact)** | `/contact` | [`contact.md`](./contact.md) | [`ContactPageComponent`](../src/app/pages/contact/contact-page.component.ts) |
-| **Privacy Policy** | Modal / Footer | [`privacy-policy.md`](./privacy-policy.md) | [`LegalDialogComponent`](../src/app/features/modals/legal-dialog/legal-dialog.component.ts) |
-| **Terms of Use** | Modal / Footer | [`terms-of-use.md`](./terms-of-use.md) | [`LegalDialogComponent`](../src/app/features/modals/legal-dialog/legal-dialog.component.ts) |
+| **Home** | `/` | [`site.content.ts`](../src/app/core/config/site.content.ts) | [`HomePageComponent`](../src/app/pages/home/home-page.component.ts) |
+| **Features & Stack** | `/features` | [`site.content.ts`](../src/app/core/config/site.content.ts) | [`FeaturesPageComponent`](../src/app/pages/features/features-page.component.ts) |
+| **5 Discovery Pillars** | `/best-practices` | [`site.content.ts`](../src/app/core/config/site.content.ts) | [`BestPracticesPageComponent`](../src/app/pages/best-practices/best-practices-page.component.ts) |
+| **Project Tasks (CRUD)** | `/tasks` | [`site.content.ts`](../src/app/core/config/site.content.ts) | [`TasksPageComponent`](../src/app/pages/tasks/tasks-page.component.ts) |
+| **About Chintap** | `/about` | [`site.content.ts`](../src/app/core/config/site.content.ts) | [`AboutPageComponent`](../src/app/pages/about/about-page.component.ts) |
+| **Contact Us** | `/contact` | [`site.content.ts`](../src/app/core/config/site.content.ts) | [`ContactPageComponent`](../src/app/pages/contact/contact-page.component.ts) |
+| **Privacy Policy** | Modal / Footer | [`site.content.ts`](../src/app/core/config/site.content.ts) | [`LegalDialogComponent`](../src/app/features/modals/legal-dialog/legal-dialog.component.ts) |
+| **Terms of Use** | Modal / Footer | [`site.content.ts`](../src/app/core/config/site.content.ts) | [`LegalDialogComponent`](../src/app/features/modals/legal-dialog/legal-dialog.component.ts) |
 
 ---
 

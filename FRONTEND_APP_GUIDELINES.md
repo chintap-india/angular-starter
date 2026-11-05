@@ -1520,6 +1520,212 @@ Verify that Chrome DevTools and Lighthouse report **4/4 Agentic Browsing audits 
 3. Discoverable machine-readable manifests (`ard.json`, `llms.txt`, `contents.md`).
 4. Static semantic HTML rendered via build-time SSG.
 
+---
+
+## 22. Tech Stack Logos, Zero-Distortion Rule & Nominative Fair Use
+
+### 22.1 Zero-Distortion Mandate (Strict Aspect Ratio Preservation)
+- **The Rule**: Brand logos, framework badges, and tech stack emblems must **NEVER** be stretched, squeezed, or distorted under any circumstances.
+- **The Defect**: Setting `width: 100%; height: 100%` on SVG containers with mismatched aspect ratios or wrapping `<img>` tags without `object-fit: contain` distorts recognizable trademarks.
+- **Standard Container Blueprint**:
+  - Always enforce a 1:1 square container with centered flex alignment:
+    ```html
+    <div class="w-12 h-12 rounded-xl bg-stone-100 dark:bg-stone-800 p-2.5 flex items-center justify-center">
+      <app-tech-logo [nameKey]="feature.logoKey" [name]="feature.title" size="lg"></app-tech-logo>
+    </div>
+    ```
+  - Vector SVGs must include a square `viewBox` (e.g. `viewBox="0 0 128 128"` or `viewBox="0 0 24 24"`) and `preserveAspectRatio="xMidYMid meet"`.
+
+### 22.2 Official Vector Asset Directory (`public/images/tech/`)
+- Store official, pristine vector marks in `public/images/tech/`:
+  - `angular.svg`: Official Angular gradient shield (`#E03237` to `#F65B2A`).
+  - `tailwind.svg`: Official Tailwind CSS cyan wave (`#38BDF8`).
+  - `material.svg`: Official Google Material 3 geometric mark (`#7C3AED`).
+  - `vitest.svg`: Official Vitest green/yellow beaker mark (`#FCC72B` to `#729B1B`).
+  - `netlify.svg`: Official Netlify teal geometric polygon (`#00C7B7`).
+  - `typescript.svg`: Official TypeScript blue shield (`#3178C6`).
+
+### 22.3 Official Documentation & Resource Links Mandate
+- Whenever showcasing framework, library, or platform capabilities, always accompany the feature card with a direct link to its official documentation:
+  - Angular: `https://angular.dev`
+  - Tailwind CSS: `https://tailwindcss.com`
+  - Angular Material: `https://material.angular.io`
+  - Vitest: `https://vitest.dev`
+  - Netlify: `https://docs.netlify.com`
+  - TypeScript: `https://www.typescriptlang.org`
+- Links must use `target="_blank"`, `rel="noopener noreferrer"`, and an explicit `aria-label` (e.g., `aria-label="Angular Official Documentation"`).
+
+### 22.4 Nominative Fair Use Disclaimers (Footer & Stack Catalogues)
+- **Legal Compliance**: Third-party trademarks and brand logos are used solely under the doctrine of **Nominative Fair Use** for accurate factual identification of the technical toolchain.
+- **Mandatory Disclaimers**:
+  1. **Footer Disclaimer**:
+     ```html
+     <p class="text-[11px] text-stone-500 dark:text-stone-400">
+       Angular, Tailwind CSS, Netlify, Vitest, TypeScript, and Google Material Design are trademarks of their respective owners. Their inclusion here is for factual identification under Nominative Fair Use and implies no official endorsement, sponsorship, or affiliation.
+     </p>
+     ```
+  2. **Features Page Disclaimer**:
+     Place a noticeable callout badge explaining that all displayed technology marks are property of their respective creators and used strictly to describe compatibility and architecture.
+
+---
+
+## 23. Modular CRUD Architecture & Form Engineering Best Practices
+
+### 23.1 Typed Reactive Forms Architecture (`FormGroup`, `FormControl`)
+- All CRUD forms must use Angular's **Strictly Typed Reactive Forms**:
+  ```typescript
+  export interface TaskFormModel {
+    title: FormControl<string>;
+    category: FormControl<string>;
+    priority: FormControl<'low' | 'medium' | 'high'>;
+    description: FormControl<string>;
+  }
+
+  readonly taskForm = new FormGroup<TaskFormModel>({
+    title: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(3)] }),
+    category: new FormControl('Engineering', { nonNullable: true, validators: [Validators.required] }),
+    priority: new FormControl('medium', { nonNullable: true, validators: [Validators.required] }),
+    description: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(2000)] }),
+  });
+  ```
+- **Validation Feedback**: Provide real-time `<mat-error>` feedback with clear error messaging for `required`, `minlength`, and `maxlength`. Never silently disable submit buttons without visible explanation.
+
+### 23.2 Markdown Editor with Live Preview & Sanitized Rendering
+- **Dual-Mode Editing**: Provide a tabbed or side-by-side **Write** and **Preview** interface for rich text content.
+- **Standalone `MarkdownPipe`**:
+  - Transform Markdown syntax (`# Headings`, `**bold**`, `*italic*`, `[links](url)`, ` `code` `, fenced code blocks, and checklist items `- [x]`) into semantic HTML.
+  - **Security Mandate**: Always pass generated HTML through Angular's `DomSanitizer.bypassSecurityTrustHtml` after rigorous XSS sanitization (stripping `<script>`, `onerror`, `javascript:` URI handlers).
+
+### 23.3 Mock API Service Pattern (Async Simulation & Local Persistence)
+- **Decoupled Mock Layer**: Provide an injectable mock service (e.g. `MockTaskApiService`) that simulates real-world backend API interactions:
+  - Asynchronous network latency via RxJS `delay(400)` to trigger loading spinners.
+  - Realistic error handling and retry mechanisms.
+- **SSR-Safe Browser Storage Persistence**:
+  - Fall back to `localStorage` for offline persistence across page reloads.
+  - **SSR Guard**: Protect all browser storage calls with Angular's `isPlatformBrowser(this.platformId)` to prevent prerender node crashes:
+    ```typescript
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('chintap_tasks_v1', JSON.stringify(tasks));
+    }
+    ```
+
+### 23.4 Human-Centered, Minimal UI Terminology Rule
+- **The Rule**: Keep navigation labels, hero badges, and UI controls simple, human, and minimal.
+- **Prohibited**: Technical jargon, developer acronyms, or implementation details in public navigation (e.g., `TASKS CRUD DEMO`, `REACTIVE FORM SHOWCASE`, `MOCK API SUITE`).
+- **Standard Lexicon**:
+  - In Navbar: `"Tasks"` (clean, universally understood by non-technical audiences).
+  - In Hero Badges: `"Project Checklist"` or `"Task Management"`.
+  - In Action Buttons: `"New Task"`, `"Save"`, `"Delete"`, `"Cancel"`.
+
+---
+
+## 24. 100% Free-Tier Cloud & Serverless Infrastructure Governance
+
+### 24.1 Zero-Cost Constraint & Free-Tier Boundaries
+- **Core Principle**: Chintap starter kits and template implementations must remain **100% Free Tier**. Never introduce dependencies on paid subscriptions, recurring credit-card billing, or costly third-party SaaS services.
+- **Netlify Free Tier Quotas**:
+  - **Bandwidth**: 100 GB / month (more than sufficient for pre-rendered SSG).
+  - **Build Minutes**: 300 minutes / month (efficient Vite/esbuild builds consume < 1.5 min per deploy).
+  - **Netlify Forms**: 100 submissions / month.
+  - **Netlify Identity**: 1,000 active users / month (free tier auth).
+
+### 24.2 Serverless Auth with Graceful Mock Fallbacks
+- When demonstrating authentication (e.g. Netlify Identity), provide an instant **Guest / Demo Mode** switch:
+  - Users without a configured Netlify backend or unauthenticated visitors can explore full editing functionality using local state.
+  - Clear in-app guidance indicating how to wire up Netlify Identity if desired, without blocking evaluation.
+
+### 24.3 Headless Form Submission & Quota Protection
+- Contact forms must submit silently to Netlify's background ingest endpoint (`POST /` with `Content-Type: application/x-www-form-urlencoded`).
+- Honeypot fields (`<input name="bot-field" class="hidden">`) must be configured to block spam bots from consuming free-tier form quotas.
+
+---
+
+## 25. Browser Favicon, App Icons & Safe Area Geometry
+
+### 25.1 Vector Viewport Cropping (Eliminating Tab Whitespace)
+- **The Defect**: Placing an emblem inside a generic `0 0 1000 1000` SVG viewBox with 40%+ margins causes the browser tab icon to render as an illegible tiny speck.
+- **The Solution**: Crop the SVG `viewBox` tightly around the vector bounding box with a 2–4% breathing margin:
+  - Example: For an emblem with content spanning $x \in [212, 787]$ and $y \in [50, 950]$, set `viewBox="190 30 620 940"`.
+  - Result: The mark fills ~95% of the browser tab area (16x16 / 32x32), delivering maximum visibility without distortion.
+
+### 25.2 Multi-Resolution Transparent `.ico` Architecture
+- A compliant `favicon.ico` must be a multi-image binary containing 32-bit RGBA frames:
+  - **16 × 16 px**: Standard resolution for dense tab bars and bookmark menus.
+  - **32 × 32 px**: High-DPI / Retina browser tabs.
+  - **48 × 48 px**: Desktop shortcuts, taskbar pins, and OS search results.
+- **Tab Bar Contrast Under-Layer**: Embed a subtle contrast glow or stroke so dark emblems remain clearly legible against dark browser tabs and dark OS themes.
+
+### 25.3 Native Theme-Switching SVG Favicon
+- Leverage modern browser SVG favicon theming via inline CSS media queries:
+  ```xml
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="190 30 620 940">
+    <style>
+      .hand { fill: #111111; }
+      @media (prefers-color-scheme: dark) {
+        .hand { fill: #ffffff; }
+      }
+    </style>
+    <path class="hand" d="..." />
+    <path fill="#ea1c24" d="..." />
+  </svg>
+  ```
+
+### 25.4 Apple Touch Icon & Squircle Safe Margins
+- **Dimensions**: $180 \times 180\text{px}$ PNG.
+- **Safe Zone Rule**: iOS applies a rounded squircle mask with a corner radius of $40\text{px}$ ($22.2\%$). Scale the emblem to ~80% of canvas height ($144\text{px}$), leaving a minimum $18\text{px}$ ($10\%$) outer margin so details are never clipped by the squircle corners.
+
+---
+
+## 26. Site Constellation & Relational Network Graph Standards
+
+### 26.1 Complete Synchronization with Live Application Routes
+- Any interactive graph (such as the "You Are Here" site constellation or page architecture diagrams) must **accurately reflect current site routes and contents**:
+  - Every major node must correspond to an active, working route (e.g. `/`, `/features`, `/best-practices`, `/tasks`, `/about`, `/contact`).
+  - Child satellite nodes must represent authentic content sections or architectural pillars (e.g., SEO, AEO, LLMO, GEO, SSR).
+  - Outdated, legacy, or dead page references (e.g. old client names, defunct services) must never remain in graph schemas.
+
+### 26.2 Active Route Detection & Pulsating Beacon Glow
+- The "You Are Here" graph must dynamically detect the user's current route via Angular's `Router`:
+  - Map current URL (e.g. `/best-practices`) to the corresponding node ID.
+  - Apply active SVG beacon animations (`radialGradient` glow + CSS `@keyframes beacon-pulse`).
+  - Render an active `"YOU ARE HERE"` badge in the graph header.
+
+### 26.3 Zero Dead Links Policy in Graph Inspection Cards
+- Clicking any node opens an inspection panel or floating detail bar.
+- Every actionable route link (`info.route`) MUST point to a valid internal route. Never emit links to 404 or unrouted paths.
+
+### 26.4 Symmetrical Elliptical Orbital Geometry (Desktop vs. Mobile)
+- Distribute nodes symmetrically on an orbital ellipse centered at $(c_x, c_y)$:
+  - Position: $\left(c_x + r_x \cos\theta, \; c_y + r_y \sin\theta\right)$.
+  - Outer desktop radii: $r_x = 300, r_y = 200$.
+  - Scaled mobile radii: $r_x = 240, r_y = 160$ (or $80\%$ edge reduction towards center).
+  - Child satellite expansion offsets must radiate outward away from the orbital center to prevent text collisions.
+
+---
+
+## 27. Semantic Versioning (SemVer 2.0.0) & Release Protocol
+
+### 27.1 SemVer Progression Rules (`MAJOR.MINOR.PATCH`)
+- **`MAJOR`**: Incompatible architectural changes, framework migrations, breaking route changes, or major redesigns.
+- **`MINOR`**: Backward-compatible new features or modules (e.g. adding the `/tasks` CRUD module, new service pipelines, new UI components).
+- **`PATCH`**: Backward-compatible bug fixes, UI/UX polish, asset optimizations, content synchronizations, and documentation improvements (e.g., favicon cropping, graph content alignment).
+
+### 27.2 Atomic Multi-File Version Synchronization Checklist
+Whenever incrementing the version, update all five touchpoints atomically:
+1. `package.json`: `"version": "X.Y.Z"`
+2. `src/app/core/config/site.config.ts`: `version: 'X.Y.Z'`
+3. `README.md`: Version badge `[![Version](https://img.shields.io/badge/version-X.Y.Z-10b981.svg?style=flat)](CHANGELOG.md)`
+4. `CHANGELOG.md`: New entry `## [X.Y.Z] - YYYY-MM-DD` following [Keep a Changelog](https://keepachangelog.com/) standards.
+5. Footer Component / Display: Automatically picks up `siteConfig.version` or `package.json` version.
+
+### 27.3 Git Tagging & Release Verification Workflow
+1. Run full test suite: `npm test -- --watch=false` (100% passing tests required).
+2. Run production SSG build: `npm run build` (all static routes must prerender without error).
+3. Commit changes with conventional commit prefix (`fix:`, `feat:`, `chore:`).
+4. Create annotated Git tag: `git tag -a vX.Y.Z -m "Release vX.Y.Z: Summary"`
+5. Push commit and tag to remote: `git push origin main && git push origin vX.Y.Z`
+
+
 
 
 
