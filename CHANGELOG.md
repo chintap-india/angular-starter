@@ -25,6 +25,16 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
   - Added canonical content markdown files: `content/features.md`, `content/best-practices.md`, and `content/tasks.md`.
   - Added Live Demo badge pointing to `https://chintap-angular-starter.netlify.app/` in `README.md`.
 
+### Fixed
+- **Official Tech Stack Vector Marks**:
+  - Replaced hand-drawn vector approximations with official, untouched brand assets directly from source registries.
+  - Upgraded Angular logo to official Angular 22 gradient mark (`#E40035` to `#6C00F5`).
+  - Upgraded Material Design to official Google Material Design mark with Material 3 `#6750A4` / `#D0BCFF` adaptive tokens.
+  - Upgraded Tailwind CSS to official cyan gradient wave mark.
+  - Upgraded Vitest to official green/cyan vector mark from the Vitest core repository.
+  - Upgraded Netlify to official `#05BDBA` / `#014847` geometric mark.
+  - Removed corrupt 404 placeholder file `angular-shield.svg`.
+
 ### Changed
 - **Unified Branding - Dropped "Studio" Qualification**:
   - Dropped "Studio" qualification across all brand touchpoints in favor of pure **Chintap** branding.
