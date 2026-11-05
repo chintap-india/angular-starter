@@ -1,6 +1,6 @@
 #!/bin/bash
 # ==============================================================================
-# Chintap Studio - Automated High-Resolution Brand & Marketing Asset Pipeline
+# Chintap - Automated High-Resolution Brand & Marketing Asset Pipeline
 # Generates master vector SVGs, 2048/2400px PNG exports, presentation cards,
 # marketing graphics, social preview cards, and adaptive favicons.
 # ==============================================================================
@@ -913,7 +913,7 @@ cat << HTML > "$TMP_DIR/brand-card-dark.html"
 </html>
 HTML
 
-# --- I. Hero Showcase Graphic (2400x1350): Physical + Digital Studio ---
+# --- I. Hero Showcase Graphic (2400x1350): Physical + Digital ---
 cat << HTML > "$TMP_DIR/hero-showcase.html"
 <!DOCTYPE html>
 <html>
@@ -1068,7 +1068,7 @@ cat << HTML > "$TMP_DIR/hero-showcase.html"
   </div>
   <div class="badge">
     <span class="dot"></span>
-    STUDIO SHOWCASE
+    CHINTAP SHOWCASE
   </div>
 </div>
 <div class="hero-body">

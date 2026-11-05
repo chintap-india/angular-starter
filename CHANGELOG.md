@@ -14,11 +14,21 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.1.4] - 2026-11-05
+
+### Changed
+- **Unified Branding - Dropped "Studio" Qualification**:
+  - Dropped "Studio" qualification across all brand touchpoints in favor of pure **Chintap** branding.
+  - Updated constellation satellite node `abt-c4` in `YouAreHereDialogComponent` from `04 Chintap Studio` to `04 Chintap`.
+  - Updated `content/about.md` page title and description to remove studio references.
+  - Refined partner collaboration description in `ContentService` to refer to independent builders and creators.
+  - Updated `FRONTEND_APP_GUIDELINES.md`, `build-brand-assets.sh`, and SVG canvas comments to ensure 100% brand consistency.
+
 ## [1.1.3] - 2026-11-05
 
 ### Fixed
 - **You Are Here Dialog Synchronized with Real Site Contents**:
-  - Replaced legacy agency/studio constellation nodes with the 6 authentic starter kit pages: Home (`/`), Features (`/features`), Best Practices (`/best-practices`), Tasks (`/tasks`), About (`/about`), and Contact (`/contact`).
+  - Replaced legacy constellation nodes with the 6 authentic starter kit pages: Home (`/`), Features (`/features`), Best Practices (`/best-practices`), Tasks (`/tasks`), About (`/about`), and Contact (`/contact`).
   - Added 4 detailed child satellite nodes per page reflecting real page topics, tools, and best practices.
   - Symmetrically calibrated elliptical orbital geometry centered at $(450, 350)$ with outer radii $rx=300, ry=200$ (mobile $rx=240, ry=160$) eliminating label collisions.
   - Enhanced active route detection so that all routes (including `/best-practices` and `/tasks`) trigger the active beacon glow and "YOU ARE HERE" badge.

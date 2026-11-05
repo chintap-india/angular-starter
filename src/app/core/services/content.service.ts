@@ -951,7 +951,7 @@ export class ContentService {
       {
         badge: 'Ventures',
         title: 'Partners',
-        description: 'Learn how we team up with independent studios, creators, and technology partners like Figcube.',
+        description: 'Learn how we team up with independent builders, creators, and technology partners like Figcube.',
         url: '/partners',
         actionText: 'Explore partners',
         ariaLabel: 'Explore Partners of Chintap'

@@ -1019,7 +1019,7 @@ export class AppVersionService {
 Display the version badge in the global `FooterComponent`:
 ```html
 <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
-  <span>Chintap Studio</span>
+  <span>Chintap</span>
   <span>•</span>
   <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
     v{{ appVersion }}
@@ -1276,7 +1276,7 @@ Modern web applications must be fully indexable and comprehensible by traditiona
 
 ### 18.3 Machine-Readable Context for Generative Engines (`llms.txt` & `contents.md`)
 - **`public/llms.txt`**: Concise, highly-structured Markdown file outlining:
-  - Studio identity, philosophy, and positioning.
+  - Brand identity, philosophy, and positioning.
   - Physical office address and contact points.
   - Complete list of primary routes and page purposes.
   - Verified technology partners and external platforms.
@@ -1365,14 +1365,14 @@ To maintain pristine visual fidelity across 4K displays, marketing presentations
 | | `public/images/chintap-brand-horizontal-dark-2400.png` | $2400 \times 800$ | Dark background horizontal brand lockup |
 | | `public/images/chintap-brand-horizontal-2400.png` | $2400 \times 800$ | Transparent horizontal brand lockup |
 | | `public/images/chintap-brand.png` | $1024 \times 1024$ | Web-optimized square lockup downsample |
-| **Presentation Cards** | `public/images/chintap-brand-card-2400.png` | $2400 \times 1260$ | White studio presentation card with red accent bar |
-| | `public/images/chintap-brand-card-dark-2400.png` | $2400 \times 1260$ | Dark studio presentation card with red atmospheric aura |
+| **Presentation Cards** | `public/images/chintap-brand-card-2400.png` | $2400 \times 1260$ | White presentation card with red accent bar |
+| | `public/images/chintap-brand-card-dark-2400.png` | $2400 \times 1260$ | Dark presentation card with red atmospheric aura |
 | **Marketing Graphics** | `public/images/chintap-marketing-pillars.svg` | $1200 \times 630$ | Vector graphic detailing the 3 core pillars (*Ideas don't come with a format*) |
 | | `public/images/chintap-marketing-pillars.png` & `.jpg` | $1200 \times 630$ | Standard marketing card (1.91:1) rendered via Chrome Headless |
 | | `public/images/chintap-marketing-pillars-2400.png` | $2400 \times 1260$ | Native 2x retina master rendered via Chrome Headless |
 | | `public/images/chintap-marketing-square-2048.png` | $2048 \times 2048$ | Square marketing card with pillar breakdowns |
 | | `public/images/chintap-marketing-square-trans-2048.png` | $2048 \times 2048$ | Transparent square marketing graphic |
-| | `public/images/chintap-hero-showcase-2400.png` | $2400 \times 1350$ | Studio hero showcase visual (physical + digital bridge) |
+| | `public/images/chintap-hero-showcase-2400.png` | $2400 \times 1350$ | Hero showcase visual (physical + digital bridge) |
 | **OpenGraph & Social** | `public/images/chintap-og.svg` | $1200 \times 630$ | Vector OpenGraph master template with centered emblem, wordmark, tagline & pill |
 | | `public/images/chintap-og.png` & `.jpg` | $1200 \times 630$ | High-contrast social preview cards rendered via Chrome Headless (Poppins:wght@900) |
 | | `public/images/chintap-og-preview.png` & `.jpg` | $1200 \times 630$ | High-contrast social preview cards matching OpenGraph standard |
@@ -1478,7 +1478,7 @@ The manifest must adhere strictly to the ARD formal specification:
   "schema_version": "1.0",
   "manifest_version": "1.0.0",
   "canonical_url": "https://chintap.com/.well-known/ard.json",
-  "site_title": "Chintap Studio",
+  "site_title": "Chintap",
   "site_description": "Curious by nature. Building things, apps, and possibilities across physical and digital disciplines.",
   "resources": [
     {

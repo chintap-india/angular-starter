@@ -1,8 +1,8 @@
 # About Chintap Page Content
 
 - **Route:** `/about`
-- **Page Title:** `About Chintap | Curious by Nature — Independent Product & Software Studio`
-- **Meta Description:** `Curious by nature, practical enough to make. Chintap is an independent studio exploring ideas across software, hardware, and connected experiences.`
+- **Page Title:** `About Chintap | Curious by Nature`
+- **Meta Description:** `Curious by nature, practical enough to make. Chintap explores ideas across software, hardware, and connected experiences.`
 - **Component:** `src/app/pages/about/about-page.component.ts`
 
 ---

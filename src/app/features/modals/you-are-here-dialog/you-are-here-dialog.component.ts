@@ -101,7 +101,7 @@ export const SITE_CONSTELLATION_NODES: ConstellationPageNode[] = [
       { id: 'abt-c1', label: '01 100% Free-Tier', sublabel: 'Zero subscriptions or fees', dx: -50, dy: 70 },
       { id: 'abt-c2', label: '02 Open Standards', sublabel: 'Clean MIT architecture', dx: -80, dy: 25 },
       { id: 'abt-c3', label: '03 Developer First', sublabel: 'Clarity over complexity', dx: -80, dy: -30 },
-      { id: 'abt-c4', label: '04 Chintap Studio', sublabel: 'Things, Apps, Possibilities', dx: -45, dy: -75 }
+      { id: 'abt-c4', label: '04 Chintap', sublabel: 'Things, Apps, Possibilities', dx: -45, dy: -75 }
     ]
   },
   {
