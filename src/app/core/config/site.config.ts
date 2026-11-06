@@ -61,7 +61,7 @@ export interface SiteConfig {
 }
 
 export const DEFAULT_SITE_CONFIG: SiteConfig = {
-  version: '1.1.6',
+  version: '1.2.0',
   name: 'Chintap Angular Starter',
   shortName: 'Angular Starter',
   tagline: 'SEO, AEO, LLMO, GEO & SSR Ready Starter Kit',
@@ -102,7 +102,7 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
     },
   },
   social: {
-    github: 'https://github.com/001bharathchetty/chintap-angular-starter',
+    github: 'https://github.com/chintap-india/angular-starter',
     twitter: 'https://x.com/chintap',
   },
   ai: {

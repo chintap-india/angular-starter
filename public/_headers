@@ -36,10 +36,14 @@
 /llms.txt
   Cache-Control: public, max-age=86400, stale-while-revalidate=3600
   Content-Type: text/plain; charset=UTF-8
+  Access-Control-Allow-Origin: *
+  Cross-Origin-Resource-Policy: cross-origin
 
-/contents.md
+/llms-full.txt
   Cache-Control: public, max-age=86400, stale-while-revalidate=3600
-  Content-Type: text/markdown; charset=UTF-8
+  Content-Type: text/plain; charset=UTF-8
+  Access-Control-Allow-Origin: *
+  Cross-Origin-Resource-Policy: cross-origin
 
 /.well-known/ard.json
   Cache-Control: public, max-age=86400, stale-while-revalidate=3600

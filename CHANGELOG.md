@@ -14,6 +14,32 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.2.0] - 2026-11-06
+
+### Changed
+- **Official Open-Source Organization Release**:
+  - Migrated repository to official organization: [`https://github.com/chintap-india/angular-starter`](https://github.com/chintap-india/angular-starter).
+  - Enhanced `package.json` with complete open-source manifest metadata (`repository`, `homepage`, `bugs`, `keywords`, `author`).
+  - Added `@id: "${this.siteConfig.baseUrl}/#software"` and guaranteed root `@context: "https://schema.org"` in `SeoService.generateSoftwareAppSchema()` and `updateCustomStructuredData()`.
+  - Synchronized `public/_headers` with CORS headers (`Access-Control-Allow-Origin: *`) for `/llms.txt`, `/llms-full.txt`, and `/.well-known/ard.json`.
+  - Updated all clone and documentation commands across `README.md`, `site.content.ts`, and `CONTRIBUTING.md`.
+
+## [1.1.6] - 2026-11-06
+
+### Fixed
+- **Hero Badge Pill Icon Vertical Centering**:
+  - Resolved vertical misalignment of `<mat-icon>` glyphs inside uppercase tracking badge pills across Features, Best Practices, Tasks, and Home FAQ sections.
+  - Added global `.hero-badge-pill` rule with `display: inline-flex; align-items: center; line-height: 1;` and optical cap-height centering `transform: translateY(-1px)`.
+  - Wrapped pill label strings in `<span class="leading-none">`.
+
+## [1.1.5] - 2026-11-05
+
+### Removed
+- **Legacy Agency Content Purge**:
+  - Removed all obsolete agency-specific content, models, and JSON files (`what-we-do`, `how-we-work`, `explorations`, `building-teams`, `partners`, `customers`, `academy`).
+  - Retained clean Starter Kit architectural pages (`/`, `/features`, `/best-practices`, `/tasks`, `/404`) plus permitted `/about` and `/contact`.
+  - Updated `ContentService.PageKey` and `nextPathsMap` navigation flows.
+
 ## [1.1.4] - 2026-11-05
 
 ### Added

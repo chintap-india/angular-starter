@@ -219,7 +219,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       terminalQuickstart: {
         label: 'Terminal Quickstart',
         command:
-          'git clone https://github.com/001bharathchetty/chintap-angular-starter.git my-app && cd my-app && npm install && npm start',
+          'git clone https://github.com/chintap-india/angular-starter.git my-app && cd my-app && npm install && npm start',
       },
       primaryCta: { label: 'Best Practices Guide →', path: '/best-practices' },
       secondaryCta: { label: 'Stack & Architecture', path: '/features' },

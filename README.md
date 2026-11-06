@@ -2,7 +2,7 @@
 
 > **Production-grade Angular 22 starter kit with out-of-the-box best practices for SEO, AEO, LLMO, GEO, and SSR/SSG.**
 
-[![Version](https://img.shields.io/badge/version-1.1.4-10b981.svg?style=flat)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.2.0-10b981.svg?style=flat)](CHANGELOG.md)
 [![Live Demo](https://img.shields.io/badge/Live_Demo-chintap--angular--starter.netlify.app-00dc82.svg?style=flat&logo=netlify)](https://chintap-angular-starter.netlify.app/)
 [![Angular](https://img.shields.io/badge/Angular-22-dd0031.svg?style=flat&logo=angular)](https://angular.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8%2B-blue.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
@@ -39,7 +39,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/001bharathchetty/chintap-angular-starter.git my-app
+git clone https://github.com/chintap-india/angular-starter.git my-app
 cd my-app
 
 # Install dependencies
@@ -70,7 +70,7 @@ npm run test:run
 # Compile and pre-render all static routes
 npm run build
 ```
-The output is written to `dist/chintap-angular-starter/browser/` with all pre-rendered HTML files (`index.html`, `features/index.html`, `best-practices/index.html`, `about/index.html`, `contact/index.html`, `404.html`), ready for static hosting.
+The output is written to `dist/chintap-angular-starter/browser/` with all pre-rendered HTML files (`index.html`, `features/index.html`, `best-practices/index.html`, `tasks/index.html`, `about/index.html`, `contact/index.html`, `404.html`), ready for static hosting.
 
 ---
 

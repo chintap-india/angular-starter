@@ -8,8 +8,8 @@ Thank you for your interest in contributing to the **Chintap Angular Starter Kit
 
 1. **Fork and clone the repository**:
    ```bash
-   git clone https://github.com/001bharathchetty/chintap-angular-starter.git
-   cd chintap-angular-starter
+   git clone https://github.com/chintap-india/angular-starter.git
+   cd angular-starter
    ```
 
 2. **Install dependencies**:

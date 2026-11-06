@@ -186,6 +186,7 @@ export class SeoService {
   generateSoftwareAppSchema(extra?: Record<string, unknown>): Record<string, unknown> {
     return {
       '@type': 'SoftwareApplication',
+      '@id': `${this.siteConfig.baseUrl}/#software`,
       name: this.siteConfig.name,
       applicationCategory: 'DeveloperApplication',
       operatingSystem: 'Any',
@@ -247,7 +248,12 @@ export class SeoService {
         this.document.head.appendChild(script);
       }
 
-      script.textContent = JSON.stringify(schema, null, 2);
+      // Ensure root @context is present for valid Schema.org parsing
+      const payload = schema['@context']
+        ? schema
+        : { '@context': 'https://schema.org', ...schema };
+
+      script.textContent = JSON.stringify(payload, null, 2);
     } catch {
       // Graceful SSR fallback
     }
