@@ -1,224 +1,214 @@
-<div class="min-h-screen pt-2 pb-8 sm:pt-3 sm:pb-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-3">
+<div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-2 sm:py-2.5">
   
-  <!-- Ultra-Compact Enterprise Navbar Header -->
-  <header class="flex items-center justify-between gap-3 pb-2.5 border-b border-stone-200 dark:border-stone-800">
-    <!-- Left: Module Title & Count Badge -->
-    <div class="flex items-center gap-2.5">
-      <div class="w-7 h-7 rounded-lg bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 flex items-center justify-center shrink-0 shadow-2xs">
-        <mat-icon class="!text-base !w-4 !h-4">checklist</mat-icon>
-      </div>
-      <h1 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight leading-none">
-        {{ content.tasks.hero.title }}
-      </h1>
-      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-        {{ activeTab() === 'metrics' ? stats().total + ' tasks' : filteredTasks().length }}
-      </span>
-    </div>
-
-    <!-- Right: Minimal Icon Navbar (View Switchers & Minimal Action Icons - Slate Theme) -->
-    <div class="flex items-center gap-1.5 shrink-0">
+  <!-- Unified Enterprise Card Container -->
+  <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs overflow-hidden flex flex-col">
+    
+    <!-- UNIFIED HIGH-DENSITY ENTERPRISE TOOLBAR (Integrated directly atop table/views) -->
+    <div class="px-3 py-2 bg-slate-50/95 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2">
       
-      <!-- View Switcher Minimal Icon Buttons: Table, Cards, Analytics -->
-      <div class="inline-flex p-0.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80">
-        <button
-          type="button"
-          (click)="setView('table')"
-          [ngClass]="activeTab() === 'directory' && viewMode() === 'table' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
-          class="p-1.5 rounded-lg transition cursor-pointer flex items-center justify-center"
-          matTooltip="Table View"
-          aria-label="Table View"
-        >
-          <mat-icon class="!text-lg !w-5 !h-5">table_rows</mat-icon>
-        </button>
-
-        <button
-          type="button"
-          (click)="setView('cards')"
-          [ngClass]="activeTab() === 'directory' && viewMode() === 'cards' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
-          class="p-1.5 rounded-lg transition cursor-pointer flex items-center justify-center"
-          matTooltip="Cards View"
-          aria-label="Cards View"
-        >
-          <mat-icon class="!text-lg !w-5 !h-5">view_agenda</mat-icon>
-        </button>
-
-        <button
-          type="button"
-          (click)="setView('metrics')"
-          [ngClass]="activeTab() === 'metrics' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
-          class="p-1.5 rounded-lg transition cursor-pointer flex items-center justify-center"
-          matTooltip="Sprint Analytics & Metrics"
-          aria-label="Sprint Analytics & Metrics"
-        >
-          <mat-icon class="!text-lg !w-5 !h-5">insights</mat-icon>
-        </button>
-      </div>
-
-      <div class="h-4 w-px bg-slate-200 dark:bg-slate-700 mx-0.5"></div>
-
-      <!-- Seed 35+ Backlog Tasks Secondary Icon Button -->
-      <button
-        type="button"
-        (click)="seedBulkDemoTasks()"
-        matTooltip="Seed 35+ Sprint Backlog Tasks"
-        aria-label="Seed 35+ Sprint Backlog Tasks"
-        class="w-8 h-8 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 flex items-center justify-center transition cursor-pointer"
-      >
-        <mat-icon class="!text-base !w-4 !h-4">playlist_add</mat-icon>
-      </button>
-
-      <!-- Reset Defaults Secondary Icon Button -->
-      <button
-        type="button"
-        (click)="resetDefaults()"
-        matTooltip="Reset Default Tasks"
-        aria-label="Reset Default Tasks"
-        class="w-8 h-8 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 flex items-center justify-center transition cursor-pointer"
-      >
-        <mat-icon class="!text-base !w-4 !h-4">restart_alt</mat-icon>
-      </button>
-
-      <!-- Auth Session Toggle Secondary Icon Button -->
-      <button
-        type="button"
-        (click)="toggleAuthMode()"
-        [matTooltip]="'Session: ' + (authService.currentUser()?.name || 'Guest') + ' (Click to switch to ' + (authService.currentUser()?.role === 'developer' ? 'Guest' : 'Dev') + ')'"
-        [attr.aria-label]="'Switch session role from ' + (authService.currentUser()?.role || 'guest')"
-        class="w-8 h-8 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 relative flex items-center justify-center transition cursor-pointer text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-400"
-      >
-        <mat-icon class="!text-base !w-4 !h-4">manage_accounts</mat-icon>
-        <span
-          class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full ring-1 ring-white dark:ring-slate-900"
-          [ngClass]="authService.currentUser()?.role === 'developer' ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'"
-        ></span>
-      </button>
-
-      <div class="h-4 w-px bg-slate-200 dark:bg-slate-700 mx-0.5"></div>
-
-      <!-- Create New Task Primary Icon Button (Slate Theme) -->
-      <button
-        type="button"
-        (click)="openCreateDialog()"
-        matTooltip="Create New Task (Modal)"
-        aria-label="Create New Task"
-        class="w-8 h-8 rounded-xl bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 flex items-center justify-center transition cursor-pointer shadow-2xs hover:shadow-xs"
-      >
-        <mat-icon class="!text-lg !w-5 !h-5">add</mat-icon>
-      </button>
-
-    </div>
-  </header>
-
-  <!-- ========================================================================= -->
-  <!-- VIEW AREA 1: DIRECTORY (TABLE OR CARDS)                                   -->
-  <!-- ========================================================================= -->
-  @if (activeTab() === 'directory') {
-    <div class="space-y-3">
-      
-      <!-- High-Density Balanced Full-Width Toolbar -->
-      <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-xl shadow-2xs">
-        <div class="p-2 sm:p-2.5 flex flex-wrap lg:flex-nowrap items-center justify-between gap-2.5">
-          
-          <!-- Left: Keyword Search Input -->
-          <div class="w-full sm:w-72 lg:w-80 shrink-0">
-            <div class="relative flex items-center">
-              <mat-icon class="absolute left-3 text-slate-400 !text-base !w-4 !h-4 pointer-events-none">search</mat-icon>
-              <input
-                type="text"
-                [ngModel]="searchQuery()"
-                (ngModelChange)="onFilterQueryChange($event)"
-                placeholder="Filter by keyword, title, category..."
-                class="w-full pl-9 pr-8 py-1.5 text-xs rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:border-slate-500 transition"
-              />
-              @if (searchQuery()) {
-                <button
-                  type="button"
-                  (click)="onFilterQueryChange('')"
-                  class="absolute right-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
-                  aria-label="Clear search"
-                >
-                  <mat-icon class="!text-sm !w-3.5 !h-3.5">close</mat-icon>
-                </button>
-              }
-            </div>
+      <!-- Left: Title Badge + Count + Inline Quick Search -->
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="flex items-center gap-2 shrink-0">
+          <div class="w-6 h-6 rounded-md bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 flex items-center justify-center shrink-0 shadow-2xs">
+            <mat-icon class="!text-sm !w-3.5 !h-3.5">checklist</mat-icon>
           </div>
-
-          <!-- Center: Status Chips Segmented Control -->
-          <div class="flex items-center gap-1.5 overflow-x-auto py-0.5">
-            <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mr-1 hidden xl:inline">Status:</span>
-            <div class="inline-flex p-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs">
-              <button
-                type="button"
-                (click)="onStatusChange('all')"
-                [ngClass]="selectedStatus() === 'all' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white'"
-                class="px-2.5 py-1 rounded-md transition text-xs cursor-pointer"
-              >
-                All ({{ tasks().length }})
-              </button>
-              <button
-                type="button"
-                (click)="onStatusChange('todo')"
-                [ngClass]="selectedStatus() === 'todo' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white'"
-                class="px-2.5 py-1 rounded-md transition text-xs cursor-pointer"
-              >
-                To Do ({{ stats().todo }})
-              </button>
-              <button
-                type="button"
-                (click)="onStatusChange('in-progress')"
-                [ngClass]="selectedStatus() === 'in-progress' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white'"
-                class="px-2.5 py-1 rounded-md transition text-xs cursor-pointer"
-              >
-                In Progress ({{ stats().inProgress }})
-              </button>
-              <button
-                type="button"
-                (click)="onStatusChange('completed')"
-                [ngClass]="selectedStatus() === 'completed' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white'"
-                class="px-2.5 py-1 rounded-md transition text-xs cursor-pointer"
-              >
-                Completed ({{ stats().completed }})
-              </button>
-            </div>
-          </div>
-
-          <!-- Right: Priority Filter & Clear Button (Slate Theme) -->
-          <div class="flex items-center gap-2 ml-auto shrink-0">
-            <!-- Priority Filter Dropdown -->
-            <select
-              [ngModel]="selectedPriority()"
-              (ngModelChange)="onPriorityChange($event)"
-              class="px-2.5 py-1.5 text-xs rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-slate-500 cursor-pointer"
-              aria-label="Filter by priority"
-            >
-              <option value="all">All Priorities</option>
-              <option value="urgent">🔴 Urgent</option>
-              <option value="high">🟠 High</option>
-              <option value="medium">🔵 Medium</option>
-              <option value="low">⚪ Low</option>
-            </select>
-
-            <!-- Reset Filters Secondary Button (Slate Theme) -->
-            @if (hasActiveFilters()) {
-              <button
-                type="button"
-                (click)="resetFilters()"
-                class="px-2.5 py-1 text-xs border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition inline-flex items-center gap-1 cursor-pointer font-semibold shadow-2xs"
-                matTooltip="Clear active search & filters"
-              >
-                <mat-icon class="!text-xs !w-3 !h-3">filter_alt_off</mat-icon>
-                <span>Clear</span>
-              </button>
-            }
-          </div>
-
+          <h1 class="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none m-0">
+            Tasks
+          </h1>
+          <span class="inline-flex items-center px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+            {{ activeTab() === 'metrics' ? stats().total : filteredTasks().length }}
+          </span>
         </div>
-      </mat-card>
 
-      <!-- VIEW 1.1: SORTABLE ENTERPRISE MATERIAL TABLE (Default) -->
-      @if (viewMode() === 'table') {
-        <div class="overflow-x-auto rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-2xs">
-          <table
+        <div class="h-3.5 w-px bg-slate-300 dark:bg-slate-700 mx-0.5 hidden sm:block"></div>
+
+        <!-- Inline Quick Search -->
+        <div class="relative flex items-center w-40 sm:w-52 lg:w-60">
+          <mat-icon class="absolute left-2.5 text-slate-400 !text-sm !w-3.5 !h-3.5 pointer-events-none">search</mat-icon>
+          <input
+            type="text"
+            [ngModel]="searchQuery()"
+            (ngModelChange)="onFilterQueryChange($event)"
+            placeholder="Search tasks..."
+            class="w-full pl-8 pr-7 py-1 text-xs rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:border-slate-500 transition"
+          />
+          @if (searchQuery()) {
+            <button
+              type="button"
+              (click)="onFilterQueryChange('')"
+              class="absolute right-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+              aria-label="Clear search"
+            >
+              <mat-icon class="!text-xs !w-3 !h-3">close</mat-icon>
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Center: Status Chips + Priority Filter (Visible in Directory View) -->
+      @if (activeTab() === 'directory') {
+        <div class="flex items-center gap-1.5 overflow-x-auto">
+          <!-- Status Chips Segmented Control -->
+          <div class="inline-flex p-0.5 rounded-lg bg-slate-200/70 dark:bg-slate-800 text-xs">
+            <button
+              type="button"
+              (click)="onStatusChange('all')"
+              [ngClass]="selectedStatus() === 'all' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white'"
+              class="px-2 py-0.5 rounded-md transition text-xs cursor-pointer"
+            >
+              All ({{ tasks().length }})
+            </button>
+            <button
+              type="button"
+              (click)="onStatusChange('todo')"
+              [ngClass]="selectedStatus() === 'todo' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white'"
+              class="px-2 py-0.5 rounded-md transition text-xs cursor-pointer"
+            >
+              To Do ({{ stats().todo }})
+            </button>
+            <button
+              type="button"
+              (click)="onStatusChange('in-progress')"
+              [ngClass]="selectedStatus() === 'in-progress' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white'"
+              class="px-2 py-0.5 rounded-md transition text-xs cursor-pointer"
+            >
+              In Progress ({{ stats().inProgress }})
+            </button>
+            <button
+              type="button"
+              (click)="onStatusChange('completed')"
+              [ngClass]="selectedStatus() === 'completed' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white'"
+              class="px-2 py-0.5 rounded-md transition text-xs cursor-pointer"
+            >
+              Completed ({{ stats().completed }})
+            </button>
+          </div>
+
+          <!-- Priority Filter Dropdown -->
+          <select
+            [ngModel]="selectedPriority()"
+            (ngModelChange)="onPriorityChange($event)"
+            class="px-2 py-1 text-xs rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-slate-500 cursor-pointer"
+            aria-label="Filter by priority"
+          >
+            <option value="all">Priority: All</option>
+            <option value="urgent">🔴 Urgent</option>
+            <option value="high">🟠 High</option>
+            <option value="medium">🔵 Medium</option>
+            <option value="low">⚪ Low</option>
+          </select>
+
+          <!-- Reset Filter if active -->
+          @if (hasActiveFilters()) {
+            <button
+              type="button"
+              (click)="resetFilters()"
+              class="px-2 py-0.5 text-xs text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded transition inline-flex items-center gap-0.5 cursor-pointer font-semibold"
+              matTooltip="Clear active search & filters"
+            >
+              <mat-icon class="!text-xs !w-3 !h-3">filter_alt_off</mat-icon>
+              <span>Clear</span>
+            </button>
+          }
+        </div>
+      }
+
+      <!-- Right: View Mode + Secondary Actions + Primary CTA -->
+      <div class="flex items-center gap-1.5 shrink-0 ml-auto">
+        <!-- View Switcher Segmented Control -->
+        <div class="inline-flex p-0.5 rounded-lg bg-slate-200/70 dark:bg-slate-800">
+          <button
+            type="button"
+            (click)="setView('table')"
+            [ngClass]="activeTab() === 'directory' && viewMode() === 'table' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
+            class="p-1 rounded-md transition cursor-pointer flex items-center justify-center"
+            matTooltip="Table View"
+            aria-label="Table View"
+          >
+            <mat-icon class="!text-base !w-4 !h-4">table_rows</mat-icon>
+          </button>
+          <button
+            type="button"
+            (click)="setView('cards')"
+            [ngClass]="activeTab() === 'directory' && viewMode() === 'cards' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
+            class="p-1 rounded-md transition cursor-pointer flex items-center justify-center"
+            matTooltip="Cards View"
+            aria-label="Cards View"
+          >
+            <mat-icon class="!text-base !w-4 !h-4">view_agenda</mat-icon>
+          </button>
+          <button
+            type="button"
+            (click)="setView('metrics')"
+            [ngClass]="activeTab() === 'metrics' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
+            class="p-1 rounded-md transition cursor-pointer flex items-center justify-center"
+            matTooltip="Sprint Analytics & Metrics"
+            aria-label="Sprint Analytics & Metrics"
+          >
+            <mat-icon class="!text-base !w-4 !h-4">insights</mat-icon>
+          </button>
+        </div>
+
+        <div class="h-3.5 w-px bg-slate-300 dark:bg-slate-700 mx-0.5"></div>
+
+        <!-- Seed 35+ Tasks -->
+        <button
+          type="button"
+          (click)="seedBulkDemoTasks()"
+          matTooltip="Seed 35+ Sprint Backlog Tasks"
+          aria-label="Seed 35+ Sprint Backlog Tasks"
+          class="w-7 h-7 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center justify-center transition cursor-pointer shadow-2xs"
+        >
+          <mat-icon class="!text-sm !w-3.5 !h-3.5">playlist_add</mat-icon>
+        </button>
+
+        <!-- Reset Defaults -->
+        <button
+          type="button"
+          (click)="resetDefaults()"
+          matTooltip="Reset Default Tasks"
+          aria-label="Reset Default Tasks"
+          class="w-7 h-7 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center justify-center transition cursor-pointer shadow-2xs"
+        >
+          <mat-icon class="!text-sm !w-3.5 !h-3.5">restart_alt</mat-icon>
+        </button>
+
+        <!-- Auth Mode Toggle -->
+        <button
+          type="button"
+          (click)="toggleAuthMode()"
+          [matTooltip]="'Session: ' + (authService.currentUser()?.name || 'Guest') + ' (Click to toggle)'"
+          aria-label="Toggle user session"
+          class="w-7 h-7 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 relative flex items-center justify-center transition cursor-pointer shadow-2xs"
+        >
+          <mat-icon class="!text-sm !w-3.5 !h-3.5">manage_accounts</mat-icon>
+          <span
+            class="absolute top-1 right-1 w-1.5 h-1.5 rounded-full ring-1 ring-white dark:ring-slate-900"
+            [ngClass]="authService.currentUser()?.role === 'developer' ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'"
+          ></span>
+        </button>
+
+        <div class="h-3.5 w-px bg-slate-300 dark:bg-slate-700 mx-0.5"></div>
+
+        <!-- Create New Task Button -->
+        <button
+          type="button"
+          (click)="openCreateDialog()"
+          matTooltip="Create New Task (Modal)"
+          aria-label="Create New Task"
+          class="h-7 px-2.5 rounded-lg bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 font-bold text-xs flex items-center gap-1 transition cursor-pointer shadow-2xs"
+        >
+          <mat-icon class="!text-sm !w-3.5 !h-3.5">add</mat-icon>
+          <span class="hidden sm:inline">New Task</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- VIEW AREA 1.1: SORTABLE ENTERPRISE MATERIAL TABLE (Default) -->
+    @if (activeTab() === 'directory' && viewMode() === 'table') {
+      <div class="overflow-x-auto">
+        <table
             mat-table
             [dataSource]="pagedTasks()"
             matSort
@@ -598,9 +588,6 @@
         </div>
       }
 
-    </div>
-  }
-
   <!-- ========================================================================= -->
   <!-- VIEW AREA 2: SPRINT METRICS & DASHBOARD                                   -->
   <!-- ========================================================================= -->
@@ -721,4 +708,5 @@
     </div>
   }
 
+  </div>
 </div>

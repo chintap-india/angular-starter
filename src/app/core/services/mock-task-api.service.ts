@@ -11,7 +11,7 @@ import {
   TaskPageResult,
 } from '../models/task.model';
 
-const STORAGE_KEY = 'chintap_tasks_crud_v1';
+const STORAGE_KEY = 'chintap_tasks_crud_v2';
 
 const INITIAL_TASKS: TaskItem[] = [
   {
@@ -112,6 +112,66 @@ Update repository references in \`package.json\`, \`site.config.ts\`, \`site.con
     dueDate: '2026-11-06',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'task-6',
+    title: 'Implement OpenTelemetry Distributed Tracing in SSR Hydration',
+    description: `### Step 6: SSR Observability
+Instrument distributed trace spans across Vite SSR and browser hydration cycles to track microtask completion and optimize page stabilization.`,
+    priority: 'high',
+    status: 'in-progress',
+    category: 'DevOps',
+    dueDate: '2026-11-15',
+    createdAt: new Date(Date.now() - 86400000 * 4).toISOString(),
+    updatedAt: new Date(Date.now() - 86400000 * 1).toISOString(),
+  },
+  {
+    id: 'task-7',
+    title: 'Conduct WCAG 2.2 Level AA Contrast and Screen Reader Audit',
+    description: `### Step 7: Accessibility Verification
+Audit all high-contrast Slate components, ARIA landmark dialogs, and keyboard focus states to ensure 100% WCAG compliance.`,
+    priority: 'urgent',
+    status: 'todo',
+    category: 'Compliance',
+    dueDate: '2026-11-16',
+    createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'task-8',
+    title: 'Configure Multi-Zone GeoDNS Routing for Sub-50ms Edge Delivery',
+    description: `### Step 8: Global Edge Distribution
+Establish latency-based anycast routing and edge server caching for static starter kit assets.`,
+    priority: 'medium',
+    status: 'todo',
+    category: 'Architecture',
+    dueDate: '2026-11-17',
+    createdAt: new Date(Date.now() - 86400000 * 5).toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: 'task-9',
+    title: 'Audit Third-Party NPM Dependencies for Critical Vulnerabilities',
+    description: `### Step 9: Automated Security Screening
+Audit supply chain lockfiles and enforce automated security vulnerability screening in CI pipelines.`,
+    priority: 'urgent',
+    status: 'completed',
+    category: 'Security',
+    dueDate: '2026-11-08',
+    createdAt: new Date(Date.now() - 86400000 * 6).toISOString(),
+    updatedAt: new Date(Date.now() - 86400000 * 3).toISOString(),
+  },
+  {
+    id: 'task-10',
+    title: 'Optimize Largest Contentful Paint (LCP) Hero Asset WebP Pipelines',
+    description: `### Step 10: Core Web Vitals Optimization
+Deliver preloaded responsive WebP vectors and inline SVG brand assets to guarantee sub-1.2s LCP scores across mobile and desktop.`,
+    priority: 'high',
+    status: 'completed',
+    category: 'Performance',
+    dueDate: '2026-11-09',
+    createdAt: new Date(Date.now() - 86400000 * 7).toISOString(),
+    updatedAt: new Date(Date.now() - 86400000 * 2).toISOString(),
   },
 ];
 

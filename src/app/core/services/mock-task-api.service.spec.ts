@@ -129,7 +129,7 @@ describe('MockTaskApiService', () => {
   it('should reset tasks to initial defaults', async () => {
     await firstValueFrom(service.createTask({ title: 'Temporary Task' }));
     const resetTasks = await firstValueFrom(service.resetToDefaults());
-    expect(resetTasks.length).toBe(5);
+    expect(resetTasks.length).toBe(10);
     expect(resetTasks.find((t) => t.title === 'Temporary Task')).toBeUndefined();
   });
 
@@ -138,10 +138,10 @@ describe('MockTaskApiService', () => {
       service.getTasksPaged({ pageIndex: 0, pageSize: 2 })
     );
     expect(pageResult.items.length).toBe(2);
-    expect(pageResult.totalCount).toBe(5);
+    expect(pageResult.totalCount).toBe(10);
     expect(pageResult.pageIndex).toBe(0);
     expect(pageResult.pageSize).toBe(2);
-    expect(pageResult.totalPages).toBe(3);
+    expect(pageResult.totalPages).toBe(5);
   });
 
   it('should seed realistic enterprise backlog tasks for multi-page scale', async () => {
