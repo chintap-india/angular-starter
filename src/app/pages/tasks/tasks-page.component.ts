@@ -27,6 +27,9 @@ import { SITE_CONFIG } from '../../core/config/site.config';
 import { SITE_CONTENT } from '../../core/config/site.content';
 import { TaskItem, TaskPriority, TaskStatus, CreateTaskDto, UpdateTaskDto } from '../../core/models/task.model';
 import { TaskFormDialogComponent } from './task-form-dialog.component';
+import { TaskDetailDialogComponent } from './task-detail-dialog.component';
+import { TaskStatusDialogComponent } from './task-status-dialog.component';
+import { TaskDeleteDialogComponent } from './task-delete-dialog.component';
 import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
 
 @Component({
@@ -91,6 +94,17 @@ export class TasksPageComponent implements OnInit {
   readonly searchQuery = signal<string>('');
   readonly selectedStatus = signal<string>('all');
   readonly selectedPriority = signal<string>('all');
+
+  readonly hasActiveFilters = computed(() => {
+    return !!this.searchQuery().trim() || this.selectedStatus() !== 'all' || this.selectedPriority() !== 'all';
+  });
+
+  resetFilters(): void {
+    this.searchQuery.set('');
+    this.selectedStatus.set('all');
+    this.selectedPriority.set('all');
+    this.pageIndex.set(0);
+  }
 
   readonly filteredTasks = computed(() => {
     const list = this.tasks() || [];
@@ -257,14 +271,75 @@ export class TasksPageComponent implements OnInit {
     });
   }
 
+  openDetailDialog(task: TaskItem): void {
+    const ref = this.dialog.open(TaskDetailDialogComponent, {
+      width: '760px',
+      maxWidth: '95vw',
+      data: { task },
+    });
+
+    ref.afterClosed().subscribe((res) => {
+      if (!res) return;
+      if (res.action === 'edit' && res.task) {
+        this.openEditDialog(res.task);
+      } else if (res.action === 'status' && res.task) {
+        this.openStatusDialog(res.task);
+      } else if (res.action === 'delete' && res.task) {
+        this.openDeleteDialog(res.task);
+      }
+    });
+  }
+
+  openStatusDialog(task: TaskItem): void {
+    const ref = this.dialog.open(TaskStatusDialogComponent, {
+      width: '460px',
+      maxWidth: '95vw',
+      data: { task },
+    });
+
+    ref.afterClosed().subscribe((res) => {
+      if (res && res.action === 'update') {
+        this.taskApi.updateTask(task.id, { status: res.status }).subscribe({
+          next: () => {
+            const statusLabel =
+              res.status === 'in-progress'
+                ? 'In Progress'
+                : res.status === 'completed'
+                  ? 'Completed'
+                  : 'To Do';
+            this.snackBar.open(`Status updated to "${statusLabel}"!`, 'Dismiss', {
+              duration: 3000,
+              verticalPosition: 'bottom',
+            });
+          },
+        });
+      }
+    });
+  }
+
+  openDeleteDialog(task: TaskItem): void {
+    const ref = this.dialog.open(TaskDeleteDialogComponent, {
+      width: '460px',
+      maxWidth: '95vw',
+      data: { task },
+    });
+
+    ref.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.taskApi.deleteTask(task.id).subscribe({
+          next: () => {
+            this.snackBar.open(`Task "${task.title}" deleted.`, 'Dismiss', {
+              duration: 3000,
+              verticalPosition: 'bottom',
+            });
+          },
+        });
+      }
+    });
+  }
+
   deleteTask(task: TaskItem): void {
-    if (confirm(`Are you sure you want to delete "${task.title}"?`)) {
-      this.taskApi.deleteTask(task.id).subscribe({
-        next: () => {
-          this.snackBar.open('Task deleted.', 'Dismiss', { duration: 3000, verticalPosition: 'bottom' });
-        },
-      });
-    }
+    this.openDeleteDialog(task);
   }
 
   resetDefaults(): void {

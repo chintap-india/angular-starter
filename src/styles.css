@@ -555,5 +555,15 @@ html.dark .mat-expansion-panel-body {
   color: #d6d3d1 !important;
 }
 
+/* Full-screen Material Dialog Panel */
+.full-screen-dialog-panel .mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 0 !important;
+  max-width: 100vw !important;
+  width: 100vw !important;
+  max-height: 100vh !important;
+  height: 100vh !important;
+  padding: 0 !important;
+}
+
 
 

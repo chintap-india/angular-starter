@@ -184,4 +184,71 @@ describe('TasksPageComponent', () => {
     expect(component.sortField()).toBe('updatedAt');
     expect(component.sortDirection()).toBe('desc');
   });
+
+  it('should open task detail dialog when requested', () => {
+    fixture.detectChanges();
+    const task: TaskItem = {
+      id: 'task-test-detail',
+      title: 'Detail Task',
+      description: 'Specs',
+      priority: 'high',
+      status: 'in-progress',
+      category: 'Design',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    component.openDetailDialog(task);
+    expect((component as any).dialog.open).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        data: expect.objectContaining({ task }),
+      })
+    );
+  });
+
+  it('should open status change dialog and delete dialog', () => {
+    fixture.detectChanges();
+    const task: TaskItem = {
+      id: 'task-test-status',
+      title: 'Status Task',
+      description: 'Specs',
+      priority: 'medium',
+      status: 'todo',
+      category: 'Dev',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    component.openStatusDialog(task);
+    expect((component as any).dialog.open).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        data: expect.objectContaining({ task }),
+      })
+    );
+
+    component.openDeleteDialog(task);
+    expect((component as any).dialog.open).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        data: expect.objectContaining({ task }),
+      })
+    );
+  });
+
+  it('should compute hasActiveFilters and reset filters', () => {
+    fixture.detectChanges();
+    expect(component.hasActiveFilters()).toBe(false);
+
+    component.searchQuery.set('Angular');
+    expect(component.hasActiveFilters()).toBe(true);
+
+    component.resetFilters();
+    expect(component.searchQuery()).toBe('');
+    expect(component.selectedStatus()).toBe('all');
+    expect(component.selectedPriority()).toBe('all');
+    expect(component.hasActiveFilters()).toBe(false);
+  });
 });
+
