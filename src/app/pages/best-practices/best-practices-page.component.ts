@@ -43,6 +43,15 @@ export class BestPracticesPageComponent implements OnInit {
     }
   }
 
+  scrollToSection(id: string): void {
+    if (typeof document !== 'undefined') {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }
+
   openContactModal(): void {
     this.contactModal.open({ intent: 'starter-kit', source: 'best-practices' });
   }
