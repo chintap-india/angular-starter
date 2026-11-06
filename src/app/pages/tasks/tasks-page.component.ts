@@ -15,6 +15,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule, Sort } from '@angular/material/sort';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MockTaskApiService } from '../../core/services/mock-task-api.service';
 import { AuthService } from '../../core/services/auth.service';
 import { SeoService } from '../../core/services/seo.service';
@@ -44,6 +49,11 @@ import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
     MatProgressBarModule,
     MatTooltipModule,
     MatDividerModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatButtonToggleModule,
+    MatTabsModule,
     MarkdownPipe,
   ],
   templateUrl: './tasks-page.component.html',
@@ -59,6 +69,24 @@ export class TasksPageComponent implements OnInit {
 
   readonly tasks = this.taskApi.tasksSignal;
   readonly isLoading = this.taskApi.loadingSignal;
+
+  readonly activeTab = signal<'directory' | 'metrics'>('directory');
+  readonly viewMode = signal<'table' | 'cards'>('table');
+  readonly pageIndex = signal<number>(0);
+  readonly pageSize = signal<number>(10);
+  readonly sortField = signal<string>('updatedAt');
+  readonly sortDirection = signal<'asc' | 'desc'>('desc');
+
+  readonly displayedColumns: string[] = [
+    'select',
+    'id',
+    'title',
+    'category',
+    'priority',
+    'status',
+    'dueDate',
+    'actions',
+  ];
 
   readonly searchQuery = signal<string>('');
   readonly selectedStatus = signal<string>('all');
@@ -99,6 +127,68 @@ export class TasksPageComponent implements OnInit {
 
     return { total, completed, inProgress, todo, percentage };
   });
+
+  readonly sortedTasks = computed(() => {
+    const list = [...this.filteredTasks()];
+    const field = this.sortField();
+    const dir = this.sortDirection();
+    if (!field || !dir) return list;
+
+    return list.sort((a, b) => {
+      const aVal = (a as any)[field] ?? '';
+      const bVal = (b as any)[field] ?? '';
+      const comp = String(aVal).localeCompare(String(bVal), undefined, { numeric: true, sensitivity: 'base' });
+      return dir === 'asc' ? comp : -comp;
+    });
+  });
+
+  readonly pagedTasks = computed(() => {
+    const sorted = this.sortedTasks();
+    const start = this.pageIndex() * this.pageSize();
+    return sorted.slice(start, start + this.pageSize());
+  });
+
+  onSortChange(sort: Sort): void {
+    if (!sort.active || sort.direction === '') {
+      this.sortField.set('updatedAt');
+      this.sortDirection.set('desc');
+    } else {
+      this.sortField.set(sort.active);
+      this.sortDirection.set(sort.direction as 'asc' | 'desc');
+    }
+    this.pageIndex.set(0);
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.pageIndex.set(event.pageIndex);
+    this.pageSize.set(event.pageSize);
+  }
+
+  onFilterQueryChange(query: string): void {
+    this.searchQuery.set(query);
+    this.pageIndex.set(0);
+  }
+
+  onStatusChange(status: string): void {
+    this.selectedStatus.set(status);
+    this.pageIndex.set(0);
+  }
+
+  onPriorityChange(priority: string): void {
+    this.selectedPriority.set(priority);
+    this.pageIndex.set(0);
+  }
+
+  seedBulkDemoTasks(): void {
+    this.taskApi.seedEnterpriseTasks(35).subscribe({
+      next: () => {
+        this.snackBar.open('Seeded 35+ realistic enterprise sprint tasks across DevOps, Security, and Architecture!', 'Dismiss', {
+          duration: 3500,
+          verticalPosition: 'bottom',
+        });
+      },
+    });
+  }
 
   ngOnInit(): void {
     this.seo.setSeoData({

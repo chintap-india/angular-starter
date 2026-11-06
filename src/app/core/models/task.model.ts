@@ -30,3 +30,21 @@ export interface UpdateTaskDto {
   category?: string;
   dueDate?: string;
 }
+
+export interface TaskQueryParams {
+  pageIndex?: number;
+  pageSize?: number;
+  search?: string;
+  status?: TaskStatus | 'all';
+  priority?: TaskPriority | 'all';
+  sortField?: keyof TaskItem | 'title' | 'priority' | 'status' | 'category' | 'dueDate' | 'updatedAt';
+  sortDirection?: 'asc' | 'desc';
+}
+
+export interface TaskPageResult {
+  items: TaskItem[];
+  totalCount: number;
+  pageIndex: number;
+  pageSize: number;
+  totalPages: number;
+}

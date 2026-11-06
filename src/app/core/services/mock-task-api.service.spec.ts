@@ -132,4 +132,21 @@ describe('MockTaskApiService', () => {
     expect(resetTasks.length).toBe(5);
     expect(resetTasks.find((t) => t.title === 'Temporary Task')).toBeUndefined();
   });
+
+  it('should return paginated results with page and count parameters', async () => {
+    const pageResult = await firstValueFrom(
+      service.getTasksPaged({ pageIndex: 0, pageSize: 2 })
+    );
+    expect(pageResult.items.length).toBe(2);
+    expect(pageResult.totalCount).toBe(5);
+    expect(pageResult.pageIndex).toBe(0);
+    expect(pageResult.pageSize).toBe(2);
+    expect(pageResult.totalPages).toBe(3);
+  });
+
+  it('should seed realistic enterprise backlog tasks for multi-page scale', async () => {
+    const seeded = await firstValueFrom(service.seedEnterpriseTasks(20));
+    expect(seeded.length).toBeGreaterThanOrEqual(25);
+    expect(seeded.some((t) => t.id.startsWith('task-ent-'))).toBe(true);
+  });
 });

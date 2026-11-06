@@ -1,7 +1,15 @@
 import { Injectable, inject, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Observable, of, delay, tap, throwError } from 'rxjs';
-import { TaskItem, TaskPriority, TaskStatus, CreateTaskDto, UpdateTaskDto } from '../models/task.model';
+import {
+  TaskItem,
+  TaskPriority,
+  TaskStatus,
+  CreateTaskDto,
+  UpdateTaskDto,
+  TaskQueryParams,
+  TaskPageResult,
+} from '../models/task.model';
 
 const STORAGE_KEY = 'chintap_tasks_crud_v1';
 
@@ -261,6 +269,109 @@ export class MockTaskApiService {
 
     const newStatus = task.status === 'completed' ? 'todo' : 'completed';
     return this.updateTask(id, { status: newStatus });
+  }
+
+  getTasksPaged(params?: TaskQueryParams): Observable<TaskPageResult> {
+    const pageIndex = params?.pageIndex ?? 0;
+    const pageSize = params?.pageSize ?? 10;
+    const search = params?.search?.trim().toLowerCase() || '';
+    const status = params?.status || 'all';
+    const priority = params?.priority || 'all';
+    const sortField = params?.sortField || 'updatedAt';
+    const sortDirection = params?.sortDirection || 'desc';
+
+    // 1. Filter
+    let filtered = this.tasks.filter((t) => {
+      const matchesSearch =
+        !search ||
+        (t.title?.toLowerCase().includes(search) ?? false) ||
+        (t.description?.toLowerCase().includes(search) ?? false) ||
+        (t.category?.toLowerCase().includes(search) ?? false);
+
+      const matchesStatus = status === 'all' || t.status === status;
+      const matchesPriority = priority === 'all' || t.priority === priority;
+
+      return matchesSearch && matchesStatus && matchesPriority;
+    });
+
+    // 2. Sort
+    filtered = [...filtered].sort((a, b) => {
+      const aVal = (a as any)[sortField] ?? '';
+      const bVal = (b as any)[sortField] ?? '';
+      const comp = String(aVal).localeCompare(String(bVal));
+      return sortDirection === 'asc' ? comp : -comp;
+    });
+
+    const totalCount = filtered.length;
+    const totalPages = Math.ceil(totalCount / pageSize);
+    const start = pageIndex * pageSize;
+    const items = filtered.slice(start, start + pageSize);
+
+    const result: TaskPageResult = {
+      items,
+      totalCount,
+      pageIndex,
+      pageSize,
+      totalPages,
+    };
+
+    if (!isPlatformBrowser(this.platformId)) {
+      return of(result);
+    }
+
+    return of(result).pipe(delay(120));
+  }
+
+  seedEnterpriseTasks(count = 35): Observable<TaskItem[]> {
+    this.loadingSignal.set(true);
+    const categories = ['Architecture', 'Security', 'DevOps', 'Performance', 'UI/UX', 'Testing', 'Compliance'];
+    const priorities: TaskPriority[] = ['urgent', 'high', 'medium', 'low'];
+    const statuses: TaskStatus[] = ['todo', 'in-progress', 'completed'];
+
+    const enterpriseBlueprints = [
+      { title: 'Implement OpenTelemetry Distributed Tracing in SSR Hydration', category: 'DevOps', priority: 'high' as TaskPriority },
+      { title: 'Conduct WCAG 2.2 Level AA Contrast and Screen Reader Audit', category: 'Compliance', priority: 'urgent' as TaskPriority },
+      { title: 'Configure Redis In-Memory Cache Tier for Micro-Frontend State', category: 'Architecture', priority: 'medium' as TaskPriority },
+      { title: 'Enforce Content Security Policy (CSP) Headers with Nonce Tokens', category: 'Security', priority: 'urgent' as TaskPriority },
+      { title: 'Optimize Largest Contentful Paint (LCP) Hero Asset WebP Pipelines', category: 'Performance', priority: 'high' as TaskPriority },
+      { title: 'Setup GitHub Actions Matrix CI for Linux ARM64 and AMD64 Runners', category: 'DevOps', priority: 'medium' as TaskPriority },
+      { title: 'Refactor Reactive Form Validation to Signal-Based Computed Controls', category: 'UI/UX', priority: 'medium' as TaskPriority },
+      { title: 'Implement Circuit Breaker Pattern for Edge REST Gateways', category: 'Architecture', priority: 'high' as TaskPriority },
+      { title: 'Setup Automated Vitest Snapshot Regression Coverage in Pre-Commit', category: 'Testing', priority: 'low' as TaskPriority },
+      { title: 'Add Prometheus Exporter for SSR Request Latency and Memory Heap', category: 'DevOps', priority: 'medium' as TaskPriority },
+      { title: 'Audit Third-Party NPM Dependencies for CVE Critical Vulnerabilities', category: 'Security', priority: 'urgent' as TaskPriority },
+      { title: 'Configure Multi-Zone GeoDNS Routing for Sub-50ms Global Edge Delivery', category: 'Architecture', priority: 'high' as TaskPriority },
+    ];
+
+    const generated: TaskItem[] = [];
+    const now = Date.now();
+
+    for (let i = 0; i < count; i++) {
+      const blueprint = enterpriseBlueprints[i % enterpriseBlueprints.length];
+      const seq = i + 1;
+      const createdDate = new Date(now - (count - i) * 3600000 * 8).toISOString();
+      const dueDate = new Date(now + (i + 2) * 86400000).toISOString().split('T')[0];
+
+      generated.push({
+        id: `task-ent-${seq.toString().padStart(3, '0')}`,
+        title: `${blueprint.title} (#${seq})`,
+        description: `### Enterprise Scope Item ${seq}\nAutomated enterprise sprint task targeting **${blueprint.category}**.\n\n* Milestone priority: \`${blueprint.priority}\`\n* Target completion: ${dueDate}\n* Verification: Automated CI gating and PR checklist signoff.`,
+        priority: blueprint.priority,
+        status: statuses[i % statuses.length],
+        category: blueprint.category,
+        dueDate,
+        createdAt: createdDate,
+        updatedAt: createdDate,
+      });
+    }
+
+    const merged = [...generated, ...this.tasks];
+    this.saveToStorage(merged);
+
+    return of(merged).pipe(
+      delay(200),
+      tap(() => this.loadingSignal.set(false))
+    );
   }
 
   resetToDefaults(): Observable<TaskItem[]> {

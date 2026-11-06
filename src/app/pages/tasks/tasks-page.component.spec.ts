@@ -150,4 +150,38 @@ describe('TasksPageComponent', () => {
       expect.objectContaining({ duration: 2500, verticalPosition: 'bottom' })
     );
   });
+
+  it('should default to table view mode and allow switching to cards view', () => {
+    fixture.detectChanges();
+    expect(component.viewMode()).toBe('table');
+    expect(component.activeTab()).toBe('directory');
+
+    component.viewMode.set('cards');
+    expect(component.viewMode()).toBe('cards');
+
+    component.activeTab.set('metrics');
+    expect(component.activeTab()).toBe('metrics');
+  });
+
+  it('should paginate tasks and update pageIndex/pageSize on page events', () => {
+    fixture.detectChanges();
+    expect(component.pageIndex()).toBe(0);
+    expect(component.pageSize()).toBe(10);
+
+    component.onPageChange({ pageIndex: 1, pageSize: 5, length: 15 });
+    expect(component.pageIndex()).toBe(1);
+    expect(component.pageSize()).toBe(5);
+  });
+
+  it('should update sortField and sortDirection on table sort change', () => {
+    fixture.detectChanges();
+    component.onSortChange({ active: 'title', direction: 'asc' });
+    expect(component.sortField()).toBe('title');
+    expect(component.sortDirection()).toBe('asc');
+    expect(component.pageIndex()).toBe(0);
+
+    component.onSortChange({ active: '', direction: '' });
+    expect(component.sortField()).toBe('updatedAt');
+    expect(component.sortDirection()).toBe('desc');
+  });
 });
