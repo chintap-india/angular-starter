@@ -565,5 +565,31 @@ html.dark .mat-expansion-panel-body {
   padding: 0 !important;
 }
 
+/* Enterprise Data Table - Prominent, High-Contrast Column Headers */
+.mat-mdc-header-cell {
+  color: #0f172a !important; /* slate-900 */
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+}
+
+html.dark .mat-mdc-header-cell {
+  color: #ffffff !important;
+}
+
+.mat-sort-header-container {
+  color: inherit !important;
+}
+
+.mat-sort-header-arrow {
+  color: #0f172a !important;
+  opacity: 0.85 !important;
+}
+
+html.dark .mat-sort-header-arrow {
+  color: #ffffff !important;
+  opacity: 0.95 !important;
+}
+
+
 
 
