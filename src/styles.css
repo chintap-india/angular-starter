@@ -157,6 +157,126 @@ a:has(mat-icon) span,
   vertical-align: middle !important;
 }
 
+/* ========================================================================= */
+/* ENTERPRISE TABLE & CARD ROW HOVER FOCUS / SPOTLIGHT EFFECT                */
+/* ========================================================================= */
+
+.tasks-focus-table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+
+/* Base transition for smooth restoration when hover ends */
+.tasks-table-row {
+  transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.15s ease,
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tasks-table-row td {
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* When hovering anywhere over the table body or focusing a row via keyboard,
+   dim and softly blur all sibling rows to direct visual focus */
+.tasks-focus-table tbody:hover .tasks-table-row,
+.tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row {
+  opacity: 0.35;
+  filter: blur(0.65px);
+}
+
+/* The actively hovered or keyboard-focused row stays 100% crisp, sharp, and elevated */
+.tasks-focus-table tbody:hover .tasks-table-row:hover,
+.tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row:focus-within {
+  opacity: 1 !important;
+  filter: blur(0) !important;
+  position: relative;
+  z-index: 10;
+  cursor: pointer;
+}
+
+/* Focused row cell styling: high-contrast background */
+.tasks-focus-table tbody:hover .tasks-table-row:hover td,
+.tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row:focus-within td {
+  background-color: rgba(241, 245, 249, 0.95) !important; /* slate-100 */
+}
+
+:where(.dark) .tasks-focus-table tbody:hover .tasks-table-row:hover td,
+:where(.dark) .tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row:focus-within td {
+  background-color: rgba(30, 41, 59, 0.9) !important; /* slate-800 */
+}
+
+/* Active row left focus accent line on first cell */
+.tasks-focus-table tbody:hover .tasks-table-row:hover td:first-child,
+.tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row:focus-within td:first-child {
+  box-shadow: inset 3.5px 0 0 0 #0f172a !important; /* slate-900 indicator */
+}
+
+:where(.dark) .tasks-focus-table tbody:hover .tasks-table-row:hover td:first-child,
+:where(.dark) .tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row:focus-within td:first-child {
+  box-shadow: inset 3.5px 0 0 0 #f8fafc !important; /* slate-50 indicator */
+}
+
+/* Completed task row subtle emerald highlight when focused */
+.tasks-focus-table tbody:hover .tasks-table-row.bg-emerald-50\/20:hover td,
+.tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row.bg-emerald-50\/20:focus-within td {
+  background-color: rgba(236, 253, 245, 0.95) !important; /* emerald-50 */
+}
+
+:where(.dark) .tasks-focus-table tbody:hover .tasks-table-row.bg-emerald-50\/20:hover td,
+:where(.dark) .tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row.bg-emerald-50\/20:focus-within td {
+  background-color: rgba(6, 78, 59, 0.45) !important; /* emerald-950 */
+}
+
+.tasks-focus-table tbody:hover .tasks-table-row.bg-emerald-50\/20:hover td:first-child,
+.tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row.bg-emerald-50\/20:focus-within td:first-child {
+  box-shadow: inset 3.5px 0 0 0 #059669 !important; /* emerald-600 */
+}
+
+:where(.dark) .tasks-focus-table tbody:hover .tasks-table-row.bg-emerald-50\/20:hover td:first-child,
+:where(.dark) .tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row.bg-emerald-50\/20:focus-within td:first-child {
+  box-shadow: inset 3.5px 0 0 0 #34d399 !important; /* emerald-400 */
+}
+
+/* Cards View Hover Spotlight Effect */
+.tasks-cards-focus-group .tasks-card-item {
+  transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tasks-cards-focus-group:hover .tasks-card-item,
+.tasks-cards-focus-group:has(.tasks-card-item:focus-within) .tasks-card-item {
+  opacity: 0.35;
+  filter: blur(0.65px);
+}
+
+.tasks-cards-focus-group:hover .tasks-card-item:hover,
+.tasks-cards-focus-group:has(.tasks-card-item:focus-within) .tasks-card-item:focus-within {
+  opacity: 1 !important;
+  filter: blur(0) !important;
+  transform: translateY(-2px) scale(1.003);
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05) !important;
+  position: relative;
+  z-index: 10;
+}
+
+:where(.dark) .tasks-cards-focus-group:hover .tasks-card-item:hover,
+:where(.dark) .tasks-cards-focus-group:has(.tasks-card-item:focus-within) .tasks-card-item:focus-within {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Accessibility: respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .tasks-focus-table tbody:hover .tasks-table-row,
+  .tasks-cards-focus-group:hover .tasks-card-item {
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
 /* Page Hero & Header Large Material Icons */
 .page-hero-icon {
   font-size: 3.5rem !important;

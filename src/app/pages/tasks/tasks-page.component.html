@@ -215,7 +215,7 @@
             [matSortActive]="sortField()"
             [matSortDirection]="sortDirection()"
             (matSortChange)="onSortChange($event)"
-            class="w-full text-left"
+            class="w-full text-left tasks-focus-table"
             aria-label="Enterprise tasks data table"
           >
             
@@ -391,7 +391,7 @@
             <tr
               mat-row
               *matRowDef="let row; columns: displayedColumns"
-              class="hover:bg-stone-50/70 dark:hover:bg-stone-800/40 transition-colors border-b border-stone-100 dark:border-stone-800/60"
+              class="tasks-table-row transition-all duration-200 border-b border-stone-100 dark:border-stone-800/60"
               [class.bg-emerald-50/20]="row.status === 'completed'"
             ></tr>
 
@@ -425,11 +425,11 @@
 
       <!-- VIEW 1.2: CARDS / DETAILED VIEW (With Live Markdown Previews) -->
       @if (viewMode() === 'cards') {
-        <div class="space-y-3">
+        <div class="space-y-3 tasks-cards-focus-group">
           @for (task of pagedTasks(); track task.id) {
             <mat-card
               appearance="outlined"
-              class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-xl shadow-2xs hover:shadow-md transition-all duration-200"
+              class="tasks-card-item !bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-xl shadow-2xs hover:shadow-md transition-all duration-200"
               [class.opacity-75]="task.status === 'completed'"
             >
               <mat-card-content class="!p-4 sm:!p-5">
