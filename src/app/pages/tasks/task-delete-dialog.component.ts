@@ -51,10 +51,10 @@ export interface TaskDeleteDialogData {
           type="button"
           mat-flat-button
           (click)="confirm()"
-          class="!bg-rose-600 hover:!bg-rose-500 !text-white !rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer shadow-xs !px-4 !py-1.5"
+          class="!bg-rose-600 hover:!bg-rose-500 !text-white !rounded-xl text-xs font-bold inline-flex items-center justify-center gap-1.5 cursor-pointer shadow-xs !px-4 !py-1.5 leading-none"
         >
-          <mat-icon class="!text-base !w-4 !h-4">delete</mat-icon>
-          <span>Delete Task</span>
+          <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">delete</mat-icon>
+          <span class="leading-none">Delete Task</span>
         </button>
       </div>
     </div>

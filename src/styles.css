@@ -64,6 +64,97 @@ mat-icon,
   font-feature-settings: 'liga';
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
+  vertical-align: middle !important;
+  flex-shrink: 0 !important;
+}
+
+/* Global Subpixel Vertical Centering for Buttons with Icons */
+button:has(mat-icon),
+a:has(mat-icon),
+.btn-with-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+}
+
+button mat-icon,
+a mat-icon,
+.btn-with-icon mat-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+  flex-shrink: 0 !important;
+  line-height: 1 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+button:has(mat-icon) span,
+a:has(mat-icon) span,
+.btn-with-icon span {
+  display: inline-flex !important;
+  align-items: center !important;
+  line-height: 1 !important;
+}
+
+/* Eliminate MDC icon button padding offsets that displace icons vertically */
+.mat-mdc-icon-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+
+.mat-mdc-icon-button .mat-icon {
+  margin: auto !important;
+  line-height: 1 !important;
+}
+
+.mat-mdc-icon-button .mat-mdc-button-touch-target {
+  display: none !important;
+}
+
+/* Ensure MDC button labels and inner icons are flex-aligned and vertically centered */
+.mat-mdc-button-base {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+}
+
+.mat-mdc-button-base .mdc-button__label {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+  line-height: 1 !important;
+}
+
+.mat-mdc-button-base .mdc-button__label mat-icon,
+.mat-mdc-button-base .mdc-button__label .mat-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  vertical-align: middle !important;
+  line-height: 1 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  flex-shrink: 0 !important;
+}
+
+/* Material Table Header Sort Icons vertical alignment */
+.mat-sort-header-container {
+  display: inline-flex !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+}
+
+.mat-sort-header-arrow {
+  display: inline-flex !important;
+  align-items: center !important;
+  vertical-align: middle !important;
 }
 
 /* Page Hero & Header Large Material Icons */

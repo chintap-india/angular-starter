@@ -17,10 +17,10 @@
     <button
       type="button"
       (click)="cancel()"
-      class="text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 p-1.5 rounded-lg transition cursor-pointer"
+      class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition cursor-pointer leading-none"
       aria-label="Close dialog"
     >
-      <mat-icon class="!text-xl !w-5 !h-5">close</mat-icon>
+      <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">close</mat-icon>
     </button>
   </div>
 
@@ -137,10 +137,10 @@
             [class.text-stone-900]="editorTab() === 'preview'"
             [class.dark:text-white]="editorTab() === 'preview'"
             [class.shadow-xs]="editorTab() === 'preview'"
-            class="px-3 py-1 rounded-lg transition text-stone-600 dark:text-stone-300 cursor-pointer flex items-center gap-1"
+            class="px-3 py-1 rounded-lg transition text-stone-600 dark:text-stone-300 cursor-pointer inline-flex items-center justify-center gap-1 leading-none"
           >
-            <mat-icon class="!text-xs !w-3.5 !h-3.5">visibility</mat-icon>
-            Preview
+            <mat-icon class="!text-xs !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">visibility</mat-icon>
+            <span class="leading-none">Preview</span>
           </button>
         </div>
       </div>

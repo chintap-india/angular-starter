@@ -33,10 +33,10 @@ export interface TaskStatusDialogData {
         <button
           type="button"
           (click)="cancel()"
-          class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-1 rounded-lg transition cursor-pointer"
+          class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
           aria-label="Close"
         >
-          <mat-icon class="!text-lg !w-4 !h-4">close</mat-icon>
+          <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">close</mat-icon>
         </button>
       </div>
 
@@ -97,10 +97,10 @@ export interface TaskStatusDialogData {
           type="button"
           mat-flat-button
           (click)="confirm()"
-          class="!bg-slate-900 hover:!bg-slate-800 dark:!bg-slate-100 dark:hover:!bg-white !text-white dark:!text-slate-900 !rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer shadow-xs !px-4 !py-1.5"
+          class="!bg-slate-900 hover:!bg-slate-800 dark:!bg-slate-100 dark:hover:!bg-white !text-white dark:!text-slate-900 !rounded-xl text-xs font-bold inline-flex items-center justify-center gap-1.5 cursor-pointer shadow-xs !px-4 !py-1.5 leading-none"
         >
-          <mat-icon class="!text-base !w-4 !h-4">check</mat-icon>
-          <span>Update Status</span>
+          <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">check</mat-icon>
+          <span class="leading-none">Update Status</span>
         </button>
       </div>
     </div>
