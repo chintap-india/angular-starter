@@ -75,6 +75,20 @@ export class TasksPageComponent implements OnInit {
 
   readonly activeTab = signal<'directory' | 'metrics'>('directory');
   readonly viewMode = signal<'table' | 'cards'>('table');
+
+  readonly activeView = computed<'table' | 'cards' | 'metrics'>(() => {
+    return this.activeTab() === 'metrics' ? 'metrics' : this.viewMode();
+  });
+
+  setView(view: 'table' | 'cards' | 'metrics'): void {
+    if (view === 'metrics') {
+      this.activeTab.set('metrics');
+    } else {
+      this.activeTab.set('directory');
+      this.viewMode.set(view);
+    }
+  }
+
   readonly pageIndex = signal<number>(0);
   readonly pageSize = signal<number>(10);
   readonly sortField = signal<string>('updatedAt');

@@ -1,737 +1,724 @@
-<div class="min-h-screen pt-3 pb-8 sm:pt-4 sm:pb-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-3.5">
+<div class="min-h-screen pt-2 pb-8 sm:pt-3 sm:pb-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-3">
   
-  <!-- High-Density Enterprise Header (Full Width max-w-7xl matching Navbar) -->
-  <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-stone-200 dark:border-stone-800">
-    <div class="flex items-center gap-3">
-      <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0">
-        <mat-icon class="!text-lg !w-5 !h-5">checklist</mat-icon>
+  <!-- Ultra-Compact Enterprise Navbar Header -->
+  <header class="flex items-center justify-between gap-3 pb-2.5 border-b border-stone-200 dark:border-stone-800">
+    <!-- Left: Module Title & Count Badge -->
+    <div class="flex items-center gap-2.5">
+      <div class="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-2xs">
+        <mat-icon class="!text-base !w-4 !h-4">checklist</mat-icon>
       </div>
-      <div>
-        <h1 class="text-xl sm:text-2xl font-bold text-stone-900 dark:text-white tracking-tight leading-tight">
-          {{ content.tasks.hero.title }}
-        </h1>
-        <p class="text-stone-500 dark:text-stone-400 text-xs hidden sm:block">
-          {{ content.tasks.hero.description | slice:0:110 }}...
-        </p>
-      </div>
+      <h1 class="text-base sm:text-lg font-bold text-stone-900 dark:text-white tracking-tight leading-none">
+        {{ content.tasks.hero.title }}
+      </h1>
+      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 border border-stone-200 dark:border-stone-700">
+        {{ activeTab() === 'metrics' ? stats().total + ' tasks' : filteredTasks().length }}
+      </span>
     </div>
 
-    <!-- Top Action Bar -->
-    <div class="flex items-center gap-2 flex-wrap shrink-0">
-      <!-- Create New Task Button (Modal) -->
-      <button
-        type="button"
-        (click)="openCreateDialog()"
-        mat-flat-button
-        class="!bg-emerald-600 hover:!bg-emerald-500 !text-white !font-bold !rounded-xl !px-3.5 !py-1.5 shadow-2xs inline-flex items-center gap-1.5 cursor-pointer text-xs"
-      >
-        <mat-icon class="!text-base !w-4 !h-4">add</mat-icon>
-        <span>New Task</span>
-      </button>
-
-      <!-- Auth Session Identity Pill -->
-      <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-xs text-stone-700 dark:text-stone-300">
-        <span class="w-2 h-2 rounded-full" [ngClass]="authService.currentUser()?.role === 'developer' ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'"></span>
-        <span class="font-medium text-[11px]">{{ authService.currentUser()?.name || 'Guest' }}</span>
+    <!-- Right: Minimal Icon Navbar (View Switchers & Minimal Action Icons) -->
+    <div class="flex items-center gap-1.5 shrink-0">
+      
+      <!-- View Switcher Minimal Icon Buttons: Table, Cards, Analytics -->
+      <div class="inline-flex p-0.5 rounded-xl bg-stone-100 dark:bg-stone-800 border border-stone-200/80 dark:border-stone-700/80">
         <button
           type="button"
-          (click)="toggleAuthMode()"
-          class="ml-1 text-emerald-600 dark:text-emerald-400 hover:underline font-semibold cursor-pointer text-[11px]"
+          (click)="setView('table')"
+          [ngClass]="activeTab() === 'directory' && viewMode() === 'table' ? 'bg-white dark:bg-stone-700 text-emerald-700 dark:text-emerald-400 font-bold shadow-2xs' : 'text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'"
+          class="p-1.5 rounded-lg transition cursor-pointer flex items-center justify-center"
+          matTooltip="Table View"
+          aria-label="Table View"
         >
-          {{ authService.currentUser()?.role === 'developer' ? 'Guest' : 'Dev' }}
+          <mat-icon class="!text-lg !w-5 !h-5">table_rows</mat-icon>
+        </button>
+
+        <button
+          type="button"
+          (click)="setView('cards')"
+          [ngClass]="activeTab() === 'directory' && viewMode() === 'cards' ? 'bg-white dark:bg-stone-700 text-emerald-700 dark:text-emerald-400 font-bold shadow-2xs' : 'text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'"
+          class="p-1.5 rounded-lg transition cursor-pointer flex items-center justify-center"
+          matTooltip="Cards View"
+          aria-label="Cards View"
+        >
+          <mat-icon class="!text-lg !w-5 !h-5">view_agenda</mat-icon>
+        </button>
+
+        <button
+          type="button"
+          (click)="setView('metrics')"
+          [ngClass]="activeTab() === 'metrics' ? 'bg-white dark:bg-stone-700 text-emerald-700 dark:text-emerald-400 font-bold shadow-2xs' : 'text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'"
+          class="p-1.5 rounded-lg transition cursor-pointer flex items-center justify-center"
+          matTooltip="Sprint Analytics & Metrics"
+          aria-label="Sprint Analytics & Metrics"
+        >
+          <mat-icon class="!text-lg !w-5 !h-5">insights</mat-icon>
         </button>
       </div>
 
-      <!-- Seed 35+ Backlog Tasks Button -->
+      <div class="h-4 w-px bg-stone-200 dark:bg-stone-700 mx-0.5"></div>
+
+      <!-- Seed 35+ Backlog Tasks Icon Button -->
       <button
         type="button"
         (click)="seedBulkDemoTasks()"
-        mat-stroked-button
-        class="!border-emerald-300 dark:!border-emerald-800 !text-emerald-700 dark:!text-emerald-400 !rounded-xl !text-xs !py-1 !px-2.5 cursor-pointer"
-        matTooltip="Seed 35+ realistic enterprise sprint backlog tasks"
+        matTooltip="Seed 35+ Sprint Backlog Tasks"
+        aria-label="Seed 35+ Sprint Backlog Tasks"
+        class="w-8 h-8 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 text-stone-600 dark:text-stone-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:border-emerald-300 flex items-center justify-center transition cursor-pointer"
       >
-        <mat-icon class="!text-sm !w-3.5 !h-3.5 text-emerald-600">playlist_add</mat-icon>
-        <span class="hidden md:inline">Seed 35+</span>
+        <mat-icon class="!text-base !w-4 !h-4">playlist_add</mat-icon>
       </button>
 
-      <!-- Reset Defaults Button -->
+      <!-- Reset Defaults Icon Button -->
       <button
         type="button"
         (click)="resetDefaults()"
-        mat-stroked-button
-        class="!border-stone-300 dark:!border-stone-700 !text-stone-600 dark:text-stone-300 !rounded-xl !text-xs !py-1 !px-2.5 cursor-pointer"
-        matTooltip="Reset pre-seeded starter kickoff tasks"
+        matTooltip="Reset Default Tasks"
+        aria-label="Reset Default Tasks"
+        class="w-8 h-8 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white flex items-center justify-center transition cursor-pointer"
       >
-        <mat-icon class="!text-sm !w-3.5 !h-3.5">restart_alt</mat-icon>
-        <span class="hidden md:inline">Reset</span>
+        <mat-icon class="!text-base !w-4 !h-4">restart_alt</mat-icon>
       </button>
+
+      <!-- Auth Session Toggle Icon Button -->
+      <button
+        type="button"
+        (click)="toggleAuthMode()"
+        [matTooltip]="'Session: ' + (authService.currentUser()?.name || 'Guest') + ' (Click to switch to ' + (authService.currentUser()?.role === 'developer' ? 'Guest' : 'Dev') + ')'"
+        [attr.aria-label]="'Switch session role from ' + (authService.currentUser()?.role || 'guest')"
+        class="w-8 h-8 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 relative flex items-center justify-center transition cursor-pointer text-stone-700 dark:text-stone-300 hover:text-emerald-600"
+      >
+        <mat-icon class="!text-base !w-4 !h-4">manage_accounts</mat-icon>
+        <span
+          class="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full ring-1 ring-white dark:ring-stone-900"
+          [ngClass]="authService.currentUser()?.role === 'developer' ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'"
+        ></span>
+      </button>
+
+      <div class="h-4 w-px bg-stone-200 dark:bg-stone-700 mx-0.5"></div>
+
+      <!-- Create New Task Minimal Primary Icon Button (Modal Trigger) -->
+      <button
+        type="button"
+        (click)="openCreateDialog()"
+        matTooltip="Create New Task (Modal)"
+        aria-label="Create New Task"
+        class="w-8 h-8 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center transition cursor-pointer shadow-2xs hover:shadow-xs"
+      >
+        <mat-icon class="!text-lg !w-5 !h-5">add</mat-icon>
+      </button>
+
     </div>
   </header>
 
-  <!-- Enterprise Tabbed View Navigation: Tasks Directory (Default) vs. Sprint Metrics -->
-  <mat-tab-group
-    animationDuration="150ms"
-    [selectedIndex]="activeTab() === 'directory' ? 0 : 1"
-    (selectedIndexChange)="activeTab.set($event === 0 ? 'directory' : 'metrics')"
-    class="enterprise-tabs"
-  >
-    
-    <!-- ========================================================================= -->
-    <!-- TAB 1: TASKS DIRECTORY (Clean Table View First + Cards Toggle)           -->
-    <!-- ========================================================================= -->
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <span class="inline-flex items-center gap-2 font-semibold">
-          <mat-icon class="!text-base !w-4 !h-4">table_rows</mat-icon>
-          <span>Tasks Directory ({{ filteredTasks().length }})</span>
-        </span>
-      </ng-template>
-
-      <div class="pt-3 space-y-3">
-        
-        <!-- High-Density Balanced Full-Width Toolbar -->
-        <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-xl shadow-2xs">
-          <div class="p-2 sm:p-2.5 flex flex-wrap lg:flex-nowrap items-center justify-between gap-2.5">
-            
-            <!-- Left: Keyword Search Input -->
-            <div class="w-full sm:w-72 lg:w-80 shrink-0">
-              <div class="relative flex items-center">
-                <mat-icon class="absolute left-3 text-stone-400 !text-base !w-4 !h-4 pointer-events-none">search</mat-icon>
-                <input
-                  type="text"
-                  [ngModel]="searchQuery()"
-                  (ngModelChange)="onFilterQueryChange($event)"
-                  placeholder="Filter by keyword, title, category..."
-                  class="w-full pl-9 pr-8 py-1.5 text-xs rounded-lg bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition"
-                />
-                @if (searchQuery()) {
-                  <button
-                    type="button"
-                    (click)="onFilterQueryChange('')"
-                    class="absolute right-2 text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 cursor-pointer"
-                    aria-label="Clear search"
-                  >
-                    <mat-icon class="!text-sm !w-3.5 !h-3.5">close</mat-icon>
-                  </button>
-                }
-              </div>
-            </div>
-
-            <!-- Center: Status Chips Segmented Control (Evenly spaced across center) -->
-            <div class="flex items-center gap-1.5 overflow-x-auto py-0.5">
-              <span class="text-[11px] font-semibold text-stone-400 uppercase tracking-wider mr-1 hidden xl:inline">Status:</span>
-              <div class="inline-flex p-0.5 rounded-lg bg-stone-100 dark:bg-stone-800 text-xs">
+  <!-- ========================================================================= -->
+  <!-- VIEW AREA 1: DIRECTORY (TABLE OR CARDS)                                   -->
+  <!-- ========================================================================= -->
+  @if (activeTab() === 'directory') {
+    <div class="space-y-3">
+      
+      <!-- High-Density Balanced Full-Width Toolbar -->
+      <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-xl shadow-2xs">
+        <div class="p-2 sm:p-2.5 flex flex-wrap lg:flex-nowrap items-center justify-between gap-2.5">
+          
+          <!-- Left: Keyword Search Input -->
+          <div class="w-full sm:w-72 lg:w-80 shrink-0">
+            <div class="relative flex items-center">
+              <mat-icon class="absolute left-3 text-stone-400 !text-base !w-4 !h-4 pointer-events-none">search</mat-icon>
+              <input
+                type="text"
+                [ngModel]="searchQuery()"
+                (ngModelChange)="onFilterQueryChange($event)"
+                placeholder="Filter by keyword, title, category..."
+                class="w-full pl-9 pr-8 py-1.5 text-xs rounded-lg bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition"
+              />
+              @if (searchQuery()) {
                 <button
                   type="button"
-                  (click)="onStatusChange('all')"
-                  [ngClass]="selectedStatus() === 'all' ? 'bg-white dark:bg-stone-700 text-stone-900 dark:text-white font-bold shadow-2xs' : 'text-stone-600 dark:text-stone-400 font-medium hover:text-stone-900'"
-                  class="px-2.5 py-1 rounded-md transition text-xs cursor-pointer"
+                  (click)="onFilterQueryChange('')"
+                  class="absolute right-2 text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 cursor-pointer"
+                  aria-label="Clear search"
                 >
-                  All ({{ tasks().length }})
-                </button>
-                <button
-                  type="button"
-                  (click)="onStatusChange('todo')"
-                  [ngClass]="selectedStatus() === 'todo' ? 'bg-white dark:bg-stone-700 text-stone-900 dark:text-white font-bold shadow-2xs' : 'text-stone-600 dark:text-stone-400 font-medium hover:text-stone-900'"
-                  class="px-2.5 py-1 rounded-md transition text-xs cursor-pointer"
-                >
-                  To Do ({{ stats().todo }})
-                </button>
-                <button
-                  type="button"
-                  (click)="onStatusChange('in-progress')"
-                  [ngClass]="selectedStatus() === 'in-progress' ? 'bg-white dark:bg-stone-700 text-amber-700 dark:text-amber-400 font-bold shadow-2xs' : 'text-stone-600 dark:text-stone-400 font-medium hover:text-stone-900'"
-                  class="px-2.5 py-1 rounded-md transition text-xs cursor-pointer"
-                >
-                  In Progress ({{ stats().inProgress }})
-                </button>
-                <button
-                  type="button"
-                  (click)="onStatusChange('completed')"
-                  [ngClass]="selectedStatus() === 'completed' ? 'bg-white dark:bg-stone-700 text-emerald-700 dark:text-emerald-400 font-bold shadow-2xs' : 'text-stone-600 dark:text-stone-400 font-medium hover:text-stone-900'"
-                  class="px-2.5 py-1 rounded-md transition text-xs cursor-pointer"
-                >
-                  Completed ({{ stats().completed }})
-                </button>
-              </div>
-            </div>
-
-            <!-- Right: Priority Filter, Reset Button, Divider & View Toggle -->
-            <div class="flex items-center gap-2 ml-auto shrink-0">
-              <!-- Priority Filter Dropdown -->
-              <select
-                [ngModel]="selectedPriority()"
-                (ngModelChange)="onPriorityChange($event)"
-                class="px-2.5 py-1.5 text-xs rounded-lg bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer"
-                aria-label="Filter by priority"
-              >
-                <option value="all">All Priorities</option>
-                <option value="urgent">🔴 Urgent</option>
-                <option value="high">🟠 High</option>
-                <option value="medium">🔵 Medium</option>
-                <option value="low">⚪ Low</option>
-              </select>
-
-              <!-- Reset Filters Button (conditional) -->
-              @if (hasActiveFilters()) {
-                <button
-                  type="button"
-                  (click)="resetFilters()"
-                  class="px-2 py-1 text-xs text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg transition inline-flex items-center gap-1 cursor-pointer font-semibold"
-                  matTooltip="Clear active search & filters"
-                >
-                  <mat-icon class="!text-xs !w-3 !h-3">filter_alt_off</mat-icon>
-                  <span>Clear</span>
+                  <mat-icon class="!text-sm !w-3.5 !h-3.5">close</mat-icon>
                 </button>
               }
-
-              <div class="h-4 w-px bg-stone-200 dark:bg-stone-700 mx-0.5"></div>
-
-              <!-- View Mode Toggle: Table View vs. Cards View -->
-              <div class="inline-flex p-0.5 rounded-lg bg-stone-100 dark:bg-stone-800 text-xs">
-                <button
-                  type="button"
-                  (click)="viewMode.set('table')"
-                  [ngClass]="viewMode() === 'table' ? 'bg-white dark:bg-stone-700 text-stone-900 dark:text-white font-bold shadow-2xs' : 'text-stone-600 dark:text-stone-400 font-medium'"
-                  class="p-1 sm:px-2 sm:py-1 rounded-md transition inline-flex items-center gap-1 cursor-pointer"
-                  matTooltip="Sortable Enterprise Table View"
-                >
-                  <mat-icon class="!text-sm !w-4 !h-4">table_rows</mat-icon>
-                  <span class="hidden sm:inline text-xs">Table</span>
-                </button>
-                <button
-                  type="button"
-                  (click)="viewMode.set('cards')"
-                  [ngClass]="viewMode() === 'cards' ? 'bg-white dark:bg-stone-700 text-stone-900 dark:text-white font-bold shadow-2xs' : 'text-stone-600 dark:text-stone-400 font-medium'"
-                  class="p-1 sm:px-2 sm:py-1 rounded-md transition inline-flex items-center gap-1 cursor-pointer"
-                  matTooltip="Cards View with Markdown Details"
-                >
-                  <mat-icon class="!text-sm !w-4 !h-4">view_agenda</mat-icon>
-                  <span class="hidden sm:inline text-xs">Cards</span>
-                </button>
-              </div>
             </div>
-
           </div>
-        </mat-card>
 
-        <!-- ========================================================================= -->
-        <!-- VIEW 1: SORTABLE ENTERPRISE MATERIAL TABLE (Default)                      -->
-        <!-- ========================================================================= -->
-        @if (viewMode() === 'table') {
-          <div class="overflow-x-auto rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-2xs">
-            <table
-              mat-table
-              [dataSource]="pagedTasks()"
-              matSort
-              [matSortActive]="sortField()"
-              [matSortDirection]="sortDirection()"
-              (matSortChange)="onSortChange($event)"
-              class="w-full text-left"
-              aria-label="Enterprise tasks data table"
-            >
-              
-              <!-- Checkbox Column -->
-              <ng-container matColumnDef="select">
-                <th mat-header-cell *matHeaderCellDef class="!w-10 !px-3 text-center">Done</th>
-                <td mat-cell *matCellDef="let task" class="!w-10 !px-3 text-center">
-                  <mat-checkbox
-                    [checked]="task.status === 'completed'"
-                    (change)="toggleComplete(task)"
-                    color="primary"
-                    [attr.aria-label]="task.status === 'completed' ? 'Mark task as incomplete' : 'Mark task as completed'"
-                  ></mat-checkbox>
-                </td>
-              </ng-container>
-
-              <!-- ID Column -->
-              <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="!w-24 font-semibold text-[11px] text-stone-500 uppercase tracking-wider">
-                  ID
-                </th>
-                <td mat-cell *matCellDef="let task" class="font-mono text-xs text-stone-500 dark:text-stone-400 font-semibold whitespace-nowrap">
-                  #{{ task.id.replace('task-', '') }}
-                </td>
-              </ng-container>
-
-              <!-- Title Column (Clickable to open Full Task Detail Dialog) -->
-              <ng-container matColumnDef="title">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px] text-stone-500 uppercase tracking-wider min-w-[240px]">
-                  Task Title
-                </th>
-                <td mat-cell *matCellDef="let task" class="py-2.5 pr-4">
-                  <button
-                    type="button"
-                    (click)="openDetailDialog(task)"
-                    class="font-bold text-xs sm:text-sm text-stone-900 dark:text-stone-100 hover:text-emerald-600 dark:hover:text-emerald-400 text-left transition cursor-pointer group flex items-center gap-1.5"
-                    matTooltip="Click to view full specs & fullscreen details"
-                  >
-                    <span [class.line-through]="task.status === 'completed'" [class.text-stone-400]="task.status === 'completed'">
-                      {{ task.title }}
-                    </span>
-                    <mat-icon class="!text-xs !w-3 !h-3 opacity-0 group-hover:opacity-100 text-emerald-600 transition shrink-0">open_in_new</mat-icon>
-                  </button>
-                  @if (task.description) {
-                    <p class="text-[11px] text-stone-400 dark:text-stone-500 line-clamp-1 mt-0.5 max-w-md">
-                      {{ task.description.replace('#', '').replace('*', '').slice(0, 80) }}...
-                    </p>
-                  }
-                </td>
-              </ng-container>
-
-              <!-- Category Column -->
-              <ng-container matColumnDef="category">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px] text-stone-500 uppercase tracking-wider !w-28">
-                  Category
-                </th>
-                <td mat-cell *matCellDef="let task" class="whitespace-nowrap">
-                  <span class="inline-flex items-center gap-1 text-[11px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700">
-                    <mat-icon class="!text-[10px] !w-3 !h-3">folder</mat-icon>
-                    <span>{{ task.category }}</span>
-                  </span>
-                </td>
-              </ng-container>
-
-              <!-- Priority Column -->
-              <ng-container matColumnDef="priority">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px] text-stone-500 uppercase tracking-wider !w-24">
-                  Priority
-                </th>
-                <td mat-cell *matCellDef="let task" class="whitespace-nowrap">
-                  <span
-                    class="inline-flex items-center gap-1 text-[11px] font-mono font-bold uppercase px-2 py-0.5 rounded-md"
-                    [ngClass]="{
-                      'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900': task.priority === 'urgent',
-                      'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-900': task.priority === 'high',
-                      'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900': task.priority === 'medium',
-                      'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.priority === 'low'
-                    }"
-                  >
-                    <mat-icon class="!text-[10px] !w-3 !h-3">
-                      {{ task.priority === 'urgent' || task.priority === 'high' ? 'priority_high' : 'low_priority' }}
-                    </mat-icon>
-                    <span>{{ task.priority }}</span>
-                  </span>
-                </td>
-              </ng-container>
-
-              <!-- Status Column (Clickable to open Status Change Modal) -->
-              <ng-container matColumnDef="status">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px] text-stone-500 uppercase tracking-wider !w-32">
-                  Status
-                </th>
-                <td mat-cell *matCellDef="let task" class="whitespace-nowrap">
-                  <button
-                    type="button"
-                    (click)="openStatusDialog(task)"
-                    matTooltip="Click to change status (Modal)"
-                    class="inline-flex items-center gap-1 text-[11px] font-mono uppercase px-2 py-0.5 rounded-md font-semibold cursor-pointer hover:ring-2 hover:ring-emerald-500/40 transition group"
-                    [ngClass]="{
-                      'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800': task.status === 'completed',
-                      'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800': task.status === 'in-progress',
-                      'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.status === 'todo'
-                    }"
-                  >
-                    <mat-icon class="!text-[11px] !w-3 !h-3">
-                      {{ task.status === 'completed' ? 'check' : (task.status === 'in-progress' ? 'pending' : 'radio_button_unchecked') }}
-                    </mat-icon>
-                    <span>{{ task.status === 'in-progress' ? 'In Progress' : (task.status === 'completed' ? 'Done' : 'To Do') }}</span>
-                    <mat-icon class="!text-[10px] !w-2.5 !h-2.5 opacity-60 ml-0.5 group-hover:translate-y-0.5 transition">expand_more</mat-icon>
-                  </button>
-                </td>
-              </ng-container>
-
-              <!-- Due Date Column -->
-              <ng-container matColumnDef="dueDate">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px] text-stone-500 uppercase tracking-wider !w-28">
-                  Due Date
-                </th>
-                <td mat-cell *matCellDef="let task" class="whitespace-nowrap font-mono text-xs text-stone-500 dark:text-stone-400">
-                  @if (task.dueDate) {
-                    <span class="inline-flex items-center gap-1">
-                      <mat-icon class="!text-xs !w-3.5 !h-3.5">calendar_today</mat-icon>
-                      <span>{{ task.dueDate }}</span>
-                    </span>
-                  } @else {
-                    <span class="text-stone-400 dark:text-stone-600">—</span>
-                  }
-                </td>
-              </ng-container>
-
-              <!-- Actions Column (Detail View, Edit Modal, Delete Modal) -->
-              <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef class="text-right !pr-4 font-semibold text-[11px] text-stone-500 uppercase tracking-wider !w-28">
-                  Actions
-                </th>
-                <td mat-cell *matCellDef="let task" class="text-right !pr-3 whitespace-nowrap">
-                  <!-- View Details Modal Trigger -->
-                  <button
-                    type="button"
-                    mat-icon-button
-                    (click)="openDetailDialog(task)"
-                    aria-label="View task details"
-                    matTooltip="View Full Details / Fullscreen"
-                    class="!text-stone-500 hover:!text-emerald-600 dark:hover:!text-emerald-400 !w-8 !h-8"
-                  >
-                    <mat-icon class="!text-base">visibility</mat-icon>
-                  </button>
-                  <!-- Edit Modal Trigger -->
-                  <button
-                    type="button"
-                    mat-icon-button
-                    (click)="openEditDialog(task)"
-                    aria-label="Edit task"
-                    matTooltip="Edit Task (Modal)"
-                    class="!text-stone-500 hover:!text-stone-900 dark:hover:!text-white !w-8 !h-8"
-                  >
-                    <mat-icon class="!text-base">edit</mat-icon>
-                  </button>
-                  <!-- Delete Modal Trigger -->
-                  <button
-                    type="button"
-                    mat-icon-button
-                    (click)="openDeleteDialog(task)"
-                    aria-label="Delete task"
-                    matTooltip="Delete Task (Modal)"
-                    class="!text-stone-400 hover:!text-rose-600 dark:hover:!text-rose-400 !w-8 !h-8"
-                  >
-                    <mat-icon class="!text-base">delete_outline</mat-icon>
-                  </button>
-                </td>
-              </ng-container>
-
-              <tr mat-header-row *matHeaderRowDef="displayedColumns" class="!bg-stone-50/80 dark:!bg-stone-800/50 !border-b !border-stone-200 dark:!border-stone-800"></tr>
-              <tr
-                mat-row
-                *matRowDef="let row; columns: displayedColumns"
-                class="hover:bg-stone-50/70 dark:hover:bg-stone-800/40 transition-colors border-b border-stone-100 dark:border-stone-800/60"
-                [class.bg-emerald-50/20]="row.status === 'completed'"
-              ></tr>
-
-              <!-- Row shown when there is no matching data. -->
-              <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell p-8 text-center" [attr.colspan]="displayedColumns.length">
-                  <div class="flex flex-col items-center justify-center">
-                    <mat-icon class="!text-3xl !w-8 !h-8 text-stone-400 mb-1.5">search_off</mat-icon>
-                    <p class="text-xs font-semibold text-stone-700 dark:text-stone-300">No tasks match your search or filter criteria</p>
-                    <button type="button" (click)="resetFilters()" class="mt-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold hover:underline cursor-pointer">
-                      Reset Search Filters
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </table>
-
-            <!-- Enterprise Paginator -->
-            <mat-paginator
-              [length]="sortedTasks().length"
-              [pageSize]="pageSize()"
-              [pageIndex]="pageIndex()"
-              [pageSizeOptions]="[10, 25, 50, 100]"
-              (page)="onPageChange($event)"
-              showFirstLastButtons
-              aria-label="Select page of tasks"
-              class="!border-t !border-stone-200 dark:!border-stone-800 !bg-transparent text-xs"
-            ></mat-paginator>
-          </div>
-        }
-
-        <!-- ========================================================================= -->
-        <!-- VIEW 2: CARDS / DETAILED VIEW (With Live Markdown Previews)               -->
-        <!-- ========================================================================= -->
-        @if (viewMode() === 'cards') {
-          <div class="space-y-3">
-            @for (task of pagedTasks(); track task.id) {
-              <mat-card
-                appearance="outlined"
-                class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-xl shadow-2xs hover:shadow-md transition-all duration-200"
-                [class.opacity-75]="task.status === 'completed'"
+          <!-- Center: Status Chips Segmented Control -->
+          <div class="flex items-center gap-1.5 overflow-x-auto py-0.5">
+            <span class="text-[11px] font-semibold text-stone-400 uppercase tracking-wider mr-1 hidden xl:inline">Status:</span>
+            <div class="inline-flex p-0.5 rounded-lg bg-stone-100 dark:bg-stone-800 text-xs">
+              <button
+                type="button"
+                (click)="onStatusChange('all')"
+                [ngClass]="selectedStatus() === 'all' ? 'bg-white dark:bg-stone-700 text-stone-900 dark:text-white font-bold shadow-2xs' : 'text-stone-600 dark:text-stone-400 font-medium hover:text-stone-900'"
+                class="px-2.5 py-1 rounded-md transition text-xs cursor-pointer"
               >
-                <mat-card-content class="!p-4 sm:!p-5">
-                  <div class="flex items-start justify-between gap-3">
-                    
-                    <!-- Checkbox & Title Group -->
-                    <div class="flex items-start gap-3 flex-1 min-w-0">
-                      <mat-checkbox
-                        [checked]="task.status === 'completed'"
-                        (change)="toggleComplete(task)"
-                        color="primary"
-                        class="mt-0.5 shrink-0"
-                        [attr.aria-label]="task.status === 'completed' ? 'Mark task as incomplete' : 'Mark task as completed'"
-                      ></mat-checkbox>
+                All ({{ tasks().length }})
+              </button>
+              <button
+                type="button"
+                (click)="onStatusChange('todo')"
+                [ngClass]="selectedStatus() === 'todo' ? 'bg-white dark:bg-stone-700 text-stone-900 dark:text-white font-bold shadow-2xs' : 'text-stone-600 dark:text-stone-400 font-medium hover:text-stone-900'"
+                class="px-2.5 py-1 rounded-md transition text-xs cursor-pointer"
+              >
+                To Do ({{ stats().todo }})
+              </button>
+              <button
+                type="button"
+                (click)="onStatusChange('in-progress')"
+                [ngClass]="selectedStatus() === 'in-progress' ? 'bg-white dark:bg-stone-700 text-amber-700 dark:text-amber-400 font-bold shadow-2xs' : 'text-stone-600 dark:text-stone-400 font-medium hover:text-stone-900'"
+                class="px-2.5 py-1 rounded-md transition text-xs cursor-pointer"
+              >
+                In Progress ({{ stats().inProgress }})
+              </button>
+              <button
+                type="button"
+                (click)="onStatusChange('completed')"
+                [ngClass]="selectedStatus() === 'completed' ? 'bg-white dark:bg-stone-700 text-emerald-700 dark:text-emerald-400 font-bold shadow-2xs' : 'text-stone-600 dark:text-stone-400 font-medium hover:text-stone-900'"
+                class="px-2.5 py-1 rounded-md transition text-xs cursor-pointer"
+              >
+                Completed ({{ stats().completed }})
+              </button>
+            </div>
+          </div>
 
-                      <div class="space-y-1.5 flex-1 min-w-0">
+          <!-- Right: Priority Filter & Clear Button -->
+          <div class="flex items-center gap-2 ml-auto shrink-0">
+            <!-- Priority Filter Dropdown -->
+            <select
+              [ngModel]="selectedPriority()"
+              (ngModelChange)="onPriorityChange($event)"
+              class="px-2.5 py-1.5 text-xs rounded-lg bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500 cursor-pointer"
+              aria-label="Filter by priority"
+            >
+              <option value="all">All Priorities</option>
+              <option value="urgent">🔴 Urgent</option>
+              <option value="high">🟠 High</option>
+              <option value="medium">🔵 Medium</option>
+              <option value="low">⚪ Low</option>
+            </select>
+
+            <!-- Reset Filters Button (conditional) -->
+            @if (hasActiveFilters()) {
+              <button
+                type="button"
+                (click)="resetFilters()"
+                class="px-2 py-1 text-xs text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg transition inline-flex items-center gap-1 cursor-pointer font-semibold"
+                matTooltip="Clear active search & filters"
+              >
+                <mat-icon class="!text-xs !w-3 !h-3">filter_alt_off</mat-icon>
+                <span>Clear</span>
+              </button>
+            }
+          </div>
+
+        </div>
+      </mat-card>
+
+      <!-- VIEW 1.1: SORTABLE ENTERPRISE MATERIAL TABLE (Default) -->
+      @if (viewMode() === 'table') {
+        <div class="overflow-x-auto rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-900 shadow-2xs">
+          <table
+            mat-table
+            [dataSource]="pagedTasks()"
+            matSort
+            [matSortActive]="sortField()"
+            [matSortDirection]="sortDirection()"
+            (matSortChange)="onSortChange($event)"
+            class="w-full text-left"
+            aria-label="Enterprise tasks data table"
+          >
+            
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef class="!w-10 !px-3 text-center">Done</th>
+              <td mat-cell *matCellDef="let task" class="!w-10 !px-3 text-center">
+                <mat-checkbox
+                  [checked]="task.status === 'completed'"
+                  (change)="toggleComplete(task)"
+                  color="primary"
+                  [attr.aria-label]="task.status === 'completed' ? 'Mark task as incomplete' : 'Mark task as completed'"
+                ></mat-checkbox>
+              </td>
+            </ng-container>
+
+            <!-- ID Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="!w-24 font-semibold text-[11px] text-stone-500 uppercase tracking-wider">
+                ID
+              </th>
+              <td mat-cell *matCellDef="let task" class="font-mono text-xs text-stone-500 dark:text-stone-400 font-semibold whitespace-nowrap">
+                #{{ task.id.replace('task-', '') }}
+              </td>
+            </ng-container>
+
+            <!-- Title Column (Clickable to open Full Task Detail Dialog) -->
+            <ng-container matColumnDef="title">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px] text-stone-500 uppercase tracking-wider min-w-[240px]">
+                Task Title
+              </th>
+              <td mat-cell *matCellDef="let task" class="py-2.5 pr-4">
+                <button
+                  type="button"
+                  (click)="openDetailDialog(task)"
+                  class="font-bold text-xs sm:text-sm text-stone-900 dark:text-stone-100 hover:text-emerald-600 dark:hover:text-emerald-400 text-left transition cursor-pointer group flex items-center gap-1.5"
+                  matTooltip="Click to view full specs & fullscreen details"
+                >
+                  <span [class.line-through]="task.status === 'completed'" [class.text-stone-400]="task.status === 'completed'">
+                    {{ task.title }}
+                  </span>
+                  <mat-icon class="!text-xs !w-3 !h-3 opacity-0 group-hover:opacity-100 text-emerald-600 transition shrink-0">open_in_new</mat-icon>
+                </button>
+                @if (task.description) {
+                  <p class="text-[11px] text-stone-400 dark:text-stone-500 line-clamp-1 mt-0.5 max-w-md">
+                    {{ task.description.replace('#', '').replace('*', '').slice(0, 80) }}...
+                  </p>
+                }
+              </td>
+            </ng-container>
+
+            <!-- Category Column -->
+            <ng-container matColumnDef="category">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px] text-stone-500 uppercase tracking-wider !w-28">
+                Category
+              </th>
+              <td mat-cell *matCellDef="let task" class="whitespace-nowrap">
+                <span class="inline-flex items-center gap-1 text-[11px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700">
+                  <mat-icon class="!text-[10px] !w-3 !h-3">folder</mat-icon>
+                  <span>{{ task.category }}</span>
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Priority Column -->
+            <ng-container matColumnDef="priority">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px] text-stone-500 uppercase tracking-wider !w-24">
+                Priority
+              </th>
+              <td mat-cell *matCellDef="let task" class="whitespace-nowrap">
+                <span
+                  class="inline-flex items-center gap-1 text-[11px] font-mono font-bold uppercase px-2 py-0.5 rounded-md"
+                  [ngClass]="{
+                    'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900': task.priority === 'urgent',
+                    'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-900': task.priority === 'high',
+                    'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900': task.priority === 'medium',
+                    'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.priority === 'low'
+                  }"
+                >
+                  <mat-icon class="!text-[10px] !w-3 !h-3">
+                    {{ task.priority === 'urgent' || task.priority === 'high' ? 'priority_high' : 'low_priority' }}
+                  </mat-icon>
+                  <span>{{ task.priority }}</span>
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Status Column (Clickable to open Status Change Modal) -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px] text-stone-500 uppercase tracking-wider !w-32">
+                Status
+              </th>
+              <td mat-cell *matCellDef="let task" class="whitespace-nowrap">
+                <button
+                  type="button"
+                  (click)="openStatusDialog(task)"
+                  matTooltip="Click to change status (Modal)"
+                  class="inline-flex items-center gap-1 text-[11px] font-mono uppercase px-2 py-0.5 rounded-md font-semibold cursor-pointer hover:ring-2 hover:ring-emerald-500/40 transition group"
+                  [ngClass]="{
+                    'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800': task.status === 'completed',
+                    'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800': task.status === 'in-progress',
+                    'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.status === 'todo'
+                  }"
+                >
+                  <mat-icon class="!text-[11px] !w-3 !h-3">
+                    {{ task.status === 'completed' ? 'check' : (task.status === 'in-progress' ? 'pending' : 'radio_button_unchecked') }}
+                  </mat-icon>
+                  <span>{{ task.status === 'in-progress' ? 'In Progress' : (task.status === 'completed' ? 'Done' : 'To Do') }}</span>
+                  <mat-icon class="!text-[10px] !w-2.5 !h-2.5 opacity-60 ml-0.5 group-hover:translate-y-0.5 transition">expand_more</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <!-- Due Date Column -->
+            <ng-container matColumnDef="dueDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px] text-stone-500 uppercase tracking-wider !w-28">
+                Due Date
+              </th>
+              <td mat-cell *matCellDef="let task" class="whitespace-nowrap font-mono text-xs text-stone-500 dark:text-stone-400">
+                @if (task.dueDate) {
+                  <span class="inline-flex items-center gap-1">
+                    <mat-icon class="!text-xs !w-3.5 !h-3.5">calendar_today</mat-icon>
+                    <span>{{ task.dueDate }}</span>
+                  </span>
+                } @else {
+                  <span class="text-stone-400 dark:text-stone-600">—</span>
+                }
+              </td>
+            </ng-container>
+
+            <!-- Actions Column (Detail View, Edit Modal, Delete Modal) -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef class="text-right !pr-4 font-semibold text-[11px] text-stone-500 uppercase tracking-wider !w-28">
+                Actions
+              </th>
+              <td mat-cell *matCellDef="let task" class="text-right !pr-3 whitespace-nowrap">
+                <!-- View Details Modal Trigger -->
+                <button
+                  type="button"
+                  mat-icon-button
+                  (click)="openDetailDialog(task)"
+                  aria-label="View task details"
+                  matTooltip="View Full Details / Fullscreen"
+                  class="!text-stone-500 hover:!text-emerald-600 dark:hover:!text-emerald-400 !w-8 !h-8"
+                >
+                  <mat-icon class="!text-base">visibility</mat-icon>
+                </button>
+                <!-- Edit Modal Trigger -->
+                <button
+                  type="button"
+                  mat-icon-button
+                  (click)="openEditDialog(task)"
+                  aria-label="Edit task"
+                  matTooltip="Edit Task (Modal)"
+                  class="!text-stone-500 hover:!text-stone-900 dark:hover:!text-white !w-8 !h-8"
+                >
+                  <mat-icon class="!text-base">edit</mat-icon>
+                </button>
+                <!-- Delete Modal Trigger -->
+                <button
+                  type="button"
+                  mat-icon-button
+                  (click)="openDeleteDialog(task)"
+                  aria-label="Delete task"
+                  matTooltip="Delete Task (Modal)"
+                  class="!text-stone-400 hover:!text-rose-600 dark:hover:!text-rose-400 !w-8 !h-8"
+                >
+                  <mat-icon class="!text-base">delete_outline</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns" class="!bg-stone-50/80 dark:!bg-stone-800/50 !border-b !border-stone-200 dark:border-stone-800"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedColumns"
+              class="hover:bg-stone-50/70 dark:hover:bg-stone-800/40 transition-colors border-b border-stone-100 dark:border-stone-800/60"
+              [class.bg-emerald-50/20]="row.status === 'completed'"
+            ></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell p-8 text-center" [attr.colspan]="displayedColumns.length">
+                <div class="flex flex-col items-center justify-center">
+                  <mat-icon class="!text-3xl !w-8 !h-8 text-stone-400 mb-1.5">search_off</mat-icon>
+                  <p class="text-xs font-semibold text-stone-700 dark:text-stone-300">No tasks match your search or filter criteria</p>
+                  <button type="button" (click)="resetFilters()" class="mt-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold hover:underline cursor-pointer">
+                    Reset Search Filters
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </table>
+
+          <!-- Enterprise Paginator -->
+          <mat-paginator
+            [length]="sortedTasks().length"
+            [pageSize]="pageSize()"
+            [pageIndex]="pageIndex()"
+            [pageSizeOptions]="[10, 25, 50, 100]"
+            (page)="onPageChange($event)"
+            showFirstLastButtons
+            aria-label="Select page of tasks"
+            class="!border-t !border-stone-200 dark:!border-stone-800 !bg-transparent text-xs"
+          ></mat-paginator>
+        </div>
+      }
+
+      <!-- VIEW 1.2: CARDS / DETAILED VIEW (With Live Markdown Previews) -->
+      @if (viewMode() === 'cards') {
+        <div class="space-y-3">
+          @for (task of pagedTasks(); track task.id) {
+            <mat-card
+              appearance="outlined"
+              class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-xl shadow-2xs hover:shadow-md transition-all duration-200"
+              [class.opacity-75]="task.status === 'completed'"
+            >
+              <mat-card-content class="!p-4 sm:!p-5">
+                <div class="flex items-start justify-between gap-3">
+                  
+                  <!-- Checkbox & Title Group -->
+                  <div class="flex items-start gap-3 flex-1 min-w-0">
+                    <mat-checkbox
+                      [checked]="task.status === 'completed'"
+                      (change)="toggleComplete(task)"
+                      color="primary"
+                      class="mt-0.5 shrink-0"
+                      [attr.aria-label]="task.status === 'completed' ? 'Mark task as incomplete' : 'Mark task as completed'"
+                    ></mat-checkbox>
+
+                    <div class="space-y-1.5 flex-1 min-w-0">
+                      <button
+                        type="button"
+                        (click)="openDetailDialog(task)"
+                        class="text-left font-bold text-base text-stone-900 dark:text-stone-100 hover:text-emerald-600 dark:hover:text-emerald-400 transition cursor-pointer flex items-center gap-1.5"
+                        [class.line-through]="task.status === 'completed'"
+                        [class.text-stone-500]="task.status === 'completed'"
+                      >
+                        <span>{{ task.title }}</span>
+                        <mat-icon class="!text-xs !w-3.5 !h-3.5 opacity-60">open_in_new</mat-icon>
+                      </button>
+
+                      <!-- Badges Row -->
+                      <div class="flex flex-wrap items-center gap-2 pt-0.5">
+                        <span class="inline-flex items-center gap-1 text-[11px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700">
+                          <mat-icon class="!text-xs !w-3 !h-3">folder</mat-icon>
+                          <span>{{ task.category }}</span>
+                        </span>
+
+                        <span
+                          class="inline-flex items-center gap-1 text-[11px] font-mono font-bold uppercase px-2 py-0.5 rounded-md"
+                          [ngClass]="{
+                            'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900': task.priority === 'urgent',
+                            'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-900': task.priority === 'high',
+                            'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900': task.priority === 'medium',
+                            'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.priority === 'low'
+                          }"
+                        >
+                          <mat-icon class="!text-xs !w-3 !h-3">
+                            {{ task.priority === 'urgent' || task.priority === 'high' ? 'priority_high' : 'low_priority' }}
+                          </mat-icon>
+                          <span>{{ task.priority }}</span>
+                        </span>
+
+                        <!-- Clickable status button -->
                         <button
                           type="button"
-                          (click)="openDetailDialog(task)"
-                          class="text-left font-bold text-base text-stone-900 dark:text-stone-100 hover:text-emerald-600 dark:hover:text-emerald-400 transition cursor-pointer flex items-center gap-1.5"
-                          [class.line-through]="task.status === 'completed'"
-                          [class.text-stone-500]="task.status === 'completed'"
+                          (click)="openStatusDialog(task)"
+                          matTooltip="Change status (Modal)"
+                          class="inline-flex items-center gap-1 text-[11px] font-mono uppercase px-2 py-0.5 rounded-md font-semibold cursor-pointer hover:ring-2 hover:ring-emerald-500/30 transition"
+                          [ngClass]="{
+                            'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800': task.status === 'completed',
+                            'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800': task.status === 'in-progress',
+                            'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.status === 'todo'
+                          }"
                         >
-                          <span>{{ task.title }}</span>
-                          <mat-icon class="!text-xs !w-3.5 !h-3.5 opacity-60">open_in_new</mat-icon>
+                          <mat-icon class="!text-xs !w-3 !h-3">
+                            {{ task.status === 'completed' ? 'check' : (task.status === 'in-progress' ? 'pending' : 'radio_button_unchecked') }}
+                          </mat-icon>
+                          <span>{{ task.status === 'in-progress' ? 'In Progress' : (task.status === 'completed' ? 'Done' : 'To Do') }}</span>
+                          <mat-icon class="!text-[10px] !w-2.5 !h-2.5 opacity-60 ml-0.5">expand_more</mat-icon>
                         </button>
 
-                        <!-- Badges Row -->
-                        <div class="flex flex-wrap items-center gap-2 pt-0.5">
-                          <span class="inline-flex items-center gap-1 text-[11px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700">
-                            <mat-icon class="!text-xs !w-3 !h-3">folder</mat-icon>
-                            <span>{{ task.category }}</span>
+                        @if (task.dueDate) {
+                          <span class="inline-flex items-center gap-1 text-xs text-stone-500 dark:text-stone-400 font-mono">
+                            <mat-icon class="!text-xs !w-3 !h-3">calendar_today</mat-icon>
+                            <span>Due: {{ task.dueDate }}</span>
                           </span>
-
-                          <span
-                            class="inline-flex items-center gap-1 text-[11px] font-mono font-bold uppercase px-2 py-0.5 rounded-md"
-                            [ngClass]="{
-                              'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900': task.priority === 'urgent',
-                              'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-900': task.priority === 'high',
-                              'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900': task.priority === 'medium',
-                              'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.priority === 'low'
-                            }"
-                          >
-                            <mat-icon class="!text-xs !w-3 !h-3">
-                              {{ task.priority === 'urgent' || task.priority === 'high' ? 'priority_high' : 'low_priority' }}
-                            </mat-icon>
-                            <span>{{ task.priority }}</span>
-                          </span>
-
-                          <!-- Clickable status button -->
-                          <button
-                            type="button"
-                            (click)="openStatusDialog(task)"
-                            matTooltip="Change status (Modal)"
-                            class="inline-flex items-center gap-1 text-[11px] font-mono uppercase px-2 py-0.5 rounded-md font-semibold cursor-pointer hover:ring-2 hover:ring-emerald-500/30 transition"
-                            [ngClass]="{
-                              'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800': task.status === 'completed',
-                              'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800': task.status === 'in-progress',
-                              'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.status === 'todo'
-                            }"
-                          >
-                            <mat-icon class="!text-xs !w-3 !h-3">
-                              {{ task.status === 'completed' ? 'check' : (task.status === 'in-progress' ? 'pending' : 'radio_button_unchecked') }}
-                            </mat-icon>
-                            <span>{{ task.status === 'in-progress' ? 'In Progress' : (task.status === 'completed' ? 'Done' : 'To Do') }}</span>
-                            <mat-icon class="!text-[10px] !w-2.5 !h-2.5 opacity-60 ml-0.5">expand_more</mat-icon>
-                          </button>
-
-                          @if (task.dueDate) {
-                            <span class="inline-flex items-center gap-1 text-xs text-stone-500 dark:text-stone-400 font-mono">
-                              <mat-icon class="!text-xs !w-3 !h-3">calendar_today</mat-icon>
-                              <span>Due: {{ task.dueDate }}</span>
-                            </span>
-                          }
-                        </div>
+                        }
                       </div>
                     </div>
-
-                    <!-- Actions -->
-                    <div class="flex items-center gap-1 shrink-0">
-                      <button
-                        type="button"
-                        mat-icon-button
-                        (click)="openDetailDialog(task)"
-                        aria-label="View task full details"
-                        matTooltip="View Full Specs & Fullscreen"
-                        class="!text-stone-500 hover:!text-emerald-600 dark:hover:!text-emerald-400"
-                      >
-                        <mat-icon class="!text-lg">visibility</mat-icon>
-                      </button>
-                      <button
-                        type="button"
-                        mat-icon-button
-                        (click)="openEditDialog(task)"
-                        aria-label="Edit task"
-                        matTooltip="Edit Task (Modal)"
-                        class="!text-stone-500 hover:!text-stone-900 dark:hover:!text-white"
-                      >
-                        <mat-icon class="!text-lg">edit</mat-icon>
-                      </button>
-                      <button
-                        type="button"
-                        mat-icon-button
-                        (click)="openDeleteDialog(task)"
-                        aria-label="Delete task"
-                        matTooltip="Delete Task (Modal)"
-                        class="!text-stone-400 hover:!text-rose-600 dark:hover:!text-rose-400"
-                      >
-                        <mat-icon class="!text-lg">delete_outline</mat-icon>
-                      </button>
-                    </div>
-
                   </div>
 
-                  <!-- Markdown Preview -->
-                  @if (task.description) {
-                    <div class="mt-3 pt-3 border-t border-stone-100 dark:border-stone-800 text-xs sm:text-sm text-stone-700 dark:text-stone-300 leading-relaxed font-sans">
-                      <div [innerHTML]="task.description | markdown" ngSkipHydration></div>
-                    </div>
-                  }
-                </mat-card-content>
-              </mat-card>
-            } @empty {
-              <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl !p-8 text-center">
-                <mat-card-content class="flex flex-col items-center">
-                  <mat-icon class="!text-4xl !w-10 !h-10 text-stone-300 dark:text-stone-600 mb-2">task_alt</mat-icon>
-                  <h3 class="text-base font-bold text-stone-900 dark:text-white mb-1">No tasks found</h3>
-                  <p class="text-xs text-stone-500 dark:text-stone-400 max-w-sm mx-auto mb-4">
-                    No tasks match your current search or filter criteria. Create a new task or reset to defaults.
-                  </p>
-                  <button
-                    type="button"
-                    (click)="openCreateDialog()"
-                    mat-flat-button
-                    class="!bg-emerald-600 !text-white !font-bold !rounded-xl !px-4 !py-2 text-xs"
-                  >
-                    <mat-icon class="mr-1 !text-sm">add</mat-icon>
-                    <span>Add a Task</span>
-                  </button>
-                </mat-card-content>
-              </mat-card>
-            }
+                  <!-- Actions -->
+                  <div class="flex items-center gap-1 shrink-0">
+                    <button
+                      type="button"
+                      mat-icon-button
+                      (click)="openDetailDialog(task)"
+                      aria-label="View task full details"
+                      matTooltip="View Full Specs & Fullscreen"
+                      class="!text-stone-500 hover:!text-emerald-600 dark:hover:!text-emerald-400"
+                    >
+                      <mat-icon class="!text-lg">visibility</mat-icon>
+                    </button>
+                    <button
+                      type="button"
+                      mat-icon-button
+                      (click)="openEditDialog(task)"
+                      aria-label="Edit task"
+                      matTooltip="Edit Task (Modal)"
+                      class="!text-stone-500 hover:!text-stone-900 dark:hover:!text-white"
+                    >
+                      <mat-icon class="!text-lg">edit</mat-icon>
+                    </button>
+                    <button
+                      type="button"
+                      mat-icon-button
+                      (click)="openDeleteDialog(task)"
+                      aria-label="Delete task"
+                      matTooltip="Delete Task (Modal)"
+                      class="!text-stone-400 hover:!text-rose-600 dark:hover:!text-rose-400"
+                    >
+                      <mat-icon class="!text-lg">delete_outline</mat-icon>
+                    </button>
+                  </div>
 
-            <!-- Cards View Paginator -->
-            <mat-paginator
-              [length]="sortedTasks().length"
-              [pageSize]="pageSize()"
-              [pageIndex]="pageIndex()"
-              [pageSizeOptions]="[10, 25, 50, 100]"
-              (page)="onPageChange($event)"
-              showFirstLastButtons
-              aria-label="Select page of tasks"
-              class="!border !border-stone-200 dark:!border-stone-800 !rounded-xl !bg-white dark:!bg-stone-900 text-xs"
-            ></mat-paginator>
-          </div>
-        }
+                </div>
 
-      </div>
-    </mat-tab>
+                <!-- Markdown Preview -->
+                @if (task.description) {
+                  <div class="mt-3 pt-3 border-t border-stone-100 dark:border-stone-800 text-xs sm:text-sm text-stone-700 dark:text-stone-300 leading-relaxed font-sans">
+                    <div [innerHTML]="task.description | markdown" ngSkipHydration></div>
+                  </div>
+                }
+              </mat-card-content>
+            </mat-card>
+          } @empty {
+            <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl !p-8 text-center">
+              <mat-card-content class="flex flex-col items-center">
+                <mat-icon class="!text-4xl !w-10 !h-10 text-stone-300 dark:text-stone-600 mb-2">task_alt</mat-icon>
+                <h3 class="text-base font-bold text-stone-900 dark:text-white mb-1">No tasks found</h3>
+                <p class="text-xs text-stone-500 dark:text-stone-400 max-w-sm mx-auto mb-4">
+                  No tasks match your current search or filter criteria. Create a new task or reset to defaults.
+                </p>
+                <button
+                  type="button"
+                  (click)="openCreateDialog()"
+                  mat-flat-button
+                  class="!bg-emerald-600 !text-white !font-bold !rounded-xl !px-4 !py-2 text-xs"
+                >
+                  <mat-icon class="mr-1 !text-sm">add</mat-icon>
+                  <span>Add a Task</span>
+                </button>
+              </mat-card-content>
+            </mat-card>
+          }
 
-    <!-- ========================================================================= -->
-    <!-- TAB 2: SPRINT METRICS & DASHBOARD                                         -->
-    <!-- ========================================================================= -->
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <span class="inline-flex items-center gap-2 font-semibold">
-          <mat-icon class="!text-lg !w-5 !h-5">insights</mat-icon>
-          <span>Sprint Analytics &amp; Metrics</span>
-        </span>
-      </ng-template>
+          <!-- Cards View Paginator -->
+          <mat-paginator
+            [length]="sortedTasks().length"
+            [pageSize]="pageSize()"
+            [pageIndex]="pageIndex()"
+            [pageSizeOptions]="[10, 25, 50, 100]"
+            (page)="onPageChange($event)"
+            showFirstLastButtons
+            aria-label="Select page of tasks"
+            class="!border !border-stone-200 dark:!border-stone-800 !rounded-xl !bg-white dark:!bg-stone-900 text-xs"
+          ></mat-paginator>
+        </div>
+      }
 
-      <div class="pt-6 space-y-8">
+    </div>
+  }
+
+  <!-- ========================================================================= -->
+  <!-- VIEW AREA 2: SPRINT METRICS & DASHBOARD                                   -->
+  <!-- ========================================================================= -->
+  @if (activeTab() === 'metrics') {
+    <div class="pt-2 space-y-6">
+      
+      <!-- KPI Metrics Grid (4 Columns) -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" aria-label="Task progress metrics">
         
-        <!-- KPI Metrics Grid (4 Columns) -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" aria-label="Task progress metrics">
-          
-          <!-- Total Tasks KPI -->
-          <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
-            <mat-card-content class="!p-5 flex items-center justify-between">
-              <div>
-                <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider">Total Backlog</p>
-                <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white mt-1">{{ stats().total }}</h3>
-                <p class="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5">Across all sprint categories</p>
-              </div>
-              <div class="w-12 h-12 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 flex items-center justify-center">
-                <mat-icon class="!text-2xl !w-6 !h-6">assignment</mat-icon>
-              </div>
-            </mat-card-content>
-          </mat-card>
-
-          <!-- To Do KPI -->
-          <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
-            <mat-card-content class="!p-5 flex items-center justify-between">
-              <div>
-                <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider">To Do</p>
-                <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white mt-1">{{ stats().todo }}</h3>
-                <p class="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5">Ready for implementation</p>
-              </div>
-              <div class="w-12 h-12 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 flex items-center justify-center">
-                <mat-icon class="!text-2xl !w-6 !h-6">pending_actions</mat-icon>
-              </div>
-            </mat-card-content>
-          </mat-card>
-
-          <!-- In Progress KPI -->
-          <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
-            <mat-card-content class="!p-5 flex items-center justify-between">
-              <div>
-                <p class="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider">In Progress</p>
-                <h3 class="text-2xl sm:text-3xl font-extrabold text-amber-600 dark:text-amber-400 mt-1">{{ stats().inProgress }}</h3>
-                <p class="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5">Currently active in sprint</p>
-              </div>
-              <div class="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center">
-                <mat-icon class="!text-2xl !w-6 !h-6">timelapse</mat-icon>
-              </div>
-            </mat-card-content>
-          </mat-card>
-
-          <!-- Completed KPI with Progress Bar -->
-          <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
-            <mat-card-content class="!p-5">
-              <div class="flex items-center justify-between mb-2">
-                <div>
-                  <p class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Completed</p>
-                  <h3 class="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">{{ stats().completed }}</h3>
-                </div>
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-                  <mat-icon class="!text-2xl !w-6 !h-6">check_circle</mat-icon>
-                </div>
-              </div>
-              <div class="space-y-1.5">
-                <div class="flex justify-between text-[11px] font-mono text-stone-500 dark:text-stone-400">
-                  <span>Sprint Completion</span>
-                  <span class="font-bold text-stone-900 dark:text-white">{{ stats().percentage }}%</span>
-                </div>
-                <mat-progress-bar mode="determinate" [value]="stats().percentage" class="!h-2 !rounded-full"></mat-progress-bar>
-              </div>
-            </mat-card-content>
-          </mat-card>
-
-        </section>
-
-        <!-- Architectural Callout Strip -->
-        <mat-card appearance="outlined" class="!bg-stone-900 !text-white !border-stone-800 !rounded-3xl shadow-sm mb-12">
-          <mat-card-content class="!p-8">
-            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-              <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                  <mat-icon class="!text-2xl">verified</mat-icon>
-                </div>
-                <div>
-                  <h3 class="text-lg font-bold text-white">
-                    Enterprise Angular 22 &amp; Material Design 3 Architecture
-                  </h3>
-                  <p class="text-xs text-stone-400 mt-1 max-w-2xl">
-                    Demonstrating sortable enterprise data tables with client and server pagination, dual layout switching, strict Reactive Forms, and local-first persistence.
-                  </p>
-                </div>
-              </div>
+        <!-- Total Tasks KPI -->
+        <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+          <mat-card-content class="!p-5 flex items-center justify-between">
+            <div>
+              <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider">Total Backlog</p>
+              <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white mt-1">{{ stats().total }}</h3>
+              <p class="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5">Across all sprint categories</p>
             </div>
-            <mat-divider class="!my-6 !border-stone-800"></mat-divider>
-            <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs text-stone-300 font-mono">
-              <li class="flex items-center gap-2">
-                <span class="text-emerald-400 font-bold">✓</span> Material Data Table (<code class="text-stone-100">MatTable, MatSort</code>)
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-emerald-400 font-bold">✓</span> Material Paginator (<code class="text-stone-100">MatPaginator</code>)
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-emerald-400 font-bold">✓</span> Dual View Toggle (<code class="text-stone-100">MatButtonToggleGroup</code>)
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-emerald-400 font-bold">✓</span> Material Tabs (<code class="text-stone-100">MatTabGroup</code>)
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-emerald-400 font-bold">✓</span> Mock API Query &amp; Pagination Support
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-emerald-400 font-bold">✓</span> SSR-Safe Mock API &amp; Local Persistence
-              </li>
-            </ul>
+            <div class="w-12 h-12 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 flex items-center justify-center">
+              <mat-icon class="!text-2xl !w-6 !h-6">assignment</mat-icon>
+            </div>
           </mat-card-content>
         </mat-card>
 
-      </div>
-    </mat-tab>
+        <!-- To Do KPI -->
+        <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+          <mat-card-content class="!p-5 flex items-center justify-between">
+            <div>
+              <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider">To Do</p>
+              <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white mt-1">{{ stats().todo }}</h3>
+              <p class="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5">Ready for implementation</p>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 flex items-center justify-center">
+              <mat-icon class="!text-2xl !w-6 !h-6">pending_actions</mat-icon>
+            </div>
+          </mat-card-content>
+        </mat-card>
 
-  </mat-tab-group>
+        <!-- In Progress KPI -->
+        <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+          <mat-card-content class="!p-5 flex items-center justify-between">
+            <div>
+              <p class="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider">In Progress</p>
+              <h3 class="text-2xl sm:text-3xl font-extrabold text-amber-600 dark:text-amber-400 mt-1">{{ stats().inProgress }}</h3>
+              <p class="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5">Currently active in sprint</p>
+            </div>
+            <div class="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+              <mat-icon class="!text-2xl !w-6 !h-6">timelapse</mat-icon>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Completed KPI with Progress Bar -->
+        <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+          <mat-card-content class="!p-5">
+            <div class="flex items-center justify-between mb-2">
+              <div>
+                <p class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Completed</p>
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">{{ stats().completed }}</h3>
+              </div>
+              <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                <mat-icon class="!text-2xl !w-6 !h-6">check_circle</mat-icon>
+              </div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="flex justify-between text-[11px] font-mono text-stone-500 dark:text-stone-400">
+                <span>Sprint Completion</span>
+                <span class="font-bold text-stone-900 dark:text-white">{{ stats().percentage }}%</span>
+              </div>
+              <mat-progress-bar mode="determinate" [value]="stats().percentage" class="!h-2 !rounded-full"></mat-progress-bar>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+      </section>
+
+      <!-- Architectural Callout Strip -->
+      <mat-card appearance="outlined" class="!bg-stone-900 !text-white !border-stone-800 !rounded-3xl shadow-sm mb-12">
+        <mat-card-content class="!p-8">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                <mat-icon class="!text-2xl">verified</mat-icon>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-white">
+                  Enterprise Angular 22 &amp; Material Design 3 Architecture
+                </h3>
+                <p class="text-xs text-stone-400 mt-1 max-w-2xl">
+                  Demonstrating sortable enterprise data tables with client and server pagination, dual layout switching, strict Reactive Forms, and local-first persistence.
+                </p>
+              </div>
+            </div>
+          </div>
+          <mat-divider class="!my-6 !border-stone-800"></mat-divider>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs text-stone-300 font-mono">
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-400 font-bold">✓</span> Material Data Table (<code class="text-stone-100">MatTable, MatSort</code>)
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-400 font-bold">✓</span> Material Paginator (<code class="text-stone-100">MatPaginator</code>)
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-400 font-bold">✓</span> Dual View Toggle (<code class="text-stone-100">MatButtonToggleGroup</code>)
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-400 font-bold">✓</span> Minimal Icon Navbar with Rich Tooltips
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-400 font-bold">✓</span> Mock API Query &amp; Pagination Support
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="text-emerald-400 font-bold">✓</span> SSR-Safe Mock API &amp; Local Persistence
+            </li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  }
 
 </div>
