@@ -1,33 +1,56 @@
-<div class="p-6 sm:p-8 max-w-2xl w-full bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 rounded-3xl border border-stone-200 dark:border-stone-800 shadow-2xl">
+<div
+  class="flex flex-col bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 transition-all duration-200 overflow-hidden"
+  [ngClass]="{
+    'fixed inset-0 z-50 w-screen h-screen rounded-none max-w-none': isFullscreen(),
+    'w-full max-w-2xl rounded-3xl border border-stone-200 dark:border-stone-800 shadow-2xl max-h-[90vh]': !isFullscreen()
+  }"
+>
   <!-- Dialog Header -->
-  <div class="flex items-center justify-between pb-4 mb-6 border-b border-stone-100 dark:border-stone-800">
+  <div class="px-6 py-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between gap-4 bg-stone-50/70 dark:bg-stone-800/40 shrink-0">
     <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-800 dark:text-slate-200">
+      <div class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-800 dark:text-slate-200">
         <mat-icon>{{ isEdit ? 'edit_note' : 'add_task' }}</mat-icon>
       </div>
       <div>
-        <h2 class="text-xl font-bold font-heading text-stone-900 dark:text-white leading-tight">
+        <h2 class="text-lg font-bold font-heading text-stone-900 dark:text-white leading-tight">
           {{ isEdit ? 'Edit Task' : 'Create New Task' }}
         </h2>
         <p class="text-xs text-stone-500 dark:text-stone-400">
-          Typed Reactive Forms with dual-mode Markdown description
+          Full-space Markdown editor with Material UI & smart paste
         </p>
       </div>
     </div>
-    <button
-      type="button"
-      (click)="cancel()"
-      class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition cursor-pointer leading-none"
-      aria-label="Close dialog"
-    >
-      <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">close</mat-icon>
-    </button>
+
+    <!-- Window Actions: Fullscreen & Close -->
+    <div class="inline-flex items-center gap-1.5 shrink-0">
+      <button
+        type="button"
+        (click)="toggleFullscreen()"
+        [matTooltip]="isFullscreen() ? 'Exit Full Screen' : 'Maximize Dialog'"
+        class="w-8 h-8 rounded-full inline-flex items-center justify-center text-stone-500 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-stone-800 transition cursor-pointer leading-none"
+        aria-label="Toggle full screen"
+      >
+        <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">
+          {{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}
+        </mat-icon>
+      </button>
+
+      <button
+        type="button"
+        (click)="cancel()"
+        matTooltip="Close dialog"
+        class="w-8 h-8 rounded-full inline-flex items-center justify-center text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition cursor-pointer leading-none"
+        aria-label="Close dialog"
+      >
+        <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">close</mat-icon>
+      </button>
+    </div>
   </div>
 
   <!-- Form Body -->
-  <form [formGroup]="taskForm" (ngSubmit)="save()" class="space-y-5">
+  <form [formGroup]="taskForm" (ngSubmit)="save()" class="flex-1 flex flex-col overflow-y-auto p-6 gap-4 min-h-0">
     
-    <!-- Title Field with Character Counter & Error Handling -->
+    <!-- Title Input -->
     <div>
       <label class="block text-xs font-semibold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
         Task Title <span class="text-rose-500">*</span>
@@ -36,7 +59,7 @@
         type="text"
         formControlName="title"
         placeholder="e.g. Configure site.config.ts with production domain"
-        class="w-full px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+        class="w-full px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 transition"
       />
       @if (titleControl.invalid && (titleControl.dirty || titleControl.touched)) {
         <p class="text-xs text-rose-500 mt-1 flex items-center gap-1 font-medium">
@@ -52,71 +75,142 @@
       }
     </div>
 
-    <!-- Category, Priority & Status Row -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div>
-        <label class="block text-xs font-semibold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
-          Category
-        </label>
-        <select
-          formControlName="category"
-          class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
-        >
-          @for (cat of categories; track cat) {
-            <option [value]="cat">{{ cat }}</option>
-          }
-        </select>
-      </div>
+    <!-- Collapsible Properties Section -->
+    <div class="rounded-2xl border border-stone-200/90 dark:border-stone-800 bg-stone-50/60 dark:bg-stone-800/40 p-3">
+      
+      <!-- Collapsed State Summary Row -->
+      @if (!isPropertiesExpanded()) {
+        <div class="flex flex-wrap items-center justify-between gap-2.5">
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <!-- Category Badge -->
+            <span class="inline-flex items-center gap-1 font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700 shadow-2xs">
+              <mat-icon class="!text-xs !w-3 !h-3">folder</mat-icon>
+              <span>{{ taskForm.controls.category.value }}</span>
+            </span>
 
-      <div>
-        <label class="block text-xs font-semibold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
-          Priority <span class="text-rose-500">*</span>
-        </label>
-        <select
-          formControlName="priority"
-          class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
-        >
-          @for (p of priorities; track p.value) {
-            <option [value]="p.value">{{ p.label }}</option>
-          }
-        </select>
-      </div>
+            <!-- Priority Badge -->
+            <span class="inline-flex items-center gap-1.5 font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700 shadow-2xs">
+              <span
+                class="w-2 h-2 rounded-full"
+                [ngClass]="{
+                  'bg-rose-500': taskForm.controls.priority.value === 'urgent',
+                  'bg-amber-500': taskForm.controls.priority.value === 'high',
+                  'bg-blue-500': taskForm.controls.priority.value === 'medium',
+                  'bg-stone-400': taskForm.controls.priority.value === 'low'
+                }"
+              ></span>
+              <span>Priority: {{ taskForm.controls.priority.value }}</span>
+            </span>
 
-      <div>
-        <label class="block text-xs font-semibold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
-          Status
-        </label>
-        <select
-          formControlName="status"
-          class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
-        >
-          @for (s of statuses; track s.value) {
-            <option [value]="s.value">{{ s.label }}</option>
-          }
-        </select>
-      </div>
+            <!-- Status Badge -->
+            <span class="inline-flex items-center gap-1 font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-white dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700 shadow-2xs">
+              <mat-icon class="!text-xs !w-3 !h-3">
+                {{ taskForm.controls.status.value === 'completed' ? 'check_circle' : (taskForm.controls.status.value === 'in-progress' ? 'pending' : 'radio_button_unchecked') }}
+              </mat-icon>
+              <span>{{ taskForm.controls.status.value === 'in-progress' ? 'In Progress' : (taskForm.controls.status.value === 'completed' ? 'Completed' : 'To Do') }}</span>
+            </span>
+
+            <!-- Due Date Badge -->
+            @if (taskForm.controls.dueDate.value) {
+              <span class="inline-flex items-center gap-1 font-mono text-xs px-2.5 py-1 rounded-full bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 border border-stone-200 dark:border-stone-700 shadow-2xs">
+                <mat-icon class="!text-xs !w-3 !h-3">calendar_today</mat-icon>
+                <span>{{ taskForm.controls.dueDate.value }}</span>
+              </span>
+            }
+          </div>
+
+          <!-- Expand Properties Pill Button -->
+          <button
+            type="button"
+            (click)="toggleProperties()"
+            mat-stroked-button
+            class="!rounded-full !border !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:!text-slate-300 !bg-white dark:!bg-slate-800 hover:!bg-slate-100 dark:hover:!bg-slate-700 text-xs font-semibold !px-3 !py-1 inline-flex items-center gap-1 cursor-pointer leading-none"
+          >
+            <mat-icon class="!text-sm !w-3.5 !h-3.5 leading-none mr-1">tune</mat-icon>
+            <span>Properties</span>
+          </button>
+        </div>
+      } @else {
+        <!-- Expanded State: 100% Material UI Forms -->
+        <div class="space-y-3 pt-1">
+          <div class="flex items-center justify-between pb-2 border-b border-stone-200 dark:border-stone-700">
+            <span class="text-xs font-bold uppercase tracking-wider text-stone-600 dark:text-stone-300">
+              Task Properties (Material UI)
+            </span>
+            <button
+              type="button"
+              (click)="toggleProperties()"
+              mat-button
+              class="!rounded-full !text-slate-600 dark:!text-slate-400 hover:!bg-slate-100 dark:hover:!bg-slate-800 text-xs font-semibold !px-3 !py-1 inline-flex items-center gap-1 cursor-pointer leading-none"
+            >
+              <mat-icon class="!text-sm !w-3.5 !h-3.5 leading-none mr-1">expand_less</mat-icon>
+              <span>Collapse</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Category Material Select -->
+            <mat-form-field appearance="outline" class="w-full !text-xs">
+              <mat-label>Category</mat-label>
+              <mat-select formControlName="category">
+                @for (cat of categories; track cat) {
+                  <mat-option [value]="cat">
+                    <span class="font-mono text-xs">{{ cat }}</span>
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Priority Material Select -->
+            <mat-form-field appearance="outline" class="w-full !text-xs">
+              <mat-label>Priority</mat-label>
+              <mat-select formControlName="priority">
+                @for (p of priorities; track p.value) {
+                  <mat-option [value]="p.value">
+                    <div class="flex items-center gap-2">
+                      <span class="w-2 h-2 rounded-full" [ngClass]="p.dotColor"></span>
+                      <span class="font-mono text-xs uppercase">{{ p.label }}</span>
+                    </div>
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Status Material Select -->
+            <mat-form-field appearance="outline" class="w-full !text-xs">
+              <mat-label>Status</mat-label>
+              <mat-select formControlName="status">
+                @for (s of statuses; track s.value) {
+                  <mat-option [value]="s.value">
+                    <div class="flex items-center gap-2">
+                      <mat-icon class="!text-sm !w-4 !h-4">{{ s.icon }}</mat-icon>
+                      <span class="text-xs">{{ s.label }}</span>
+                    </div>
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Due Date Material Field -->
+            <mat-form-field appearance="outline" class="w-full !text-xs">
+              <mat-label>Due Date</mat-label>
+              <input matInput type="date" formControlName="dueDate" />
+            </mat-form-field>
+          </div>
+        </div>
+      }
+
     </div>
 
-    <!-- Due Date Field -->
-    <div>
-      <label class="block text-xs font-semibold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
-        Due Date (Optional)
-      </label>
-      <input
-        type="date"
-        formControlName="dueDate"
-        class="w-full px-4 py-2 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
-      />
-    </div>
-
-    <!-- Dual Mode Markdown Editor & Preview -->
-    <div>
+    <!-- Full Space Description Editor & Preview -->
+    <div class="flex-1 flex flex-col min-h-[300px]">
       <div class="flex items-center justify-between mb-2">
         <label class="text-xs font-semibold uppercase tracking-wider text-stone-700 dark:text-stone-300">
-          Description (Markdown Supported)
+          Specifications (Markdown & Smart Paste)
         </label>
-        <!-- Editor Tabs -->
-        <div class="inline-flex p-1 rounded-xl bg-stone-100 dark:bg-stone-800 text-xs font-semibold">
+        
+        <!-- Editor Tabs (Pill Buttons) -->
+        <div class="inline-flex p-1 rounded-full bg-stone-100 dark:bg-stone-800 text-xs font-semibold">
           <button
             type="button"
             (click)="editorTab.set('write')"
@@ -125,7 +219,7 @@
             [class.text-stone-900]="editorTab() === 'write'"
             [class.dark:text-white]="editorTab() === 'write'"
             [class.shadow-xs]="editorTab() === 'write'"
-            class="px-3 py-1 rounded-lg transition text-stone-600 dark:text-stone-300 cursor-pointer"
+            class="px-3.5 py-1 rounded-full transition text-stone-600 dark:text-stone-300 cursor-pointer"
           >
             Write
           </button>
@@ -137,7 +231,7 @@
             [class.text-stone-900]="editorTab() === 'preview'"
             [class.dark:text-white]="editorTab() === 'preview'"
             [class.shadow-xs]="editorTab() === 'preview'"
-            class="px-3 py-1 rounded-lg transition text-stone-600 dark:text-stone-300 cursor-pointer inline-flex items-center justify-center gap-1 leading-none"
+            class="px-3.5 py-1 rounded-full transition text-stone-600 dark:text-stone-300 cursor-pointer inline-flex items-center justify-center gap-1 leading-none"
           >
             <mat-icon class="!text-xs !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">visibility</mat-icon>
             <span class="leading-none">Preview</span>
@@ -145,13 +239,13 @@
         </div>
       </div>
 
-      <!-- Markdown Toolbar (visible in write mode) -->
+      <!-- Markdown Toolbar (visible in write mode, with pill buttons) -->
       @if (editorTab() === 'write') {
-        <div class="flex flex-wrap items-center gap-1.5 p-2 rounded-t-xl bg-stone-100 dark:bg-stone-800 border border-b-0 border-stone-200 dark:border-stone-700 text-xs text-stone-700 dark:text-stone-300">
+        <div class="flex flex-wrap items-center gap-1.5 p-2 rounded-t-2xl bg-stone-100 dark:bg-stone-800 border border-b-0 border-stone-200 dark:border-stone-700 text-xs text-stone-700 dark:text-stone-300 shrink-0">
           <button
             type="button"
             (click)="insertMarkdown('**', '**')"
-            class="px-2 py-1 rounded hover:bg-stone-200 dark:hover:bg-stone-700 font-bold transition cursor-pointer"
+            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 font-bold transition cursor-pointer"
             title="Bold"
           >
             B
@@ -159,7 +253,7 @@
           <button
             type="button"
             (click)="insertMarkdown('*', '*')"
-            class="px-2 py-1 rounded hover:bg-stone-200 dark:hover:bg-stone-700 italic transition cursor-pointer"
+            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 italic transition cursor-pointer"
             title="Italic"
           >
             I
@@ -167,7 +261,7 @@
           <button
             type="button"
             (click)="insertMarkdown('`', '`')"
-            class="px-2 py-1 rounded hover:bg-stone-200 dark:hover:bg-stone-700 font-mono transition cursor-pointer"
+            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 font-mono transition cursor-pointer"
             title="Inline Code"
           >
             &lt;/&gt;
@@ -175,7 +269,7 @@
           <button
             type="button"
             (click)="insertMarkdown('- ')"
-            class="px-2 py-1 rounded hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer"
+            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer"
             title="Bullet list"
           >
             • List
@@ -183,7 +277,7 @@
           <button
             type="button"
             (click)="insertMarkdown('- [ ] ')"
-            class="px-2 py-1 rounded hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer"
+            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer"
             title="Task checkbox"
           >
             ☑ Task
@@ -191,21 +285,26 @@
           <button
             type="button"
             (click)="insertMarkdown('> ')"
-            class="px-2 py-1 rounded hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer"
+            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer"
             title="Blockquote"
           >
             “ Quote
           </button>
+          <span class="text-[11px] text-stone-400 dark:text-stone-500 ml-auto hidden sm:inline">
+            Paste URL over text to auto-link
+          </span>
         </div>
+
         <textarea
+          #descArea
           formControlName="description"
-          rows="6"
-          placeholder="Supports # Headings, **bold**, `code`, - bullet points, and - [ ] checkboxes..."
-          class="w-full px-4 py-3 rounded-b-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+          (paste)="onPaste($event, descArea)"
+          placeholder="Supports # Headings, **bold**, `code`, - bullet points, and - [ ] checkboxes... Paste a link to auto-wrap highlighted text."
+          class="task-editor-font flex-1 w-full min-h-[200px] p-4 rounded-b-2xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-400 transition resize-y"
         ></textarea>
       } @else {
-        <!-- Live Markdown Preview -->
-        <div class="w-full min-h-[160px] max-h-[300px] overflow-y-auto px-5 py-4 rounded-xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm">
+        <!-- Live Markdown Preview (Helvetica Neue) -->
+        <div class="task-editor-font flex-1 w-full min-h-[220px] overflow-y-auto p-5 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-white text-sm">
           @if (taskForm.controls.description.value) {
             <div [innerHTML]="taskForm.controls.description.value | markdown"></div>
           } @else {
@@ -215,13 +314,13 @@
       }
     </div>
 
-    <!-- Action Buttons (Slate Theme) -->
-    <div class="flex items-center justify-end gap-3 pt-4 border-t border-stone-100 dark:border-stone-800">
+    <!-- Action Buttons (Slate Theme Pill Buttons) -->
+    <div class="flex items-center justify-end gap-3 pt-3 border-t border-stone-100 dark:border-stone-800 shrink-0">
       <button
         type="button"
         (click)="cancel()"
         mat-stroked-button
-        class="!border !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:!text-slate-300 !bg-white dark:!bg-slate-800 hover:!bg-slate-100 dark:hover:!bg-slate-700 !rounded-xl !px-5 text-xs font-semibold cursor-pointer"
+        class="!border !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:!text-slate-300 !bg-white dark:!bg-slate-800 hover:!bg-slate-100 dark:hover:!bg-slate-700 !rounded-full !px-5 text-xs font-semibold cursor-pointer"
       >
         Cancel
       </button>
@@ -229,7 +328,7 @@
         type="submit"
         [disabled]="taskForm.invalid"
         mat-flat-button
-        class="!bg-slate-900 hover:!bg-slate-800 dark:!bg-slate-100 dark:hover:!bg-white !text-white dark:!text-slate-900 !font-bold !rounded-xl !px-6 shadow-sm transition disabled:!opacity-50 cursor-pointer text-xs"
+        class="!bg-slate-900 hover:!bg-slate-800 dark:!bg-slate-100 dark:hover:!bg-white !text-white dark:!text-slate-900 !font-bold !rounded-full !px-6 shadow-sm transition disabled:!opacity-50 cursor-pointer text-xs"
       >
         {{ isEdit ? 'Update Task' : 'Create Task' }}
       </button>

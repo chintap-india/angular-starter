@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterModule } from '@angular/router';
 import { TaskItem } from '../../core/models/task.model';
 import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
 
@@ -16,6 +17,7 @@ export interface TaskDetailDialogData {
   standalone: true,
   imports: [
     CommonModule,
+    RouterModule,
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
@@ -52,13 +54,22 @@ export interface TaskDetailDialogData {
           </div>
         </div>
 
-        <!-- Window Actions: Fullscreen & Close -->
-        <div class="inline-flex items-center gap-1 shrink-0">
+        <!-- Window Actions: Dedicated Page, Fullscreen & Close -->
+        <div class="inline-flex items-center gap-1.5 shrink-0">
+          <a
+            [routerLink]="['/tasks', data.task.id]"
+            (click)="close()"
+            matTooltip="Open Dedicated Task Page (/tasks/:id)"
+            class="w-8 h-8 rounded-full inline-flex items-center justify-center text-stone-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 transition cursor-pointer leading-none"
+            aria-label="Open dedicated task page"
+          >
+            <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">open_in_new</mat-icon>
+          </a>
           <button
             type="button"
             (click)="toggleFullscreen()"
             [matTooltip]="isFullscreen() ? 'Exit Full Screen' : 'View Full Screen'"
-            class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-stone-500 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-stone-800 transition cursor-pointer leading-none"
+            class="w-8 h-8 rounded-full inline-flex items-center justify-center text-stone-500 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-stone-800 transition cursor-pointer leading-none"
             aria-label="Toggle full screen"
           >
             <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
@@ -67,7 +78,7 @@ export interface TaskDetailDialogData {
             type="button"
             (click)="close()"
             matTooltip="Close"
-            class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition cursor-pointer leading-none"
+            class="w-8 h-8 rounded-full inline-flex items-center justify-center text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition cursor-pointer leading-none"
             aria-label="Close dialog"
           >
             <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">close</mat-icon>
@@ -132,7 +143,7 @@ export interface TaskDetailDialogData {
             Description & Specifications
           </h3>
           @if (data.task.description) {
-            <div class="p-5 rounded-2xl bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-800 text-sm text-stone-800 dark:text-stone-200 leading-relaxed font-sans prose dark:prose-invert max-w-none">
+            <div class="task-editor-font p-5 rounded-2xl bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-800 text-sm text-stone-800 dark:text-stone-200 leading-relaxed prose dark:prose-invert max-w-none">
               <div [innerHTML]="data.task.description | markdown" ngSkipHydration></div>
             </div>
           } @else {
@@ -151,20 +162,20 @@ export interface TaskDetailDialogData {
           type="button"
           mat-button
           (click)="triggerDelete()"
-          class="!text-rose-600 hover:!bg-rose-50 dark:hover:!bg-rose-950/40 !rounded-xl text-xs font-semibold inline-flex items-center justify-center gap-1.5 cursor-pointer leading-none !px-3 !py-1.5"
+          class="!text-rose-600 hover:!bg-rose-50 dark:hover:!bg-rose-950/40 !rounded-full text-xs font-semibold inline-flex items-center justify-center gap-1.5 cursor-pointer leading-none !px-4 !py-1.5"
         >
           <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">delete_outline</mat-icon>
           <span class="leading-none">Delete Task</span>
         </button>
 
-        <!-- Primary Action Group (Slate Theme) -->
+        <!-- Primary Action Group (Slate Theme Pill Buttons) -->
         <div class="inline-flex items-center gap-2.5">
           <!-- Change Status Modal Trigger (Secondary) -->
           <button
             type="button"
             mat-stroked-button
             (click)="triggerStatusChange()"
-            class="!border !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:!text-slate-300 !bg-white dark:!bg-slate-800 hover:!bg-slate-100 dark:hover:!bg-slate-700 !rounded-xl text-xs font-semibold inline-flex items-center justify-center gap-1.5 cursor-pointer leading-none !px-3.5 !py-1.5"
+            class="!border !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:!text-slate-300 !bg-white dark:!bg-slate-800 hover:!bg-slate-100 dark:hover:!bg-slate-700 !rounded-full text-xs font-semibold inline-flex items-center justify-center gap-1.5 cursor-pointer leading-none !px-4 !py-1.5"
           >
             <mat-icon class="!text-base !w-4 !h-4 text-slate-600 dark:text-slate-400 leading-none flex items-center justify-center shrink-0">published_with_changes</mat-icon>
             <span class="leading-none">Change Status</span>
@@ -175,7 +186,7 @@ export interface TaskDetailDialogData {
             type="button"
             mat-flat-button
             (click)="triggerEdit()"
-            class="!bg-slate-900 hover:!bg-slate-800 dark:!bg-slate-100 dark:hover:!bg-white !text-white dark:!text-slate-900 !rounded-xl text-xs font-bold inline-flex items-center justify-center gap-1.5 cursor-pointer shadow-xs leading-none !px-4 !py-1.5"
+            class="!bg-slate-900 hover:!bg-slate-800 dark:!bg-slate-100 dark:hover:!bg-white !text-white dark:!text-slate-900 !rounded-full text-xs font-bold inline-flex items-center justify-center gap-1.5 cursor-pointer shadow-xs leading-none !px-5 !py-1.5"
           >
             <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">edit</mat-icon>
             <span class="leading-none">Edit Task</span>

@@ -256,7 +256,13 @@ export class MockTaskApiService {
   }
 
   getTask(id: string): Observable<TaskItem | undefined> {
-    const task = this.tasks.find((t) => t.id === id);
+    const rawId = String(id || '').trim();
+    const task = this.tasks.find(
+      (t) =>
+        t.id === rawId ||
+        t.id === `task-${rawId}` ||
+        t.id.replace('task-', '') === rawId
+    );
     return of(task ? { ...task } : undefined).pipe(delay(100));
   }
 

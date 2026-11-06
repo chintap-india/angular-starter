@@ -28,6 +28,12 @@ export const routes: Routes = [
     title: 'Tasks CRUD Module — Typed Forms & Mock API | Chintap Angular Starter',
   },
   {
+    path: 'tasks/:taskId',
+    loadComponent: () =>
+      import('./pages/tasks/task-detail-page.component').then(m => m.TaskDetailPageComponent),
+    title: 'Task Details | Chintap Angular Starter',
+  },
+  {
     path: 'todos',
     redirectTo: 'tasks',
   },

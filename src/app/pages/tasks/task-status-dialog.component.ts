@@ -83,13 +83,13 @@ export interface TaskStatusDialogData {
         }
       </div>
 
-      <!-- Footer Buttons (Slate Theme) -->
+      <!-- Footer Buttons (Slate Theme Pill Buttons) -->
       <div class="mt-5 pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center justify-end gap-2.5">
         <button
           type="button"
           mat-button
           (click)="cancel()"
-          class="!border !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:!text-slate-300 !bg-white dark:!bg-slate-800 hover:!bg-slate-100 dark:hover:!bg-slate-700 !rounded-xl text-xs font-semibold cursor-pointer !px-4 !py-1.5"
+          class="!border !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:!text-slate-300 !bg-white dark:!bg-slate-800 hover:!bg-slate-100 dark:hover:!bg-slate-700 !rounded-full text-xs font-semibold cursor-pointer !px-5 !py-1.5"
         >
           Cancel
         </button>
@@ -97,7 +97,7 @@ export interface TaskStatusDialogData {
           type="button"
           mat-flat-button
           (click)="confirm()"
-          class="!bg-slate-900 hover:!bg-slate-800 dark:!bg-slate-100 dark:hover:!bg-white !text-white dark:!text-slate-900 !rounded-xl text-xs font-bold inline-flex items-center justify-center gap-1.5 cursor-pointer shadow-xs !px-4 !py-1.5 leading-none"
+          class="!bg-slate-900 hover:!bg-slate-800 dark:!bg-slate-100 dark:hover:!bg-white !text-white dark:!text-slate-900 !rounded-full text-xs font-bold inline-flex items-center justify-center gap-1.5 cursor-pointer shadow-xs !px-5 !py-1.5 leading-none"
         >
           <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">check</mat-icon>
           <span class="leading-none">Update Status</span>

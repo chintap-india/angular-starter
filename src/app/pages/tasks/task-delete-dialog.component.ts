@@ -38,12 +38,13 @@ export interface TaskDeleteDialogData {
         </div>
       </div>
 
+      <!-- Actions (Slate Theme Pill Buttons) -->
       <div class="mt-6 flex items-center justify-end gap-3">
         <button
           type="button"
           mat-button
           (click)="cancel()"
-          class="!border !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:!text-slate-300 !bg-white dark:!bg-slate-800 hover:!bg-slate-100 dark:hover:!bg-slate-700 !rounded-xl text-xs font-semibold cursor-pointer !px-4 !py-1.5"
+          class="!border !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:!text-slate-300 !bg-white dark:!bg-slate-800 hover:!bg-slate-100 dark:hover:!bg-slate-700 !rounded-full text-xs font-semibold cursor-pointer !px-5 !py-1.5"
         >
           Cancel
         </button>
@@ -51,7 +52,7 @@ export interface TaskDeleteDialogData {
           type="button"
           mat-flat-button
           (click)="confirm()"
-          class="!bg-rose-600 hover:!bg-rose-500 !text-white !rounded-xl text-xs font-bold inline-flex items-center justify-center gap-1.5 cursor-pointer shadow-xs !px-4 !py-1.5 leading-none"
+          class="!bg-rose-600 hover:!bg-rose-500 !text-white !rounded-full text-xs font-bold inline-flex items-center justify-center gap-1.5 cursor-pointer shadow-xs !px-5 !py-1.5 leading-none"
         >
           <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">delete</mat-icon>
           <span class="leading-none">Delete Task</span>

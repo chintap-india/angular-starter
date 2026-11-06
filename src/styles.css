@@ -162,8 +162,18 @@ a:has(mat-icon) span,
 /* ========================================================================= */
 
 .tasks-focus-table {
+  table-layout: fixed !important;
+  width: 100% !important;
   border-collapse: separate !important;
   border-spacing: 0 !important;
+}
+
+/* Custom Typography for Markdown Editor and Specs */
+.task-editor-font {
+  font-family: 'Helvetica Neue', Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif !important;
+  letter-spacing: -0.011em;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Base transition for smooth restoration when hover ends */
@@ -767,13 +777,38 @@ html.dark .mat-expansion-panel-body {
 }
 
 /* Full-screen Material Dialog Panel */
+.full-screen-dialog-panel.cdk-overlay-pane,
+.full-screen-dialog-panel .mat-mdc-dialog-container,
 .full-screen-dialog-panel .mat-mdc-dialog-container .mdc-dialog__surface {
   border-radius: 0 !important;
   max-width: 100vw !important;
   width: 100vw !important;
   max-height: 100vh !important;
   height: 100vh !important;
+  margin: 0 !important;
   padding: 0 !important;
+}
+
+/* Material Select Panel Slate Theme Overrides */
+.mat-mdc-select-panel {
+  border-radius: 0.875rem !important;
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04) !important;
+}
+
+html.dark .mat-mdc-select-panel {
+  background-color: #0f172a !important; /* slate-900 */
+  border-color: #334155 !important; /* slate-700 */
+  color: #f8fafc !important;
+}
+
+html.dark .mat-mdc-option {
+  color: #f8fafc !important;
+}
+
+html.dark .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
+  color: #38bdf8 !important;
 }
 
 /* Enterprise Data Table - Prominent, High-Contrast Column Headers */

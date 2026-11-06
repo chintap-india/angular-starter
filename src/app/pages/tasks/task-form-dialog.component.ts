@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { TaskItem, TaskPriority, TaskStatus, CreateTaskDto, UpdateTaskDto } from '../../core/models/task.model';
 import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
@@ -28,6 +29,7 @@ export interface TaskDialogData {
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
     MatChipsModule,
     MarkdownPipe,
   ],
@@ -38,22 +40,23 @@ export class TaskFormDialogComponent {
   readonly data: TaskDialogData = inject(MAT_DIALOG_DATA);
 
   readonly isEdit = this.data.mode === 'edit';
+  readonly isFullscreen = signal<boolean>(false);
+  readonly isPropertiesExpanded = signal<boolean>(false);
   readonly editorTab = signal<'write' | 'preview'>('write');
 
-  readonly categories = ['Setup', 'Branding', 'Content', 'Verification', 'DevOps', 'General'];
-  readonly priorities: { value: TaskPriority; label: string; color: string }[] = [
-    { value: 'low', label: 'Low', color: 'text-stone-500' },
-    { value: 'medium', label: 'Medium', color: 'text-blue-500' },
-    { value: 'high', label: 'High', color: 'text-amber-500' },
-    { value: 'urgent', label: 'Urgent', color: 'text-rose-500' },
+  readonly categories = ['Setup', 'Branding', 'Content', 'Verification', 'DevOps', 'General', 'Architecture', 'Security', 'Performance'];
+  readonly priorities: { value: TaskPriority; label: string; dotColor: string }[] = [
+    { value: 'low', label: 'Low', dotColor: 'bg-stone-400' },
+    { value: 'medium', label: 'Medium', dotColor: 'bg-blue-500' },
+    { value: 'high', label: 'High', dotColor: 'bg-amber-500' },
+    { value: 'urgent', label: 'Urgent', dotColor: 'bg-rose-500' },
   ];
-  readonly statuses: { value: TaskStatus; label: string }[] = [
-    { value: 'todo', label: 'To Do' },
-    { value: 'in-progress', label: 'In Progress' },
-    { value: 'completed', label: 'Completed' },
+  readonly statuses: { value: TaskStatus; label: string; icon: string }[] = [
+    { value: 'todo', label: 'To Do', icon: 'radio_button_unchecked' },
+    { value: 'in-progress', label: 'In Progress', icon: 'pending' },
+    { value: 'completed', label: 'Completed', icon: 'check_circle' },
   ];
 
-  // Modern Angular 22 Typed Reactive Form
   readonly taskForm = new FormGroup({
     title: new FormControl(this.data.task?.title || '', {
       nonNullable: true,
@@ -80,10 +83,45 @@ export class TaskFormDialogComponent {
     return this.taskForm.controls.title;
   }
 
+  toggleFullscreen(): void {
+    const next = !this.isFullscreen();
+    this.isFullscreen.set(next);
+    if (next) {
+      this.dialogRef.updateSize('100vw', '100vh');
+      this.dialogRef.addPanelClass('full-screen-dialog-panel');
+    } else {
+      this.dialogRef.updateSize('680px', 'auto');
+      this.dialogRef.removePanelClass('full-screen-dialog-panel');
+    }
+  }
+
+  toggleProperties(): void {
+    this.isPropertiesExpanded.update((v) => !v);
+  }
+
   insertMarkdown(prefix: string, suffix: string = ''): void {
     const descControl = this.taskForm.controls.description;
     const current = descControl.value;
-    descControl.setValue(current + '\n' + prefix + 'text' + suffix);
+    descControl.setValue(current ? current + '\n' + prefix + 'text' + suffix : prefix + 'text' + suffix);
+  }
+
+  onPaste(event: ClipboardEvent, textarea: HTMLTextAreaElement): void {
+    const pastedText = event.clipboardData?.getData('text') || '';
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+
+    // Gracefully format selected text into Markdown link if a valid URL is pasted
+    if (start !== end && /^https?:\/\/\S+$/i.test(pastedText.trim())) {
+      event.preventDefault();
+      const current = textarea.value;
+      const selected = current.substring(start, end);
+      const replacement = `[${selected}](${pastedText.trim()})`;
+      const updated = current.substring(0, start) + replacement + current.substring(end);
+      this.taskForm.controls.description.setValue(updated);
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + replacement.length;
+      });
+    }
   }
 
   save(): void {

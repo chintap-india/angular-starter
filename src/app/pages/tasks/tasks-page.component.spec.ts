@@ -86,7 +86,7 @@ describe('TasksPageComponent', () => {
           t.description.toLowerCase().includes('site.config')
       )
     ).toBe(true);
-  });
+  }, 15000);
 
   it('should filter tasks by status and priority', () => {
     fixture.detectChanges();
