@@ -274,7 +274,7 @@
         <!-- Rendered Markdown Description -->
         @if (task.description) {
           <div class="mt-4 pt-3 border-t border-stone-100 dark:border-stone-800/80 text-sm text-stone-700 dark:text-stone-300 leading-relaxed font-sans">
-            <div [innerHTML]="task.description | markdown"></div>
+            <div [innerHTML]="task.description | markdown" ngSkipHydration></div>
           </div>
         }
       </div>

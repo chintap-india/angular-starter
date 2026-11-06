@@ -1,7 +1,7 @@
 import { Injectable, inject, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Observable, of, delay, tap, throwError } from 'rxjs';
-import { TaskItem, CreateTaskDto, UpdateTaskDto } from '../models/task.model';
+import { TaskItem, TaskPriority, TaskStatus, CreateTaskDto, UpdateTaskDto } from '../models/task.model';
 
 const STORAGE_KEY = 'chintap_tasks_crud_v1';
 
@@ -129,7 +129,27 @@ export class MockTaskApiService {
         if (stored) {
           const parsed = JSON.parse(stored);
           if (Array.isArray(parsed) && parsed.length > 0) {
-            return parsed;
+            const sanitized: TaskItem[] = parsed
+              .filter((item): item is Partial<TaskItem> => !!item && typeof item === 'object')
+              .map((item) => ({
+                id: item.id ? String(item.id) : 'task-' + Math.random().toString(36).substring(2, 9),
+                title: item.title ? String(item.title).trim() : 'Untitled Task',
+                description: item.description != null ? String(item.description) : '',
+                priority: (['low', 'medium', 'high', 'urgent'].includes(item.priority as string)
+                  ? item.priority
+                  : 'medium') as TaskPriority,
+                status: (['todo', 'in-progress', 'completed'].includes(item.status as string)
+                  ? item.status
+                  : 'todo') as TaskStatus,
+                category: item.category ? String(item.category).trim() : 'General',
+                dueDate: item.dueDate ? String(item.dueDate) : undefined,
+                createdAt: item.createdAt || new Date().toISOString(),
+                updatedAt: item.updatedAt || new Date().toISOString(),
+              }));
+
+            if (sanitized.length > 0) {
+              return sanitized;
+            }
           }
         }
       } catch (err) {

@@ -49,17 +49,22 @@ export class TasksPageComponent implements OnInit {
   readonly selectedPriority = signal<string>('all');
 
   readonly filteredTasks = computed(() => {
-    const list = this.tasks();
+    const list = this.tasks() || [];
     const query = this.searchQuery().toLowerCase().trim();
     const status = this.selectedStatus();
     const priority = this.selectedPriority();
 
     return list.filter((task) => {
+      if (!task) return false;
+      const title = (task.title || '').toLowerCase();
+      const description = (task.description || '').toLowerCase();
+      const category = (task.category || '').toLowerCase();
+
       const matchesQuery =
         !query ||
-        task.title.toLowerCase().includes(query) ||
-        task.description.toLowerCase().includes(query) ||
-        task.category.toLowerCase().includes(query);
+        title.includes(query) ||
+        description.includes(query) ||
+        category.includes(query);
 
       const matchesStatus = status === 'all' || task.status === status;
       const matchesPriority = priority === 'all' || task.priority === priority;
@@ -69,11 +74,11 @@ export class TasksPageComponent implements OnInit {
   });
 
   readonly stats = computed(() => {
-    const all = this.tasks();
+    const all = this.tasks() || [];
     const total = all.length;
-    const completed = all.filter((t) => t.status === 'completed').length;
-    const inProgress = all.filter((t) => t.status === 'in-progress').length;
-    const todo = all.filter((t) => t.status === 'todo').length;
+    const completed = all.filter((t) => t?.status === 'completed').length;
+    const inProgress = all.filter((t) => t?.status === 'in-progress').length;
+    const todo = all.filter((t) => t?.status === 'todo').length;
     const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
 
     return { total, completed, inProgress, todo, percentage };
