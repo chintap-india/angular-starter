@@ -2,9 +2,9 @@
   
   <!-- Hero Section -->
   <section class="mb-10 text-center max-w-4xl mx-auto">
-    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4 border border-emerald-200 dark:border-emerald-800">
-      <mat-icon class="!text-sm !w-4 !h-4">checklist_rtl</mat-icon>
-      {{ content.tasks.hero.badge }}
+    <div class="hero-badge-pill px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4 border border-emerald-200 dark:border-emerald-800">
+      <mat-icon>checklist_rtl</mat-icon>
+      <span class="leading-none">{{ content.tasks.hero.badge }}</span>
     </div>
 
     <h1 class="text-3xl sm:text-5xl font-extrabold text-stone-900 dark:text-white tracking-tight mb-4 leading-tight">
@@ -238,9 +238,9 @@
 
                 <!-- Due Date -->
                 @if (task.dueDate) {
-                  <span class="text-xs text-stone-500 dark:text-stone-400 flex items-center gap-1 font-mono">
-                    <mat-icon class="!text-xs !w-3.5 !h-3.5">calendar_today</mat-icon>
-                    {{ task.dueDate }}
+                  <span class="text-xs text-stone-500 dark:text-stone-400 inline-flex items-center gap-1 font-mono leading-none">
+                    <mat-icon class="!inline-flex !items-center !justify-center !text-xs !w-3.5 !h-3.5 leading-none -translate-y-px">calendar_today</mat-icon>
+                    <span>{{ task.dueDate }}</span>
                   </span>
                 }
               </div>

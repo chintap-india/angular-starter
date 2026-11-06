@@ -64,6 +64,26 @@
   }
 }
 
+/* Hero & Section Header Badge Pills Icon Centering */
+.hero-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1;
+}
+
+.hero-badge-pill mat-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 1rem !important;
+  height: 1rem !important;
+  font-size: 0.875rem !important;
+  line-height: 1 !important;
+  vertical-align: middle !important;
+  transform: translateY(-1px);
+}
+
 /* Strict Accessibility: High-contrast keyboard focus indicators */
 *:focus-visible {
   outline: 3px solid #1c1917 !important;
