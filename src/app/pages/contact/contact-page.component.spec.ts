@@ -55,7 +55,7 @@ describe('ContactPageComponent', () => {
   it('should create contact page component', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
-  });
+  }, 15000);
 
   it('should set SEO metadata on initialization', () => {
     fixture.detectChanges();

@@ -259,13 +259,12 @@ Push your repo to GitHub and import it on Netlify. The included `netlify.toml` h
 ### Any Static Host (Vercel, Cloudflare Pages, GitHub Pages, S3)
 Upload the contents of `dist/chintap-angular-starter/browser/` directly to any static file server or CDN.
 
-### 💸 100% Free-Tier Guarantee
-This entire starter kit is intentionally architected to operate **100% within permanent free tiers** with zero paid subscriptions and zero credit card requirements:
-- **Hosting & Bandwidth**: Permanent free static hosting (100 GB/mo).
-- **Authentication**: Local-first offline session state by default; optional Netlify Identity runs within Netlify's free 1,000 active users/mo tier.
-- **Forms**: Netlify Forms free tier (100 submissions/mo) with graceful client-side fallback.
-- **SSL & Domains**: Automated free Let's Encrypt SSL certificates.
-- **Zero Paid Add-Ons**: No Netlify Analytics or paid serverless add-ons required.
+### 💸 Free-Tier Friendly Architecture
+This starter kit is architected for zero-cost operation on standard static web hosts (such as Netlify, Cloudflare Pages, GitHub Pages, or Vercel):
+- **Pure Static Output**: Generates pre-rendered HTML/CSS/JS ready for any CDN without requiring a paid server runtime.
+- **Local-First Authentication**: In-browser session state via `localStorage` by default; optional hook for third-party identity providers.
+- **Client-Side Form Handling**: Contact and task forms feature native client-side validation, ready to connect to any free webhook, form endpoint, or headless backend.
+- **Zero Paid Dependencies**: Requires no proprietary paid APIs, analytics trackers, or paid database subscriptions to run out of the box.
 
 ---
 

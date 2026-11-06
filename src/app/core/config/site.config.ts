@@ -90,11 +90,11 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
     logo: 'https://chintap-angular-starter.netlify.app/images/logo-light.svg',
     email: 'hello@chintap.com',
     address: {
-      streetAddress: 'Flat No. 403, 1st Cross, Manjunatha Nagar, Raghuvanahalli, Kanakapura Main Road',
-      addressLocality: 'Bengaluru',
-      addressRegion: 'Karnataka',
-      postalCode: '560109',
-      addressCountry: 'IN',
+      streetAddress: 'Docking Bay 42, Orion-Cygnus Spur, Starlight Boulevard',
+      addressLocality: 'Neo-Bengaluru Outpost',
+      addressRegion: 'Quadrant 4, Sol Sector',
+      postalCode: 'SOL-560109-GX',
+      addressCountry: 'Terra Prime, Milky Way',
     },
     geo: {
       latitude: 12.8767,

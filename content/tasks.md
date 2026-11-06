@@ -33,6 +33,6 @@ The Tasks page is an enterprise form engineering demo highlighting real-world An
 - Automatic fallback: In SSR/SSG server environments, initial state is seeded safely.
 - In browser runtime, tasks persist across sessions using `localStorage`.
 
-### 5. Role-Based Auth Simulation (100% Free-Tier)
+### 5. Role-Based Auth Simulation (Local-First & Free-Tier Friendly)
 - Built-in Netlify Identity integration ready out-of-the-box.
 - Instant toggle between **Guest** (read-only) and **Lead Developer** (full CRUD) roles for rapid UI evaluation.

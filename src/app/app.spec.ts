@@ -67,7 +67,7 @@ describe('App Root Component & Starter Architecture', () => {
     it('should define geographical and physical coordinates for GEO / Knowledge Graph', () => {
       expect(DEFAULT_SITE_CONFIG.organization.geo.latitude).toBeCloseTo(12.87, 1);
       expect(DEFAULT_SITE_CONFIG.organization.geo.longitude).toBeCloseTo(77.53, 1);
-      expect(DEFAULT_SITE_CONFIG.organization.address.addressCountry).toBe('IN');
+      expect(DEFAULT_SITE_CONFIG.organization.address.addressCountry).toBe('Terra Prime, Milky Way');
     });
   });
 

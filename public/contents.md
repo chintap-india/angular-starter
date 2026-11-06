@@ -186,7 +186,7 @@ You don't need to have it all figured out before reaching out.
 Tell us a little about what's on your mind. We'll take it from there.
 
 ## Office Address
-Flat No. 403, 1st Cross, Manjunatha Nagar, Raghuvanahalli, Kanakapura Main Road, Bengaluru, Karnataka - 560109, India.
+Chintap Orbital Labs, Docking Bay 42, Orion-Cygnus Spur, Starlight Boulevard, Neo-Bengaluru Outpost, Quadrant 4, Sol Sector, Terra Prime, Milky Way - SOL-560109-GX.
 
 ---
 

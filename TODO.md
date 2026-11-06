@@ -44,7 +44,7 @@ This document tracks upcoming developer tasks, maintenance errands, and migratio
 
 ## 🔒 Ongoing Governance & Policies
 
-### 3. Netlify 100% Free-Tier Enforcement
-- Strictly use free tier features only (static CDN edge, Netlify Forms within monthly limits, free SSL).
-- Zero paid add-ons, subscriptions, or credit-card locked dependencies.
+### 3. Free-Tier Infrastructure Governance
+- Prioritize zero-cost static hosting features (static CDN edge, basic forms within provider limits, free SSL).
+- Avoid paid add-ons, subscriptions, or credit-card locked dependencies.
 - Retain lightweight mock/local auth simulation for the Tasks module.

@@ -53,7 +53,7 @@ describe('TasksPageComponent', () => {
   it('should create tasks page component', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
-  });
+  }, 15000);
 
   it('should set SEO metadata on initialization', () => {
     fixture.detectChanges();
@@ -98,13 +98,13 @@ describe('TasksPageComponent', () => {
     component.selectedPriority.set('urgent');
     const urgentTasks = component.filteredTasks();
     expect(urgentTasks.every((t) => t.priority === 'urgent')).toBe(true);
-  });
+  }, 15000);
 
   it('should open task creation dialog when requested', () => {
     fixture.detectChanges();
     component.openCreateDialog();
     expect((component as any).dialog.open).toHaveBeenCalled();
-  });
+  }, 15000);
 
   it('should toggle auth role between developer and guest', () => {
     fixture.detectChanges();

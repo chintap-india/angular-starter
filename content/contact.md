@@ -36,11 +36,11 @@ We're happy to hear about it.
 
 - **Inquiry Method:** Contact Form (`/contact`)
 - **Office Address:**
-  Chintap,
-  Flat No. 403, 
-  1st Cross, Manjunatha Nagar, Raghuvanahalli,
-  Kanakapura Main Road,
-  Bengaluru, Karnataka - 560109, India.
+  Chintap Orbital Labs,
+  Docking Bay 42, Orion-Cygnus Spur,
+  Starlight Boulevard, Neo-Bengaluru Outpost,
+  Quadrant 4, Sol Sector,
+  Terra Prime, Milky Way - SOL-560109-GX.
 
 ---
 

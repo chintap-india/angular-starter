@@ -42,20 +42,20 @@ export class ContentService {
     metaTitle: 'Chintap — Things. Apps. Possibilities.',
     metaDescription: 'Chintap explores ideas and builds useful things across the physical and digital worlds — from software and applications to products and connected experiences.',
     address: {
-      flat: 'Flat No. 403,',
-      street: '1st Cross, Manjunatha Nagar, Raghuvanahalli,',
-      area: 'Kanakapura Main Road,',
-      city: 'Bengaluru',
-      state: 'Karnataka',
-      pincode: '560109',
-      country: 'India',
+      flat: 'Docking Bay 42,',
+      street: 'Orion-Cygnus Spur, Starlight Boulevard,',
+      area: 'Neo-Bengaluru Outpost,',
+      city: 'Terra Prime',
+      state: 'Quadrant 4, Sol Sector',
+      pincode: 'SOL-560109-GX',
+      country: 'Milky Way',
       lines: [
-        'Flat No. 403,',
-        '1st Cross, Manjunatha Nagar, Raghuvanahalli,',
-        'Kanakapura Main Road,',
-        'Bengaluru, Karnataka - 560109, India.'
+        'Docking Bay 42, Orion-Cygnus Spur,',
+        'Starlight Boulevard, Neo-Bengaluru Outpost,',
+        'Quadrant 4, Sol Sector,',
+        'Terra Prime, Milky Way - SOL-560109-GX.'
       ],
-      full: 'Flat No. 403, 1st Cross, Manjunatha Nagar, Raghuvanahalli, Kanakapura Main Road, Bengaluru, Karnataka - 560109, India.'
+      full: 'Docking Bay 42, Orion-Cygnus Spur, Starlight Boulevard, Neo-Bengaluru Outpost, Quadrant 4, Sol Sector, Terra Prime, Milky Way - SOL-560109-GX.'
     }
   };
 
@@ -196,12 +196,12 @@ export class ContentService {
     address: {
       headline: 'Office address',
       lines: [
-        'Flat No. 403,',
-        '1st Cross, Manjunatha Nagar, Raghuvanahalli,',
-        'Kanakapura Main Road,',
-        'Bengaluru, Karnataka - 560109, India.'
+        'Docking Bay 42, Orion-Cygnus Spur,',
+        'Starlight Boulevard, Neo-Bengaluru Outpost,',
+        'Quadrant 4, Sol Sector,',
+        'Terra Prime, Milky Way - SOL-560109-GX.'
       ],
-      full: 'Flat No. 403, 1st Cross, Manjunatha Nagar, Raghuvanahalli, Kanakapura Main Road, Bengaluru, Karnataka - 560109, India.'
+      full: 'Docking Bay 42, Orion-Cygnus Spur, Starlight Boulevard, Neo-Bengaluru Outpost, Quadrant 4, Sol Sector, Terra Prime, Milky Way - SOL-560109-GX.'
     }
   };
 
