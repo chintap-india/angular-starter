@@ -55,7 +55,7 @@
     "@tailwindcss/postcss": "^4.3.3",
     "postcss": "^8.5.29",
     "rxjs": "~7.8.0",
-    "tailwindcss": "^4.3.3",
+    "tailwindcss": "^4.3.4",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
