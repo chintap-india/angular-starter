@@ -43,7 +43,7 @@ export interface TaskDeleteDialogData {
           type="button"
           mat-button
           (click)="cancel()"
-          class="!text-stone-600 dark:!text-stone-300 !rounded-xl text-xs font-semibold cursor-pointer"
+          class="!border !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:!text-slate-300 !bg-white dark:!bg-slate-800 hover:!bg-slate-100 dark:hover:!bg-slate-700 !rounded-xl text-xs font-semibold cursor-pointer !px-4 !py-1.5"
         >
           Cancel
         </button>
@@ -51,7 +51,7 @@ export interface TaskDeleteDialogData {
           type="button"
           mat-flat-button
           (click)="confirm()"
-          class="!bg-rose-600 hover:!bg-rose-500 !text-white !rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer"
+          class="!bg-rose-600 hover:!bg-rose-500 !text-white !rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer shadow-xs !px-4 !py-1.5"
         >
           <mat-icon class="!text-base !w-4 !h-4">delete</mat-icon>
           <span>Delete Task</span>

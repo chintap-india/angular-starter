@@ -18,14 +18,14 @@ export interface TaskStatusDialogData {
       <!-- Header -->
       <div class="flex items-center justify-between pb-3 border-b border-stone-100 dark:border-stone-800">
         <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+          <div class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-800 dark:text-slate-200">
             <mat-icon class="!text-lg !w-4.5 !h-4.5">published_with_changes</mat-icon>
           </div>
           <div>
-            <h2 class="text-base font-bold text-stone-900 dark:text-white leading-tight">
+            <h2 class="text-base font-bold text-slate-900 dark:text-white leading-tight">
               Update Status
             </h2>
-            <p class="text-[11px] text-stone-500 dark:text-stone-400">
+            <p class="text-[11px] text-slate-500 dark:text-slate-400">
               #{{ data.task.id.replace('task-', '') }} &bull; {{ data.task.title | slice:0:36 }}...
             </p>
           </div>
@@ -33,7 +33,7 @@ export interface TaskStatusDialogData {
         <button
           type="button"
           (click)="cancel()"
-          class="text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 p-1 rounded-lg transition cursor-pointer"
+          class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-1 rounded-lg transition cursor-pointer"
           aria-label="Close"
         >
           <mat-icon class="!text-lg !w-4 !h-4">close</mat-icon>
@@ -47,7 +47,7 @@ export interface TaskStatusDialogData {
             (click)="selectedStatus.set(option.value)"
             class="flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all duration-150"
             [ngClass]="{
-              'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/30 ring-1 ring-emerald-500': selectedStatus() === option.value,
+              'border-slate-900 bg-slate-50 dark:border-slate-100 dark:bg-slate-800/90 ring-1 ring-slate-900 dark:ring-slate-100': selectedStatus() === option.value,
               'border-stone-200 dark:border-stone-800 hover:border-stone-300 dark:hover:border-stone-700 bg-stone-50/40 dark:bg-stone-800/40': selectedStatus() !== option.value
             }"
           >
@@ -73,23 +73,23 @@ export interface TaskStatusDialogData {
             <!-- Radio indicator -->
             <div
               class="w-4 h-4 rounded-full border flex items-center justify-center"
-              [ngClass]="selectedStatus() === option.value ? 'border-emerald-600 bg-emerald-600' : 'border-stone-300 dark:border-stone-600'"
+              [ngClass]="selectedStatus() === option.value ? 'border-slate-900 bg-slate-900 dark:border-slate-100 dark:bg-slate-100' : 'border-stone-300 dark:border-stone-600'"
             >
               @if (selectedStatus() === option.value) {
-                <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-white dark:bg-slate-900"></div>
               }
             </div>
           </div>
         }
       </div>
 
-      <!-- Footer Buttons -->
+      <!-- Footer Buttons (Slate Theme) -->
       <div class="mt-5 pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center justify-end gap-2.5">
         <button
           type="button"
           mat-button
           (click)="cancel()"
-          class="!text-stone-600 dark:!text-stone-300 !rounded-xl text-xs font-semibold cursor-pointer"
+          class="!border !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:!text-slate-300 !bg-white dark:!bg-slate-800 hover:!bg-slate-100 dark:hover:!bg-slate-700 !rounded-xl text-xs font-semibold cursor-pointer !px-4 !py-1.5"
         >
           Cancel
         </button>
@@ -97,7 +97,7 @@ export interface TaskStatusDialogData {
           type="button"
           mat-flat-button
           (click)="confirm()"
-          class="!bg-emerald-600 hover:!bg-emerald-500 !text-white !rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer"
+          class="!bg-slate-900 hover:!bg-slate-800 dark:!bg-slate-100 dark:hover:!bg-white !text-white dark:!text-slate-900 !rounded-xl text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer shadow-xs !px-4 !py-1.5"
         >
           <mat-icon class="!text-base !w-4 !h-4">check</mat-icon>
           <span>Update Status</span>
