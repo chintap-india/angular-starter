@@ -1,36 +1,40 @@
-<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+<div class="min-h-screen py-8 sm:py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
   
-  <!-- Hero Section -->
-  <section class="mb-10 text-center max-w-4xl mx-auto">
-    <div class="hero-badge-pill px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4 border border-emerald-200 dark:border-emerald-800">
-      <mat-icon>checklist_rtl</mat-icon>
-      <span class="leading-none">{{ content.tasks.hero.badge }}</span>
+  <!-- Enterprise Header & Action Bar (Full Width max-w-7xl matching Navbar) -->
+  <header class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 pb-6 border-b border-stone-200 dark:border-stone-800">
+    <div>
+      <!-- Module Category Badge Pill -->
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-2 border border-emerald-200 dark:border-emerald-800">
+        <mat-icon class="!text-sm !w-4 !h-4">checklist_rtl</mat-icon>
+        <span>{{ content.tasks.hero.badge }}</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white tracking-tight">
+        {{ content.tasks.hero.title }}
+      </h1>
+
+      <p class="text-stone-600 dark:text-stone-300 text-sm sm:text-base max-w-3xl mt-1.5 leading-relaxed">
+        {{ content.tasks.hero.description }}
+      </p>
     </div>
 
-    <h1 class="text-3xl sm:text-5xl font-extrabold text-stone-900 dark:text-white tracking-tight mb-4 leading-tight">
-      {{ content.tasks.hero.title }}
-    </h1>
-
-    <p class="text-base sm:text-lg text-stone-600 dark:text-stone-300 max-w-2xl mx-auto leading-relaxed mb-8">
-      {{ content.tasks.hero.description }}
-    </p>
-
-    <!-- Top Action Bar with Auth Session Pill & New Task Button -->
-    <div class="flex flex-wrap items-center justify-center gap-4">
+    <!-- Top Action Bar -->
+    <div class="flex flex-wrap items-center gap-3 shrink-0">
+      <!-- Create New Task Button with Material Flat Button -->
       <button
         type="button"
         (click)="openCreateDialog()"
         mat-flat-button
-        class="!bg-emerald-600 hover:!bg-emerald-500 !text-white !font-bold !px-6 !py-3 !rounded-xl !text-sm shadow-md transition inline-flex items-center gap-2 cursor-pointer"
+        class="!bg-emerald-600 hover:!bg-emerald-500 !text-white !font-bold !rounded-xl !px-5 !py-2.5 shadow-sm inline-flex items-center gap-2 cursor-pointer"
       >
-        <mat-icon class="!text-base !w-4 !h-4">add</mat-icon>
+        <mat-icon class="!text-lg !w-5 !h-5">add_task</mat-icon>
         <span>Create New Task</span>
       </button>
 
-      <!-- Auth Identity Toggle Pill -->
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-xs text-stone-700 dark:text-stone-300 shadow-xs">
+      <!-- Auth Session Identity Pill -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-xs text-stone-700 dark:text-stone-300 shadow-2xs">
         <span class="w-2 h-2 rounded-full" [ngClass]="authService.currentUser()?.role === 'developer' ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'"></span>
-        <span>Session: <strong>{{ authService.currentUser()?.name || 'Guest' }}</strong></span>
+        <span>Session: <strong class="text-stone-900 dark:text-white">{{ authService.currentUser()?.name || 'Guest' }}</strong></span>
         <button
           type="button"
           (click)="toggleAuthMode()"
@@ -40,297 +44,320 @@
         </button>
       </div>
 
-      <!-- Reset Demo Tasks -->
+      <!-- Reset Defaults Button with Material Stroked Button -->
       <button
         type="button"
         (click)="resetDefaults()"
         mat-stroked-button
-        class="!border-stone-300 dark:!border-stone-700 !text-stone-700 dark:!text-stone-300 !rounded-xl !px-4 !py-2 !text-xs"
-        title="Reset pre-seeded starter kickoff tasks"
+        class="!border-stone-300 dark:!border-stone-700 !text-stone-700 dark:!text-stone-300 !rounded-xl !text-xs cursor-pointer"
+        matTooltip="Reset pre-seeded starter kickoff tasks"
       >
-        <mat-icon class="!text-xs !w-3.5 !h-3.5 mr-1">restart_alt</mat-icon>
-        Reset Defaults
+        <mat-icon class="!text-base !w-4 !h-4">restart_alt</mat-icon>
+        <span>Reset Defaults</span>
       </button>
     </div>
+  </header>
+
+  <!-- Enterprise KPI Metrics Cards Grid (4 Columns across Full Width) -->
+  <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" aria-label="Task progress metrics">
+    
+    <!-- Total Tasks KPI -->
+    <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+      <mat-card-content class="!p-5 flex items-center justify-between">
+        <div>
+          <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider">Total Tasks</p>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white mt-1">{{ stats().total }}</h3>
+          <p class="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5">Across all sprint categories</p>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 flex items-center justify-center">
+          <mat-icon class="!text-2xl !w-6 !h-6">assignment</mat-icon>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- To Do KPI -->
+    <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+      <mat-card-content class="!p-5 flex items-center justify-between">
+        <div>
+          <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider">To Do</p>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white mt-1">{{ stats().todo }}</h3>
+          <p class="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5">Ready for implementation</p>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 flex items-center justify-center">
+          <mat-icon class="!text-2xl !w-6 !h-6">pending_actions</mat-icon>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- In Progress KPI -->
+    <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+      <mat-card-content class="!p-5 flex items-center justify-between">
+        <div>
+          <p class="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider">In Progress</p>
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-amber-600 dark:text-amber-400 mt-1">{{ stats().inProgress }}</h3>
+          <p class="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5">Currently active</p>
+        </div>
+        <div class="w-12 h-12 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+          <mat-icon class="!text-2xl !w-6 !h-6">timelapse</mat-icon>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Completed KPI with Material Progress Bar -->
+    <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+      <mat-card-content class="!p-5">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <p class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Completed</p>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">{{ stats().completed }}</h3>
+          </div>
+          <div class="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+            <mat-icon class="!text-2xl !w-6 !h-6">check_circle</mat-icon>
+          </div>
+        </div>
+        <div class="space-y-1.5">
+          <div class="flex justify-between text-[11px] font-mono text-stone-500 dark:text-stone-400">
+            <span>Overall Progress</span>
+            <span class="font-bold text-stone-900 dark:text-white">{{ stats().percentage }}%</span>
+          </div>
+          <mat-progress-bar mode="determinate" [value]="stats().percentage" class="!h-2 !rounded-full"></mat-progress-bar>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
   </section>
 
-  <!-- Progress & Stats Strip -->
-  <section class="mb-8 p-5 sm:p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-sm max-w-4xl mx-auto">
-    <div class="flex flex-wrap items-center justify-between gap-4 mb-3">
-      <div>
-        <h3 class="text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">
-          Starter Kit Setup Progress
-        </h3>
-        <p class="text-sm font-semibold text-stone-900 dark:text-white mt-0.5">
-          {{ stats().completed }} of {{ stats().total }} tasks completed ({{ stats().percentage }}%)
-        </p>
+  <!-- Enterprise Search & Filter Controls (Full Width Material Card) -->
+  <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+    <mat-card-content class="!p-4 sm:!p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+      
+      <!-- Material Search Field -->
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-full lg:w-96">
+        <mat-label>Filter tasks by keyword...</mat-label>
+        <mat-icon matPrefix class="mr-2 text-stone-400">search</mat-icon>
+        <input
+          matInput
+          type="text"
+          [ngModel]="searchQuery()"
+          (ngModelChange)="searchQuery.set($event)"
+          placeholder="Filter title, description, or category..."
+        />
+        @if (searchQuery()) {
+          <button mat-icon-button matSuffix (click)="searchQuery.set('')" aria-label="Clear search">
+            <mat-icon class="!text-base">close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+
+      <!-- Status Filter using MatChipListbox -->
+      <div class="flex items-center gap-2 overflow-x-auto py-1">
+        <span class="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider mr-1 hidden sm:inline">Status:</span>
+        <mat-chip-listbox
+          [value]="selectedStatus()"
+          (change)="selectedStatus.set($event.value || 'all')"
+          aria-label="Filter tasks by status"
+        >
+          <mat-chip-option value="all">All ({{ tasks().length }})</mat-chip-option>
+          <mat-chip-option value="todo">To Do ({{ stats().todo }})</mat-chip-option>
+          <mat-chip-option value="in-progress">In Progress ({{ stats().inProgress }})</mat-chip-option>
+          <mat-chip-option value="completed">Completed ({{ stats().completed }})</mat-chip-option>
+        </mat-chip-listbox>
       </div>
-      <div class="flex items-center gap-3 text-xs font-mono">
-        <span class="px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400">
-          To Do: {{ stats().todo }}
-        </span>
-        <span class="px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400">
-          In Progress: {{ stats().inProgress }}
-        </span>
-        <span class="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400">
-          Done: {{ stats().completed }}
-        </span>
-      </div>
-    </div>
-    <!-- Progress Bar -->
-    <div class="w-full h-2.5 rounded-full bg-stone-100 dark:bg-stone-800 overflow-hidden">
-      <div
-        class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-500 rounded-full"
-        [style.width.%]="stats().percentage"
-      ></div>
-    </div>
-  </section>
 
-  <!-- Search & Filter Controls -->
-  <section class="mb-8 max-w-4xl mx-auto flex flex-col sm:flex-row items-center gap-4 justify-between">
-    <!-- Keyword Search -->
-    <div class="relative w-full sm:w-72">
-      <mat-icon class="absolute left-3.5 top-1/2 -translate-y-1/2 !text-lg !w-5 !h-5 text-stone-400">search</mat-icon>
-      <input
-        type="text"
-        [ngModel]="searchQuery()"
-        (ngModelChange)="searchQuery.set($event)"
-        placeholder="Filter tasks by keyword..."
-        class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-2xs transition"
-      />
-    </div>
+      <!-- Priority Filter using MatSelect -->
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-full sm:w-48">
+        <mat-label>Priority</mat-label>
+        <mat-icon matPrefix class="mr-2 text-stone-400">filter_list</mat-icon>
+        <mat-select [ngModel]="selectedPriority()" (ngModelChange)="selectedPriority.set($event)">
+          <mat-option value="all">All Priorities</mat-option>
+          <mat-option value="urgent">Urgent</mat-option>
+          <mat-option value="high">High</mat-option>
+          <mat-option value="medium">Medium</mat-option>
+          <mat-option value="low">Low</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <!-- Status Filter Buttons -->
-    <div class="flex items-center gap-1.5 p-1 rounded-xl bg-stone-100 dark:bg-stone-800/80 text-xs font-semibold overflow-x-auto w-full sm:w-auto">
-      <button
-        type="button"
-        (click)="selectedStatus.set('all')"
-        [class.bg-white]="selectedStatus() === 'all'"
-        [class.dark:bg-stone-700]="selectedStatus() === 'all'"
-        [class.text-stone-900]="selectedStatus() === 'all'"
-        [class.dark:text-white]="selectedStatus() === 'all'"
-        [class.shadow-xs]="selectedStatus() === 'all'"
-        class="px-3 py-1.5 rounded-lg transition text-stone-600 dark:text-stone-300 cursor-pointer"
-      >
-        All ({{ tasks().length }})
-      </button>
-      <button
-        type="button"
-        (click)="selectedStatus.set('todo')"
-        [class.bg-white]="selectedStatus() === 'todo'"
-        [class.dark:bg-stone-700]="selectedStatus() === 'todo'"
-        [class.text-stone-900]="selectedStatus() === 'todo'"
-        [class.dark:text-white]="selectedStatus() === 'todo'"
-        [class.shadow-xs]="selectedStatus() === 'todo'"
-        class="px-3 py-1.5 rounded-lg transition text-stone-600 dark:text-stone-300 cursor-pointer"
-      >
-        To Do
-      </button>
-      <button
-        type="button"
-        (click)="selectedStatus.set('in-progress')"
-        [class.bg-white]="selectedStatus() === 'in-progress'"
-        [class.dark:bg-stone-700]="selectedStatus() === 'in-progress'"
-        [class.text-stone-900]="selectedStatus() === 'in-progress'"
-        [class.dark:text-white]="selectedStatus() === 'in-progress'"
-        [class.shadow-xs]="selectedStatus() === 'in-progress'"
-        class="px-3 py-1.5 rounded-lg transition text-stone-600 dark:text-stone-300 cursor-pointer"
-      >
-        In Progress
-      </button>
-      <button
-        type="button"
-        (click)="selectedStatus.set('completed')"
-        [class.bg-white]="selectedStatus() === 'completed'"
-        [class.dark:bg-stone-700]="selectedStatus() === 'completed'"
-        [class.text-stone-900]="selectedStatus() === 'completed'"
-        [class.dark:text-white]="selectedStatus() === 'completed'"
-        [class.shadow-xs]="selectedStatus() === 'completed'"
-        class="px-3 py-1.5 rounded-lg transition text-stone-600 dark:text-stone-300 cursor-pointer"
-      >
-        Completed
-      </button>
-    </div>
+    </mat-card-content>
+  </mat-card>
 
-    <!-- Priority Filter -->
-    <div class="w-full sm:w-auto">
-      <select
-        [ngModel]="selectedPriority()"
-        (ngModelChange)="selectedPriority.set($event)"
-        class="w-full sm:w-auto px-3.5 py-2.5 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-white text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-2xs transition"
-      >
-        <option value="all">All Priorities</option>
-        <option value="urgent">Urgent</option>
-        <option value="high">High</option>
-        <option value="medium">Medium</option>
-        <option value="low">Low</option>
-      </select>
-    </div>
-  </section>
-
-  <!-- Task Cards List -->
-  <section class="space-y-4 max-w-4xl mx-auto mb-16">
+  <!-- Task Cards List (Full Width Material Cards Grid) -->
+  <section class="space-y-4 mb-16" aria-label="Task list">
     @for (task of filteredTasks(); track task.id) {
-      <div
-        class="card-hover p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-xs hover:shadow-md hover:border-stone-400 dark:hover:border-stone-600 hover:-translate-y-0.5 transition-all duration-200"
+      <mat-card
+        appearance="outlined"
+        class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs hover:shadow-md transition-all duration-200"
         [class.opacity-75]="task.status === 'completed'"
       >
-        <div class="flex items-start justify-between gap-4">
-          
-          <!-- Checkbox & Title Group -->
-          <div class="flex items-start gap-3.5 flex-1">
-            <button
-              type="button"
-              (click)="toggleComplete(task)"
-              [class.bg-emerald-500]="task.status === 'completed'"
-              [class.border-emerald-500]="task.status === 'completed'"
-              [class.text-white]="task.status === 'completed'"
-              [class.border-stone-300]="task.status !== 'completed'"
-              [class.dark:border-stone-600]="task.status !== 'completed'"
-              class="w-6 h-6 rounded-lg border flex items-center justify-center mt-0.5 transition cursor-pointer shrink-0"
-              [attr.aria-label]="task.status === 'completed' ? 'Mark task as incomplete' : 'Mark task as completed'"
-            >
-              @if (task.status === 'completed') {
-                <mat-icon class="!text-sm !w-4 !h-4">check</mat-icon>
-              }
-            </button>
+        <mat-card-content class="!p-6">
+          <div class="flex items-start justify-between gap-4">
+            
+            <!-- Checkbox & Title Group -->
+            <div class="flex items-start gap-4 flex-1 min-w-0">
+              <mat-checkbox
+                [checked]="task.status === 'completed'"
+                (change)="toggleComplete(task)"
+                color="primary"
+                class="mt-0.5 shrink-0"
+                [attr.aria-label]="task.status === 'completed' ? 'Mark task as incomplete' : 'Mark task as completed'"
+              ></mat-checkbox>
 
-            <div class="space-y-1">
-              <h2
-                class="text-base sm:text-lg font-bold font-heading text-stone-900 dark:text-stone-100 leading-snug"
-                [class.line-through]="task.status === 'completed'"
-                [class.text-stone-500]="task.status === 'completed'"
-              >
-                {{ task.title }}
-              </h2>
-
-              <!-- Badges Row -->
-              <div class="flex flex-wrap items-center gap-2 pt-1">
-                <!-- Category -->
-                <span class="text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700">
-                  {{ task.category }}
-                </span>
-
-                <!-- Priority Badge -->
-                <span
-                  class="text-[11px] font-mono font-bold uppercase px-2 py-0.5 rounded-md"
-                  [ngClass]="{
-                    'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400': task.priority === 'urgent',
-                    'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400': task.priority === 'high',
-                    'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400': task.priority === 'medium',
-                    'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400': task.priority === 'low'
-                  }"
+              <div class="space-y-2 flex-1 min-w-0">
+                <h2
+                  class="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 leading-snug"
+                  [class.line-through]="task.status === 'completed'"
+                  [class.text-stone-500]="task.status === 'completed'"
                 >
-                  {{ task.priority }}
-                </span>
+                  {{ task.title }}
+                </h2>
 
-                <!-- Status Badge -->
-                <span
-                  class="text-[11px] font-mono uppercase px-2 py-0.5 rounded-md font-semibold"
-                  [ngClass]="{
-                    'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400': task.status === 'completed',
-                    'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300': task.status === 'in-progress',
-                    'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400': task.status === 'todo'
-                  }"
-                >
-                  {{ task.status === 'in-progress' ? 'In Progress' : (task.status === 'completed' ? 'Done' : 'To Do') }}
-                </span>
-
-                <!-- Due Date -->
-                @if (task.dueDate) {
-                  <span class="text-xs text-stone-500 dark:text-stone-400 inline-flex items-center gap-1 font-mono leading-none">
-                    <mat-icon class="!inline-flex !items-center !justify-center !text-xs !w-3.5 !h-3.5 leading-none -translate-y-px">calendar_today</mat-icon>
-                    <span>{{ task.dueDate }}</span>
+                <!-- Badges Row with Semantic Category, Priority & Status Chips -->
+                <div class="flex flex-wrap items-center gap-2 pt-0.5">
+                  <!-- Category Chip -->
+                  <span class="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700">
+                    <mat-icon class="!text-xs !w-3.5 !h-3.5">folder</mat-icon>
+                    <span>{{ task.category }}</span>
                   </span>
-                }
+
+                  <!-- Priority Chip -->
+                  <span
+                    class="inline-flex items-center gap-1 text-[11px] font-mono font-bold uppercase px-2.5 py-0.5 rounded-md"
+                    [ngClass]="{
+                      'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900': task.priority === 'urgent',
+                      'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-900': task.priority === 'high',
+                      'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900': task.priority === 'medium',
+                      'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.priority === 'low'
+                    }"
+                  >
+                    <mat-icon class="!text-xs !w-3.5 !h-3.5">
+                      {{ task.priority === 'urgent' || task.priority === 'high' ? 'priority_high' : 'low_priority' }}
+                    </mat-icon>
+                    <span>{{ task.priority }}</span>
+                  </span>
+
+                  <!-- Status Chip -->
+                  <span
+                    class="inline-flex items-center gap-1 text-[11px] font-mono uppercase px-2.5 py-0.5 rounded-md font-semibold"
+                    [ngClass]="{
+                      'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800': task.status === 'completed',
+                      'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800': task.status === 'in-progress',
+                      'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.status === 'todo'
+                    }"
+                  >
+                    <mat-icon class="!text-xs !w-3.5 !h-3.5">
+                      {{ task.status === 'completed' ? 'check' : (task.status === 'in-progress' ? 'pending' : 'radio_button_unchecked') }}
+                    </mat-icon>
+                    <span>{{ task.status === 'in-progress' ? 'In Progress' : (task.status === 'completed' ? 'Done' : 'To Do') }}</span>
+                  </span>
+
+                  <!-- Due Date -->
+                  @if (task.dueDate) {
+                    <span class="inline-flex items-center gap-1 text-xs text-stone-500 dark:text-stone-400 font-mono">
+                      <mat-icon class="!text-xs !w-3.5 !h-3.5">calendar_today</mat-icon>
+                      <span>{{ task.dueDate }}</span>
+                    </span>
+                  }
+                </div>
               </div>
             </div>
+
+            <!-- Material Icon Action Buttons -->
+            <div class="flex items-center gap-1 shrink-0">
+              <button
+                type="button"
+                mat-icon-button
+                (click)="openEditDialog(task)"
+                aria-label="Edit task"
+                matTooltip="Edit Task"
+                class="!text-stone-500 hover:!text-stone-900 dark:hover:!text-white"
+              >
+                <mat-icon class="!text-lg">edit</mat-icon>
+              </button>
+              <button
+                type="button"
+                mat-icon-button
+                (click)="deleteTask(task)"
+                aria-label="Delete task"
+                matTooltip="Delete Task"
+                class="!text-stone-400 hover:!text-rose-600 dark:hover:!text-rose-400"
+              >
+                <mat-icon class="!text-lg">delete_outline</mat-icon>
+              </button>
+            </div>
+
           </div>
 
-          <!-- Edit & Delete Action Buttons -->
-          <div class="flex items-center gap-1 shrink-0">
-            <button
-              type="button"
-              (click)="openEditDialog(task)"
-              class="p-1.5 rounded-lg text-stone-400 hover:text-stone-800 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition cursor-pointer"
-              aria-label="Edit task"
-              title="Edit Task"
-            >
-              <mat-icon class="!text-base !w-4 !h-4">edit</mat-icon>
-            </button>
-            <button
-              type="button"
-              (click)="deleteTask(task)"
-              class="p-1.5 rounded-lg text-stone-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition cursor-pointer"
-              aria-label="Delete task"
-              title="Delete Task"
-            >
-              <mat-icon class="!text-base !w-4 !h-4">delete_outline</mat-icon>
-            </button>
-          </div>
-
-        </div>
-
-        <!-- Rendered Markdown Description -->
-        @if (task.description) {
-          <div class="mt-4 pt-3 border-t border-stone-100 dark:border-stone-800/80 text-sm text-stone-700 dark:text-stone-300 leading-relaxed font-sans">
-            <div [innerHTML]="task.description | markdown" ngSkipHydration></div>
-          </div>
-        }
-      </div>
+          <!-- Rendered Markdown Description -->
+          @if (task.description) {
+            <div class="mt-4 pt-4 border-t border-stone-100 dark:border-stone-800 text-sm text-stone-700 dark:text-stone-300 leading-relaxed font-sans">
+              <div [innerHTML]="task.description | markdown" ngSkipHydration></div>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
     } @empty {
-      <div class="p-12 text-center rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800">
-        <mat-icon class="!text-4xl !w-10 !h-10 text-stone-400 mb-3">task_alt</mat-icon>
-        <h3 class="text-lg font-bold text-stone-900 dark:text-white mb-1">
-          No tasks found
-        </h3>
-        <p class="text-sm text-stone-500 dark:text-stone-400 max-w-sm mx-auto mb-6">
-          No tasks match your current search or filter criteria. Create a new task or reset to defaults.
-        </p>
-        <button
-          type="button"
-          (click)="openCreateDialog()"
-          mat-flat-button
-          class="!bg-emerald-600 !text-white !font-bold !rounded-xl !px-5 !py-2.5"
-        >
-          Add a Task
-        </button>
-      </div>
+      <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-3xl !p-12 text-center">
+        <mat-card-content class="flex flex-col items-center">
+          <mat-icon class="!text-5xl !w-14 !h-14 text-stone-300 dark:text-stone-600 mb-3">task_alt</mat-icon>
+          <h3 class="text-xl font-bold text-stone-900 dark:text-white mb-1">
+            No tasks found
+          </h3>
+          <p class="text-sm text-stone-500 dark:text-stone-400 max-w-sm mx-auto mb-6">
+            No tasks match your current search or filter criteria. Create a new task or reset to defaults.
+          </p>
+          <button
+            type="button"
+            (click)="openCreateDialog()"
+            mat-flat-button
+            class="!bg-emerald-600 !text-white !font-bold !rounded-xl !px-6 !py-2.5"
+          >
+            <mat-icon class="mr-1">add</mat-icon>
+            <span>Add a Task</span>
+          </button>
+        </mat-card-content>
+      </mat-card>
     }
   </section>
 
-  <!-- Architectural Callout Strip -->
-  <section class="max-w-4xl mx-auto p-6 rounded-3xl bg-stone-900 text-white dark:bg-stone-900 border border-stone-800">
-    <div class="flex items-start gap-4">
-      <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-        <mat-icon>verified</mat-icon>
+  <!-- Architectural Callout Strip (Full Width Material Card) -->
+  <mat-card appearance="outlined" class="!bg-stone-900 !text-white !border-stone-800 !rounded-3xl shadow-sm mb-12">
+    <mat-card-content class="!p-8">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <mat-icon class="!text-2xl">verified</mat-icon>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white">
+              Enterprise Angular 22 &amp; Material Design 3 Architecture
+            </h3>
+            <p class="text-xs text-stone-400 mt-1 max-w-2xl">
+              Demonstrating full-width responsive grid layouts, strict Reactive Form validation, standalone signals reactivity, and SSR-safe local state persistence.
+            </p>
+          </div>
+        </div>
       </div>
-      <div class="space-y-2">
-        <h3 class="text-base font-bold text-white">
-          Forms Best Practices Demonstrated in this Module
-        </h3>
-        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-stone-300 font-mono">
-          <li class="flex items-center gap-1.5">
-            <span class="text-emerald-400">✓</span> Typed Angular Reactive Forms (<code class="text-stone-100">FormGroup</code>)
-          </li>
-          <li class="flex items-center gap-1.5">
-            <span class="text-emerald-400">✓</span> Built-in & Custom Validation (<code class="text-stone-100">minLength, maxLength</code>)
-          </li>
-          <li class="flex items-center gap-1.5">
-            <span class="text-emerald-400">✓</span> Live Markdown Editor & Rendered Preview
-          </li>
-          <li class="flex items-center gap-1.5">
-            <span class="text-emerald-400">✓</span> SSR-Safe Mock API with <code class="text-stone-100">localStorage</code>
-          </li>
-          <li class="flex items-center gap-1.5">
-            <span class="text-emerald-400">✓</span> Signals Integration (<code class="text-stone-100">computed, signal</code>)
-          </li>
-          <li class="flex items-center gap-1.5">
-            <span class="text-emerald-400">✓</span> Pluggable Netlify Identity & Auth Service
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
+      <mat-divider class="!my-6 !border-stone-800"></mat-divider>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs text-stone-300 font-mono">
+        <li class="flex items-center gap-2">
+          <span class="text-emerald-400 font-bold">✓</span> Angular Material (<code class="text-stone-100">MatCard, MatFormField</code>)
+        </li>
+        <li class="flex items-center gap-2">
+          <span class="text-emerald-400 font-bold">✓</span> Strictly Typed Reactive Forms (<code class="text-stone-100">FormGroup</code>)
+        </li>
+        <li class="flex items-center gap-2">
+          <span class="text-emerald-400 font-bold">✓</span> Material Chip Filters (<code class="text-stone-100">MatChipListbox</code>)
+        </li>
+        <li class="flex items-center gap-2">
+          <span class="text-emerald-400 font-bold">✓</span> Material Progress Bar (<code class="text-stone-100">MatProgressBar</code>)
+        </li>
+        <li class="flex items-center gap-2">
+          <span class="text-emerald-400 font-bold">✓</span> Native Signals Reactivity (<code class="text-stone-100">signal, computed</code>)
+        </li>
+        <li class="flex items-center gap-2">
+          <span class="text-emerald-400 font-bold">✓</span> SSR-Safe Mock API &amp; Local Persistence
+        </li>
+      </ul>
+    </mat-card-content>
+  </mat-card>
 
 </div>
