@@ -152,6 +152,11 @@ export class MockTaskApiService {
   }
 
   getTasks(): Observable<TaskItem[]> {
+    if (!isPlatformBrowser(this.platformId)) {
+      this.tasksSignal.set(this.tasks);
+      this.loadingSignal.set(false);
+      return of([...this.tasks]);
+    }
     this.loadingSignal.set(true);
     return of([...this.tasks]).pipe(
       delay(150),
