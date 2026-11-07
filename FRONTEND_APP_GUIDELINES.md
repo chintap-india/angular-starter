@@ -1874,6 +1874,26 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
     - Lower opacities (e.g. `0.35`) in dark mode crush text contrast from 7:1 down to < 2.5:1, causing immediate WCAG accessibility violations.
     - Active hovered/focused rows stay 100% crisp with `background-color: rgba(30, 41, 59, 0.98)` and a distinctive sky-blue accent left indicator (`box-shadow: inset 3.5px 0 0 0 #38bdf8 !important`).
 
+### 29.11 Mobile View Menu Collapsing & Zero-Overlap MDC Menu Standards
+- **Zero-Overlap MDC Menu Architecture**:
+  - Global button centering rules (`button:has(mat-icon)`) must explicitly exclude menu items:
+    `button:not(.mat-mdc-menu-item):has(mat-icon), a:not(.mat-mdc-menu-item):has(mat-icon)`.
+    Without this exclusion, MDC menu buttons center their text and icons, collapsing flex layouts and causing subpixel rendering overlaps on high-DPI and mobile devices.
+  - Every `<mat-icon>` rendered inside a `<button mat-menu-item>` or `<a mat-menu-item>` must include the Angular Material `matMenuItemIcon` directive.
+  - Dedicated menu layout rules must guarantee minimum panel widths (`min-width: 220px !important`), left alignment (`display: flex !important; justify-content: flex-start !important;`), explicit icon margins (`margin-right: 0.75rem !important; margin-left: 0 !important; flex-shrink: 0 !important;`), and full flex-grow on `.mat-mdc-menu-item-text` (`text-align: left !important`).
+  - Menus must adhere to the high-contrast Slate theme (`background-color: #0f172a`, `border: 1px solid #334155`, text `#f1f5f9`, hover state `#1e293b`).
+- **Tier 1 Mobile Viewport Collapsing (< 640px)**:
+  - Multi-button view switchers (Table, Cards, Sprint Analytics) must be hidden on mobile screens (`hidden sm:inline-flex`) and collapsed into the mobile overflow menu (`mobileUtilMenu`).
+  - This preserves vital horizontal real estate in Tier 1, allowing the quick search input to maintain full usability without being squished.
+  - In `mobileUtilMenu`, a dedicated "View Mode" section (`sm:hidden`) lets users toggle between Table View, Cards View, and Sprint Analytics with clear active status indicators.
+- **Tier 2 Compact Mobile Pagination**:
+  - The rows-per-page selector pill (`10/page`) must be hidden on mobile screens (`hidden sm:inline-flex`), preserving only the compact pagination stepper `‹ 1–10 of 35 ›` to prevent multi-row wrapping.
+- **Table and Card Row Action Collapsing (< 768px)**:
+  - On viewports `< 768px` (`md:hidden`), table rows must collapse the 4 expanded action buttons (`open_in_new`, `visibility`, `edit`, `delete`) into a single kebab trigger (`more_vert`) powered by a shared, lazy-loaded `#rowActionMenu`.
+  - Cards view must similarly collapse actions into `more_vert` on mobile screens (`< 640px` / `sm:hidden`), preventing action button strips from crowding card headers and category badges.
+  - The shared `#rowActionMenu` must be declared outside of any scoped `@if` control flow blocks so it is globally available to both table and card views.
+
+
 
 
 

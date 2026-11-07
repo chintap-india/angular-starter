@@ -47,8 +47,8 @@
 
       <!-- Right: View Mode + Secondary Actions + Primary CTA -->
       <div class="flex items-center gap-1.5 shrink-0">
-        <!-- View Switcher Segmented Control -->
-        <div class="inline-flex p-0.5 rounded-lg bg-slate-200/70 dark:bg-slate-800 items-center">
+        <!-- View Switcher Segmented Control (hidden on mobile, collapsed into mobileUtilMenu) -->
+        <div class="hidden sm:inline-flex p-0.5 rounded-lg bg-slate-200/70 dark:bg-slate-800 items-center">
           <button
             type="button"
             (click)="setView('table')"
@@ -134,17 +134,64 @@
 
         <!-- Mobile Utilities MatMenu -->
         <mat-menu #mobileUtilMenu="matMenu" class="!rounded-xl shadow-lg">
+          <!-- View Modes (Mobile-only collapsed switcher) -->
+          <div class="sm:hidden">
+            <div class="px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              View Mode
+            </div>
+            <button
+              mat-menu-item
+              (click)="setView('table')"
+              [class.!bg-slate-100]="activeTab() === 'directory' && viewMode() === 'table'"
+              [class.dark:!bg-slate-800]="activeTab() === 'directory' && viewMode() === 'table'"
+            >
+              <mat-icon matMenuItemIcon [class.text-sky-600]="activeTab() === 'directory' && viewMode() === 'table'" [class.dark:text-sky-400]="activeTab() === 'directory' && viewMode() === 'table'">table_rows</mat-icon>
+              <span class="text-xs font-semibold" [class.text-sky-600]="activeTab() === 'directory' && viewMode() === 'table'" [class.dark:text-sky-400]="activeTab() === 'directory' && viewMode() === 'table'">Table View</span>
+              @if (activeTab() === 'directory' && viewMode() === 'table') {
+                <span class="ml-auto text-[10px] font-mono font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">Active</span>
+              }
+            </button>
+            <button
+              mat-menu-item
+              (click)="setView('cards')"
+              [class.!bg-slate-100]="activeTab() === 'directory' && viewMode() === 'cards'"
+              [class.dark:!bg-slate-800]="activeTab() === 'directory' && viewMode() === 'cards'"
+            >
+              <mat-icon matMenuItemIcon [class.text-sky-600]="activeTab() === 'directory' && viewMode() === 'cards'" [class.dark:text-sky-400]="activeTab() === 'directory' && viewMode() === 'cards'">view_agenda</mat-icon>
+              <span class="text-xs font-semibold" [class.text-sky-600]="activeTab() === 'directory' && viewMode() === 'cards'" [class.dark:text-sky-400]="activeTab() === 'directory' && viewMode() === 'cards'">Cards View</span>
+              @if (activeTab() === 'directory' && viewMode() === 'cards') {
+                <span class="ml-auto text-[10px] font-mono font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">Active</span>
+              }
+            </button>
+            <button
+              mat-menu-item
+              (click)="setView('metrics')"
+              [class.!bg-slate-100]="activeTab() === 'metrics'"
+              [class.dark:!bg-slate-800]="activeTab() === 'metrics'"
+            >
+              <mat-icon matMenuItemIcon [class.text-sky-600]="activeTab() === 'metrics'" [class.dark:text-sky-400]="activeTab() === 'metrics'">insights</mat-icon>
+              <span class="text-xs font-semibold" [class.text-sky-600]="activeTab() === 'metrics'" [class.dark:text-sky-400]="activeTab() === 'metrics'">Sprint Analytics</span>
+              @if (activeTab() === 'metrics') {
+                <span class="ml-auto text-[10px] font-mono font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">Active</span>
+              }
+            </button>
+            <mat-divider></mat-divider>
+            <div class="px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              Utilities
+            </div>
+          </div>
+
           <button mat-menu-item (click)="seedBulkDemoTasks()">
-            <mat-icon class="text-slate-700 dark:text-slate-300">playlist_add</mat-icon>
+            <mat-icon matMenuItemIcon class="text-slate-700 dark:text-slate-300">playlist_add</mat-icon>
             <span class="text-xs font-semibold">Seed 35+ Backlog Tasks</span>
           </button>
           <button mat-menu-item (click)="resetDefaults()">
-            <mat-icon class="text-slate-700 dark:text-slate-300">restart_alt</mat-icon>
+            <mat-icon matMenuItemIcon class="text-slate-700 dark:text-slate-300">restart_alt</mat-icon>
             <span class="text-xs font-semibold">Reset Default Tasks</span>
           </button>
           <mat-divider></mat-divider>
           <button mat-menu-item (click)="toggleAuthMode()">
-            <mat-icon class="text-slate-700 dark:text-slate-300">manage_accounts</mat-icon>
+            <mat-icon matMenuItemIcon class="text-slate-700 dark:text-slate-300">manage_accounts</mat-icon>
             <span class="text-xs font-semibold">Session: {{ authService.currentUser()?.name || 'Guest' }}</span>
           </button>
         </mat-menu>
@@ -299,8 +346,8 @@
 
           <span class="h-3 w-px bg-slate-300 dark:bg-slate-700 hidden xl:block"></span>
 
-          <!-- Rows per page Selector Pill -->
-          <div class="inline-flex items-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2 py-0.5 text-xs shrink-0 shadow-2xs">
+          <!-- Rows per page Selector Pill (hidden on mobile, compact stepper retained) -->
+          <div class="hidden sm:inline-flex items-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2 py-0.5 text-xs shrink-0 shadow-2xs">
             <mat-select
               [value]="pageSize()"
               (selectionChange)="onPageSizeChange($event.value)"
@@ -562,12 +609,12 @@
 
             <!-- Actions Column (Desktop expanded icons / Mobile single kebab menu) -->
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef class="text-right !pr-2 sm:!pr-3 font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-12 sm:!w-36">
+              <th mat-header-cell *matHeaderCellDef class="text-right !pr-2 md:!pr-3 font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-12 md:!w-36">
                 Actions
               </th>
-              <td mat-cell *matCellDef="let task" class="text-right !pr-2 sm:!pr-3 whitespace-nowrap !w-12 sm:!w-36">
-                <!-- Desktop Action Buttons (hidden on mobile) -->
-                <div class="hidden sm:inline-flex items-center justify-end gap-1">
+              <td mat-cell *matCellDef="let task" class="text-right !pr-2 md:!pr-3 whitespace-nowrap !w-12 md:!w-36">
+                <!-- Desktop Action Buttons (hidden on mobile and tablet < 768px) -->
+                <div class="hidden md:inline-flex items-center justify-end gap-1">
                   <!-- Dedicated Page Link -->
                   <a
                     [routerLink]="['/tasks', task.id]"
@@ -609,8 +656,8 @@
                   </button>
                 </div>
 
-                <!-- Mobile Action Kebab Menu Trigger (sm:hidden) -->
-                <div class="sm:hidden inline-flex items-center justify-end">
+                <!-- Mobile Action Kebab Menu Trigger (md:hidden) -->
+                <div class="md:hidden inline-flex items-center justify-end">
                   <button
                     type="button"
                     [matMenuTriggerFor]="rowActionMenu"
@@ -648,33 +695,6 @@
             </tr>
           </table>
         </div>
-
-        <!-- Shared Lazy-Loaded Mobile Action Menu for Table Rows -->
-        <mat-menu #rowActionMenu="matMenu" class="!rounded-xl shadow-lg">
-          <ng-template matMenuContent let-task="task">
-            <button mat-menu-item (click)="openDetailDialog(task)">
-              <mat-icon class="text-emerald-600">visibility</mat-icon>
-              <span class="text-xs font-semibold">View Details</span>
-            </button>
-            <button mat-menu-item (click)="openStatusDialog(task)">
-              <mat-icon class="text-amber-600">pending</mat-icon>
-              <span class="text-xs font-semibold">Change Status</span>
-            </button>
-            <button mat-menu-item (click)="openEditDialog(task)">
-              <mat-icon class="text-slate-600">edit</mat-icon>
-              <span class="text-xs font-semibold">Edit Task</span>
-            </button>
-            <a mat-menu-item [routerLink]="['/tasks', task.id]">
-              <mat-icon class="text-blue-600">open_in_new</mat-icon>
-              <span class="text-xs font-semibold">Open Dedicated Page</span>
-            </a>
-            <mat-divider></mat-divider>
-            <button mat-menu-item (click)="openDeleteDialog(task)" class="!text-rose-600 dark:!text-rose-400">
-              <mat-icon class="!text-rose-600 dark:!text-rose-400">delete_outline</mat-icon>
-              <span class="text-xs font-semibold">Delete Task</span>
-            </button>
-          </ng-template>
-        </mat-menu>
       }
 
       <!-- VIEW 1.2: CARDS / DETAILED VIEW (With Live Markdown Previews) -->
@@ -762,8 +782,8 @@
                     </div>
                   </div>
 
-                  <!-- Actions (Dedicated Page Link, Modals) -->
-                  <div class="inline-flex items-center gap-1 shrink-0">
+                  <!-- Actions (Desktop expanded icons / Mobile single kebab menu) -->
+                  <div class="hidden sm:inline-flex items-center gap-1 shrink-0">
                     <a
                       [routerLink]="['/tasks', task.id]"
                       aria-label="Open dedicated task page"
@@ -798,6 +818,20 @@
                       class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-400 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                     >
                       <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">delete_outline</mat-icon>
+                    </button>
+                  </div>
+
+                  <!-- Mobile Action Kebab Menu Trigger for Cards (sm:hidden) -->
+                  <div class="sm:hidden inline-flex items-center justify-end shrink-0">
+                    <button
+                      type="button"
+                      [matMenuTriggerFor]="rowActionMenu"
+                      [matMenuTriggerData]="{ task: task }"
+                      aria-label="Task actions"
+                      matTooltip="Actions"
+                      class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
+                    >
+                      <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">more_vert</mat-icon>
                     </button>
                   </div>
 
@@ -1126,6 +1160,33 @@
 
     </div>
   }
+
+  <!-- Shared Lazy-Loaded Mobile Action Menu for Table Rows and Cards -->
+  <mat-menu #rowActionMenu="matMenu" class="!rounded-xl shadow-lg">
+    <ng-template matMenuContent let-task="task">
+      <button mat-menu-item (click)="openDetailDialog(task)">
+        <mat-icon matMenuItemIcon class="text-emerald-600 dark:text-emerald-400">visibility</mat-icon>
+        <span class="text-xs font-semibold">View Details</span>
+      </button>
+      <button mat-menu-item (click)="openStatusDialog(task)">
+        <mat-icon matMenuItemIcon class="text-amber-600 dark:text-amber-400">pending</mat-icon>
+        <span class="text-xs font-semibold">Change Status</span>
+      </button>
+      <button mat-menu-item (click)="openEditDialog(task)">
+        <mat-icon matMenuItemIcon class="text-slate-600 dark:text-slate-300">edit</mat-icon>
+        <span class="text-xs font-semibold">Edit Task</span>
+      </button>
+      <a mat-menu-item [routerLink]="['/tasks', task.id]">
+        <mat-icon matMenuItemIcon class="text-sky-600 dark:text-sky-400">open_in_new</mat-icon>
+        <span class="text-xs font-semibold">Open Dedicated Page</span>
+      </a>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="openDeleteDialog(task)" class="!text-rose-600 dark:!text-rose-400">
+        <mat-icon matMenuItemIcon class="!text-rose-600 dark:!text-rose-400">delete_outline</mat-icon>
+        <span class="text-xs font-semibold">Delete Task</span>
+      </button>
+    </ng-template>
+  </mat-menu>
 
   </div>
 </div>

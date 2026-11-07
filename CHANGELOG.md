@@ -14,6 +14,23 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.1] - 2026-11-07
+
+### Fixed
+- **Menu Icon & Text Overlap Resolution**:
+  - Excluded `.mat-mdc-menu-item` from global button icon-centering rules (`button:not(.mat-mdc-menu-item):has(mat-icon)`), preventing menu items from centering labels and breaking flex layouts.
+  - Added Angular Material `matMenuItemIcon` directive to all `<mat-icon>` elements inside `rowActionMenu` and `mobileUtilMenu`.
+  - Added dedicated MDC menu styling guaranteeing `min-width: 220px !important`, left-aligned flex layout, and `margin-right: 0.75rem !important` between icons and text labels.
+- **Mobile Toolbar & Menu Collapsing**:
+  - Collapsed 3-button segmented view switcher (`table_rows`, `view_agenda`, `insights`) into `mobileUtilMenu` on mobile screens (`hidden sm:inline-flex`), freeing up ~120px for the search bar.
+  - Added dedicated "View Mode" section in `mobileUtilMenu` (`sm:hidden`) for switching between Table View, Cards View, and Sprint Analytics.
+  - Hidden rows-per-page selector pill (`10/page`) on mobile screens (`hidden sm:inline-flex`), preserving the compact stepper `‹ 1–10 of 35 ›`.
+  - Shifted table actions column collapse breakpoint to `md:` (`hidden md:inline-flex` and `md:hidden`), rendering a single kebab trigger (`more_vert`) on viewports `< 768px`.
+  - Added mobile kebab action trigger to Cards view, preventing button overcrowding on narrow mobile devices.
+  - Moved `#rowActionMenu` outside scoped `@if` blocks so both table and cards views can use it globally.
+- **Documentation**:
+  - Added Section 29.11 ("Mobile View Menu Collapsing & Zero-Overlap MDC Menu Standards") to `FRONTEND_APP_GUIDELINES.md`.
+
 ## [1.5.0] - 2026-11-07
 
 ### Added
