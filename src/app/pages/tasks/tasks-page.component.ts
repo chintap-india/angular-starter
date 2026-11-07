@@ -94,6 +94,7 @@ export class TasksPageComponent implements OnInit {
   readonly sortField = signal<string>('updatedAt');
   readonly sortDirection = signal<'asc' | 'desc'>('desc');
   readonly trackByTaskId = (_index: number, task: TaskItem): string => task.id;
+  protected readonly Math = Math;
 
   readonly displayedColumns: string[] = [
     'select',
@@ -155,6 +156,48 @@ export class TasksPageComponent implements OnInit {
     const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
 
     return { total, completed, inProgress, todo, percentage };
+  });
+
+  readonly priorityStats = computed(() => {
+    const all = this.tasks() || [];
+    const total = all.length;
+    const urgent = all.filter((t) => t?.priority === 'urgent').length;
+    const high = all.filter((t) => t?.priority === 'high').length;
+    const medium = all.filter((t) => t?.priority === 'medium').length;
+    const low = all.filter((t) => t?.priority === 'low').length;
+
+    const urgentPct = total > 0 ? Math.round((urgent / total) * 100) : 0;
+    const highPct = total > 0 ? Math.round((high / total) * 100) : 0;
+    const mediumPct = total > 0 ? Math.round((medium / total) * 100) : 0;
+    const lowPct = total > 0 ? Math.max(0, 100 - urgentPct - highPct - mediumPct) : 0;
+
+    return { urgent, high, medium, low, urgentPct, highPct, mediumPct, lowPct };
+  });
+
+  readonly categoryStats = computed(() => {
+    const all = this.tasks() || [];
+    const total = all.length;
+    const counts: Record<string, number> = {};
+    for (const t of all) {
+      if (!t) continue;
+      const cat = t.category || 'General';
+      counts[cat] = (counts[cat] || 0) + 1;
+    }
+
+    return Object.entries(counts)
+      .map(([name, count]) => ({
+        name,
+        count,
+        percentage: total > 0 ? Math.round((count / total) * 100) : 0,
+      }))
+      .sort((a, b) => b.count - a.count);
+  });
+
+  readonly urgentActionQueue = computed(() => {
+    const all = this.tasks() || [];
+    return all
+      .filter((t) => t && t.status !== 'completed' && (t.priority === 'urgent' || t.priority === 'high'))
+      .slice(0, 5);
   });
 
   readonly sortedTasks = computed(() => {
