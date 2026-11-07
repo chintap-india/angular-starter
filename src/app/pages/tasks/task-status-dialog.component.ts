@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { TaskItem, TaskStatus } from '../../core/models/task.model';
+import { TaskItem, TaskStatus, formatTaskId } from '../../core/models/task.model';
 
 export interface TaskStatusDialogData {
   task: TaskItem;
@@ -26,7 +26,7 @@ export interface TaskStatusDialogData {
               Update Status
             </h2>
             <p class="text-[11px] text-slate-500 dark:text-slate-400">
-              #{{ data.task.id.replace('task-', '') }} &bull; {{ data.task.title | slice:0:36 }}...
+              {{ formatTaskId(data.task.id) }} &bull; {{ data.task.title | slice:0:36 }}...
             </p>
           </div>
         </div>
@@ -109,6 +109,7 @@ export interface TaskStatusDialogData {
 export class TaskStatusDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<TaskStatusDialogComponent>);
   readonly data: TaskStatusDialogData = inject(MAT_DIALOG_DATA);
+  protected readonly formatTaskId = formatTaskId;
 
   readonly selectedStatus = signal<TaskStatus>(this.data.task.status);
 

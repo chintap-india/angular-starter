@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
-import { TaskItem } from '../../core/models/task.model';
+import { TaskItem, formatTaskId } from '../../core/models/task.model';
 import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
 
 export interface TaskDetailDialogData {
@@ -41,7 +41,7 @@ export interface TaskDetailDialogData {
           <div class="min-w-0">
             <div class="flex items-center gap-2">
               <span class="font-mono text-xs font-bold text-stone-400 dark:text-stone-500 uppercase">
-                #{{ data.task.id.replace('task-', '') }}
+                {{ formatTaskId(data.task.id) }}
               </span>
               <span class="text-stone-300 dark:text-stone-700">&bull;</span>
               <span class="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider">
@@ -199,6 +199,7 @@ export interface TaskDetailDialogData {
 export class TaskDetailDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<TaskDetailDialogComponent>);
   readonly data: TaskDetailDialogData = inject(MAT_DIALOG_DATA);
+  protected readonly formatTaskId = formatTaskId;
 
   readonly isFullscreen = signal<boolean>(false);
 

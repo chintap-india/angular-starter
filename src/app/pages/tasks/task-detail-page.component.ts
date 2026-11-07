@@ -9,7 +9,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MockTaskApiService } from '../../core/services/mock-task-api.service';
 import { SeoService } from '../../core/services/seo.service';
-import { TaskItem, TaskPriority, TaskStatus, UpdateTaskDto } from '../../core/models/task.model';
+import { TaskItem, TaskPriority, TaskStatus, UpdateTaskDto, formatTaskId } from '../../core/models/task.model';
 import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
 import { TaskFormDialogComponent } from './task-form-dialog.component';
 import { TaskStatusDialogComponent } from './task-status-dialog.component';
@@ -56,7 +56,7 @@ import { TaskDetailDialogComponent } from './task-detail-dialog.component';
               <span class="text-stone-300 dark:text-stone-700">/</span>
               @if (task()) {
                 <span class="font-mono font-bold text-slate-800 dark:text-slate-200 truncate">
-                  #{{ task()!.id.replace('task-', '') }}
+                  {{ formatTaskId(task()!.id) }}
                 </span>
               } @else {
                 <span>Task</span>
@@ -188,7 +188,7 @@ import { TaskDetailDialogComponent } from './task-detail-dialog.component';
                 
                 <div class="flex flex-wrap items-center gap-2 text-xs">
                   <span class="inline-flex items-center gap-1 font-mono font-bold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
-                    #{{ task()!.id.replace('task-', '') }}
+                    {{ formatTaskId(task()!.id) }}
                   </span>
                   
                   <span class="inline-flex items-center gap-1 font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700">
@@ -371,7 +371,7 @@ import { TaskDetailDialogComponent } from './task-detail-dialog.component';
                 <dl class="space-y-3 text-xs">
                   <div class="flex items-center justify-between pb-2 border-b border-stone-100 dark:border-stone-800">
                     <dt class="text-stone-500 dark:text-stone-400">ID</dt>
-                    <dd class="font-mono font-bold text-slate-900 dark:text-white">#{{ task()!.id.replace('task-', '') }}</dd>
+                    <dd class="font-mono font-bold text-slate-900 dark:text-white">{{ formatTaskId(task()!.id) }}</dd>
                   </div>
                   <div class="flex items-center justify-between pb-2 border-b border-stone-100 dark:border-stone-800">
                     <dt class="text-stone-500 dark:text-stone-400">Category</dt>
@@ -435,6 +435,7 @@ export class TaskDetailPageComponent implements OnInit {
   readonly task = signal<TaskItem | null>(null);
   readonly isLoading = signal<boolean>(true);
   readonly requestedTaskId = signal<string>('');
+  protected readonly formatTaskId = formatTaskId;
 
   private readonly allTasks = this.taskApi.tasksSignal;
 
@@ -474,7 +475,7 @@ export class TaskDetailPageComponent implements OnInit {
             breadcrumbs: [
               { name: 'Home', url: '/' },
               { name: 'Tasks', url: '/tasks' },
-              { name: `#${found.id.replace('task-', '')}`, url: `/tasks/${found.id}` },
+              { name: formatTaskId(found.id), url: `/tasks/${found.id}` },
             ],
           });
         } else {

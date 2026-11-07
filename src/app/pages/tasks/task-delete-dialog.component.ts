@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { TaskItem } from '../../core/models/task.model';
+import { TaskItem, formatTaskId } from '../../core/models/task.model';
 
 export interface TaskDeleteDialogData {
   task: TaskItem;
@@ -31,7 +31,7 @@ export interface TaskDeleteDialogData {
 
       <div class="mt-4 p-3 rounded-xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200/80 dark:border-stone-700/60">
         <div class="text-xs font-mono font-semibold text-stone-400 dark:text-stone-500 uppercase">
-          #{{ data.task.id.replace('task-', '') }}
+          {{ formatTaskId(data.task.id) }}
         </div>
         <div class="text-sm font-semibold text-stone-800 dark:text-stone-200 mt-0.5 line-clamp-2">
           {{ data.task.title }}
@@ -64,6 +64,7 @@ export interface TaskDeleteDialogData {
 export class TaskDeleteDialogComponent {
   private readonly dialogRef = inject(MatDialogRef<TaskDeleteDialogComponent>);
   readonly data: TaskDeleteDialogData = inject(MAT_DIALOG_DATA);
+  protected readonly formatTaskId = formatTaskId;
 
   confirm(): void {
     this.dialogRef.close(true);

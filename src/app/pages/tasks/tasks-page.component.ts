@@ -25,7 +25,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { SeoService } from '../../core/services/seo.service';
 import { SITE_CONFIG } from '../../core/config/site.config';
 import { SITE_CONTENT } from '../../core/config/site.content';
-import { TaskItem, TaskPriority, TaskStatus, CreateTaskDto, UpdateTaskDto } from '../../core/models/task.model';
+import { TaskItem, TaskPriority, TaskStatus, CreateTaskDto, UpdateTaskDto, formatTaskId } from '../../core/models/task.model';
 import { TaskFormDialogComponent } from './task-form-dialog.component';
 import { TaskDetailDialogComponent } from './task-detail-dialog.component';
 import { TaskStatusDialogComponent } from './task-status-dialog.component';
@@ -219,6 +219,18 @@ export class TasksPageComponent implements OnInit {
     const start = this.pageIndex() * this.pageSize();
     return sorted.slice(start, start + this.pageSize());
   });
+
+  readonly paginationRange = computed(() => {
+    const total = this.sortedTasks().length;
+    if (total === 0) {
+      return { start: 0, end: 0, total: 0 };
+    }
+    const start = this.pageIndex() * this.pageSize() + 1;
+    const end = Math.min((this.pageIndex() + 1) * this.pageSize(), total);
+    return { start, end, total };
+  });
+
+  protected readonly formatTaskId = formatTaskId;
 
   onSortChange(sort: Sort): void {
     if (!sort.active || sort.direction === '') {

@@ -261,7 +261,8 @@ export class MockTaskApiService {
       (t) =>
         t.id === rawId ||
         t.id === `task-${rawId}` ||
-        t.id.replace('task-', '') === rawId
+        t.id.replace('task-', '') === rawId ||
+        t.id.replace(/^task-ent-0*/, '') === rawId
     );
     return of(task ? { ...task } : undefined).pipe(delay(100));
   }

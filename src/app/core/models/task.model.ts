@@ -48,3 +48,12 @@ export interface TaskPageResult {
   pageSize: number;
   totalPages: number;
 }
+
+export function formatTaskId(id: string | undefined | null): string {
+  if (!id) return '';
+  const match = id.match(/\d+$/);
+  if (match) {
+    return `#${parseInt(match[0], 10)}`;
+  }
+  return `#${id.replace('task-', '')}`;
+}
