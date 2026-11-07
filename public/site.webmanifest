@@ -1,11 +1,13 @@
 {
-  "name": "Chintap",
-  "short_name": "Chintap",
-  "description": "Things. Apps. Possibilities.",
+  "name": "chintap-starter-kit-angular",
+  "short_name": "chintap-starter-kit-angular",
+  "description": "Production-grade Angular 22 starter template with SEO, AEO, LLMO, GEO, and SSR.",
+  "id": "/?source=pwa",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0c0a09",
-  "theme_color": "#ea1c24",
+  "theme_color": "#18181b",
   "icons": [
     {
       "src": "/favicon.svg",

@@ -1826,7 +1826,7 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
   - Every row maintains a minimum height of `44px` to satisfy Apple Human Interface Guidelines and WCAG 2.2 AA pointer cancellation without ballooning whitespace.
 
 ### 29.8 Mobile Modal & Full-Screen Editor Standards (Focus / Zen Mode)
-- **Zero Label Clutter Rule**: On mobile screens (`< 640px`), avoid static uppercase labels (`TASK TITLE *`, `SPECIFICATIONS`, etc.) that consume >40% of vertical screen height. Use descriptive input placeholders (`"Task title..."`, `"Write specifications, # headings, `code`..."`) and inline error helpers.
+- **Zero Label Clutter Rule**: On mobile screens (`< 640px`), avoid static uppercase labels (`TASK TITLE *`, `SPECIFICATIONS`, etc.) that consume >40% of vertical screen height. Use descriptive input placeholders (`"Task title..."`, `"Write specifications, # headings, \`code\`..."`) and inline error helpers.
 - **Single-Row Compact Property Pill Strip**:
   - Tucks Category, Priority, Status, and Due Date into an ultra-compact horizontal scrollable pill bar (`~28px` height).
   - Eliminates bulky stacked `<mat-form-field>` boxes and multi-line chips on mobile.
@@ -1838,5 +1838,15 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
     - Maximizes typing canvas when the mobile on-screen virtual keyboard is active.
 - **Native Full-Screen Edge-to-Edge Dialog Styling**:
   - Mobile viewports (`< 640px`) automatically expand dialog containers to `100vw × 100dvh` with `border-radius: 0`, eliminating awkward outer margins and inner double scrollbars.
+
+### 29.9 PWA & Mobile App Installation Identity
+- **Separation of Production vs. Starter Kit Namespaces**:
+  - The standalone brand name `"Chintap"` is strictly reserved for the primary corporate website (`chintap.com`).
+  - The Angular starter template must be identified as `"chintap-starter-kit-angular"` in both `name` and `short_name` across `public/site.webmanifest` and mobile meta tags (`apple-mobile-web-app-title`, `application-name`).
+  - This ensures when developers or users install the template as a Progressive Web App (PWA) or add it to an Android/iOS home screen, the installed app icon and launcher title appear distinctly as `chintap-starter-kit-angular` without colliding with or confusing the primary brand app.
+- **PWA Manifest Configuration**:
+  - Explicitly define `"id": "/?source=pwa"` and `"scope": "/"` in `site.webmanifest` for distinct browser app sandboxing.
+  - Maintain redirects from `/manifest.json` and `/manifest.webmanifest` to `/site.webmanifest`.
+
 
 

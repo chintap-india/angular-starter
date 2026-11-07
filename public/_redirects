@@ -12,5 +12,9 @@
 /dino              /features        301
 /play              /features        301
 
+# Manifest & PWA Aliases
+/manifest.json        /site.webmanifest 301
+/manifest.webmanifest /site.webmanifest 301
+
 # SPA Prerender / Fallback
 /*    /index.html   200
