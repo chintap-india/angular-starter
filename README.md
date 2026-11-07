@@ -2,14 +2,14 @@
 
 > **Production-grade Angular 22 starter kit with out-of-the-box best practices for SEO, AEO, LLMO, GEO, and SSR/SSG.**
 
-[![Version](https://img.shields.io/badge/version-1.2.0-10b981.svg?style=flat)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.3.0-10b981.svg?style=flat)](CHANGELOG.md)
 [![Live Demo](https://img.shields.io/badge/Live_Demo-chintap--angular--starter.netlify.app-00dc82.svg?style=flat&logo=netlify)](https://chintap-angular-starter.netlify.app/)
 [![Angular](https://img.shields.io/badge/Angular-22-dd0031.svg?style=flat&logo=angular)](https://angular.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8%2B-blue.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38bdf8.svg?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
 [![Material 3](https://img.shields.io/badge/Material_Design-M3-7c3aed.svg?style=flat&logo=google)](https://material.angular.io/)
 [![SSG Prerender](https://img.shields.io/badge/SSG-Prerender_7_Routes-10b981.svg?style=flat)](https://angular.dev/guide/ssr)
-[![Tests](https://img.shields.io/badge/Tests-102%2F102_Passing-brightgreen.svg?style=flat&logo=vitest)](https://vitest.dev)
+[![Tests](https://img.shields.io/badge/Tests-124%2F124_Passing-brightgreen.svg?style=flat&logo=vitest)](https://vitest.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Chintap Angular Starter** is a developer template for building modern, high-performance web applications that excel not just in traditional search engines, but in the emerging AI search and generative answer landscape.
@@ -57,7 +57,7 @@ Open [http://localhost:4200](http://localhost:4200) in your browser.
 ### 3. Run Unit Tests
 
 ```bash
-# Run unit test suite (102 tests across 15 suites)
+# Run unit test suite (124 tests across 17 suites)
 npm test
 
 # Or run tests directly with Vitest
@@ -167,7 +167,8 @@ export class MyFeatureComponent {
 
 ## 📋 Built-In Tasks & Forms Module (`/tasks`)
 
-Explore modern enterprise Angular 22 form engineering at `/tasks`:
+Explore modern enterprise Angular 22 form engineering and data management at `/tasks`:
+- **`chintap-compact-template`**: Enterprise compact data architecture featuring a balanced two-tier navigation toolbar, tucked top-bar pagination (rows-per-page selector + step navigation controller), row focus depth effects with peripheral dimming, sortable headers, dual Table/Cards list switching, and zero vertical viewport scrolling.
 - **Typed Reactive Forms**: Type-safe `FormGroup` validation with granular error messaging.
 - **Dual-Mode Markdown Editor**: Write task descriptions using GitHub-Flavored Markdown and toggle between Write and Preview modes.
 - **SSR-Safe Persistence**: Automatic synchronization with `localStorage` in browser mode with safe hydration on the server.

@@ -14,6 +14,19 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.3.0] - 2026-11-07
+
+### Added
+- **`chintap-compact-template` (Enterprise Table & List Architecture)**:
+  - Designated the Tasks management view pattern as the official `chintap-compact-template`.
+  - Introduced balanced 2-Tier Navigation Toolbar: Tier 1 (Quick Search, View Switchers, CTAs) + Tier 2 (Status Filter Pills, Priority Dropdown, Tucked Pagination).
+  - Tucked top-bar pagination controller: Rows-per-page selector pill (`10`, `25`, `50`, `100`) and step navigation buttons (`first_page`, `chevron_left`, range, `chevron_right`, `last_page`) embedded directly into the top toolbar.
+  - Purged bottom paginator to reclaim vertical screen estate, fitting all 10 table rows into standard viewports without vertical scroll.
+  - Row Focus Depth effects: dynamically dims peripheral rows while elevating hovered/focused row.
+  - Dedicated Task Detail view route (`/tasks/:taskId`) with breadcrumbs and action icons.
+  - Redesigned Sprint Analytics dashboard: Priority & Risk severity distribution bar, dynamic category workload breakdown, and critical attention queue.
+  - Clean sequential task ID generator (`#1`..`#45`) with `formatTaskId()` helper.
+
 ## [1.2.0] - 2026-11-06
 
 ### Changed

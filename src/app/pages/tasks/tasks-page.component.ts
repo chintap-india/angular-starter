@@ -32,6 +32,19 @@ import { TaskStatusDialogComponent } from './task-status-dialog.component';
 import { TaskDeleteDialogComponent } from './task-delete-dialog.component';
 import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
 
+/**
+ * TasksPageComponent - Implementation of the `chintap-compact-template` design pattern.
+ *
+ * `chintap-compact-template` Architecture Features:
+ * - Two-Tier Navigation Toolbar:
+ *   - Tier 1: Brand title badge, live count, inline quick search, view switchers, utilities, and primary CTA.
+ *   - Tier 2: Segmented status filter pills, priority filter dropdown, reset filter button, and tucked pagination.
+ * - Tucked Top-Bar Pagination: Rows-per-page selector + step navigation controller (first, prev, range, next, last)
+ *   embedded directly into the top sub-bar to reclaim ~64px of vertical height and eliminate viewport scrolling.
+ * - Row Focus Depth: Dynamic hover/focus-within styling highlighting the active row while softly dimming peripherals.
+ * - Dual Layout Switching: Seamless instant toggle between sortable Material Table (`table`) and Markdown Cards (`cards`).
+ * - Sprint Metrics Dashboard: Cohesive KPI cards, multi-segment priority distribution bar, workload bars, and action queue.
+ */
 @Component({
   selector: 'app-tasks-page',
   standalone: true,
