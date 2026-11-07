@@ -243,6 +243,48 @@ export class TasksPageComponent implements OnInit {
     this.pageIndex.set(0);
   }
 
+  readonly totalPages = computed(() => {
+    const total = this.sortedTasks().length;
+    return Math.max(1, Math.ceil(total / this.pageSize()));
+  });
+
+  readonly hasPrevPage = computed(() => this.pageIndex() > 0);
+  readonly hasNextPage = computed(() => {
+    const total = this.sortedTasks().length;
+    return (this.pageIndex() + 1) * this.pageSize() < total;
+  });
+
+  goToFirstPage(): void {
+    if (this.hasPrevPage()) {
+      this.pageIndex.set(0);
+    }
+  }
+
+  goToPrevPage(): void {
+    if (this.hasPrevPage()) {
+      this.pageIndex.update((p) => Math.max(0, p - 1));
+    }
+  }
+
+  goToNextPage(): void {
+    if (this.hasNextPage()) {
+      this.pageIndex.update((p) => p + 1);
+    }
+  }
+
+  goToLastPage(): void {
+    if (this.hasNextPage()) {
+      const total = this.sortedTasks().length;
+      const last = Math.max(0, Math.ceil(total / this.pageSize()) - 1);
+      this.pageIndex.set(last);
+    }
+  }
+
+  onPageSizeChange(newSize: number): void {
+    this.pageSize.set(newSize);
+    this.pageIndex.set(0);
+  }
+
   onPageChange(event: PageEvent): void {
     this.pageIndex.set(event.pageIndex);
     this.pageSize.set(event.pageSize);

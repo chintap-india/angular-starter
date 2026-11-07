@@ -173,6 +173,29 @@ describe('TasksPageComponent', () => {
     expect(component.pageSize()).toBe(5);
   });
 
+  it('should support toolbar pagination step buttons and page size change', () => {
+    fixture.detectChanges();
+    component.onPageSizeChange(2);
+    expect(component.pageSize()).toBe(2);
+    expect(component.pageIndex()).toBe(0);
+    expect(component.hasPrevPage()).toBe(false);
+    expect(component.hasNextPage()).toBe(true);
+
+    component.goToNextPage();
+    expect(component.pageIndex()).toBe(1);
+    expect(component.hasPrevPage()).toBe(true);
+
+    component.goToLastPage();
+    expect(component.pageIndex()).toBe(component.totalPages() - 1);
+    expect(component.hasNextPage()).toBe(false);
+
+    component.goToPrevPage();
+    expect(component.pageIndex()).toBe(component.totalPages() - 2);
+
+    component.goToFirstPage();
+    expect(component.pageIndex()).toBe(0);
+  });
+
   it('should update sortField and sortDirection on table sort change', () => {
     fixture.detectChanges();
     component.onSortChange({ active: 'title', direction: 'asc' });
