@@ -14,6 +14,19 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.4.0] - 2026-11-07
+
+### Added
+- **Public Open-Source Repository Release**:
+  - Official public release of [`https://github.com/chintap-india/angular-starter`](https://github.com/chintap-india/angular-starter).
+- **Mobile Responsive Progressive Column Tucking (`chintap-compact-template`)**:
+  - Zero-horizontal-scroll mobile architecture on viewports from 360px to 414px.
+  - Progressive column tucking condensing the 8-column enterprise table to 3 core columns on mobile (`select`, `title` with inline micro-metadata sub-row, `actions` kebab).
+  - Lazy-loaded mobile row action menu via `<ng-template matMenuContent>` and `[matMenuTriggerData]`.
+  - Tier 1 toolbar mobile collapse: responsive search input flex and secondary utilities menu (`more_vert`).
+  - Tier 2 sub-toolbar smooth touch-scrollable status carousel (`overflow-x-auto no-scrollbar`).
+  - Documented Section 29.7 in `FRONTEND_APP_GUIDELINES.md`.
+
 ## [1.3.0] - 2026-11-07
 
 ### Added
