@@ -84,19 +84,61 @@
             </button>
           </div>
 
-          <!-- Priority Filter Dropdown (Material UI Pill) -->
+          <!-- Priority Filter Dropdown (Material UI Pill, strictly Tailwind & Material) -->
           <div class="inline-flex items-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-2.5 py-0.5 text-xs">
             <mat-select
               [ngModel]="selectedPriority()"
               (ngModelChange)="onPriorityChange($event)"
-              class="text-xs text-slate-800 dark:text-slate-200 !w-24 leading-none"
+              class="text-xs text-slate-800 dark:text-slate-200 !w-28 leading-none"
               aria-label="Filter by priority"
             >
-              <mat-option value="all">Priority: All</mat-option>
-              <mat-option value="urgent">🔴 Urgent</mat-option>
-              <mat-option value="high">🟠 High</mat-option>
-              <mat-option value="medium">🔵 Medium</mat-option>
-              <mat-option value="low">⚪ Low</mat-option>
+              <mat-select-trigger>
+                <div class="flex items-center gap-1.5 leading-none">
+                  @if (selectedPriority() === 'urgent') {
+                    <span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
+                    <span class="text-xs font-semibold">Urgent</span>
+                  } @else if (selectedPriority() === 'high') {
+                    <span class="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
+                    <span class="text-xs font-semibold">High</span>
+                  } @else if (selectedPriority() === 'medium') {
+                    <span class="w-2 h-2 rounded-full bg-blue-500 shrink-0"></span>
+                    <span class="text-xs font-semibold">Medium</span>
+                  } @else if (selectedPriority() === 'low') {
+                    <span class="w-2 h-2 rounded-full bg-stone-400 shrink-0"></span>
+                    <span class="text-xs font-semibold">Low</span>
+                  } @else {
+                    <span class="text-xs text-slate-600 dark:text-slate-400 font-medium">Priority: All</span>
+                  }
+                </div>
+              </mat-select-trigger>
+
+              <mat-option value="all">
+                <span class="text-xs font-medium text-slate-600 dark:text-slate-400">All Priorities</span>
+              </mat-option>
+              <mat-option value="urgent">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
+                  <span class="text-xs font-semibold text-slate-800 dark:text-slate-200">Urgent</span>
+                </div>
+              </mat-option>
+              <mat-option value="high">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
+                  <span class="text-xs font-semibold text-slate-800 dark:text-slate-200">High</span>
+                </div>
+              </mat-option>
+              <mat-option value="medium">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-blue-500 shrink-0"></span>
+                  <span class="text-xs font-semibold text-slate-800 dark:text-slate-200">Medium</span>
+                </div>
+              </mat-option>
+              <mat-option value="low">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-stone-400 shrink-0"></span>
+                  <span class="text-xs font-semibold text-slate-800 dark:text-slate-200">Low</span>
+                </div>
+              </mat-option>
             </mat-select>
           </div>
 
@@ -699,22 +741,28 @@
           <mat-divider class="!my-6 !border-stone-800"></mat-divider>
           <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs text-stone-300 font-mono">
             <li class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Material Data Table (<code class="text-stone-100">MatTable, MatSort</code>)
+              <mat-icon class="!text-sm !w-4 !h-4 text-emerald-400 shrink-0 leading-none">check</mat-icon>
+              <span>Material Data Table (<code class="text-stone-100">MatTable, MatSort</code>)</span>
             </li>
             <li class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Material Paginator (<code class="text-stone-100">MatPaginator</code>)
+              <mat-icon class="!text-sm !w-4 !h-4 text-emerald-400 shrink-0 leading-none">check</mat-icon>
+              <span>Material Paginator (<code class="text-stone-100">MatPaginator</code>)</span>
             </li>
             <li class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Dual View Toggle (<code class="text-stone-100">MatButtonToggleGroup</code>)
+              <mat-icon class="!text-sm !w-4 !h-4 text-emerald-400 shrink-0 leading-none">check</mat-icon>
+              <span>Dual View Toggle (<code class="text-stone-100">MatButtonToggleGroup</code>)</span>
             </li>
             <li class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Minimal Icon Navbar with Rich Tooltips
+              <mat-icon class="!text-sm !w-4 !h-4 text-emerald-400 shrink-0 leading-none">check</mat-icon>
+              <span>Minimal Icon Navbar with Rich Tooltips</span>
             </li>
             <li class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> Mock API Query &amp; Pagination Support
+              <mat-icon class="!text-sm !w-4 !h-4 text-emerald-400 shrink-0 leading-none">check</mat-icon>
+              <span>Mock API Query &amp; Pagination Support</span>
             </li>
             <li class="flex items-center gap-2">
-              <span class="text-emerald-400 font-bold">✓</span> SSR-Safe Mock API &amp; Local Persistence
+              <mat-icon class="!text-sm !w-4 !h-4 text-emerald-400 shrink-0 leading-none">check</mat-icon>
+              <span>SSR-Safe Mock API &amp; Local Persistence</span>
             </li>
           </ul>
         </mat-card-content>

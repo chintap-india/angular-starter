@@ -495,7 +495,7 @@ export class TaskDetailPageComponent implements OnInit {
     this.taskApi.toggleComplete(current.id).subscribe({
       next: (updated) => {
         this.task.set(updated);
-        const msg = updated.status === 'completed' ? 'Task marked as completed! 🎉' : 'Task marked as active.';
+        const msg = updated.status === 'completed' ? 'Task marked as completed.' : 'Task marked as active.';
         this.snackBar.open(msg, 'Dismiss', { duration: 2500, verticalPosition: 'bottom' });
       },
     });

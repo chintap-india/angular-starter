@@ -245,50 +245,60 @@
           <button
             type="button"
             (click)="insertMarkdown('**', '**')"
-            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 font-bold transition cursor-pointer"
-            title="Bold"
+            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer inline-flex items-center justify-center leading-none"
+            matTooltip="Bold text"
+            aria-label="Bold text"
           >
-            B
+            <mat-icon class="!text-xs !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">format_bold</mat-icon>
           </button>
           <button
             type="button"
             (click)="insertMarkdown('*', '*')"
-            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 italic transition cursor-pointer"
-            title="Italic"
+            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer inline-flex items-center justify-center leading-none"
+            matTooltip="Italic text"
+            aria-label="Italic text"
           >
-            I
+            <mat-icon class="!text-xs !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">format_italic</mat-icon>
           </button>
           <button
             type="button"
             (click)="insertMarkdown('`', '`')"
-            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 font-mono transition cursor-pointer"
-            title="Inline Code"
+            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer inline-flex items-center justify-center gap-1 leading-none"
+            matTooltip="Inline Code"
+            aria-label="Inline Code"
           >
-            &lt;/&gt;
+            <mat-icon class="!text-xs !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">code</mat-icon>
+            <span class="leading-none">Code</span>
           </button>
           <button
             type="button"
             (click)="insertMarkdown('- ')"
-            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer"
-            title="Bullet list"
+            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer inline-flex items-center justify-center gap-1 leading-none"
+            matTooltip="Bullet list"
+            aria-label="Bullet list"
           >
-            • List
+            <mat-icon class="!text-xs !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">format_list_bulleted</mat-icon>
+            <span class="leading-none">List</span>
           </button>
           <button
             type="button"
             (click)="insertMarkdown('- [ ] ')"
-            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer"
-            title="Task checkbox"
+            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer inline-flex items-center justify-center gap-1 leading-none"
+            matTooltip="Task checkbox"
+            aria-label="Task checkbox"
           >
-            ☑ Task
+            <mat-icon class="!text-xs !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">check_box</mat-icon>
+            <span class="leading-none">Task</span>
           </button>
           <button
             type="button"
             (click)="insertMarkdown('> ')"
-            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer"
-            title="Blockquote"
+            class="px-2.5 py-1 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 transition cursor-pointer inline-flex items-center justify-center gap-1 leading-none"
+            matTooltip="Blockquote"
+            aria-label="Blockquote"
           >
-            “ Quote
+            <mat-icon class="!text-xs !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">format_quote</mat-icon>
+            <span class="leading-none">Quote</span>
           </button>
           <span class="text-[11px] text-stone-400 dark:text-stone-500 ml-auto hidden sm:inline">
             Paste URL over text to auto-link

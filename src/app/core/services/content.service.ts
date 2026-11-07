@@ -276,12 +276,12 @@ export class ContentService {
         ariaLabel: 'Read the 5 Pillars of Discovery guide'
       },
       {
-        badge: 'Demo',
-        title: 'Tasks CRUD Showcase',
+        badge: 'Management',
+        title: 'Tasks Management',
         description: 'Interactive module featuring Reactive Forms, Markdown preview, and Mock API.',
         url: '/tasks',
         actionText: 'Try demo',
-        ariaLabel: 'Try the interactive Tasks CRUD showcase'
+        ariaLabel: 'Try the interactive Tasks Management showcase'
       }
     ],
     'features': [
@@ -295,11 +295,11 @@ export class ContentService {
       },
       {
         badge: 'Interactive',
-        title: 'Tasks CRUD Demo',
+        title: 'Tasks Management',
         description: 'Production pattern for reactive forms, mock API simulation, and offline storage.',
         url: '/tasks',
         actionText: 'Explore demo',
-        ariaLabel: 'Explore Tasks demo'
+        ariaLabel: 'Explore Tasks Management'
       },
       {
         badge: 'Organization',
@@ -320,12 +320,12 @@ export class ContentService {
         ariaLabel: 'View starter kit features'
       },
       {
-        badge: 'Showcase',
-        title: 'Tasks CRUD Demo',
+        badge: 'Management',
+        title: 'Tasks Management',
         description: 'Modular architecture, strictly typed reactive forms, and local persistence.',
         url: '/tasks',
         actionText: 'Explore demo',
-        ariaLabel: 'Explore Tasks demo'
+        ariaLabel: 'Explore Tasks Management'
       },
       {
         badge: 'Inquiries',

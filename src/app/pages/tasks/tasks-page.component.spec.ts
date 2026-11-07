@@ -145,7 +145,7 @@ describe('TasksPageComponent', () => {
     component.toggleComplete(task);
     expect(taskApi.toggleComplete).toHaveBeenCalledWith(task.id);
     expect((component as any).snackBar.open).toHaveBeenCalledWith(
-      'Task marked as completed! 🎉',
+      'Task marked as completed.',
       'Dismiss',
       expect.objectContaining({ duration: 2500, verticalPosition: 'bottom' })
     );

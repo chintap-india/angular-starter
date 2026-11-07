@@ -453,7 +453,7 @@ export class DinoGameComponent implements OnInit, OnDestroy {
         this.score.update(s => s + 100);
         this.playSound('collect');
 
-        const phrases = ['💡 +100 EUREKA!', '💡 +100 WHAT IF?', '💡 +100 CHIN TAP!'];
+        const phrases = ['+100 EUREKA!', '+100 WHAT IF?', '+100 CHIN TAP!'];
         const chosen = phrases[Math.floor(Math.random() * phrases.length)];
         this.addFloatingText(c.x, c.y - 12, chosen, '#eab308');
         this.createPuffParticles(c.x + 12, c.y + 12, 10, '#fde047');
@@ -928,7 +928,7 @@ export class DinoGameComponent implements OnInit, OnDestroy {
     if (this.eurekasCollected() > 0) {
       ctx.font = 'bold 12px monospace';
       ctx.fillStyle = '#eab308';
-      ctx.fillText(`💡 ×${this.eurekasCollected()}`, this.canvasWidth - 18, 44);
+      ctx.fillText(`Eureka: ${this.eurekasCollected()}`, this.canvasWidth - 18, 44);
     }
 
     ctx.restore();

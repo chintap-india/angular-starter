@@ -58,8 +58,8 @@ export const NODE_DETAILS: Record<string, NodeInfo> = {
   'bp-geo': { label: 'Generative Engine Optimization', detail: 'Entity authority graphs and factual density for generative engines.', route: '/best-practices', routeLabel: 'Best Practices →' },
   'bp-ssr': { label: 'SSR & Hydration', detail: 'Static prerendering with event replay client hydration.', route: '/best-practices', routeLabel: 'Best Practices →' },
 
-  // Tasks (CRUD Showcase)
-  'tsk-center': { label: 'Tasks CRUD Module', detail: 'Decoupled Angular module demonstrating enterprise form best practices.', route: '/tasks', routeLabel: 'Tasks Demo →' },
+  // Tasks (Management)
+  'tsk-center': { label: 'Tasks Management', detail: 'Decoupled Angular module demonstrating enterprise form best practices.', route: '/tasks', routeLabel: 'Tasks Management →' },
   'tsk-forms': { label: 'Reactive Forms', detail: 'Strictly typed FormGroup validation with real-time field error messaging.', route: '/tasks', routeLabel: 'Tasks Demo →' },
   'tsk-markdown': { label: 'Markdown Preview', detail: 'Side-by-side markdown editing with sanitized HTML rendering.', route: '/tasks', routeLabel: 'Tasks Demo →' },
   'tsk-mock-api': { label: 'Mock API Service', detail: 'Simulated async network delay and error handling.', route: '/tasks', routeLabel: 'Tasks Demo →' },

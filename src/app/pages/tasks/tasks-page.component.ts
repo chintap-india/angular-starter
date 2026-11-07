@@ -220,13 +220,13 @@ export class TasksPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.seo.setSeoData({
-      title: 'Tasks CRUD Module — Typed Forms & Mock API Demo',
+      title: 'Tasks Management | Chintap Angular Starter',
       description:
         'Explore modern Angular 22 Reactive Form engineering, dual-mode Markdown editor/preview, and mock API persistence in the Chintap Angular Starter kit.',
       url: '/tasks',
       breadcrumbs: [
         { name: 'Home', url: '/' },
-        { name: 'Tasks CRUD', url: '/tasks' },
+        { name: 'Tasks Management', url: '/tasks' },
       ],
     });
 
@@ -279,7 +279,7 @@ export class TasksPageComponent implements OnInit {
     this.taskApi.toggleComplete(task.id).subscribe({
       next: (updated) => {
         const msg =
-          updated.status === 'completed' ? 'Task marked as completed! 🎉' : 'Task marked as active.';
+          updated.status === 'completed' ? 'Task marked as completed.' : 'Task marked as active.';
         this.snackBar.open(msg, 'Dismiss', { duration: 2500, verticalPosition: 'bottom' });
       },
     });

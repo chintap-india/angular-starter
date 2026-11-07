@@ -39,7 +39,7 @@ export class MarkdownPipe implements PipeTransform {
     text = text.replace(/^\> (.*$)/gim, '<blockquote class="border-l-4 border-emerald-500 pl-3.5 my-3 italic text-stone-600 dark:text-stone-300 text-sm">$1</blockquote>');
 
     // 6. Checkboxes: - [x] or - [ ]
-    text = text.replace(/^- \[x\] (.*$)/gim, '<div class="flex items-center gap-2 my-1 text-sm text-stone-500 line-through"><span class="w-4 h-4 rounded bg-emerald-500 text-white flex items-center justify-center text-[10px]">✓</span><span>$1</span></div>');
+    text = text.replace(/^- \[x\] (.*$)/gim, '<div class="flex items-center gap-2 my-1 text-sm text-stone-500 line-through"><span class="w-4 h-4 rounded bg-emerald-500 text-white flex items-center justify-center shrink-0"><svg class="w-2.5 h-2.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span>$1</span></div>');
     text = text.replace(/^- \[ \] (.*$)/gim, '<div class="flex items-center gap-2 my-1 text-sm text-stone-700 dark:text-stone-300"><span class="w-4 h-4 rounded border border-stone-300 dark:border-stone-600 inline-block"></span><span>$1</span></div>');
 
     // 7. Unordered Lists

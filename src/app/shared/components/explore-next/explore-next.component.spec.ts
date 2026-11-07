@@ -25,7 +25,7 @@ describe('ExploreNextComponent', () => {
     expect(paths.length).toBe(3);
     expect(paths[0].title).toBe('Features & Stack');
     expect(paths[1].title).toBe('5 Discovery Pillars');
-    expect(paths[2].title).toBe('Tasks CRUD Showcase');
+    expect(paths[2].title).toBe('Tasks Management');
   });
 
   it('should return tailored paths for features page', () => {

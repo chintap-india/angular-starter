@@ -22,10 +22,10 @@
       <button
         type="button"
         (click)="dismissSpeechError()"
-        class="text-amber-700 dark:text-amber-300 hover:text-amber-900 font-bold text-xs"
+        class="text-amber-700 dark:text-amber-300 hover:text-amber-900 font-bold text-xs inline-flex items-center justify-center"
         aria-label="Dismiss message"
       >
-        ✕
+        <mat-icon class="!text-xs !w-3.5 !h-3.5 leading-none">close</mat-icon>
       </button>
     </div>
   }
@@ -49,10 +49,11 @@
         <button
           type="button"
           (click)="toggleSpeechLocale()"
-          class="px-2 py-0.5 rounded bg-stone-200 dark:bg-stone-800 hover:bg-stone-300 dark:hover:bg-stone-700 font-mono text-[10px] text-stone-700 dark:text-stone-300"
+          class="px-2 py-0.5 rounded bg-stone-200 dark:bg-stone-800 hover:bg-stone-300 dark:hover:bg-stone-700 font-mono text-[10px] text-stone-700 dark:text-stone-300 inline-flex items-center gap-1 cursor-pointer"
           [attr.aria-label]="'Switch accent locale: current ' + speechLocale()"
         >
-          {{ speechLocale() === 'en-IN' ? '🇮🇳 IN' : '🌐 US' }}
+          <mat-icon class="!text-[10px] !w-3 !h-3 leading-none">language</mat-icon>
+          <span>{{ speechLocale() === 'en-IN' ? 'IN' : 'US' }}</span>
         </button>
         <button
           type="button"

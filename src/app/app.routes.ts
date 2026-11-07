@@ -25,7 +25,7 @@ export const routes: Routes = [
     path: 'tasks',
     loadComponent: () =>
       import('./pages/tasks/tasks-page.component').then(m => m.TasksPageComponent),
-    title: 'Tasks CRUD Module — Typed Forms & Mock API | Chintap Angular Starter',
+    title: 'Tasks Management | Chintap Angular Starter',
   },
   {
     path: 'tasks/:taskId',
