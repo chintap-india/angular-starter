@@ -20,6 +20,7 @@ import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatMenuModule } from '@angular/material/menu';
 import { MockTaskApiService } from '../../core/services/mock-task-api.service';
 import { AuthService } from '../../core/services/auth.service';
 import { SeoService } from '../../core/services/seo.service';
@@ -70,6 +71,7 @@ import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
     MatPaginatorModule,
     MatButtonToggleModule,
     MatTabsModule,
+    MatMenuModule,
     MarkdownPipe,
   ],
   templateUrl: './tasks-page.component.html',

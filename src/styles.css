@@ -249,6 +249,34 @@ a:has(mat-icon) span,
   box-shadow: inset 3.5px 0 0 0 #34d399 !important; /* emerald-400 */
 }
 
+/* ========================================================================= */
+/* ENTERPRISE TABLE RESPONSIVE BREAKPOINT COLUMN VISIBILITY                  */
+/* ========================================================================= */
+
+@media (max-width: 639px) {
+  .col-hidden-sm {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .col-hidden-md {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .col-hidden-lg {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1279px) {
+  .col-hidden-xl {
+    display: none !important;
+  }
+}
+
 /* Cards View Hover Spotlight Effect */
 .tasks-cards-focus-group .tasks-card-item {
   transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1),

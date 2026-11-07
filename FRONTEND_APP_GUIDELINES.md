@@ -1801,3 +1801,27 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
 - **Strictly No Emojis**: 100% clean typography and Angular Material icons (`mat-icon`).
 - **Pill-Shaped Buttons**: All buttons containing text must use `rounded-full` / `!rounded-full`.
 - **Sequential Numeric IDs**: Format task IDs as clean numeric strings (`#1`, `#2`, `#35`) via `formatTaskId()`.
+
+### 29.7 Mobile & Responsive Table Standards (Zero Horizontal Scroll)
+- **The Zero-Scroll Mobile Rule**: An enterprise data table must never require horizontal panning on smartphone viewports (`360px – 414px`). Horizontal scrolling hides >50% of the dataset off-screen and degrades mobile triage.
+- **Progressive Column Tucking**:
+  - Keep 3 core columns on mobile screens (`< 640px`):
+    1. **Selection Column** (`!w-10 text-center`): Compact checkbox for instant status/batch operations.
+    2. **Primary Entity Column** (`!w-auto flex-1`): Full task title on line 1, with an inline micro-metadata sub-row on line 2 (`md:hidden`):
+       `#35 • Category • Priority • Status • Due Date`
+       This tucks all secondary metadata directly beneath the title with zero vertical bloat.
+    3. **Action Column** (`!w-12 text-right`): Single `⋮` Kebab button (`more_vert`) triggering an Angular Material `<mat-menu>`.
+  - Secondary columns gracefully hide at tailored breakpoints using `!important` utility classes:
+    - `.col-hidden-sm`: Hidden on mobile `< 640px` (`id`, `status`).
+    - `.col-hidden-md`: Hidden on mobile/small-tablet `< 768px` (`priority`).
+    - `.col-hidden-lg`: Hidden on tablet `< 1024px` (`category`).
+    - `.col-hidden-xl`: Hidden on laptop `< 1280px` (`dueDate`).
+- **Lazy Menu Memory Optimization**:
+  - Always implement row-level action menus using `<ng-template matMenuContent let-task="task">` with `[matMenuTriggerData]="{ task: task }"`. This instantiates a single shared `<mat-menu>` in the DOM rather than duplicating menu elements across every table row.
+- **Tier 1 Mobile Toolbar Collapse**:
+  - Search input dynamically flexes down on small screens (`min-w-[80px]`).
+  - Secondary utilities (`Seed`, `Reset`, `Auth Mode`) collapse into a single mobile overflow menu button (`sm:hidden`).
+  - Primary CTA renders icon-only (`+`) on mobile and full pill label (`+ New Task`) on `sm:`.
+- **Touch-Target Compliance**:
+  - Every row maintains a minimum height of `44px` to satisfy Apple Human Interface Guidelines and WCAG 2.2 AA pointer cancellation without ballooning whitespace.
+
