@@ -1757,9 +1757,47 @@ When changing the canonical GitHub repository:
 4. `README.md`: Update clone URLs, badge links, and contribution links.
 5. `CONTRIBUTING.md`: Update fork and upstream clone instructions.
 
+---
 
+## 29. Enterprise Data Table & List Architecture: The `chintap-compact-template`
 
+The `chintap-compact-template` is the official enterprise standard for tabular and list-based data management in Chintap applications. It optimizes for maximum vertical screen estate, dense data inspection, and zero-scroll viewing.
 
+### 29.1 Two-Tier Navigation Toolbar
+- **Tier 1 (Context & Primary Actions)**:
+  - Left: Brand icon badge, module title, live count badge, and inline quick search with instant clear.
+  - Right: View mode toggle (`table`, `cards`, `metrics`), utilities (`Seed`, `Reset`, `Auth Mode`), and primary pill CTA (`+ New Task`).
+- **Tier 2 (Filters & Sub-Navbar)**:
+  - Left: Segmented status filter pills (`All`, `To Do`, `In Progress`, `Completed`), priority filter dropdown, and clear filter button.
+  - Right: Tucked pagination navigation controls and overall sprint completion badge.
+- **Alignment Mandate**: Both tiers must maintain strict left-and-right justification without awkward wrapping voids.
 
+### 29.2 Tucked Top-Bar Pagination (Zero Bottom Paginator)
+- Never place bulky `<mat-paginator>` footers at the base of tables; they consume ~64px of vertical height and force users to scroll down to navigate pages.
+- Move all pagination controls into the Tier 2 sub-navbar:
+  - **Rows-Per-Page Selector**: Compact pill dropdown (`10 / page ▾`, `25`, `50`, `100`).
+  - **Step Controller**: First (`|<`), Previous (`<`), live range (`Showing 1–10 of 45`), Next (`>`), and Last (`>|`).
+  - Disable boundary buttons dynamically (`hasPrevPage`, `hasNextPage`).
+- Reclaims ~64px of vertical viewport, allowing all 10 table rows to render without scrolling on standard laptop displays.
 
+### 29.3 Row Focus Depth & Peripheral Dimming
+- When hovering or keyboard-focusing (`:focus-within`) any table row:
+  - The active row remains 100% sharp with an elevated background and left accent bar.
+  - All non-hovered sibling rows softly dim (`opacity: 0.35`, `filter: blur(0.65px)`).
+- Keeps user attention sharply locked on the active row during multi-column data reviews.
 
+### 29.4 Dual Layout Switching (`table` vs. `cards`)
+- Provide instant switching between sortable enterprise data tables (`MatTable`, `MatSort`) and rich Markdown preview cards without page reload.
+- Both layouts share the identical top-bar filter state and tucked pagination.
+
+### 29.5 Sprint Metrics & Dashboard Standards
+- No marketing filler cards or promotional bullet strips in functional analytics dashboards.
+- Clean KPI cards with subtle top-right indicator icons, bold numbers, and contextual percentage breakdowns.
+- Multi-segment priority severity distribution bar (Urgent rose, High amber, Medium blue, Low stone).
+- Dynamic category workload breakdown bars.
+- Critical Attention Queue: Actionable table of pending urgent/high priority tasks with deep links (`/tasks/:id`).
+
+### 29.6 Strict Styling, Button Shapes & Emoji Rules
+- **Strictly No Emojis**: 100% clean typography and Angular Material icons (`mat-icon`).
+- **Pill-Shaped Buttons**: All buttons containing text must use `rounded-full` / `!rounded-full`.
+- **Sequential Numeric IDs**: Format task IDs as clean numeric strings (`#1`, `#2`, `#35`) via `formatTaskId()`.
