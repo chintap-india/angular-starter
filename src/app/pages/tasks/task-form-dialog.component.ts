@@ -51,7 +51,7 @@ export class TaskFormDialogComponent {
 
   readonly categories = ['Setup', 'Branding', 'Content', 'Verification', 'DevOps', 'General', 'Architecture', 'Security', 'Performance'];
   readonly priorities: { value: TaskPriority; label: string; dotColor: string }[] = [
-    { value: 'low', label: 'Low', dotColor: 'bg-stone-400' },
+    { value: 'low', label: 'Low', dotColor: 'bg-slate-400' },
     { value: 'medium', label: 'Medium', dotColor: 'bg-blue-500' },
     { value: 'high', label: 'High', dotColor: 'bg-amber-500' },
     { value: 'urgent', label: 'Urgent', dotColor: 'bg-rose-500' },

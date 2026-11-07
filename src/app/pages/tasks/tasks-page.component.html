@@ -4,7 +4,7 @@
   <div class="chintap-compact-template rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs overflow-hidden flex flex-col">
     
     <!-- UNIFIED ENTERPRISE TOOLBAR TIER 1: Navigation & Actions -->
-    <div class="px-3 py-2 bg-slate-50/95 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2 sm:gap-3">
+    <div class="px-3 py-2 bg-slate-50/95 dark:bg-slate-800/90 border-b border-slate-200 dark:border-slate-700/80 flex items-center justify-between gap-2 sm:gap-3">
       
       <!-- Left: Title Badge + Count + Inline Quick Search -->
       <div class="flex items-center gap-2 min-w-0 flex-1 sm:flex-initial">
@@ -168,7 +168,7 @@
 
     <!-- UNIFIED ENTERPRISE TOOLBAR TIER 2: Filters & Quick Metrics -->
     @if (activeTab() === 'directory') {
-      <div class="px-3 py-1.5 bg-slate-50/70 dark:bg-slate-850/80 border-b border-slate-200/80 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
+      <div class="px-3 py-1.5 bg-slate-50/70 dark:bg-slate-800/60 border-b border-slate-200/80 dark:border-slate-700/60 flex flex-wrap items-center justify-between gap-2">
         
         <!-- Left: Status Filter Pills + Priority Filter Dropdown + Clear Filters -->
         <div class="flex items-center gap-2 overflow-x-auto min-w-0">
@@ -177,7 +177,7 @@
             <button
               type="button"
               (click)="onStatusChange('all')"
-              [ngClass]="selectedStatus() === 'all' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white'"
+              [ngClass]="selectedStatus() === 'all' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-300 font-medium hover:text-slate-900 dark:hover:text-white'"
               class="px-2.5 py-0.5 rounded-full transition text-xs cursor-pointer inline-flex items-center justify-center leading-none"
             >
               All ({{ tasks().length }})
@@ -185,7 +185,7 @@
             <button
               type="button"
               (click)="onStatusChange('todo')"
-              [ngClass]="selectedStatus() === 'todo' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white'"
+              [ngClass]="selectedStatus() === 'todo' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-300 font-medium hover:text-slate-900 dark:hover:text-white'"
               class="px-2.5 py-0.5 rounded-full transition text-xs cursor-pointer inline-flex items-center justify-center leading-none"
             >
               To Do ({{ stats().todo }})
@@ -193,7 +193,7 @@
             <button
               type="button"
               (click)="onStatusChange('in-progress')"
-              [ngClass]="selectedStatus() === 'in-progress' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white'"
+              [ngClass]="selectedStatus() === 'in-progress' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-300 font-medium hover:text-slate-900 dark:hover:text-white'"
               class="px-2.5 py-0.5 rounded-full transition text-xs cursor-pointer inline-flex items-center justify-center leading-none"
             >
               In Progress ({{ stats().inProgress }})
@@ -201,7 +201,7 @@
             <button
               type="button"
               (click)="onStatusChange('completed')"
-              [ngClass]="selectedStatus() === 'completed' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 font-medium hover:text-slate-900 dark:hover:text-white'"
+              [ngClass]="selectedStatus() === 'completed' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-300 font-medium hover:text-slate-900 dark:hover:text-white'"
               class="px-2.5 py-0.5 rounded-full transition text-xs cursor-pointer inline-flex items-center justify-center leading-none"
             >
               Completed ({{ stats().completed }})
@@ -220,47 +220,47 @@
                 <div class="flex items-center gap-1.5 leading-none">
                   @if (selectedPriority() === 'urgent') {
                     <span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
-                    <span class="text-xs font-semibold">Urgent</span>
+                    <span class="text-xs font-semibold text-rose-700 dark:text-rose-300">Urgent</span>
                   } @else if (selectedPriority() === 'high') {
                     <span class="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
-                    <span class="text-xs font-semibold">High</span>
+                    <span class="text-xs font-semibold text-amber-700 dark:text-amber-300">High</span>
                   } @else if (selectedPriority() === 'medium') {
                     <span class="w-2 h-2 rounded-full bg-blue-500 shrink-0"></span>
-                    <span class="text-xs font-semibold">Medium</span>
+                    <span class="text-xs font-semibold text-sky-700 dark:text-sky-300">Medium</span>
                   } @else if (selectedPriority() === 'low') {
-                    <span class="w-2 h-2 rounded-full bg-stone-400 shrink-0"></span>
-                    <span class="text-xs font-semibold">Low</span>
+                    <span class="w-2 h-2 rounded-full bg-slate-400 shrink-0"></span>
+                    <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Low</span>
                   } @else {
-                    <span class="text-xs text-slate-600 dark:text-slate-400 font-medium">Priority: All</span>
+                    <span class="text-xs text-slate-600 dark:text-slate-300 font-medium">Priority: All</span>
                   }
                 </div>
               </mat-select-trigger>
 
               <mat-option value="all">
-                <span class="text-xs font-medium text-slate-600 dark:text-slate-400">All Priorities</span>
+                <span class="text-xs font-medium text-slate-600 dark:text-slate-300">All Priorities</span>
               </mat-option>
               <mat-option value="urgent">
                 <div class="flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
-                  <span class="text-xs font-semibold text-slate-800 dark:text-slate-200">Urgent</span>
+                  <span class="text-xs font-semibold text-rose-700 dark:text-rose-300">Urgent</span>
                 </div>
               </mat-option>
               <mat-option value="high">
                 <div class="flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
-                  <span class="text-xs font-semibold text-slate-800 dark:text-slate-200">High</span>
+                  <span class="text-xs font-semibold text-amber-700 dark:text-amber-300">High</span>
                 </div>
               </mat-option>
               <mat-option value="medium">
                 <div class="flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-blue-500 shrink-0"></span>
-                  <span class="text-xs font-semibold text-slate-800 dark:text-slate-200">Medium</span>
+                  <span class="text-xs font-semibold text-sky-700 dark:text-sky-300">Medium</span>
                 </div>
               </mat-option>
               <mat-option value="low">
                 <div class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-stone-400 shrink-0"></span>
-                  <span class="text-xs font-semibold text-slate-800 dark:text-slate-200">Low</span>
+                  <span class="w-2 h-2 rounded-full bg-slate-400 shrink-0"></span>
+                  <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Low</span>
                 </div>
               </mat-option>
             </mat-select>
@@ -271,7 +271,7 @@
             type="button"
             (click)="resetFilters()"
             [class.invisible]="!hasActiveFilters()"
-            class="px-2.5 py-0.5 text-xs text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-full transition inline-flex items-center justify-center gap-1 cursor-pointer font-semibold leading-none shrink-0"
+            class="px-2.5 py-0.5 text-xs text-rose-600 dark:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-full transition inline-flex items-center justify-center gap-1 cursor-pointer font-semibold leading-none shrink-0"
             matTooltip="Clear active search & filters"
             aria-label="Clear active filters"
           >
@@ -396,7 +396,7 @@
             
             <!-- Checkbox Column -->
             <ng-container matColumnDef="select">
-              <th mat-header-cell *matHeaderCellDef class="!w-10 sm:!w-12 !px-1.5 sm:!px-2 text-center font-bold text-xs !text-slate-900 dark:!text-white uppercase tracking-wider">Done</th>
+              <th mat-header-cell *matHeaderCellDef class="!w-10 sm:!w-12 !px-1.5 sm:!px-2 text-center font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider">Done</th>
               <td mat-cell *matCellDef="let task" class="!w-10 sm:!w-12 !px-1.5 sm:!px-2 text-center">
                 <mat-checkbox
                   [checked]="task.status === 'completed'"
@@ -409,70 +409,70 @@
 
             <!-- ID Column (Hidden on mobile <640px; tucked into title sub-row) -->
             <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-sm !w-16 min-w-[3.5rem] !px-2 font-bold text-xs !text-slate-900 dark:!text-white uppercase tracking-wider text-center">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-sm !w-16 min-w-[3.5rem] !px-2 font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider text-center">
                 ID
               </th>
-              <td mat-cell *matCellDef="let task" class="col-hidden-sm font-mono text-xs text-stone-500 dark:text-stone-400 font-semibold whitespace-nowrap !w-16 min-w-[3.5rem] !px-2 text-center">
+              <td mat-cell *matCellDef="let task" class="col-hidden-sm font-mono text-xs text-slate-500 dark:text-slate-300 font-semibold whitespace-nowrap !w-16 min-w-[3.5rem] !px-2 text-center">
                 {{ formatTaskId(task.id) }}
               </td>
             </ng-container>
 
             <!-- Title Column (Clickable to open Full Task Detail Dialog; displays micro-meta sub-row on mobile) -->
             <ng-container matColumnDef="title">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-bold text-xs !text-slate-900 dark:!text-white uppercase tracking-wider !w-auto min-w-[150px] sm:min-w-[200px] !px-2 sm:!px-3">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-auto min-w-[150px] sm:min-w-[200px] !px-2 sm:!px-3">
                 Task Title
               </th>
               <td mat-cell *matCellDef="let task" class="py-2 sm:py-2.5 !px-2 sm:!px-3 overflow-hidden">
                 <button
                   type="button"
                   (click)="openDetailDialog(task)"
-                  class="font-bold text-xs sm:text-sm text-stone-900 dark:text-stone-100 hover:text-emerald-600 dark:hover:text-emerald-400 text-left transition cursor-pointer group inline-flex items-center gap-1.5 leading-snug max-w-full truncate"
+                  class="font-bold text-xs sm:text-sm text-slate-900 dark:text-slate-100 hover:text-emerald-600 dark:hover:text-emerald-300 text-left transition cursor-pointer group inline-flex items-center gap-1.5 leading-snug max-w-full truncate"
                   matTooltip="Click to view full specs & fullscreen details"
                 >
-                  <span [class.line-through]="task.status === 'completed'" [class.text-stone-400]="task.status === 'completed'" class="leading-none truncate">
+                  <span [class.line-through]="task.status === 'completed'" [class.text-slate-400]="task.status === 'completed'" class="leading-none truncate">
                     {{ task.title }}
                   </span>
                   <mat-icon class="!text-xs !w-3 !h-3 opacity-0 group-hover:opacity-100 text-emerald-600 transition shrink-0 leading-none flex items-center justify-center">open_in_new</mat-icon>
                 </button>
                 @if (task.description) {
-                  <p class="hidden sm:block text-[11px] text-stone-400 dark:text-stone-500 line-clamp-1 mt-0.5 max-w-md truncate">
+                  <p class="hidden sm:block text-[11px] text-slate-400 dark:text-slate-300 line-clamp-1 mt-0.5 max-w-md truncate">
                     {{ task.description.replace('#', '').replace('*', '').slice(0, 80) }}...
                   </p>
                 }
 
                 <!-- MOBILE PROGRESSIVE COLUMN TUCKING: Micro-meta sub-row (md:hidden) -->
                 <div class="flex flex-wrap items-center gap-1.5 mt-1 md:hidden leading-none">
-                  <span class="font-mono text-[10px] text-stone-500 dark:text-stone-400 font-bold shrink-0">#{{ formatTaskId(task.id) }}</span>
-                  <span class="text-stone-300 dark:text-stone-700">•</span>
-                  <span class="inline-flex items-center text-[10px] font-mono font-bold uppercase px-1.5 py-0.2 rounded bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700 shrink-0">
+                  <span class="font-mono text-[10px] text-slate-500 dark:text-slate-300 font-bold shrink-0">#{{ formatTaskId(task.id) }}</span>
+                  <span class="text-slate-300 dark:text-slate-600">•</span>
+                  <span class="inline-flex items-center text-[10px] font-mono font-bold uppercase px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 shrink-0">
                     {{ task.category }}
                   </span>
-                  <span class="text-stone-300 dark:text-stone-700">•</span>
+                  <span class="text-slate-300 dark:text-slate-600">•</span>
                   <span
                     class="inline-flex items-center text-[10px] font-mono font-bold uppercase px-1.5 py-0.2 rounded shrink-0"
                     [ngClass]="{
-                      'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900': task.priority === 'urgent',
-                      'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-900': task.priority === 'high',
-                      'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900': task.priority === 'medium',
-                      'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.priority === 'low'
+                      'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-800/80': task.priority === 'urgent',
+                      'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': task.priority === 'high',
+                      'bg-sky-100 dark:bg-sky-950/70 text-sky-800 dark:text-sky-200 border border-sky-200 dark:border-sky-800/80': task.priority === 'medium',
+                      'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': task.priority === 'low'
                     }"
                   >
                     {{ task.priority }}
                   </span>
-                  <span class="text-stone-300 dark:text-stone-700 sm:hidden">•</span>
+                  <span class="text-slate-300 dark:text-slate-600 sm:hidden">•</span>
                   <span
                     class="inline-flex sm:hidden items-center text-[10px] font-mono font-semibold uppercase px-1.5 py-0.2 rounded shrink-0"
                     [ngClass]="{
-                      'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800': task.status === 'completed',
-                      'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800': task.status === 'in-progress',
-                      'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.status === 'todo'
+                      'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800/80': task.status === 'completed',
+                      'bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': task.status === 'in-progress',
+                      'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': task.status === 'todo'
                     }"
                   >
                     {{ task.status === 'in-progress' ? 'In Progress' : (task.status === 'completed' ? 'Done' : 'To Do') }}
                   </span>
                   @if (task.dueDate) {
-                    <span class="text-stone-300 dark:text-stone-700 xl:hidden">•</span>
-                    <span class="inline-flex xl:hidden items-center gap-0.5 text-[10px] font-mono text-stone-500 dark:text-stone-400 shrink-0">
+                    <span class="text-slate-300 dark:text-slate-600 xl:hidden">•</span>
+                    <span class="inline-flex xl:hidden items-center gap-0.5 text-[10px] font-mono text-slate-500 dark:text-slate-300 shrink-0">
                       <mat-icon class="!text-[10px] !w-2.5 !h-2.5 leading-none flex items-center justify-center shrink-0">calendar_today</mat-icon>
                       <span>{{ task.dueDate }}</span>
                     </span>
@@ -483,11 +483,11 @@
 
             <!-- Category Column (Hidden on tablet/mobile <1024px) -->
             <ng-container matColumnDef="category">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-lg font-bold text-xs !text-slate-900 dark:!text-white uppercase tracking-wider !w-28 !px-2">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-lg font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-28 !px-2">
                 Category
               </th>
               <td mat-cell *matCellDef="let task" class="col-hidden-lg whitespace-nowrap !w-28 !px-2">
-                <span class="inline-flex items-center gap-1 text-[11px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700 leading-none">
+                <span class="inline-flex items-center gap-1 text-[11px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 leading-none">
                   <mat-icon class="!text-[10px] !w-3 !h-3 leading-none flex items-center justify-center shrink-0">folder</mat-icon>
                   <span class="leading-none">{{ task.category }}</span>
                 </span>
@@ -496,17 +496,17 @@
 
             <!-- Priority Column (Hidden on mobile/small-tablet <768px) -->
             <ng-container matColumnDef="priority">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-md font-bold text-xs !text-slate-900 dark:!text-white uppercase tracking-wider !w-24 !px-2">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-md font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-24 !px-2">
                 Priority
               </th>
               <td mat-cell *matCellDef="let task" class="col-hidden-md whitespace-nowrap !w-24 !px-2">
                 <span
                   class="inline-flex items-center gap-1 text-[11px] font-mono font-bold uppercase px-2 py-0.5 rounded-md leading-none"
                   [ngClass]="{
-                    'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900': task.priority === 'urgent',
-                    'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-900': task.priority === 'high',
-                    'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900': task.priority === 'medium',
-                    'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.priority === 'low'
+                    'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-800/80': task.priority === 'urgent',
+                    'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': task.priority === 'high',
+                    'bg-sky-100 dark:bg-sky-950/70 text-sky-800 dark:text-sky-200 border border-sky-200 dark:border-sky-800/80': task.priority === 'medium',
+                    'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': task.priority === 'low'
                   }"
                 >
                   <mat-icon class="!text-[10px] !w-3 !h-3 leading-none flex items-center justify-center shrink-0">
@@ -519,7 +519,7 @@
 
             <!-- Status Column (Clickable to open Status Change Modal; hidden on mobile <640px) -->
             <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-sm font-bold text-xs !text-slate-900 dark:!text-white uppercase tracking-wider !w-32 !px-2">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-sm font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-32 !px-2">
                 Status
               </th>
               <td mat-cell *matCellDef="let task" class="col-hidden-sm whitespace-nowrap !w-32 !px-2">
@@ -529,9 +529,9 @@
                   matTooltip="Click to change status (Modal)"
                   class="inline-flex items-center justify-center gap-1 text-[11px] font-mono uppercase px-2 py-0.5 rounded-md font-semibold cursor-pointer hover:ring-2 hover:ring-emerald-500/40 transition group leading-none"
                   [ngClass]="{
-                    'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800': task.status === 'completed',
-                    'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800': task.status === 'in-progress',
-                    'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.status === 'todo'
+                    'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800/80': task.status === 'completed',
+                    'bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': task.status === 'in-progress',
+                    'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': task.status === 'todo'
                   }"
                 >
                   <mat-icon class="!text-[11px] !w-3 !h-3 leading-none flex items-center justify-center shrink-0">
@@ -545,24 +545,24 @@
 
             <!-- Due Date Column (Hidden on laptop/tablet/mobile <1280px) -->
             <ng-container matColumnDef="dueDate">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-xl font-bold text-xs !text-slate-900 dark:!text-white uppercase tracking-wider !w-28 !px-2">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-xl font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-28 !px-2">
                 Due Date
               </th>
-              <td mat-cell *matCellDef="let task" class="col-hidden-xl whitespace-nowrap font-mono text-xs text-stone-500 dark:text-stone-400 !w-28 !px-2">
+              <td mat-cell *matCellDef="let task" class="col-hidden-xl whitespace-nowrap font-mono text-xs text-slate-600 dark:text-slate-300 !w-28 !px-2">
                 @if (task.dueDate) {
                   <span class="inline-flex items-center gap-1 leading-none">
                     <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0">calendar_today</mat-icon>
                     <span class="leading-none">{{ task.dueDate }}</span>
                   </span>
                 } @else {
-                  <span class="text-stone-400 dark:text-stone-600 leading-none">—</span>
+                  <span class="text-slate-400 dark:text-slate-600 leading-none">—</span>
                 }
               </td>
             </ng-container>
 
             <!-- Actions Column (Desktop expanded icons / Mobile single kebab menu) -->
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef class="text-right !pr-2 sm:!pr-3 font-bold text-xs !text-slate-900 dark:!text-white uppercase tracking-wider !w-12 sm:!w-36">
+              <th mat-header-cell *matHeaderCellDef class="text-right !pr-2 sm:!pr-3 font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-12 sm:!w-36">
                 Actions
               </th>
               <td mat-cell *matCellDef="let task" class="text-right !pr-2 sm:!pr-3 whitespace-nowrap !w-12 sm:!w-36">
@@ -573,7 +573,7 @@
                     [routerLink]="['/tasks', task.id]"
                     aria-label="Open dedicated task page"
                     matTooltip="Open Dedicated Task Page (/tasks/:id)"
-                    class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/40 transition cursor-pointer leading-none"
+                    class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-400 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-300 hover:bg-sky-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                   >
                     <mat-icon class="!text-sm !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">open_in_new</mat-icon>
                   </a>
@@ -583,7 +583,7 @@
                     (click)="openDetailDialog(task)"
                     aria-label="View task details"
                     matTooltip="View Full Details / Fullscreen Modal"
-                    class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition cursor-pointer leading-none"
+                    class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                   >
                     <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">visibility</mat-icon>
                   </button>
@@ -593,7 +593,7 @@
                     (click)="openEditDialog(task)"
                     aria-label="Edit task"
                     matTooltip="Edit Task (Modal)"
-                    class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
+                    class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                   >
                     <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">edit</mat-icon>
                   </button>
@@ -603,7 +603,7 @@
                     (click)="openDeleteDialog(task)"
                     aria-label="Delete task"
                     matTooltip="Delete Task (Modal)"
-                    class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition cursor-pointer leading-none"
+                    class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-400 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                   >
                     <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">delete_outline</mat-icon>
                   </button>
@@ -617,7 +617,7 @@
                     [matMenuTriggerData]="{ task: task }"
                     aria-label="Task actions"
                     matTooltip="Actions"
-                    class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
+                    class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                   >
                     <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">more_vert</mat-icon>
                   </button>
@@ -629,16 +629,17 @@
             <tr
               mat-row
               *matRowDef="let row; columns: displayedColumns"
-              class="tasks-table-row transition-colors duration-150 border-b border-stone-100 dark:border-stone-800/60"
+              class="tasks-table-row transition-colors duration-150 border-b border-slate-100 dark:border-slate-800/80"
               [class.bg-emerald-50/20]="row.status === 'completed'"
+              [class.dark:bg-emerald-950/25]="row.status === 'completed'"
             ></tr>
 
             <!-- Row shown when there is no matching data. -->
             <tr class="mat-row" *matNoDataRow>
               <td class="mat-cell p-8 text-center" [attr.colspan]="displayedColumns.length">
                 <div class="flex flex-col items-center justify-center">
-                  <mat-icon class="!text-3xl !w-8 !h-8 text-stone-400 mb-1.5">search_off</mat-icon>
-                  <p class="text-xs font-semibold text-stone-700 dark:text-stone-300">No tasks match your search or filter criteria</p>
+                  <mat-icon class="!text-3xl !w-8 !h-8 text-slate-400 dark:text-slate-500 mb-1.5">search_off</mat-icon>
+                  <p class="text-xs font-semibold text-slate-700 dark:text-slate-200">No tasks match your search or filter criteria</p>
                   <button type="button" (click)="resetFilters()" class="mt-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 transition cursor-pointer shadow-2xs">
                     Reset Search Filters
                   </button>
@@ -682,7 +683,7 @@
           @for (task of pagedTasks(); track task.id) {
             <mat-card
               appearance="outlined"
-              class="tasks-card-item !bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-xl shadow-2xs hover:shadow-md transition-all duration-200"
+              class="tasks-card-item !bg-white dark:!bg-slate-800/90 !border-slate-200 dark:!border-slate-700/80 !rounded-xl shadow-2xs hover:shadow-md transition-all duration-200"
               [class.opacity-75]="task.status === 'completed'"
             >
               <mat-card-content class="!p-4 sm:!p-5">
@@ -702,9 +703,9 @@
                       <button
                         type="button"
                         (click)="openDetailDialog(task)"
-                        class="text-left font-bold text-base text-stone-900 dark:text-stone-100 hover:text-emerald-600 dark:hover:text-emerald-400 transition cursor-pointer inline-flex items-center gap-1.5 leading-none"
+                        class="text-left font-bold text-base text-slate-900 dark:text-slate-100 hover:text-emerald-600 dark:hover:text-emerald-300 transition cursor-pointer inline-flex items-center gap-1.5 leading-none"
                         [class.line-through]="task.status === 'completed'"
-                        [class.text-stone-500]="task.status === 'completed'"
+                        [class.text-slate-400]="task.status === 'completed'"
                       >
                         <span class="leading-none">{{ task.title }}</span>
                         <mat-icon class="!text-xs !w-3.5 !h-3.5 opacity-60 leading-none flex items-center justify-center shrink-0">open_in_new</mat-icon>
@@ -712,7 +713,7 @@
 
                       <!-- Badges Row -->
                       <div class="flex flex-wrap items-center gap-2 pt-0.5">
-                        <span class="inline-flex items-center gap-1 text-[11px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded-md bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700 leading-none">
+                        <span class="inline-flex items-center gap-1 text-[11px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 leading-none">
                           <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0">folder</mat-icon>
                           <span class="leading-none">{{ task.category }}</span>
                         </span>
@@ -720,10 +721,10 @@
                         <span
                           class="inline-flex items-center gap-1 text-[11px] font-mono font-bold uppercase px-2 py-0.5 rounded-md leading-none"
                           [ngClass]="{
-                            'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900': task.priority === 'urgent',
-                            'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-900': task.priority === 'high',
-                            'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900': task.priority === 'medium',
-                            'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.priority === 'low'
+                            'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-800/80': task.priority === 'urgent',
+                            'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': task.priority === 'high',
+                            'bg-sky-100 dark:bg-sky-950/70 text-sky-800 dark:text-sky-200 border border-sky-200 dark:border-sky-800/80': task.priority === 'medium',
+                            'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': task.priority === 'low'
                           }"
                         >
                           <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0">
@@ -739,9 +740,9 @@
                           matTooltip="Change status (Modal)"
                           class="inline-flex items-center justify-center gap-1 text-[11px] font-mono uppercase px-2 py-0.5 rounded-md font-semibold cursor-pointer hover:ring-2 hover:ring-emerald-500/30 transition leading-none"
                           [ngClass]="{
-                            'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800': task.status === 'completed',
-                            'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800': task.status === 'in-progress',
-                            'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': task.status === 'todo'
+                            'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800/80': task.status === 'completed',
+                            'bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': task.status === 'in-progress',
+                            'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': task.status === 'todo'
                           }"
                         >
                           <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0">
@@ -752,7 +753,7 @@
                         </button>
 
                         @if (task.dueDate) {
-                          <span class="inline-flex items-center gap-1 text-xs text-stone-500 dark:text-stone-400 font-mono leading-none">
+                          <span class="inline-flex items-center gap-1 text-xs text-slate-500 dark:text-slate-300 font-mono leading-none">
                             <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0">calendar_today</mat-icon>
                             <span class="leading-none">Due: {{ task.dueDate }}</span>
                           </span>
@@ -767,7 +768,7 @@
                       [routerLink]="['/tasks', task.id]"
                       aria-label="Open dedicated task page"
                       matTooltip="Open Dedicated Task Page (/tasks/:id)"
-                      class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/40 transition cursor-pointer leading-none"
+                      class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-400 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-300 hover:bg-sky-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                     >
                       <mat-icon class="!text-sm !w-4 !h-4 leading-none flex items-center justify-center shrink-0">open_in_new</mat-icon>
                     </a>
@@ -776,7 +777,7 @@
                       (click)="openDetailDialog(task)"
                       aria-label="View task full details"
                       matTooltip="View Full Specs & Fullscreen Modal"
-                      class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-500 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition cursor-pointer leading-none"
+                      class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                     >
                       <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">visibility</mat-icon>
                     </button>
@@ -785,7 +786,7 @@
                       (click)="openEditDialog(task)"
                       aria-label="Edit task"
                       matTooltip="Edit Task (Modal)"
-                      class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
+                      class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                     >
                       <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">edit</mat-icon>
                     </button>
@@ -794,7 +795,7 @@
                       (click)="openDeleteDialog(task)"
                       aria-label="Delete task"
                       matTooltip="Delete Task (Modal)"
-                      class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition cursor-pointer leading-none"
+                      class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-400 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                     >
                       <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">delete_outline</mat-icon>
                     </button>
@@ -804,18 +805,18 @@
 
                 <!-- Markdown Preview -->
                 @if (task.description) {
-                  <div class="mt-3 pt-3 border-t border-stone-100 dark:border-stone-800 text-xs sm:text-sm text-stone-700 dark:text-stone-300 leading-relaxed font-sans">
+                  <div class="mt-3 pt-3 border-t border-slate-100 dark:border-slate-700/80 text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed font-sans">
                     <div [innerHTML]="task.description | markdown" ngSkipHydration></div>
                   </div>
                 }
               </mat-card-content>
             </mat-card>
           } @empty {
-            <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl !p-8 text-center">
+            <mat-card appearance="outlined" class="!bg-white dark:!bg-slate-800/90 !border-slate-200 dark:!border-slate-700/80 !rounded-2xl !p-8 text-center">
               <mat-card-content class="flex flex-col items-center">
-                <mat-icon class="!text-4xl !w-10 !h-10 text-stone-300 dark:text-stone-600 mb-2">task_alt</mat-icon>
-                <h3 class="text-base font-bold text-stone-900 dark:text-white mb-1">No tasks found</h3>
-                <p class="text-xs text-stone-500 dark:text-stone-400 max-w-sm mx-auto mb-4">
+                <mat-icon class="!text-4xl !w-10 !h-10 text-slate-300 dark:text-slate-500 mb-2">task_alt</mat-icon>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white mb-1">No tasks found</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-300 max-w-sm mx-auto mb-4">
                   No tasks match your current search or filter criteria. Create a new task or reset to defaults.
                 </p>
                 <button
@@ -844,65 +845,65 @@
       <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" aria-label="Task progress metrics">
         
         <!-- Total Tasks KPI -->
-        <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+        <mat-card appearance="outlined" class="!bg-white dark:!bg-slate-800/90 !border-slate-200 dark:!border-slate-700/80 !rounded-2xl shadow-2xs">
           <mat-card-content class="!p-5">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider">Total Backlog</span>
-              <mat-icon class="!text-lg !w-5 !h-5 text-stone-400 dark:text-stone-500">inventory_2</mat-icon>
+              <span class="text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">Total Backlog</span>
+              <mat-icon class="!text-lg !w-5 !h-5 text-slate-400 dark:text-slate-400">inventory_2</mat-icon>
             </div>
             <div class="mt-2 flex items-baseline gap-2">
-              <h3 class="text-3xl font-extrabold text-stone-900 dark:text-white tracking-tight">{{ stats().total }}</h3>
-              <span class="text-xs font-medium text-stone-500 dark:text-stone-400">tasks</span>
+              <h3 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{{ stats().total }}</h3>
+              <span class="text-xs font-medium text-slate-500 dark:text-slate-300">tasks</span>
             </div>
-            <p class="text-[11px] text-stone-400 dark:text-stone-500 mt-1">Across all sprint categories</p>
+            <p class="text-[11px] text-slate-400 dark:text-slate-400 mt-1">Across all sprint categories</p>
           </mat-card-content>
         </mat-card>
 
         <!-- To Do KPI -->
-        <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+        <mat-card appearance="outlined" class="!bg-white dark:!bg-slate-800/90 !border-slate-200 dark:!border-slate-700/80 !rounded-2xl shadow-2xs">
           <mat-card-content class="!p-5">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider">To Do</span>
-              <mat-icon class="!text-lg !w-5 !h-5 text-stone-400 dark:text-stone-500">pending_actions</mat-icon>
+              <span class="text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">To Do</span>
+              <mat-icon class="!text-lg !w-5 !h-5 text-slate-400 dark:text-slate-400">pending_actions</mat-icon>
             </div>
             <div class="mt-2 flex items-baseline gap-2">
-              <h3 class="text-3xl font-extrabold text-stone-900 dark:text-white tracking-tight">{{ stats().todo }}</h3>
-              <span class="text-xs font-medium text-stone-500 dark:text-stone-400">
+              <h3 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">{{ stats().todo }}</h3>
+              <span class="text-xs font-medium text-slate-500 dark:text-slate-300">
                 ({{ stats().total > 0 ? Math.round((stats().todo / stats().total) * 100) : 0 }}%)
               </span>
             </div>
-            <p class="text-[11px] text-stone-400 dark:text-stone-500 mt-1">Ready for implementation</p>
+            <p class="text-[11px] text-slate-400 dark:text-slate-400 mt-1">Ready for implementation</p>
           </mat-card-content>
         </mat-card>
 
         <!-- In Progress KPI -->
-        <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+        <mat-card appearance="outlined" class="!bg-white dark:!bg-slate-800/90 !border-slate-200 dark:!border-slate-700/80 !rounded-2xl shadow-2xs">
           <mat-card-content class="!p-5">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider">In Progress</span>
-              <mat-icon class="!text-lg !w-5 !h-5 text-amber-500">timelapse</mat-icon>
+              <span class="text-xs font-semibold text-amber-600 dark:text-amber-300 uppercase tracking-wider">In Progress</span>
+              <mat-icon class="!text-lg !w-5 !h-5 text-amber-500 dark:text-amber-400">timelapse</mat-icon>
             </div>
             <div class="mt-2 flex items-baseline gap-2">
-              <h3 class="text-3xl font-extrabold text-amber-600 dark:text-amber-400 tracking-tight">{{ stats().inProgress }}</h3>
-              <span class="text-xs font-medium text-amber-600/70 dark:text-amber-400/70">
+              <h3 class="text-3xl font-extrabold text-amber-600 dark:text-amber-300 tracking-tight">{{ stats().inProgress }}</h3>
+              <span class="text-xs font-medium text-amber-600/80 dark:text-amber-300/80">
                 ({{ stats().total > 0 ? Math.round((stats().inProgress / stats().total) * 100) : 0 }}%)
               </span>
             </div>
-            <p class="text-[11px] text-stone-400 dark:text-stone-500 mt-1">Currently active in sprint</p>
+            <p class="text-[11px] text-slate-400 dark:text-slate-400 mt-1">Currently active in sprint</p>
           </mat-card-content>
         </mat-card>
 
         <!-- Completed KPI -->
-        <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+        <mat-card appearance="outlined" class="!bg-white dark:!bg-slate-800/90 !border-slate-200 dark:!border-slate-700/80 !rounded-2xl shadow-2xs">
           <mat-card-content class="!p-5">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Completed</span>
-              <mat-icon class="!text-lg !w-5 !h-5 text-emerald-500">check_circle</mat-icon>
+              <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-300 uppercase tracking-wider">Completed</span>
+              <mat-icon class="!text-lg !w-5 !h-5 text-emerald-500 dark:text-emerald-400">check_circle</mat-icon>
             </div>
             <div class="mt-2 flex items-baseline justify-between">
               <div class="flex items-baseline gap-2">
-                <h3 class="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 tracking-tight">{{ stats().completed }}</h3>
-                <span class="text-xs font-medium text-emerald-600/70 dark:text-emerald-400/70">
+                <h3 class="text-3xl font-extrabold text-emerald-600 dark:text-emerald-300 tracking-tight">{{ stats().completed }}</h3>
+                <span class="text-xs font-medium text-emerald-600/80 dark:text-emerald-300/80">
                   ({{ stats().percentage }}%)
                 </span>
               </div>
@@ -919,19 +920,19 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
         <!-- Priority & Risk Breakdown -->
-        <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+        <mat-card appearance="outlined" class="!bg-white dark:!bg-slate-800/90 !border-slate-200 dark:!border-slate-700/80 !rounded-2xl shadow-2xs">
           <mat-card-content class="!p-6 space-y-5">
             <div class="flex items-center justify-between">
               <div>
-                <h4 class="text-sm font-bold text-stone-900 dark:text-white uppercase tracking-wider">Priority &amp; Risk Breakdown</h4>
-                <p class="text-xs text-stone-500 dark:text-stone-400 mt-0.5">Task distribution across severity levels</p>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Priority &amp; Risk Breakdown</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-300 mt-0.5">Task distribution across severity levels</p>
               </div>
-              <mat-icon class="text-stone-400 dark:text-stone-500">flag</mat-icon>
+              <mat-icon class="text-slate-400 dark:text-slate-400">flag</mat-icon>
             </div>
 
             <!-- Multi-segment Distribution Bar -->
             <div class="space-y-1.5">
-              <div class="h-3 w-full bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden flex">
+              <div class="h-3 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden flex">
                 <div
                   class="bg-rose-500 transition-all duration-300"
                   [style.width.%]="priorityStats().urgentPct"
@@ -943,17 +944,17 @@
                   matTooltip="High: {{ priorityStats().high }} ({{ priorityStats().highPct }}%)"
                 ></div>
                 <div
-                  class="bg-blue-500 transition-all duration-300"
+                  class="bg-sky-500 transition-all duration-300"
                   [style.width.%]="priorityStats().mediumPct"
                   matTooltip="Medium: {{ priorityStats().medium }} ({{ priorityStats().mediumPct }}%)"
                 ></div>
                 <div
-                  class="bg-stone-400 dark:bg-stone-600 transition-all duration-300"
+                  class="bg-slate-400 dark:bg-slate-500 transition-all duration-300"
                   [style.width.%]="priorityStats().lowPct"
                   matTooltip="Low: {{ priorityStats().low }} ({{ priorityStats().lowPct }}%)"
                 ></div>
               </div>
-              <div class="flex justify-between text-[11px] text-stone-400 font-mono">
+              <div class="flex justify-between text-[11px] text-slate-400 dark:text-slate-400 font-mono">
                 <span>0%</span>
                 <span>Sprint Priority Distribution</span>
                 <span>100%</span>
@@ -962,69 +963,69 @@
 
             <!-- Priority Stats Chips -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-              <div class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/40">
-                <div class="flex items-center gap-1.5 text-xs font-semibold text-rose-700 dark:text-rose-400">
+              <div class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/70 border border-rose-200 dark:border-rose-800/80">
+                <div class="flex items-center gap-1.5 text-xs font-semibold text-rose-700 dark:text-rose-200">
                   <span class="w-2 h-2 rounded-full bg-rose-500"></span>
                   <span>Urgent</span>
                 </div>
-                <p class="text-xl font-extrabold text-rose-900 dark:text-rose-200 mt-1">{{ priorityStats().urgent }}</p>
-                <p class="text-[10px] text-rose-600/80 dark:text-rose-400/80 font-mono">{{ priorityStats().urgentPct }}%</p>
+                <p class="text-xl font-extrabold text-rose-900 dark:text-rose-100 mt-1">{{ priorityStats().urgent }}</p>
+                <p class="text-[10px] text-rose-600/80 dark:text-rose-300 font-mono">{{ priorityStats().urgentPct }}%</p>
               </div>
 
-              <div class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/40">
-                <div class="flex items-center gap-1.5 text-xs font-semibold text-amber-700 dark:text-amber-400">
+              <div class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/70 border border-amber-200 dark:border-amber-800/80">
+                <div class="flex items-center gap-1.5 text-xs font-semibold text-amber-700 dark:text-amber-200">
                   <span class="w-2 h-2 rounded-full bg-amber-500"></span>
                   <span>High</span>
                 </div>
-                <p class="text-xl font-extrabold text-amber-900 dark:text-amber-200 mt-1">{{ priorityStats().high }}</p>
-                <p class="text-[10px] text-amber-600/80 dark:text-amber-400/80 font-mono">{{ priorityStats().highPct }}%</p>
+                <p class="text-xl font-extrabold text-amber-900 dark:text-amber-100 mt-1">{{ priorityStats().high }}</p>
+                <p class="text-[10px] text-amber-600/80 dark:text-amber-300 font-mono">{{ priorityStats().highPct }}%</p>
               </div>
 
-              <div class="p-3 rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/40">
-                <div class="flex items-center gap-1.5 text-xs font-semibold text-blue-700 dark:text-blue-400">
-                  <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+              <div class="p-3 rounded-xl bg-sky-50 dark:bg-sky-950/70 border border-sky-200 dark:border-sky-800/80">
+                <div class="flex items-center gap-1.5 text-xs font-semibold text-sky-700 dark:text-sky-200">
+                  <span class="w-2 h-2 rounded-full bg-sky-500"></span>
                   <span>Medium</span>
                 </div>
-                <p class="text-xl font-extrabold text-blue-900 dark:text-blue-200 mt-1">{{ priorityStats().medium }}</p>
-                <p class="text-[10px] text-blue-600/80 dark:text-blue-400/80 font-mono">{{ priorityStats().mediumPct }}%</p>
+                <p class="text-xl font-extrabold text-sky-900 dark:text-sky-100 mt-1">{{ priorityStats().medium }}</p>
+                <p class="text-[10px] text-sky-600/80 dark:text-sky-300 font-mono">{{ priorityStats().mediumPct }}%</p>
               </div>
 
-              <div class="p-3 rounded-xl bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700/60">
-                <div class="flex items-center gap-1.5 text-xs font-semibold text-stone-700 dark:text-stone-400">
-                  <span class="w-2 h-2 rounded-full bg-stone-400"></span>
+              <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+                <div class="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200">
+                  <span class="w-2 h-2 rounded-full bg-slate-400"></span>
                   <span>Low</span>
                 </div>
-                <p class="text-xl font-extrabold text-stone-900 dark:text-stone-200 mt-1">{{ priorityStats().low }}</p>
-                <p class="text-[10px] text-stone-500 dark:text-stone-400 font-mono">{{ priorityStats().lowPct }}%</p>
+                <p class="text-xl font-extrabold text-slate-900 dark:text-slate-100 mt-1">{{ priorityStats().low }}</p>
+                <p class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">{{ priorityStats().lowPct }}%</p>
               </div>
             </div>
           </mat-card-content>
         </mat-card>
 
         <!-- Workload by Category -->
-        <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+        <mat-card appearance="outlined" class="!bg-white dark:!bg-slate-800/90 !border-slate-200 dark:!border-slate-700/80 !rounded-2xl shadow-2xs">
           <mat-card-content class="!p-6 space-y-5">
             <div class="flex items-center justify-between">
               <div>
-                <h4 class="text-sm font-bold text-stone-900 dark:text-white uppercase tracking-wider">Workload by Category</h4>
-                <p class="text-xs text-stone-500 dark:text-stone-400 mt-0.5">Task distribution across functional teams</p>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Workload by Category</h4>
+                <p class="text-xs text-slate-500 dark:text-slate-300 mt-0.5">Task distribution across functional teams</p>
               </div>
-              <mat-icon class="text-stone-400 dark:text-stone-500">category</mat-icon>
+              <mat-icon class="text-slate-400 dark:text-slate-400">category</mat-icon>
             </div>
 
             <div class="space-y-3.5 pt-1">
               @for (cat of categoryStats(); track cat.name) {
                 <div class="space-y-1">
                   <div class="flex items-center justify-between text-xs">
-                    <span class="font-medium text-stone-800 dark:text-stone-200">{{ cat.name }}</span>
+                    <span class="font-medium text-slate-800 dark:text-slate-200">{{ cat.name }}</span>
                     <div class="flex items-center gap-2">
-                      <span class="text-stone-500 dark:text-stone-400 font-mono text-[11px]">{{ cat.count }} {{ cat.count === 1 ? 'task' : 'tasks' }}</span>
-                      <span class="font-semibold text-stone-900 dark:text-white font-mono text-[11px] w-8 text-right">{{ cat.percentage }}%</span>
+                      <span class="text-slate-500 dark:text-slate-300 font-mono text-[11px]">{{ cat.count }} {{ cat.count === 1 ? 'task' : 'tasks' }}</span>
+                      <span class="font-semibold text-slate-900 dark:text-white font-mono text-[11px] w-8 text-right">{{ cat.percentage }}%</span>
                     </div>
                   </div>
-                  <div class="h-2 w-full bg-stone-100 dark:bg-stone-800 rounded-full overflow-hidden">
+                  <div class="h-2 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
                     <div
-                      class="h-full bg-stone-800 dark:bg-stone-300 rounded-full transition-all duration-300"
+                      class="h-full bg-slate-800 dark:bg-slate-300 rounded-full transition-all duration-300"
                       [style.width.%]="cat.percentage"
                     ></div>
                   </div>
@@ -1037,25 +1038,25 @@
       </div>
 
       <!-- Critical Attention Queue (Urgent & High Tasks Requiring Attention) -->
-      <mat-card appearance="outlined" class="!bg-white dark:!bg-stone-900 !border-stone-200 dark:!border-stone-800 !rounded-2xl shadow-2xs">
+      <mat-card appearance="outlined" class="!bg-white dark:!bg-slate-800/90 !border-slate-200 dark:!border-slate-700/80 !rounded-2xl shadow-2xs">
         <mat-card-content class="!p-6">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-stone-100 dark:border-stone-800">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100 dark:border-slate-700/80">
             <div>
               <div class="flex items-center gap-2">
-                <h4 class="text-sm font-bold text-stone-900 dark:text-white uppercase tracking-wider">Critical Attention Queue</h4>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">Critical Attention Queue</h4>
                 @if (urgentActionQueue().length > 0) {
-                  <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900">
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-800/80">
                     {{ urgentActionQueue().length }} {{ urgentActionQueue().length === 1 ? 'task' : 'tasks' }}
                   </span>
                 }
               </div>
-              <p class="text-xs text-stone-500 dark:text-stone-400 mt-0.5">Active tasks marked urgent or high priority requiring sprint resolution</p>
+              <p class="text-xs text-slate-500 dark:text-slate-300 mt-0.5">Active tasks marked urgent or high priority requiring sprint resolution</p>
             </div>
             <a
               mat-button
               routerLink="/tasks"
               (click)="selectedPriority.set('urgent'); setView('table')"
-              class="!rounded-full !text-xs !text-stone-600 dark:!text-stone-400 hover:!text-stone-900 dark:hover:!text-white self-start sm:self-auto"
+              class="!rounded-full !text-xs !text-slate-600 dark:!text-slate-300 hover:!text-slate-900 dark:hover:!text-white self-start sm:self-auto"
             >
               Filter in Directory
             </a>
@@ -1064,32 +1065,32 @@
           @if (urgentActionQueue().length === 0) {
             <div class="py-10 text-center">
               <mat-icon class="!text-3xl !w-8 !h-8 text-emerald-500 mx-auto">task_alt</mat-icon>
-              <h5 class="text-sm font-bold text-stone-800 dark:text-stone-200 mt-2">All Clear</h5>
-              <p class="text-xs text-stone-500 dark:text-stone-400 max-w-sm mx-auto mt-0.5">
+              <h5 class="text-sm font-bold text-slate-800 dark:text-slate-200 mt-2">All Clear</h5>
+              <p class="text-xs text-slate-500 dark:text-slate-300 max-w-sm mx-auto mt-0.5">
                 No active urgent or high-priority bottlenecks in this sprint.
               </p>
             </div>
           } @else {
-            <div class="divide-y divide-stone-100 dark:divide-stone-800">
+            <div class="divide-y divide-slate-100 dark:divide-slate-700/80">
               @for (task of urgentActionQueue(); track task.id) {
-                <div class="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 group hover:bg-stone-50/60 dark:hover:bg-stone-800/30 px-2 rounded-xl transition-colors">
+                <div class="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 group hover:bg-slate-50/60 dark:hover:bg-slate-700/40 px-2 rounded-xl transition-colors">
                   <div class="flex items-start sm:items-center gap-3 min-w-0">
-                    <span class="text-xs font-mono font-bold text-stone-400 dark:text-stone-500 shrink-0">
+                    <span class="text-xs font-mono font-bold text-slate-400 dark:text-slate-400 shrink-0">
                       {{ formatTaskId(task.id) }}
                     </span>
                     <div class="min-w-0">
                       <a
                         [routerLink]="['/tasks', task.id]"
-                        class="text-xs font-semibold text-stone-900 dark:text-white hover:text-emerald-600 dark:hover:text-emerald-400 truncate block transition-colors"
+                        class="text-xs font-semibold text-slate-900 dark:text-white hover:text-sky-600 dark:hover:text-sky-300 truncate block transition-colors"
                       >
                         {{ task.title }}
                       </a>
                       <div class="flex items-center gap-2 mt-1">
-                        <span class="text-[11px] text-stone-500 dark:text-stone-400">
+                        <span class="text-[11px] text-slate-500 dark:text-slate-300">
                           {{ task.category }}
                         </span>
-                        <span class="text-stone-300 dark:text-stone-700">•</span>
-                        <span class="text-[11px] text-stone-400 font-mono">
+                        <span class="text-slate-300 dark:text-slate-600">•</span>
+                        <span class="text-[11px] text-slate-400 dark:text-slate-400 font-mono">
                           Due: {{ task.dueDate ? (task.dueDate | date:'mediumDate') : 'No date' }}
                         </span>
                       </div>
@@ -1100,8 +1101,8 @@
                     <span
                       class="inline-flex items-center gap-1 text-[10px] font-mono uppercase px-2 py-0.5 rounded-full font-bold"
                       [ngClass]="{
-                        'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900': task.priority === 'urgent',
-                        'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-900': task.priority === 'high'
+                        'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-800/80': task.priority === 'urgent',
+                        'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': task.priority === 'high'
                       }"
                     >
                       <mat-icon class="!text-[10px] !w-2.5 !h-2.5 leading-none">priority_high</mat-icon>

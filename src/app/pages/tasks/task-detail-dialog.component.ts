@@ -26,29 +26,29 @@ export interface TaskDetailDialogData {
   ],
   template: `
     <div
-      class="flex flex-col bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 transition-all duration-200 overflow-hidden"
+      class="flex flex-col bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-all duration-200 overflow-hidden"
       [ngClass]="{
         'fixed inset-0 z-50 w-screen h-screen rounded-none': isFullscreen(),
-        'w-full max-w-3xl rounded-3xl border border-stone-200 dark:border-stone-800 shadow-2xl max-h-[90vh]': !isFullscreen()
+        'w-full max-w-3xl rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl max-h-[90vh]': !isFullscreen()
       }"
     >
       <!-- Dialog Header Bar -->
-      <div class="px-6 py-4 border-b border-stone-200 dark:border-stone-800 flex items-center justify-between gap-4 bg-stone-50/70 dark:bg-stone-800/40 shrink-0">
+      <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4 bg-slate-50/70 dark:bg-slate-800/40 shrink-0">
         <div class="flex items-center gap-3 min-w-0">
           <div class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-800 dark:text-slate-200 shrink-0">
             <mat-icon class="!text-lg !w-5 !h-5">article</mat-icon>
           </div>
           <div class="min-w-0">
             <div class="flex items-center gap-2">
-              <span class="font-mono text-xs font-bold text-stone-400 dark:text-stone-500 uppercase">
+              <span class="font-mono text-xs font-bold text-slate-400 dark:text-slate-400 uppercase">
                 {{ formatTaskId(data.task.id) }}
               </span>
-              <span class="text-stone-300 dark:text-stone-700">&bull;</span>
-              <span class="text-xs font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider">
+              <span class="text-slate-300 dark:text-slate-600">&bull;</span>
+              <span class="text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
                 {{ data.task.category }}
               </span>
             </div>
-            <h2 class="text-lg font-bold text-stone-900 dark:text-white truncate max-w-md sm:max-w-xl">
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white truncate max-w-md sm:max-w-xl">
               {{ data.task.title }}
             </h2>
           </div>
@@ -60,7 +60,7 @@ export interface TaskDetailDialogData {
             [routerLink]="['/tasks', data.task.id]"
             (click)="close()"
             matTooltip="Open Dedicated Task Page (/tasks/:id)"
-            class="w-8 h-8 rounded-full inline-flex items-center justify-center text-stone-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 transition cursor-pointer leading-none"
+            class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-300 hover:bg-sky-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
             aria-label="Open dedicated task page"
           >
             <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">open_in_new</mat-icon>
@@ -69,7 +69,7 @@ export interface TaskDetailDialogData {
             type="button"
             (click)="toggleFullscreen()"
             [matTooltip]="isFullscreen() ? 'Exit Full Screen' : 'View Full Screen'"
-            class="w-8 h-8 rounded-full inline-flex items-center justify-center text-stone-500 hover:text-stone-900 dark:hover:text-white hover:bg-stone-100 dark:hover:bg-stone-800 transition cursor-pointer leading-none"
+            class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
             aria-label="Toggle full screen"
           >
             <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
@@ -78,7 +78,7 @@ export interface TaskDetailDialogData {
             type="button"
             (click)="close()"
             matTooltip="Close"
-            class="w-8 h-8 rounded-full inline-flex items-center justify-center text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition cursor-pointer leading-none"
+            class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-400 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
             aria-label="Close dialog"
           >
             <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">close</mat-icon>
@@ -90,14 +90,14 @@ export interface TaskDetailDialogData {
       <div class="flex-1 overflow-y-auto p-6 space-y-6">
         
         <!-- Metadata Badges Strip -->
-        <div class="flex flex-wrap items-center gap-2.5 pb-4 border-b border-stone-100 dark:border-stone-800">
+        <div class="flex flex-wrap items-center gap-2.5 pb-4 border-b border-slate-100 dark:border-slate-700/80">
           <!-- Status Badge -->
           <span
             class="inline-flex items-center gap-1.5 text-xs font-mono uppercase px-3 py-1 rounded-lg font-bold"
             [ngClass]="{
-              'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800': data.task.status === 'completed',
-              'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800': data.task.status === 'in-progress',
-              'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': data.task.status === 'todo'
+              'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800/80': data.task.status === 'completed',
+              'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': data.task.status === 'in-progress',
+              'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': data.task.status === 'todo'
             }"
           >
             <mat-icon class="!text-xs !w-3.5 !h-3.5">
@@ -110,10 +110,10 @@ export interface TaskDetailDialogData {
           <span
             class="inline-flex items-center gap-1.5 text-xs font-mono uppercase px-3 py-1 rounded-lg font-bold"
             [ngClass]="{
-              'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-900': data.task.priority === 'urgent',
-              'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-900': data.task.priority === 'high',
-              'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900': data.task.priority === 'medium',
-              'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700': data.task.priority === 'low'
+              'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-800/80': data.task.priority === 'urgent',
+              'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': data.task.priority === 'high',
+              'bg-sky-100 dark:bg-sky-950/70 text-sky-800 dark:text-sky-200 border border-sky-200 dark:border-sky-800/80': data.task.priority === 'medium',
+              'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': data.task.priority === 'low'
             }"
           >
             <mat-icon class="!text-xs !w-3.5 !h-3.5">
@@ -124,14 +124,14 @@ export interface TaskDetailDialogData {
 
           <!-- Due Date -->
           @if (data.task.dueDate) {
-            <span class="inline-flex items-center gap-1.5 text-xs font-mono px-3 py-1 rounded-lg bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700">
+            <span class="inline-flex items-center gap-1.5 text-xs font-mono px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
               <mat-icon class="!text-xs !w-3.5 !h-3.5">calendar_today</mat-icon>
               <span>Due: {{ data.task.dueDate }}</span>
             </span>
           }
 
           <!-- Updated Date -->
-          <span class="inline-flex items-center gap-1.5 text-xs font-mono px-3 py-1 rounded-lg bg-stone-50 dark:bg-stone-800/50 text-stone-500 dark:text-stone-400 border border-stone-200/60 dark:border-stone-700/60 ml-auto">
+          <span class="inline-flex items-center gap-1.5 text-xs font-mono px-3 py-1 rounded-lg bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60 ml-auto">
             <mat-icon class="!text-xs !w-3.5 !h-3.5">update</mat-icon>
             <span>Updated: {{ data.task.updatedAt | date:'mediumDate' }}</span>
           </span>
@@ -139,15 +139,15 @@ export interface TaskDetailDialogData {
 
         <!-- Markdown Description Section -->
         <div>
-          <h3 class="text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-3">
+          <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-300 mb-3">
             Description & Specifications
           </h3>
           @if (data.task.description) {
-            <div class="task-editor-font p-5 rounded-2xl bg-stone-50 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-800 text-sm text-stone-800 dark:text-stone-200 leading-relaxed prose dark:prose-invert max-w-none">
+            <div class="task-editor-font p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-sm text-slate-800 dark:text-slate-200 leading-relaxed prose dark:prose-invert max-w-none">
               <div [innerHTML]="data.task.description | markdown" ngSkipHydration></div>
             </div>
           } @else {
-            <div class="p-8 rounded-2xl bg-stone-50 dark:bg-stone-800/40 border border-dashed border-stone-200 dark:border-stone-700 text-center text-sm text-stone-400">
+            <div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700 text-center text-sm text-slate-400 dark:text-slate-400">
               No detailed markdown description provided for this task.
             </div>
           }
@@ -156,7 +156,7 @@ export interface TaskDetailDialogData {
       </div>
 
       <!-- Dialog Footer Action Bar -->
-      <div class="px-6 py-4 border-t border-stone-200 dark:border-stone-800 flex flex-wrap items-center justify-between gap-3 bg-stone-50/70 dark:bg-stone-800/40 shrink-0">
+      <div class="px-6 py-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3 bg-slate-50/70 dark:bg-slate-800/40 shrink-0">
         <!-- Destructive Action -->
         <button
           type="button"

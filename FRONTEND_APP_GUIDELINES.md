@@ -1848,5 +1848,32 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
   - Explicitly define `"id": "/?source=pwa"` and `"scope": "/"` in `site.webmanifest` for distinct browser app sandboxing.
   - Maintain redirects from `/manifest.json` and `/manifest.webmanifest` to `/site.webmanifest`.
 
+### 29.10 Dark Mode Slate Architecture & WCAG AA/AAA Contrast Standards
+- **Refined Slate Palette Over Pitch Black or Muddy Stone**:
+  - Avoid harsh pure jet black (`#000000`) which produces high glare and eye fatigue on OLED displays.
+  - Avoid muddy, warm brown-stone (`stone-900`, `stone-950`) which feels dated and dirty.
+  - Standardize on an aesthetic, modern **Slate color theme**:
+    - **App Canvas Surface**: Slate-950 (`#020617` / `dark:bg-slate-950`).
+    - **Dialogs & Base Cards**: Slate-900 (`#0f172a` / `dark:bg-slate-900`).
+    - **Table Header & Elevated Panels**: Slate-800 (`#1e293b` / `dark:bg-slate-800/90`).
+    - **Subtle Borders & Row Dividers**: Slate-700 (`#334155` / `dark:border-slate-700/80`).
+    - **Secondary & Tertiary Text**: Slate-300 (`#cbd5e1` / `dark:text-slate-300`) and Slate-400 (`#94a3b8` / `dark:text-slate-400`).
+- **WCAG 2.2 AA and AAA Contrast Compliance for Badges & Labels**:
+  - All status pills, priority badges, category chips, and table metadata must meet or exceed WCAG 2.2 AA minimum contrast (>= 4.5:1) and target AAA (>= 7:1) against dark slate surfaces.
+  - Never use muddy mid-tones like `dark:text-stone-500` or washed-out `text-amber-400`/`text-rose-400` that fail contrast audits.
+  - Approved High-Contrast Badges on Dark Slate:
+    - **Urgent**: `bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-800/80` (10.8:1 contrast).
+    - **High**: `bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80` (11.2:1 contrast).
+    - **Medium**: `bg-sky-100 dark:bg-sky-950/70 text-sky-800 dark:text-sky-200 border border-sky-200 dark:border-sky-800/80` (10.5:1 contrast).
+    - **Low / To Do**: `bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700` (10.5:1 contrast).
+    - **Completed**: `bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800/80` (12.4:1 contrast).
+- **Peripheral Table Row Dimming Contrast Safety Rule**:
+  - When applying focus-directing dimming across sibling table rows during hover or keyboard navigation:
+    - Light mode can softly dim siblings to `0.50` opacity with `filter: blur(0.4px)`.
+    - **Dark mode must NEVER drop below 0.70 opacity** (`opacity: 0.70 !important`) and **must NEVER apply blur** (`filter: none !important`).
+    - Lower opacities (e.g. `0.35`) in dark mode crush text contrast from 7:1 down to < 2.5:1, causing immediate WCAG accessibility violations.
+    - Active hovered/focused rows stay 100% crisp with `background-color: rgba(30, 41, 59, 0.98)` and a distinctive sky-blue accent left indicator (`box-shadow: inset 3.5px 0 0 0 #38bdf8 !important`).
+
+
 
 

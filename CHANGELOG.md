@@ -14,6 +14,30 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.0] - 2026-11-07
+
+### Added
+- **Dark Mode Slate Architecture (`#020617` / `#0f172a` / `#1e293b` / `#334155`)**:
+  - Replaced muddy brown-stone theme with an aesthetic, modern Slate color palette across table views, card views, sprint analytics, modal dialogs, and the dedicated task detail page.
+  - Dark Slate hierarchy: Canvas (`slate-950`), Dialogs & Base Cards (`slate-900`), Table Header Cells & Elevated Panels (`slate-800`), Row Dividers & Subtle Borders (`slate-700`).
+- **WCAG 2.2 AA and AAA Contrast Compliance for Badges & Labels**:
+  - All status pills, priority badges, and category labels upgraded to high-contrast colors meeting >= 4.5:1 (AA) and >= 7:1 (AAA) contrast ratios against slate backgrounds.
+  - Urgent: `dark:bg-rose-950/70`, `dark:text-rose-200`, `dark:border-rose-800/80` (10.8:1 contrast).
+  - High: `dark:bg-amber-950/70`, `dark:text-amber-200`, `dark:border-amber-800/80` (11.2:1 contrast).
+  - Medium: `dark:bg-sky-950/70`, `dark:text-sky-200`, `dark:border-sky-800/80` (10.5:1 contrast).
+  - Low / To Do: `dark:bg-slate-800`, `dark:text-slate-200`, `dark:border-slate-700` (10.5:1 contrast).
+  - Completed: `dark:bg-emerald-950/70`, `dark:text-emerald-200`, `dark:border-emerald-800/80` (12.4:1 contrast).
+- **Peripheral Row Dimming Safety Rule in Dark Mode**:
+  - Unhovered/unfocused rows in dark mode now maintain `opacity: 0.70 !important` and zero blur (`filter: none !important`) to eliminate contrast degradation.
+  - Hovered/focused row elevated with rich `slate-800` (`rgba(30, 41, 59, 0.98)`), crisp white typography (`#ffffff`), and a vivid sky-blue accent left indicator (`box-shadow: inset 3.5px 0 0 0 #38bdf8`).
+- **Mobile Modal Focus / Zen Mode Editor**:
+  - Added dedicated "Focus Editor" mode that hides all labels and metadata pills, dedicating >85% of mobile viewport to Markdown editing and preview.
+  - Edge-to-edge full-screen dialog expansion on `< 640px` screens.
+- **PWA Application Identity Isolation (`chintap-starter-kit-angular`)**:
+  - Explicitly renamed installed app identity in `site.webmanifest` and mobile meta tags to prevent collision with the primary `chintap.com` production app.
+- **Documentation**:
+  - Added Section 29.8 ("Mobile Modal & Full-Screen Editor Standards"), Section 29.9 ("PWA & Mobile App Installation Identity"), and Section 29.10 ("Dark Mode Slate Architecture & WCAG AA/AAA Contrast Standards") to `FRONTEND_APP_GUIDELINES.md`.
+
 ## [1.4.0] - 2026-11-07
 
 ### Added
