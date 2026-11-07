@@ -41,8 +41,13 @@ export class TaskFormDialogComponent {
 
   readonly isEdit = this.data.mode === 'edit';
   readonly isFullscreen = signal<boolean>(false);
+  readonly isFocusMode = signal<boolean>(false);
   readonly isPropertiesExpanded = signal<boolean>(false);
   readonly editorTab = signal<'write' | 'preview'>('write');
+
+  toggleFocusMode(): void {
+    this.isFocusMode.update((v) => !v);
+  }
 
   readonly categories = ['Setup', 'Branding', 'Content', 'Verification', 'DevOps', 'General', 'Architecture', 'Security', 'Performance'];
   readonly priorities: { value: TaskPriority; label: string; dotColor: string }[] = [

@@ -50,6 +50,16 @@ describe('TaskFormDialogComponent', () => {
     expect(component.isPropertiesExpanded()).toBe(false);
   });
 
+  it('should toggle focus mode (editor only) state', () => {
+    expect(component.isFocusMode()).toBe(false);
+
+    component.toggleFocusMode();
+    expect(component.isFocusMode()).toBe(true);
+
+    component.toggleFocusMode();
+    expect(component.isFocusMode()).toBe(false);
+  });
+
   it('should toggle fullscreen mode and update dialog size', () => {
     expect(component.isFullscreen()).toBe(false);
 

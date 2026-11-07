@@ -1825,3 +1825,18 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
 - **Touch-Target Compliance**:
   - Every row maintains a minimum height of `44px` to satisfy Apple Human Interface Guidelines and WCAG 2.2 AA pointer cancellation without ballooning whitespace.
 
+### 29.8 Mobile Modal & Full-Screen Editor Standards (Focus / Zen Mode)
+- **Zero Label Clutter Rule**: On mobile screens (`< 640px`), avoid static uppercase labels (`TASK TITLE *`, `SPECIFICATIONS`, etc.) that consume >40% of vertical screen height. Use descriptive input placeholders (`"Task title..."`, `"Write specifications, # headings, `code`..."`) and inline error helpers.
+- **Single-Row Compact Property Pill Strip**:
+  - Tucks Category, Priority, Status, and Due Date into an ultra-compact horizontal scrollable pill bar (`~28px` height).
+  - Eliminates bulky stacked `<mat-form-field>` boxes and multi-line chips on mobile.
+- **Focus Mode / Full-Screen Editor Alone**:
+  - Provides a dedicated **Focus Editor (Zen Mode)** toggle button.
+  - When enabled:
+    - Hides the properties strip and extra header text.
+    - Dedicates >85% of the viewport height strictly to the Markdown textarea / live preview.
+    - Maximizes typing canvas when the mobile on-screen virtual keyboard is active.
+- **Native Full-Screen Edge-to-Edge Dialog Styling**:
+  - Mobile viewports (`< 640px`) automatically expand dialog containers to `100vw × 100dvh` with `border-radius: 0`, eliminating awkward outer margins and inner double scrollbars.
+
+

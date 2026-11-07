@@ -817,6 +817,24 @@ html.dark .mat-expansion-panel-body {
   padding: 0 !important;
 }
 
+/* Responsive mobile dialog: full-screen edge-to-edge on screens < 640px */
+@media (max-width: 639px) {
+  .cdk-overlay-pane:has(app-task-form-dialog),
+  .cdk-overlay-pane:has(app-task-form-dialog) .mat-mdc-dialog-container,
+  .cdk-overlay-pane:has(app-task-form-dialog) .mat-mdc-dialog-container .mdc-dialog__surface,
+  .cdk-overlay-pane:has(app-task-detail-dialog),
+  .cdk-overlay-pane:has(app-task-detail-dialog) .mat-mdc-dialog-container,
+  .cdk-overlay-pane:has(app-task-detail-dialog) .mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 0 !important;
+    max-width: 100vw !important;
+    width: 100vw !important;
+    max-height: 100dvh !important;
+    height: 100dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}
+
 /* Material Select Panel Slate Theme Overrides */
 .mat-mdc-select-panel {
   border-radius: 0.875rem !important;
