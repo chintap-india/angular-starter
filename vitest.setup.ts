@@ -13,3 +13,8 @@ try {
 } catch {
   // Already initialized
 }
+
+if (typeof globalThis.requestAnimationFrame === 'undefined') {
+  globalThis.requestAnimationFrame = (cb: FrameRequestCallback): number => setTimeout(() => cb(Date.now()), 16) as unknown as number;
+  globalThis.cancelAnimationFrame = (id: number): void => clearTimeout(id);
+}

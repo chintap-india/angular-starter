@@ -828,12 +828,55 @@ html.dark .mat-mdc-header-cell {
 
 .mat-sort-header-arrow {
   color: #0f172a !important;
-  opacity: 0.85 !important;
+  opacity: 0 !important;
+  transition: opacity 0.15s ease-in-out !important;
 }
 
 html.dark .mat-sort-header-arrow {
   color: #ffffff !important;
-  opacity: 0.95 !important;
+}
+
+.mat-sort-header:hover .mat-sort-header-arrow,
+.mat-sort-header-sorted .mat-sort-header-arrow,
+[aria-sort="ascending"] .mat-sort-header-arrow,
+[aria-sort="descending"] .mat-sort-header-arrow {
+  opacity: 1 !important;
+}
+
+/* Clean Enterprise Date Input inside Material Form Fields */
+input[type="date"] {
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+  color: inherit !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+input[type="date"]::-webkit-datetime-edit {
+  padding: 0.2rem 0 !important;
+  font-size: 0.875rem !important;
+}
+
+input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  padding: 0 !important;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+input[type="date"]:focus,
+input[type="date"]:focus-visible,
+input[type="date"]::-webkit-datetime-edit:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 

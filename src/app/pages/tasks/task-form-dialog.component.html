@@ -162,13 +162,20 @@
             </mat-form-field>
 
             <!-- Priority Material Select -->
-            <mat-form-field appearance="outline" class="w-full !text-xs">
+            <mat-form-field appearance="outline" class="w-full">
               <mat-label>Priority</mat-label>
               <mat-select formControlName="priority">
+                <mat-select-trigger>
+                  @let curPriority = getPriorityObj(taskForm.controls.priority.value);
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full shrink-0" [ngClass]="curPriority?.dotColor"></span>
+                    <span class="font-mono text-xs uppercase">{{ curPriority?.label || taskForm.controls.priority.value }}</span>
+                  </div>
+                </mat-select-trigger>
                 @for (p of priorities; track p.value) {
                   <mat-option [value]="p.value">
                     <div class="flex items-center gap-2">
-                      <span class="w-2 h-2 rounded-full" [ngClass]="p.dotColor"></span>
+                      <span class="w-2 h-2 rounded-full shrink-0" [ngClass]="p.dotColor"></span>
                       <span class="font-mono text-xs uppercase">{{ p.label }}</span>
                     </div>
                   </mat-option>
@@ -177,13 +184,24 @@
             </mat-form-field>
 
             <!-- Status Material Select -->
-            <mat-form-field appearance="outline" class="w-full !text-xs">
+            <mat-form-field appearance="outline" class="w-full">
               <mat-label>Status</mat-label>
               <mat-select formControlName="status">
+                <mat-select-trigger>
+                  @let curStatus = getStatusObj(taskForm.controls.status.value);
+                  <div class="flex items-center gap-2">
+                    <mat-icon class="!text-sm !w-4 !h-4 leading-none flex items-center justify-center shrink-0 text-slate-600 dark:text-slate-300">
+                      {{ curStatus?.icon || 'radio_button_unchecked' }}
+                    </mat-icon>
+                    <span class="text-xs font-medium">{{ curStatus?.label || taskForm.controls.status.value }}</span>
+                  </div>
+                </mat-select-trigger>
                 @for (s of statuses; track s.value) {
                   <mat-option [value]="s.value">
                     <div class="flex items-center gap-2">
-                      <mat-icon class="!text-sm !w-4 !h-4">{{ s.icon }}</mat-icon>
+                      <mat-icon class="!text-sm !w-4 !h-4 leading-none flex items-center justify-center shrink-0 text-slate-600 dark:text-slate-300">
+                        {{ s.icon }}
+                      </mat-icon>
                       <span class="text-xs">{{ s.label }}</span>
                     </div>
                   </mat-option>
@@ -192,9 +210,15 @@
             </mat-form-field>
 
             <!-- Due Date Material Field -->
-            <mat-form-field appearance="outline" class="w-full !text-xs">
+            <mat-form-field appearance="outline" class="w-full">
               <mat-label>Due Date</mat-label>
-              <input matInput type="date" formControlName="dueDate" />
+              <input
+                matInput
+                type="date"
+                formControlName="dueDate"
+                class="!text-sm text-stone-900 dark:text-white"
+              />
+              <mat-icon matSuffix class="!text-base !w-4 !h-4 text-stone-400 pointer-events-none mr-1">calendar_today</mat-icon>
             </mat-form-field>
           </div>
         </div>
@@ -336,7 +360,7 @@
       </button>
       <button
         type="submit"
-        [disabled]="taskForm.invalid"
+        [disabled]="taskForm.invalid || isSaving()"
         mat-flat-button
         class="!bg-slate-900 hover:!bg-slate-800 dark:!bg-slate-100 dark:hover:!bg-white !text-white dark:!text-slate-900 !font-bold !rounded-full !px-6 shadow-sm transition disabled:!opacity-50 cursor-pointer text-xs"
       >

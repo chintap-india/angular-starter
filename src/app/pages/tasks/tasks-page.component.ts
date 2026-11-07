@@ -93,6 +93,7 @@ export class TasksPageComponent implements OnInit {
   readonly pageSize = signal<number>(10);
   readonly sortField = signal<string>('updatedAt');
   readonly sortDirection = signal<'asc' | 'desc'>('desc');
+  readonly trackByTaskId = (_index: number, task: TaskItem): string => task.id;
 
   readonly displayedColumns: string[] = [
     'select',

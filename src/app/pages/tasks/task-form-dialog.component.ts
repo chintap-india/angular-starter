@@ -57,6 +57,16 @@ export class TaskFormDialogComponent {
     { value: 'completed', label: 'Completed', icon: 'check_circle' },
   ];
 
+  readonly isSaving = signal<boolean>(false);
+
+  getStatusObj(val: any): { value: TaskStatus; label: string; icon: string } | undefined {
+    return this.statuses.find((s) => s.value === val);
+  }
+
+  getPriorityObj(val: any): { value: TaskPriority; label: string; dotColor: string } | undefined {
+    return this.priorities.find((p) => p.value === val);
+  }
+
   readonly taskForm = new FormGroup({
     title: new FormControl(this.data.task?.title || '', {
       nonNullable: true,
@@ -125,10 +135,12 @@ export class TaskFormDialogComponent {
   }
 
   save(): void {
+    if (this.isSaving()) return;
     if (this.taskForm.invalid) {
       this.taskForm.markAllAsTouched();
       return;
     }
+    this.isSaving.set(true);
 
     const val = this.taskForm.getRawValue();
     if (this.isEdit) {

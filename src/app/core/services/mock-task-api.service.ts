@@ -266,10 +266,21 @@ export class MockTaskApiService {
     return of(task ? { ...task } : undefined).pipe(delay(100));
   }
 
+  private getNextTaskId(): string {
+    const numbers = this.tasks
+      .map((t) => {
+        const idStr = String(t.id || '').replace('task-', '');
+        const n = parseInt(idStr, 10);
+        return isNaN(n) ? 0 : n;
+      })
+      .filter((n) => n > 0);
+    const nextNum = numbers.length > 0 ? Math.max(...numbers) + 1 : 1;
+    return `task-${nextNum}`;
+  }
+
   createTask(dto: CreateTaskDto): Observable<TaskItem> {
-    this.loadingSignal.set(true);
     const newTask: TaskItem = {
-      id: 'task-' + Date.now().toString(36) + Math.random().toString(36).substring(2, 6),
+      id: this.getNextTaskId(),
       title: dto.title.trim(),
       description: dto.description || '',
       priority: dto.priority || 'medium',
@@ -282,15 +293,12 @@ export class MockTaskApiService {
 
     const updated = [newTask, ...this.tasks];
     this.saveToStorage(updated);
+    this.loadingSignal.set(false);
 
-    return of(newTask).pipe(
-      delay(200),
-      tap(() => this.loadingSignal.set(false))
-    );
+    return of(newTask);
   }
 
   updateTask(id: string, dto: UpdateTaskDto): Observable<TaskItem> {
-    this.loadingSignal.set(true);
     const index = this.tasks.findIndex((t) => t.id === id);
     if (index === -1) {
       this.loadingSignal.set(false);
@@ -309,22 +317,17 @@ export class MockTaskApiService {
     const updatedList = [...this.tasks];
     updatedList[index] = updatedTask;
     this.saveToStorage(updatedList);
+    this.loadingSignal.set(false);
 
-    return of(updatedTask).pipe(
-      delay(150),
-      tap(() => this.loadingSignal.set(false))
-    );
+    return of(updatedTask);
   }
 
   deleteTask(id: string): Observable<boolean> {
-    this.loadingSignal.set(true);
     const filtered = this.tasks.filter((t) => t.id !== id);
     this.saveToStorage(filtered);
+    this.loadingSignal.set(false);
 
-    return of(true).pipe(
-      delay(150),
-      tap(() => this.loadingSignal.set(false))
-    );
+    return of(true);
   }
 
   toggleComplete(id: string): Observable<TaskItem> {
