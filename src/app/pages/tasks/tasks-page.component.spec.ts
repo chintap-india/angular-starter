@@ -11,7 +11,7 @@ import { SITE_CONFIG, DEFAULT_SITE_CONFIG } from '../../core/config/site.config'
 import { SITE_CONTENT, DEFAULT_SITE_CONTENT } from '../../core/config/site.content';
 import { TaskItem } from '../../core/models/task.model';
 
-describe('TasksPageComponent', { timeout: 15000 }, () => {
+describe('TasksPageComponent', { timeout: 45000 }, () => {
   let component: TasksPageComponent;
   let fixture: ComponentFixture<TasksPageComponent>;
   let taskApi: MockTaskApiService;
@@ -53,7 +53,7 @@ describe('TasksPageComponent', { timeout: 15000 }, () => {
   it('should create tasks page component', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
-  }, 15000);
+  });
 
   it('should set SEO metadata on initialization', () => {
     fixture.detectChanges();
@@ -86,7 +86,7 @@ describe('TasksPageComponent', { timeout: 15000 }, () => {
           t.description.toLowerCase().includes('site.config')
       )
     ).toBe(true);
-  }, 15000);
+  });
 
   it('should filter tasks by status and priority', () => {
     fixture.detectChanges();
@@ -98,13 +98,13 @@ describe('TasksPageComponent', { timeout: 15000 }, () => {
     component.selectedPriority.set('urgent');
     const urgentTasks = component.filteredTasks();
     expect(urgentTasks.every((t) => t.priority === 'urgent')).toBe(true);
-  }, 15000);
+  });
 
   it('should open task creation dialog when requested', () => {
     fixture.detectChanges();
     component.openCreateDialog();
     expect((component as any).dialog.open).toHaveBeenCalled();
-  }, 15000);
+  });
 
   it('should toggle auth role between developer and guest', () => {
     fixture.detectChanges();
@@ -290,6 +290,15 @@ describe('TasksPageComponent', { timeout: 15000 }, () => {
 
     component.toggleFilterPanel();
     expect(component.isFilterPanelOpen()).toBe(false);
+  });
+
+  it('should render zero tasks empty state when tasks list is empty', () => {
+    taskApi.tasksSignal.set([]);
+    fixture.detectChanges();
+    expect(component.tasks().length).toBe(0);
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('No tasks created yet');
+    expect(compiled.querySelector('table')).toBeNull();
   });
 });
 

@@ -14,6 +14,22 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.8] - 2026-11-09
+
+### Fixed
+- **Dark Mode Table Visibility & High-Contrast Slate Theme**:
+  - Resolved white background bleed-through in Dark Mode caused by Angular Material's default `.mat-mdc-table` surface styles.
+  - Implemented an enterprise slate theme: table canvas and data rows now render on `#0f172a` (Slate-900), headers on `#1e293b` (Slate-800), and borders on `rgba(51, 65, 85, 0.45)` (Slate-700).
+  - Enhanced contrast to WCAG AAA standards (> 12:1) across all text elements (`text-slate-100`, `text-slate-200`, `text-slate-300`, `text-emerald-200`, `text-amber-200`, `text-rose-200`).
+  - Added subtle alternating row tinting (`rgba(30, 41, 59, 0.40)`) in Dark Mode for effortless visual scanning.
+  - Styled unselected checkboxes with crisp `#64748b` (Slate-500) borders and `#94a3b8` (Slate-400) hover states for clear visibility against dark backgrounds.
+  - Restrained table hover/dimming to mouse devices (`@media (hover: hover)`) to eliminate accidental sibling row dimming on mobile touch devices.
+
+### Added
+- **Zero-Tasks Empty State (Zero Clutter When No Tasks Exist)**:
+  - When the task backlog has zero tasks (`tasks().length === 0`), completely concealed the table view, cards view, metrics dashboard, pagination bar, search bar, view switcher, and filter options.
+  - Displayed a clean, spacious zero-state container with a friendly "No tasks created yet" message, an intuitive "Create Task" button that opens the task creation modal, and a "Load Demo Tasks" button for instant demonstration.
+
 ## [1.5.7] - 2026-11-09
 
 ### Changed

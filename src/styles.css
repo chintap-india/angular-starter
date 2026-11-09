@@ -241,11 +241,20 @@ a:not(.mat-mdc-menu-item):has(mat-icon) span,
 /* ENTERPRISE TABLE & CARD ROW HOVER FOCUS / SPOTLIGHT EFFECT                */
 /* ========================================================================= */
 
-.tasks-focus-table {
+.tasks-focus-table,
+.mat-mdc-table {
   table-layout: fixed !important;
   width: 100% !important;
   border-collapse: separate !important;
   border-spacing: 0 !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+:where(.dark) .tasks-focus-table,
+:where(.dark) .mat-mdc-table {
+  background-color: #0f172a !important; /* Slate-900 canvas */
+  color: #f1f5f9 !important; /* Slate-100 */
 }
 
 /* Custom Typography for Markdown Editor and Specs */
@@ -256,38 +265,95 @@ a:not(.mat-mdc-menu-item):has(mat-icon) span,
   -webkit-font-smoothing: antialiased;
 }
 
-/* Base transition for smooth restoration when hover ends */
-.tasks-table-row {
+/* Base styling and transitions for table rows */
+.tasks-table-row,
+.mat-mdc-row {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #f1f5f9 !important;
   transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1),
               filter 0.22s cubic-bezier(0.4, 0, 0.2, 1),
               background-color 0.15s ease,
               box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.tasks-table-row td {
+:where(.dark) .tasks-table-row,
+:where(.dark) .mat-mdc-row {
+  background-color: #0f172a !important; /* Slate-900 */
+  border-bottom: 1px solid rgba(51, 65, 85, 0.45) !important; /* Slate-700 / 45% */
+}
+
+/* Subtle alternate row contrast in Dark Mode for effortless eye-scanning */
+:where(.dark) .tasks-table-row:nth-child(even) {
+  background-color: rgba(30, 41, 59, 0.40) !important; /* Slate-800 subtle tint */
+}
+
+.tasks-table-row td,
+.mat-mdc-cell {
+  background-color: inherit !important;
+  color: inherit !important;
+  border-bottom-color: inherit !important;
   transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* When hovering anywhere over the table body or focusing a row via keyboard,
-   softly reduce sibling row emphasis while preserving WCAG AA/AAA contrast */
-.tasks-focus-table tbody:hover .tasks-table-row,
-.tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row {
-  opacity: 0.50;
-  filter: blur(0.4px);
+:where(.dark) .tasks-table-row td,
+:where(.dark) .mat-mdc-cell {
+  background-color: inherit !important;
+  color: #f1f5f9 !important; /* Slate-100 high-contrast */
+  border-bottom-color: rgba(51, 65, 85, 0.45) !important;
 }
 
-/* In Dark Mode: Maintain WCAG 2.2 AA contrast (min 4.5:1) - never excessively dim */
-:where(.dark) .tasks-focus-table tbody:hover .tasks-table-row,
+/* Header Row & Cells in Dark Mode: Slate-800 header with crisp Slate-50 labels */
+:where(.dark) .mat-mdc-header-row {
+  background-color: #1e293b !important; /* Slate-800 */
+  border-bottom: 2px solid #334155 !important; /* Slate-700 */
+}
+
+:where(.dark) .mat-mdc-header-cell {
+  background-color: #1e293b !important;
+  color: #f8fafc !important; /* Slate-50 */
+  border-bottom: 2px solid #334155 !important;
+}
+
+/* Unchecked Checkbox in Dark Mode: High-contrast Slate-400 border */
+:where(.dark) .mat-mdc-checkbox .mdc-checkbox__native-control:enabled:not(:checked) ~ .mdc-checkbox__background {
+  border-color: #64748b !important; /* Slate-500 */
+}
+
+:where(.dark) .mat-mdc-checkbox:hover .mdc-checkbox__native-control:enabled:not(:checked) ~ .mdc-checkbox__background {
+  border-color: #94a3b8 !important; /* Slate-400 */
+}
+
+/* Empty State / No Data Row in Dark Mode */
+:where(.dark) .tasks-focus-table tr.mat-row,
+:where(.dark) .tasks-focus-table td.mat-cell {
+  background-color: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+/* Soft Spotlight / Focus: Only on pointer devices capable of true hover */
+@media (hover: hover) {
+  .tasks-focus-table tbody:hover .tasks-table-row {
+    opacity: 0.65;
+  }
+
+  :where(.dark) .tasks-focus-table tbody:hover .tasks-table-row {
+    opacity: 0.85 !important;
+  }
+}
+
+.tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row {
+  opacity: 0.65;
+}
+
 :where(.dark) .tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row {
-  opacity: 0.70 !important;
-  filter: none !important;
+  opacity: 0.85 !important;
 }
 
 /* The actively hovered or keyboard-focused row stays 100% crisp, sharp, and elevated */
 .tasks-focus-table tbody:hover .tasks-table-row:hover,
 .tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row:focus-within {
   opacity: 1 !important;
-  filter: blur(0) !important;
+  filter: none !important;
   position: relative;
   z-index: 10;
   cursor: pointer;
@@ -316,7 +382,17 @@ a:not(.mat-mdc-menu-item):has(mat-icon) span,
   box-shadow: inset 3.5px 0 0 0 #38bdf8 !important; /* sky-400 slate-blue accent indicator */
 }
 
-/* Completed task row subtle emerald highlight when focused */
+/* Completed task row subtle emerald highlight */
+.tasks-focus-table .tasks-table-row.bg-emerald-50\/20 td,
+.tasks-focus-table .tasks-table-row[class*="bg-emerald-50"] td {
+  background-color: rgba(236, 253, 245, 0.65) !important;
+}
+
+:where(.dark) .tasks-focus-table .tasks-table-row.bg-emerald-50\/20 td,
+:where(.dark) .tasks-focus-table .tasks-table-row[class*="dark:bg-emerald-950"] td {
+  background-color: rgba(6, 78, 59, 0.25) !important;
+}
+
 .tasks-focus-table tbody:hover .tasks-table-row.bg-emerald-50\/20:hover td,
 .tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row.bg-emerald-50\/20:focus-within td {
   background-color: rgba(236, 253, 245, 0.95) !important; /* emerald-50 */
@@ -336,6 +412,7 @@ a:not(.mat-mdc-menu-item):has(mat-icon) span,
 :where(.dark) .tasks-focus-table tbody:has(.tasks-table-row:focus-within) .tasks-table-row.bg-emerald-50\/20:focus-within td:first-child {
   box-shadow: inset 3.5px 0 0 0 #34d399 !important; /* emerald-400 */
 }
+
 
 /* ========================================================================= */
 /* ENTERPRISE TABLE RESPONSIVE BREAKPOINT COLUMN VISIBILITY                  */

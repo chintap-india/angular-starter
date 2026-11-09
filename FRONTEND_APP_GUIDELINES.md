@@ -1971,6 +1971,27 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
   - Horizontal chip strips and dropdown pill groups (such as Category, Priority, Status, and Due Date) must remain fluidly scrollable without exposing ugly browser-default horizontal scrollbar tracks.
   - Apply the `.no-scrollbar` utility (`::-webkit-scrollbar { display: none !important; }`, `-ms-overflow-style: none !important;`, `scrollbar-width: none !important;`) to ensure sleek, distraction-free scrolling on mobile viewports.
 
+### 29.18 Dark Mode Table Contrast & Zero-Tasks Empty States (v1.5.8)
+- **Enterprise Slate Dark Mode for Material Tables**:
+  - Avoid stark pure black `#000000` or washed-out Material surface defaults in Dark Mode. Use a deliberate slate color system:
+    - Canvas & Row Background: `#0f172a` (Slate-900)
+    - Header Background: `#1e293b` (Slate-800)
+    - Borders & Dividers: `rgba(51, 65, 85, 0.45)` (Slate-700 / 45%)
+    - Primary Text: `#f1f5f9` (Slate-100) — delivering > 12:1 WCAG AAA contrast ratio
+    - Secondary Text & Badges: `#cbd5e1` (Slate-300) / `#94a3b8` (Slate-400)
+    - Checkbox Unchecked Borders: `#64748b` (Slate-500) for distinct visibility against dark canvas
+  - Explicitly override Angular Material's `.mat-mdc-table` and `.mat-mdc-row` background styles with `:where(.dark)` rules to prevent white background bleed-through.
+  - Apply `@media (hover: hover)` to table hover and sibling dimming effects so touch devices don't leave sibling rows dimmed after taps.
+- **Zero-Tasks Total Empty State Pattern**:
+  - When a collection or backlog has zero total items (`items().length === 0`), do not render tables, column headers, cards, metrics, search inputs, view switchers, filter panels, or pagination controls.
+  - Present a spacious, centered empty state container:
+    - Dedicated icon (`assignment_add`, `task_alt`) in a rounded tile
+    - Clear, friendly headline: "No tasks created yet"
+    - Explanatory description guiding the user on next steps
+    - Prominent primary action button: "Create Task" (opening the creation dialog)
+    - Secondary action: "Load Demo Tasks" for immediate testing
+  - Preserve the filter "No matching results" state strictly for when items exist but a search query or filter returns zero matches.
+
 
 
 
