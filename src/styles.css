@@ -442,16 +442,42 @@ a:not(.mat-mdc-menu-item):has(mat-icon) span,
   transform: translateY(-1px);
 }
 
-/* Strict Accessibility: High-contrast keyboard focus indicators */
-*:focus-visible {
-  outline: 3px solid #1c1917 !important;
-  outline-offset: 3px !important;
-  border-radius: 4px;
+/* ==========================================================================
+   Strict Accessibility: Keyboard Focus Indicators (WCAG 2.2 Compliant)
+   ========================================================================== */
+
+/* High-contrast keyboard focus indicators for interactive buttons, links & tab stops */
+:focus-visible {
+  outline: 2px solid #0f172a !important;
+  outline-offset: 2px !important;
 }
 
-html.dark *:focus-visible {
-  outline: 3px solid #fafaf9 !important;
-  outline-offset: 3px !important;
+html.dark :focus-visible {
+  outline: 2px solid #38bdf8 !important;
+  outline-offset: 2px !important;
+}
+
+/* Form input elements & textareas manage their own contextual focus rings and borders;
+   eliminate disruptive multi-layered floating outlines, offset collisions, and border-radius distortion */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select,
+.mat-mdc-input-element,
+.mat-mdc-form-field-input-control {
+  outline: none !important;
+  outline-offset: 0 !important;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):focus,
+input:not([type="checkbox"]):not([type="radio"]):focus-visible,
+textarea:focus,
+textarea:focus-visible,
+select:focus,
+select:focus-visible,
+.mat-mdc-input-element:focus,
+.mat-mdc-input-element:focus-visible {
+  outline: none !important;
+  outline-offset: 0 !important;
 }
 
 /* Dark mode body (Slate Theme) */

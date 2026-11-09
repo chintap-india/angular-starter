@@ -14,6 +14,15 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.5] - 2026-11-09
+
+### Fixed
+- **Eliminated Multi-Layered Outline Bug on Text Inputs & Textareas**:
+  - Replaced universal `*:focus-visible` wildcard rule (`outline: 3px solid #1c1917 !important; outline-offset: 3px !important; border-radius: 4px;`) with targeted `:focus-visible` for interactive navigation elements.
+  - Explicitly excluded all form inputs (`input:not([type="checkbox"]):not([type="radio"])`, `textarea`, `select`, `.mat-mdc-input-element`) with `outline: none !important; outline-offset: 0 !important;`.
+  - Harmonized focus ring and border transitions (`focus:ring-1 focus:border-slate-500` / `dark:focus:ring-slate-400 dark:focus:border-slate-400`) directly on the element's own border-radius, completely eliminating detached floating rectangles, double/triple concentric outlines, and corner shape deformation.
+  - Added 15-second test suite timeout to `TasksPageComponent` spec to prevent artificial timeouts under heavy build loads.
+
 ## [1.5.4] - 2026-11-09
 
 ### Changed

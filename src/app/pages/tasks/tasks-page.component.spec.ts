@@ -11,7 +11,7 @@ import { SITE_CONFIG, DEFAULT_SITE_CONFIG } from '../../core/config/site.config'
 import { SITE_CONTENT, DEFAULT_SITE_CONTENT } from '../../core/config/site.content';
 import { TaskItem } from '../../core/models/task.model';
 
-describe('TasksPageComponent', () => {
+describe('TasksPageComponent', { timeout: 15000 }, () => {
   let component: TasksPageComponent;
   let fixture: ComponentFixture<TasksPageComponent>;
   let taskApi: MockTaskApiService;

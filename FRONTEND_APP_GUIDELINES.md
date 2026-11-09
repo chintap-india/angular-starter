@@ -1941,6 +1941,17 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
   - On mobile, Items 1 and 2 occupy Row 1 cleanly with ample space. Item 3, with `w-full`, wraps cleanly to Row 2, providing a full-width search bar with high usability.
   - On desktop (`sm:`), the container becomes `sm:flex-nowrap`, and `sm:order-2` seamlessly pulls the search bar back between Item 1 and Item 3.
 
+### 29.15 Text Input & Form Control Focus Standards (v1.5.5)
+- **Never Apply Universal Wildcard Focus-Visible to Text Inputs**:
+  - A global rule such as `*:focus-visible { outline: 3px solid ...; outline-offset: 3px; border-radius: 4px; }` matches every text input and textarea.
+  - This forces a detached, multi-layered floating rectangle 3px outside the input border, deforms rounded corners to 4px, and clashes with the element's actual container and focus rings.
+  - **Best Practice Rule**:
+    - Interactive navigation and button elements retain high-contrast `:focus-visible` indicators (`outline: 2px solid ...; outline-offset: 2px;`).
+    - Form inputs (`input:not([type="checkbox"]):not([type="radio"])`, `textarea`, `select`, `.mat-mdc-input-element`) must have `outline: none !important; outline-offset: 0 !important;`.
+    - Style text field focus directly via container border color and subtle rings (`focus:ring-1 focus:border-slate-500` / `dark:focus:ring-slate-400 dark:focus:border-slate-400`).
+    - This guarantees a single, crisp, unified border conforming to the element's own `border-radius` with zero multi-line artifacts.
+
+
 
 
 

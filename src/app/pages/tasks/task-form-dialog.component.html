@@ -75,7 +75,7 @@
         type="text"
         formControlName="title"
         placeholder="Task title..."
-        class="w-full px-3 py-2 text-sm sm:text-base font-bold rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 dark:focus:ring-slate-300 transition"
+        class="w-full px-3 py-2 text-sm sm:text-base font-bold rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900 dark:focus:ring-slate-300 dark:focus:border-slate-300 transition"
       />
       @if (titleControl.invalid && (titleControl.dirty || titleControl.touched)) {
         <p class="text-[11px] text-rose-500 mt-1 flex items-center gap-1 font-medium">
@@ -296,7 +296,7 @@
           formControlName="description"
           (paste)="onPaste($event, descArea)"
           placeholder="Write specifications, requirements, # headings, `code`, - bullet points... Paste URL over text to auto-link."
-          class="task-editor-font flex-1 w-full min-h-[220px] p-3 sm:p-4 rounded-b-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-slate-900 dark:focus:ring-slate-300 transition resize-y"
+          class="task-editor-font flex-1 w-full min-h-[220px] p-3 sm:p-4 rounded-b-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-slate-900 focus:border-slate-900 dark:focus:ring-slate-300 dark:focus:border-slate-300 transition resize-y"
           [ngClass]="isFocusMode() ? 'h-full min-h-[350px]' : ''"
         ></textarea>
       } @else {
