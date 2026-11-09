@@ -9,11 +9,11 @@
   <div class="px-4 py-3 sm:px-6 sm:py-3.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3 bg-slate-50/70 dark:bg-slate-800/40 shrink-0">
     <div class="flex items-center gap-2.5 min-w-0">
       <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 flex items-center justify-center shrink-0 shadow-2xs leading-none">
-        <mat-icon class="!text-sm sm:!text-base !w-4 !h-4 leading-none flex items-center justify-center">{{ isEdit ? 'edit_note' : 'add_task' }}</mat-icon>
+        <mat-icon class="!text-sm sm:!text-base !w-4 !h-4 leading-none flex items-center justify-center">{{ isEdit ? 'edit_note' : (data.mode === 'duplicate' ? 'content_copy' : 'add_task') }}</mat-icon>
       </div>
       <div class="min-w-0">
         <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-tight truncate">
-          {{ isEdit ? 'Edit Task' : 'New Task' }}
+          {{ isEdit ? 'Edit Task' : (data.mode === 'duplicate' ? 'Duplicate Task' : 'New Task') }}
         </h2>
         <p class="hidden sm:block text-[11px] text-slate-400 dark:text-slate-400 leading-none truncate mt-0.5">
           Markdown specifications & smart paste
@@ -28,8 +28,8 @@
         type="button"
         (click)="save()"
         [disabled]="taskForm.invalid || isSaving()"
-        [matTooltip]="isEdit ? 'Save Changes' : 'Create Task'"
-        [attr.aria-label]="isEdit ? 'Save Changes' : 'Create Task'"
+        [matTooltip]="isEdit ? 'Save Changes' : (data.mode === 'duplicate' ? 'Create Duplicate' : 'Create Task')"
+        [attr.aria-label]="isEdit ? 'Save Changes' : (data.mode === 'duplicate' ? 'Create Duplicate' : 'Create Task')"
         class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 inline-flex items-center justify-center transition cursor-pointer shadow-2xs leading-none shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
       >
         <mat-icon class="!text-sm sm:!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">check</mat-icon>

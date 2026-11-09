@@ -2041,3 +2041,14 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
   - Values from enums (such as `priority`) should be rendered using Angular's `titlecase` pipe (e.g. `Medium`, `High`, `Urgent`, `Low`).
 - **Concise, Standard Section Headings**:
   - Avoid overly verbose headings such as "TASK SPECIFICATIONS & NOTES". Use clean, standard headings such as "Description" for document-level clarity.
+
+### 29.23 Task Creation & Duplication Workflows (v1.5.13)
+- **Universal Action Availability**:
+  - Always provide a "Create Task" (`add_task`) and "Duplicate Task" (`content_copy`) action icon button in the sticky header action capsule of dedicated task detail views (`/tasks/:taskId`), ensuring users can spawn tasks without returning to the main backlog.
+  - When landing on non-existent or deleted tasks ("Task Not Found" state), always offer a primary "Back to Tasks" CTA alongside a secondary "Create Task" button for immediate recovery.
+- **Task Duplication Semantics**:
+  - A duplicate task must pre-populate with the source task's title suffixed by `(Copy)`.
+  - Retain domain properties (`category`, `priority`, `dueDate`, `description`).
+  - Always reset workflow lifecycle status to `todo` so the duplicated item correctly enters the sprint backlog queue.
+  - Upon successful duplication or creation from a detail page, navigate the user immediately to the newly created task's route with an informative confirmation snackbar notification.
+

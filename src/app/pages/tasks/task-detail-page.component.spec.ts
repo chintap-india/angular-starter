@@ -65,6 +65,7 @@ describe('TaskDetailPageComponent', () => {
     vi.spyOn(taskApi, 'getTask').mockReturnValue(of(sampleTask));
     vi.spyOn(taskApi, 'toggleComplete').mockReturnValue(of({ ...sampleTask, status: 'todo' }));
     vi.spyOn(taskApi, 'updateTask').mockReturnValue(of(sampleTask));
+    vi.spyOn(taskApi, 'createTask').mockReturnValue(of({ ...sampleTask, id: 'task-3', title: 'New Task' }));
     vi.spyOn(taskApi, 'deleteTask').mockReturnValue(of(true));
     vi.spyOn(seoService, 'setSeoData');
 
@@ -147,6 +148,55 @@ describe('TaskDetailPageComponent', () => {
 
     component.openModalView();
     expect((component as any).dialog.open).toHaveBeenCalled();
+  });
+
+  it('should open create dialog and navigate to newly created task on save', () => {
+    const navigateSpy = vi.spyOn(router, 'navigate');
+    const createdTask: TaskItem = { ...sampleTask, id: 'task-new', title: 'Newly Created Task' };
+    vi.spyOn(taskApi, 'createTask').mockReturnValue(of(createdTask));
+    vi.spyOn((component as any).dialog, 'open').mockReturnValue({
+      afterClosed: () => of({ action: 'save', dto: { title: 'Newly Created Task' } }),
+    } as any);
+
+    component.openCreateDialog();
+    expect((component as any).dialog.open).toHaveBeenCalled();
+    expect(taskApi.createTask).toHaveBeenCalled();
+    expect(navigateSpy).toHaveBeenCalledWith(['/tasks', 'task-new']);
+    expect((component as any).snackBar.open).toHaveBeenCalledWith(
+      'Task created successfully!',
+      'Dismiss',
+      expect.any(Object)
+    );
+  });
+
+  it('should open duplicate dialog prefilled with copy and navigate on save', () => {
+    const navigateSpy = vi.spyOn(router, 'navigate');
+    const duplicatedTask: TaskItem = { ...sampleTask, id: 'task-copy', title: `${sampleTask.title} (Copy)` };
+    vi.spyOn(taskApi, 'createTask').mockReturnValue(of(duplicatedTask));
+    vi.spyOn((component as any).dialog, 'open').mockReturnValue({
+      afterClosed: () => of({ action: 'save', dto: { title: `${sampleTask.title} (Copy)` } }),
+    } as any);
+
+    component.openDuplicateDialog();
+    expect((component as any).dialog.open).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        data: expect.objectContaining({
+          mode: 'duplicate',
+          task: expect.objectContaining({
+            title: `${sampleTask.title} (Copy)`,
+            status: 'todo',
+          }),
+        }),
+      })
+    );
+    expect(taskApi.createTask).toHaveBeenCalled();
+    expect(navigateSpy).toHaveBeenCalledWith(['/tasks', 'task-copy']);
+    expect((component as any).snackBar.open).toHaveBeenCalledWith(
+      'Task duplicated successfully!',
+      'Dismiss',
+      expect.any(Object)
+    );
   });
 
   it('should render clean single-column layout without redundant sidebar task actions card', () => {

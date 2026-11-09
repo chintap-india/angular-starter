@@ -428,8 +428,36 @@ export class TasksPageComponent implements OnInit {
         this.openEditDialog(res.task);
       } else if (res.action === 'status' && res.task) {
         this.openStatusDialog(res.task);
+      } else if (res.action === 'duplicate' && res.task) {
+        this.openDuplicateDialog(res.task);
       } else if (res.action === 'delete' && res.task) {
         this.openDeleteDialog(res.task);
+      }
+    });
+  }
+
+  openDuplicateDialog(task: TaskItem): void {
+    const ref = this.dialog.open(TaskFormDialogComponent, {
+      width: '680px',
+      maxWidth: '95vw',
+      data: {
+        mode: 'duplicate',
+        task: {
+          ...task,
+          id: '',
+          title: `${task.title} (Copy)`,
+          status: 'todo',
+        },
+      },
+    });
+
+    ref.afterClosed().subscribe((res) => {
+      if (res && res.action === 'save') {
+        this.taskApi.createTask(res.dto as CreateTaskDto).subscribe({
+          next: () => {
+            this.snackBar.open('Task duplicated successfully!', 'Dismiss', { duration: 2500 });
+          },
+        });
       }
     });
   }

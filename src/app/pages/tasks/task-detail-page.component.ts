@@ -9,7 +9,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MockTaskApiService } from '../../core/services/mock-task-api.service';
 import { SeoService } from '../../core/services/seo.service';
-import { TaskItem, TaskPriority, TaskStatus, UpdateTaskDto, formatTaskId } from '../../core/models/task.model';
+import { TaskItem, TaskPriority, TaskStatus, CreateTaskDto, UpdateTaskDto, formatTaskId } from '../../core/models/task.model';
 import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
 import { TaskFormDialogComponent } from './task-form-dialog.component';
 import { TaskStatusDialogComponent } from './task-status-dialog.component';
@@ -105,6 +105,28 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
                 class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 transition cursor-pointer leading-none"
               >
                 <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">edit</mat-icon>
+              </button>
+
+              <!-- Duplicate Task Modal Trigger -->
+              <button
+                type="button"
+                (click)="openDuplicateDialog()"
+                matTooltip="Duplicate Task"
+                aria-label="Duplicate task"
+                class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 transition cursor-pointer leading-none"
+              >
+                <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">content_copy</mat-icon>
+              </button>
+
+              <!-- Create New Task Trigger -->
+              <button
+                type="button"
+                (click)="openCreateDialog()"
+                matTooltip="Create New Task"
+                aria-label="Create new task"
+                class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 transition cursor-pointer leading-none"
+              >
+                <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">add_task</mat-icon>
               </button>
 
               <!-- Sprint Details Modal Trigger -->
@@ -324,6 +346,15 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
               >
                 Back to Tasks Directory
               </a>
+              <button
+                type="button"
+                (click)="openCreateDialog()"
+                mat-stroked-button
+                class="!rounded-full !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:text-slate-300 hover:!bg-slate-100 dark:hover:!bg-slate-800 !px-6 !py-2 text-xs font-bold shadow-xs cursor-pointer inline-flex items-center gap-1.5"
+              >
+                <mat-icon class="!text-base !w-4 !h-4 leading-none">add_task</mat-icon>
+                <span>Create Task</span>
+              </button>
             </div>
           </div>
         }
@@ -449,6 +480,55 @@ export class TaskDetailPageComponent implements OnInit {
           next: (updated) => {
             this.task.set(updated);
             this.snackBar.open('Task specifications updated!', 'Dismiss', { duration: 2500 });
+          },
+        });
+      }
+    });
+  }
+
+  openCreateDialog(): void {
+    const ref = this.dialog.open(TaskFormDialogComponent, {
+      width: '680px',
+      maxWidth: '95vw',
+      data: { mode: 'create' },
+    });
+
+    ref.afterClosed().subscribe((res) => {
+      if (res && res.action === 'save') {
+        this.taskApi.createTask(res.dto as CreateTaskDto).subscribe({
+          next: (created) => {
+            this.snackBar.open('Task created successfully!', 'Dismiss', { duration: 2500 });
+            this.router.navigate(['/tasks', created.id]);
+          },
+        });
+      }
+    });
+  }
+
+  openDuplicateDialog(): void {
+    const current = this.task();
+    if (!current) return;
+
+    const ref = this.dialog.open(TaskFormDialogComponent, {
+      width: '680px',
+      maxWidth: '95vw',
+      data: {
+        mode: 'duplicate',
+        task: {
+          ...current,
+          id: '',
+          title: `${current.title} (Copy)`,
+          status: 'todo',
+        },
+      },
+    });
+
+    ref.afterClosed().subscribe((res) => {
+      if (res && res.action === 'save') {
+        this.taskApi.createTask(res.dto as CreateTaskDto).subscribe({
+          next: (created) => {
+            this.snackBar.open('Task duplicated successfully!', 'Dismiss', { duration: 2500 });
+            this.router.navigate(['/tasks', created.id]);
           },
         });
       }

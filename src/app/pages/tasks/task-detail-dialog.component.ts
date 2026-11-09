@@ -78,6 +78,17 @@ export interface TaskDetailDialogData {
             <mat-icon class="!text-sm !w-3.5 !h-3.5 sm:!text-base sm:!w-4 sm:!h-4 text-slate-600 dark:text-slate-400 leading-none flex items-center justify-center shrink-0">published_with_changes</mat-icon>
           </button>
 
+          <!-- Duplicate Task Icon Button -->
+          <button
+            type="button"
+            (click)="triggerDuplicate()"
+            matTooltip="Duplicate Task"
+            aria-label="Duplicate Task"
+            class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 inline-flex items-center justify-center transition cursor-pointer shadow-2xs leading-none shrink-0"
+          >
+            <mat-icon class="!text-sm !w-3.5 !h-3.5 sm:!text-base sm:!w-4 sm:!h-4 text-slate-600 dark:text-slate-400 leading-none flex items-center justify-center shrink-0">content_copy</mat-icon>
+          </button>
+
           <!-- Delete Task Icon Button -->
           <button
             type="button"
@@ -219,6 +230,10 @@ export class TaskDetailDialogComponent {
 
   triggerStatusChange(): void {
     this.dialogRef.close({ action: 'status', task: this.data.task });
+  }
+
+  triggerDuplicate(): void {
+    this.dialogRef.close({ action: 'duplicate', task: this.data.task });
   }
 
   triggerDelete(): void {

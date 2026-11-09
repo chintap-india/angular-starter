@@ -14,6 +14,25 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.13] - 2026-11-09
+
+### Added
+- **Create Task Action on Task Details Page**:
+  - Added "Create New Task" icon button (`add_task`) to the sticky header action capsule on `TaskDetailPageComponent` (`/tasks/:taskId`).
+  - Added "Create Task" button to the empty/not-found state card for immediate recovery when landing on an invalid or removed task identifier.
+  - Implemented `openCreateDialog()` which opens `TaskFormDialogComponent` in creation mode and immediately routes to the newly created task's detail view upon saving.
+- **Duplicate Task Workflow**:
+  - Added "Duplicate Task" icon button (`content_copy`) to the sticky header action capsule on `TaskDetailPageComponent`.
+  - Added "Duplicate Task" icon button (`content_copy`) to the header toolbar in `TaskDetailDialogComponent` (modal view).
+  - Added "Duplicate Task" menu option in the row/card context actions menu on `TasksPageComponent`.
+  - Implemented `openDuplicateDialog()` which pre-populates task details with the current task's title suffixed by `(Copy)`, preserves category, priority, due date, and markdown description, and resets status to `todo`.
+- **Form Dialog Duplicate Mode Support**:
+  - Extended `TaskDialogData` with `mode: 'duplicate'`.
+  - Configured `TaskFormDialogComponent` to render "Duplicate Task" dialog header, `content_copy` icon, and "Create Duplicate" tooltips while producing a clean `CreateTaskDto`.
+- **Automated Test Coverage**:
+  - Added unit tests in `task-detail-page.component.spec.ts` for `openCreateDialog()` and `openDuplicateDialog()`.
+  - Added unit test in `tasks-page.component.spec.ts` for `openDuplicateDialog()`. Total test suite expanded to 144 passing tests across 20 test files (100% pass rate).
+
 ## [1.5.12] - 2026-11-09
 
 ### Changed

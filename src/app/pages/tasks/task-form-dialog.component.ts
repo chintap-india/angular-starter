@@ -13,7 +13,7 @@ import { TaskItem, TaskPriority, TaskStatus, CreateTaskDto, UpdateTaskDto } from
 import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
 
 export interface TaskDialogData {
-  mode: 'create' | 'edit';
+  mode: 'create' | 'edit' | 'duplicate';
   task?: TaskItem;
 }
 

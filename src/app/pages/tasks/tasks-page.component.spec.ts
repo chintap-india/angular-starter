@@ -260,6 +260,40 @@ describe('TasksPageComponent', { timeout: 45000 }, () => {
     );
   });
 
+  it('should open duplicate dialog and create duplicate task', () => {
+    fixture.detectChanges();
+    const task: TaskItem = {
+      id: 'task-test-duplicate',
+      title: 'Original Task',
+      description: 'Specs',
+      priority: 'high',
+      status: 'in-progress',
+      category: 'Dev',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    vi.spyOn((component as any).dialog, 'open').mockReturnValue({
+      afterClosed: () => of({ action: 'save', dto: { title: 'Original Task (Copy)' } }),
+    } as any);
+    vi.spyOn(taskApi, 'createTask').mockReturnValue(of({ ...task, id: 'task-copy', title: 'Original Task (Copy)' }));
+
+    component.openDuplicateDialog(task);
+    expect((component as any).dialog.open).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        data: expect.objectContaining({
+          mode: 'duplicate',
+          task: expect.objectContaining({
+            title: 'Original Task (Copy)',
+            status: 'todo',
+          }),
+        }),
+      })
+    );
+    expect(taskApi.createTask).toHaveBeenCalled();
+  });
+
   it('should compute hasActiveFilters and reset filters', () => {
     fixture.detectChanges();
     expect(component.hasActiveFilters()).toBe(false);
