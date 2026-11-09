@@ -1961,6 +1961,16 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
   - Omit loud section headings like `Description & Specifications` when the context is obvious and the content is framed inside a dedicated card.
   - In editor dialogs, eliminate noisy helper text (`Markdown supported`, `Paste URL over text to auto-link`) and convert formatting controls (`Code`, `List`, `Task`, `Quote`) into pure icon buttons.
 
+### 29.17 Form Dialog Header Actions & Scrollbar Concealment (v1.5.7)
+- **Primary Save Action in Modal Header**:
+  - In form dialogs (e.g., Create / Edit Task Modal), avoid large, redundant action pill buttons (`[Cancel]`, `[Update Task]`, `[Create Task]`) anchored in a bottom footer that squashes the editor and content area.
+  - Place the primary save trigger directly in the modal header action strip as a high-contrast `check` icon button (`w-7 h-7 sm:w-8 sm:h-8 rounded-lg`) bound to `(click)="save()"` with reactive disabled states (`taskForm.invalid || isSaving()`), high contrast styling, and descriptive tooltips (`Save Changes` / `Create Task`).
+  - Rely on the top-right header `close` icon button for Cancel / Discard.
+  - Retain `(ngSubmit)="save()"` on the form tag so keyboard Enter events submit seamlessly.
+- **Scrollbar Concealment on Horizontal Pill Strips**:
+  - Horizontal chip strips and dropdown pill groups (such as Category, Priority, Status, and Due Date) must remain fluidly scrollable without exposing ugly browser-default horizontal scrollbar tracks.
+  - Apply the `.no-scrollbar` utility (`::-webkit-scrollbar { display: none !important; }`, `-ms-overflow-style: none !important;`, `scrollbar-width: none !important;`) to ensure sleek, distraction-free scrolling on mobile viewports.
+
 
 
 

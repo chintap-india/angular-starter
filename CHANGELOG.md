@@ -14,6 +14,15 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.7] - 2026-11-09
+
+### Changed
+- **Zero-Clutter Edit Task Modal (Header Save Icon Button & Zero-Clutter Layout)**:
+  - Promoted the primary Save / Update action to a high-contrast `check` icon button (`w-7 h-7 sm:w-8 sm:h-8 rounded-lg`) in the dialog header action strip next to Focus Mode, Fullscreen, and Close.
+  - Completely eliminated the bloated 70–80px bottom footer containing `Cancel` and `Update Task` / `Create Task` pill buttons, freeing up 100% of vertical dialog space for the Markdown editor and previewer.
+  - Added modern cross-browser `.no-scrollbar` utility in `src/styles.css` (`-webkit-scrollbar`, `-ms-overflow-style`, and `scrollbar-width: none`), completely eliminating the native horizontal scrollbar bar beneath property dropdown pills on mobile viewports.
+  - Cancel / Discard is seamlessly handled by the top-right header `close` icon button with dedicated tooltip.
+
 ## [1.5.6] - 2026-11-09
 
 ### Changed
