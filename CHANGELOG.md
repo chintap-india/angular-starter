@@ -14,6 +14,15 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.4] - 2026-11-09
+
+### Changed
+- **Mobile Search Bar Dedicated Row (Zero Horizontal Squeeze)**:
+  - Repositioned the quick search text box on mobile viewports (`< 640px`) to its own dedicated second row using responsive CSS order (`order-3 sm:order-2 w-full sm:w-56 lg:w-64`).
+  - Row 1 on mobile is now exclusively dedicated to the Tasks title badge on the left and the 5 essential action icon buttons on the right (`table_rows`, `view_agenda`, `insights`, `tune`, `add`), providing 120px+ of breathing room on 360px displays.
+  - The search input on mobile spans 100% full width (`w-full py-1.5`) with complete placeholder legibility (`Search tasks...`), instant clear button, and effortless tap targets.
+  - Preserves clean inline desktop layout (`sm:flex-nowrap`, search inline adjacent to Title badge) without DOM duplication.
+
 ## [1.5.3] - 2026-11-09
 
 ### Added

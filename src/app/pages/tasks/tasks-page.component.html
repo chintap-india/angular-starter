@@ -4,49 +4,24 @@
   <div class="chintap-compact-template rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs overflow-hidden flex flex-col">
     
     <!-- UNIFIED ENTERPRISE TOOLBAR TIER 1: Navigation & Actions -->
-    <div class="px-3 py-2 bg-slate-50/95 dark:bg-slate-800/90 border-b border-slate-200 dark:border-slate-700/80 flex items-center justify-between gap-2 sm:gap-3">
+    <div class="px-3 py-2 bg-slate-50/95 dark:bg-slate-800/90 border-b border-slate-200 dark:border-slate-700/80 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-3">
       
-      <!-- Left: Title Badge + Count + Inline Quick Search -->
-      <div class="flex items-center gap-2 min-w-0 flex-1 sm:flex-initial">
-        <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-          <div class="w-6 h-6 rounded-md bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 inline-flex items-center justify-center shrink-0 shadow-2xs leading-none">
-            <mat-icon class="!text-sm !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">checklist</mat-icon>
-          </div>
-          <h1 class="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none m-0">
-            Tasks
-          </h1>
-          <span class="inline-flex items-center justify-center min-w-[20px] px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
-            {{ activeTab() === 'metrics' ? stats().total : filteredTasks().length }}
-          </span>
+      <!-- 1. Title Badge + Count (Order 1 on mobile & desktop) -->
+      <div class="order-1 flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <div class="w-6 h-6 rounded-md bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 inline-flex items-center justify-center shrink-0 shadow-2xs leading-none">
+          <mat-icon class="!text-sm !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">checklist</mat-icon>
         </div>
-
+        <h1 class="text-sm font-bold text-slate-900 dark:text-white tracking-tight leading-none m-0">
+          Tasks
+        </h1>
+        <span class="inline-flex items-center justify-center min-w-[20px] px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
+          {{ activeTab() === 'metrics' ? stats().total : filteredTasks().length }}
+        </span>
         <div class="h-3.5 w-px bg-slate-300 dark:bg-slate-700 mx-0.5 hidden sm:block"></div>
-
-        <!-- Inline Quick Search (Adaptive width on mobile) -->
-        <div class="relative flex items-center flex-1 sm:flex-initial w-full sm:w-56 lg:w-64 min-w-[80px]">
-          <mat-icon class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 !text-sm !w-3.5 !h-3.5 pointer-events-none leading-none flex items-center justify-center shrink-0">search</mat-icon>
-          <input
-            type="text"
-            [ngModel]="searchQuery()"
-            (ngModelChange)="onFilterQueryChange($event)"
-            placeholder="Search..."
-            class="w-full pl-8 pr-7 py-1 text-xs rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:border-slate-500 transition"
-          />
-          @if (searchQuery()) {
-            <button
-              type="button"
-              (click)="onFilterQueryChange('')"
-              class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer w-4 h-4 inline-flex items-center justify-center leading-none"
-              aria-label="Clear search"
-            >
-              <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0">close</mat-icon>
-            </button>
-          }
-        </div>
       </div>
 
-      <!-- Right: View Switcher (Table/Cards/Metrics) + Filters Panel Toggle + Primary CTA -->
-      <div class="flex items-center gap-1.5 shrink-0">
+      <!-- 2. Controls: View Switcher (Table/Cards/Metrics) + Filters Panel Toggle + Primary CTA (Order 2 on mobile, Order 3 on desktop) -->
+      <div class="order-2 sm:order-3 flex items-center gap-1.5 shrink-0 ml-auto sm:ml-0">
         <!-- View Switcher Segmented Control (Visible on all screen sizes) -->
         <div class="inline-flex p-0.5 rounded-lg bg-slate-200/70 dark:bg-slate-800 items-center">
           <button
@@ -112,6 +87,28 @@
         >
           <mat-icon class="!text-sm !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">add</mat-icon>
         </button>
+      </div>
+
+      <!-- 3. Search Bar: Full-width on mobile row 2 (Order 3), inline on desktop row 1 (Order 2) -->
+      <div class="order-3 sm:order-2 w-full sm:w-56 lg:w-64 sm:mr-auto relative flex items-center">
+        <mat-icon class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 !text-sm !w-3.5 !h-3.5 pointer-events-none leading-none flex items-center justify-center shrink-0">search</mat-icon>
+        <input
+          type="text"
+          [ngModel]="searchQuery()"
+          (ngModelChange)="onFilterQueryChange($event)"
+          placeholder="Search tasks..."
+          class="w-full pl-8 pr-7 py-1.5 sm:py-1 text-xs rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:border-slate-500 transition shadow-2xs"
+        />
+        @if (searchQuery()) {
+          <button
+            type="button"
+            (click)="onFilterQueryChange('')"
+            class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer w-4 h-4 inline-flex items-center justify-center leading-none"
+            aria-label="Clear search"
+          >
+            <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0">close</mat-icon>
+          </button>
+        }
       </div>
 
     </div>

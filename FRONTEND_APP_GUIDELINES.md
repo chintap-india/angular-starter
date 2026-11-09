@@ -1930,6 +1930,18 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
   - Collapsed panels must avoid wide text buttons (`[Seed 35+]`, `[Reset Defaults]`, `[Guest Reviewer]`) in favor of clean icon buttons (`playlist_add` for Seed, `restart_alt` for Reset).
   - This preserves vital horizontal width on narrow devices (320px–375px) without wrapping or horizontal overflow.
 
+### 29.14 Mobile Search Bar Wrapping Standards (v1.5.4)
+- **Separate Row for Search on Narrow Viewports (`< 640px`)**:
+  - Never squeeze a text input into the same row as title badges and 4+ action buttons on mobile screens. A squeezed search box reduces to < 90px, truncating placeholder text (`Ser...`) and causing accidental taps on adjacent icon buttons.
+  - Implement fluid flex-wrapping using CSS order without duplicating DOM nodes:
+    - Container: `flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-3`.
+    - **Item 1 (Title Badge + Count)**: `order-1 flex items-center gap-1.5 shrink-0`.
+    - **Item 2 (Action Icon Controls)**: `order-2 sm:order-3 flex items-center gap-1.5 shrink-0 ml-auto sm:ml-0`.
+    - **Item 3 (Search Input)**: `order-3 sm:order-2 w-full sm:w-56 lg:w-64 sm:mr-auto relative flex items-center`.
+  - On mobile, Items 1 and 2 occupy Row 1 cleanly with ample space. Item 3, with `w-full`, wraps cleanly to Row 2, providing a full-width search bar with high usability.
+  - On desktop (`sm:`), the container becomes `sm:flex-nowrap`, and `sm:order-2` seamlessly pulls the search bar back between Item 1 and Item 3.
+
+
 
 
 
