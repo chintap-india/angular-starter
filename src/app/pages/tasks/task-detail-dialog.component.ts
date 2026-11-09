@@ -40,11 +40,11 @@ export interface TaskDetailDialogData {
           </div>
           <div class="min-w-0">
             <div class="flex items-center gap-1.5 sm:gap-2">
-              <span class="font-mono text-[11px] sm:text-xs font-bold text-slate-400 dark:text-slate-400 uppercase">
+              <span class="font-mono text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400">
                 {{ formatTaskId(data.task.id) }}
               </span>
               <span class="text-slate-300 dark:text-slate-600">&bull;</span>
-              <span class="text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-300 uppercase tracking-wider truncate">
+              <span class="text-[11px] sm:text-xs font-medium text-slate-600 dark:text-slate-300 truncate">
                 {{ data.task.category }}
               </span>
             </div>
@@ -133,7 +133,7 @@ export interface TaskDetailDialogData {
         <div class="flex flex-wrap items-center gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
           <!-- Status Badge -->
           <span
-            class="inline-flex items-center gap-1.5 text-xs font-mono uppercase px-2.5 py-0.5 rounded-full font-bold"
+            class="inline-flex items-center gap-1.5 text-xs font-sans font-medium px-2.5 py-0.5 rounded-full"
             [ngClass]="{
               'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800/80': data.task.status === 'completed',
               'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': data.task.status === 'in-progress',
@@ -148,7 +148,7 @@ export interface TaskDetailDialogData {
 
           <!-- Priority Badge -->
           <span
-            class="inline-flex items-center gap-1 text-xs font-mono uppercase px-2.5 py-0.5 rounded-full font-bold"
+            class="inline-flex items-center gap-1 text-xs font-sans font-medium px-2.5 py-0.5 rounded-full"
             [ngClass]="{
               'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-800/80': data.task.priority === 'urgent',
               'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': data.task.priority === 'high',

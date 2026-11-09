@@ -63,7 +63,7 @@ export interface TaskSprintDetailsDialogData {
         <div class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800/80">
           <span class="text-slate-500 dark:text-slate-400 font-medium">Status</span>
           <span
-            class="inline-flex items-center gap-1 font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md text-[11px]"
+            class="inline-flex items-center gap-1 font-sans font-medium px-2 py-0.5 rounded-md text-xs"
             [ngClass]="{
               'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800/80': data.task.status === 'completed',
               'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': data.task.status === 'in-progress',
@@ -80,7 +80,7 @@ export interface TaskSprintDetailsDialogData {
         <div class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800/80">
           <span class="text-slate-500 dark:text-slate-400 font-medium">Priority</span>
           <span
-            class="inline-flex items-center gap-1 font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md text-[11px]"
+            class="inline-flex items-center gap-1 font-sans font-medium px-2 py-0.5 rounded-md text-xs"
             [ngClass]="{
               'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-800/80': data.task.priority === 'urgent',
               'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': data.task.priority === 'high',
@@ -88,7 +88,7 @@ export interface TaskSprintDetailsDialogData {
               'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': data.task.priority === 'low'
             }"
           >
-            <span>{{ data.task.priority }}</span>
+            <span>{{ data.task.priority | titlecase }}</span>
           </span>
         </div>
 

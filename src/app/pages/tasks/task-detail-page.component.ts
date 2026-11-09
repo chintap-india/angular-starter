@@ -224,7 +224,7 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
                 <mat-icon class="!text-xs !w-3.5 !h-3.5">
                   {{ task()!.priority === 'urgent' || task()!.priority === 'high' ? 'priority_high' : 'low_priority' }}
                 </mat-icon>
-                <span>Priority: {{ task()!.priority }}</span>
+                  <span>Priority: {{ task()!.priority | titlecase }}</span>
               </span>
 
               <!-- Sprint Details Modal Trigger -->
@@ -265,21 +265,21 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
 
           </div>
 
-          <!-- Markdown Specifications & Description (Helvetica Neue) -->
+          <!-- Description Section (Helvetica Neue) -->
           <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700/80">
               <div class="flex items-center gap-2">
                 <mat-icon class="text-slate-600 dark:text-slate-400">description</mat-icon>
-                <h2 class="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                  Task Specifications & Notes
+                <h2 class="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                  Description
                 </h2>
               </div>
               <button
                 type="button"
                 (click)="openEditDialog()"
-                matTooltip="Edit Specifications"
+                matTooltip="Edit Description"
                 class="w-7 h-7 rounded-full inline-flex items-center justify-center text-slate-400 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
-                aria-label="Edit specifications"
+                aria-label="Edit description"
               >
                 <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">edit</mat-icon>
               </button>
@@ -292,7 +292,7 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
             } @else {
               <div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700 text-center space-y-3">
                 <mat-icon class="!text-3xl !w-8 !h-8 text-slate-400 dark:text-slate-400">notes</mat-icon>
-                <p class="text-sm text-slate-500 dark:text-slate-300">No markdown specifications provided yet.</p>
+                <p class="text-sm text-slate-500 dark:text-slate-300">No description provided yet.</p>
                 <button
                   type="button"
                   (click)="openEditDialog()"

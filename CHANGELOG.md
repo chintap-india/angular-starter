@@ -14,6 +14,19 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.12] - 2026-11-09
+
+### Changed
+- **Eliminate All-Caps & Uppercase Text Transforms**:
+  - Removed `uppercase` and `tracking-wider` styling across table column headers (Done, ID, Task Title, Category, Priority, Status, Due Date, Actions) in `TasksPageComponent`.
+  - Removed `uppercase` transforms from category, priority, and status pills in both table and Kanban card views.
+  - Standardized priority values to Title Case via Angular's `titlecase` pipe (`Medium`, `High`, `Urgent`, `Low`).
+  - Removed `uppercase` from analytics KPI metrics titles ("Total Backlog", "To Do", "In Progress", "Completed") and breakdown section headers.
+  - Cleaned modal dialog badges and header metadata in `TaskDetailDialogComponent`, `TaskSprintDetailsDialogComponent`, and `TaskDeleteDialogComponent`.
+- **Rename Section Heading to Description**:
+  - Renamed the verbose `Task Specifications & Notes` card heading in `TaskDetailPageComponent` to clean, standard `Description`.
+  - Updated associated tooltips and accessibility labels from "Edit specifications" to "Edit Description".
+
 ## [1.5.11] - 2026-11-09
 
 ### Fixed

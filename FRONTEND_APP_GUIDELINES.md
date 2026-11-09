@@ -2025,14 +2025,19 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
     2. A sleek "Sprint Details" pill in the Title card's badge strip alongside Category, Status, and Priority.
   - This eliminates visual noise while keeping detailed sprint data instantly accessible with a single click.
 
+### 29.21 Dropdown Focus Outline & Typography Normalization (v1.5.11)
+- **Eliminate Double Focus Outlines on Pill Selects**:
+  - In Chromium browsers, clicking `<mat-select>` inside a rounded pill capsule triggers a default rectangular focus outline inside the pill, creating a visible "double border".
+  - Always suppress `.mat-mdc-select:focus { outline: none !important; border: none !important; }` and manage focus styles on the capsule pill wrapper using Tailwind `focus-within:ring-2`.
+- **Dropdown Panel Width Enforcement**:
+  - Use custom CDK panel classes (`panelClass="task-dropdown-panel"`) with `min-width: 175px !important; white-space: nowrap !important;` to prevent option squishing on narrow trigger pills.
+- **Strict Emoji Elimination**:
+  - Never use raw emojis in dropdown labels or production documentation; use crisp Material Design icons and CSS colored dot indicators.
 
-
-
-
-
-
-
-
-
-
-
+### 29.22 Label Casing & Section Heading Cleanliness (v1.5.12)
+- **Zero All-Caps on UI Labels**:
+  - Do not use CSS `uppercase` or `tracking-wider` on table column headers, form property pills, badge labels, or section titles.
+  - Rely on natural Sentence Case or Title Case with crisp, modern typography (`font-sans font-medium text-xs`).
+  - Values from enums (such as `priority`) should be rendered using Angular's `titlecase` pipe (e.g. `Medium`, `High`, `Urgent`, `Low`).
+- **Concise, Standard Section Headings**:
+  - Avoid overly verbose headings such as "TASK SPECIFICATIONS & NOTES". Use clean, standard headings such as "Description" for document-level clarity.

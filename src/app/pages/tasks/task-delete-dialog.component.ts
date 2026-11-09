@@ -30,7 +30,7 @@ export interface TaskDeleteDialogData {
       </div>
 
       <div class="mt-4 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60">
-        <div class="text-xs font-mono font-semibold text-slate-400 dark:text-slate-400 uppercase">
+        <div class="text-xs font-mono font-semibold text-slate-500 dark:text-slate-400">
           {{ formatTaskId(data.task.id) }}
         </div>
         <div class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-0.5 line-clamp-2">

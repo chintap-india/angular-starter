@@ -54,7 +54,7 @@ describe('TaskSprintDetailsDialogComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.textContent).toContain('#34');
     expect(compiled.textContent).toContain('DevOps');
-    expect(compiled.textContent).toContain('medium');
+    expect(compiled.textContent).toContain('Medium');
     expect(compiled.textContent).toContain('2026-12-12');
   });
 
