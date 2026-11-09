@@ -7,12 +7,41 @@ and this project strictly adheres to [Semantic Versioning 2.0.0](https://semver.
 
 ---
 
-## 📌 Semantic Versioning Policy
+## Semantic Versioning Policy
 
 Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MAJOR`** version when making incompatible API changes or breaking architectural redesigns that require code refactoring.
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
+
+## [1.5.11] - 2026-11-09
+
+### Fixed
+- **Unify Dropdown & Badge Typography**:
+  - Standardized font styling across Category, Priority, and Status dropdown triggers and option items in `TaskFormDialogComponent` from mismatched `font-mono uppercase` to uniform `font-sans text-xs font-medium`.
+  - Harmonized metadata badges on `TaskDetailPageComponent` to clean `font-sans text-xs font-medium` typography.
+- **Eliminate Focus Double Borders on Pill Selects**:
+  - Removed internal browser focus outline on `<mat-select>` elements within rounded pill capsules (`.mat-mdc-select:focus { outline: none !important; border: none !important; box-shadow: none !important; }`).
+  - Shifted active focus states to the capsule container via Tailwind `focus-within:ring-2 focus-within:ring-slate-900 dark:focus-within:ring-slate-300 focus-within:border-transparent`.
+- **Dropdown Panel Width & Option Truncation**:
+  - Added dedicated `.task-dropdown-panel` class to all task modal select panels with `min-width: 175px !important;` and `white-space: nowrap !important;`.
+  - Prevented CDK overlay squishing where labels like "In Progress" and "Completed" wrapped awkwardly into two lines.
+- **Task Detail Title Legibility on Mobile**:
+  - Removed destructive `line-through` strikethrough from the main `<h1>` title on `TaskDetailPageComponent`, which previously created illegible overlapping lines over multiline headings on mobile screens.
+  - Adjusted title line-height to `leading-snug` for comfortable breathing room on mobile viewports.
+  - Improved top sticky header responsive layout to stack navigation breadcrumbs and action capsule cleanly on small screens.
+- **Strict Emoji Elimination**:
+  - Replaced all emojis in dropdown options and global documentation files with crisp Material Design icons and CSS colored dot indicators.
+- **Headless Test Suite Guards**:
+  - Added SSR/Node environment guards (`typeof requestAnimationFrame !== 'undefined'`) in `DinoGameComponent` to prevent Vitest test runner crashes.
+
+### Changed
+- **Tailwind Utility Migration & CSS Pruning**:
+  - Removed redundant `.col-hidden-sm`, `.col-hidden-md`, `.col-hidden-lg`, and `.col-hidden-xl` media query blocks from `src/styles.css`.
+  - Migrated responsive column visibility in `tasks-page.component.html` to native Tailwind utilities (`max-sm:!hidden`, `max-md:!hidden`, `max-lg:!hidden`, `max-xl:!hidden`).
+- **Security Policy Synchronization**:
+  - Updated `SECURITY.md` supported versions matrix to reflect current `1.5.x` and `1.4.x` active support.
+  - Enforced `SECURITY.md` update verification within the atomic release checklist in `FRONTEND_APP_GUIDELINES.md`.
 
 ## [1.5.10] - 2026-11-09
 

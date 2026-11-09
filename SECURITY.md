@@ -4,11 +4,11 @@
 
 We provide security updates for the current major and minor release versions:
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.1.x   | :white_check_mark: |
-| 1.0.x   | :white_check_mark: |
-| < 1.0   | :x:                |
+| Version | Supported |
+| ------- | --------- |
+| 1.5.x   | Yes       |
+| 1.4.x   | Yes       |
+| < 1.4   | No        |
 
 ## Reporting a Vulnerability
 

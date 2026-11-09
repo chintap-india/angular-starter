@@ -14,14 +14,14 @@
 
 **Chintap Angular Starter** is a developer template for building modern, high-performance web applications that excel not just in traditional search engines, but in the emerging AI search and generative answer landscape.
 
-🌐 **Live Demo:** [https://chintap-angular-starter.netlify.app](https://chintap-angular-starter.netlify.app/)
+ **Live Demo:** [https://chintap-angular-starter.netlify.app](https://chintap-angular-starter.netlify.app/)
 
 > [!TIP]
-> **Rebranding with your own brand & domain?** Check out the [**🎨 Rebranding & Customization Guide**](CUSTOMIZATION_GUIDE.md) to customize brand identity, copy, logos, and deploy in 3 simple steps without touching HTML templates!
+> **Rebranding with your own brand & domain?** Check out the [** Rebranding & Customization Guide**](CUSTOMIZATION_GUIDE.md) to customize brand identity, copy, logos, and deploy in 3 simple steps without touching HTML templates!
 
 ---
 
-## 🏛️ The Five Foundational Pillars
+## ️ The Five Foundational Pillars
 
 | Pillar | Focus | What's Included Out of the Box |
 |---|---|---|
@@ -33,7 +33,7 @@
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Clone & Install
 
@@ -74,11 +74,11 @@ The output is written to `dist/chintap-angular-starter/browser/` with all pre-re
 
 ---
 
-## ⚙️ Centralized Configuration (`site.config.ts`)
+## ️ Centralized Configuration (`site.config.ts`)
 
 Instead of hunting through dozens of HTML files and components to change brand names, URLs, and social links, everything is governed by a single configuration file:
 
-📁 **`src/app/core/config/site.config.ts`**
+ **`src/app/core/config/site.config.ts`**
 
 ```typescript
 export const DEFAULT_SITE_CONFIG: SiteConfig = {
@@ -142,11 +142,11 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
 
 ---
 
-## 📝 Decoupled Content & Copy (`site.content.ts`)
+## Decoupled Content & Copy (`site.content.ts`)
 
 To ensure **zero HTML hardcoding**, all UI headlines, hero badges, FAQ lists, feature matrix details, and legal disclaimers live in:
 
-📁 **`src/app/core/config/site.content.ts`**
+ **`src/app/core/config/site.content.ts`**
 
 - **Navigation**: Customizable links and call-to-action buttons.
 - **Home**: Hero badge, split headline, CTAs, 5-Pillar cards, and interactive FAQs (which automatically populate the Schema.org `FAQPage` JSON-LD schema!).
@@ -165,7 +165,7 @@ export class MyFeatureComponent {
 
 ---
 
-## 📋 Built-In Tasks & Forms Module (`/tasks`)
+## Built-In Tasks & Forms Module (`/tasks`)
 
 Explore modern enterprise Angular 22 form engineering and data management at `/tasks`:
 - **`chintap-compact-template`**: Enterprise compact data architecture featuring a balanced two-tier navigation toolbar, tucked top-bar pagination (rows-per-page selector + step navigation controller), row focus depth effects with peripheral dimming, sortable headers, dual Table/Cards list switching, and zero vertical viewport scrolling.
@@ -177,7 +177,7 @@ Explore modern enterprise Angular 22 form engineering and data management at `/t
 
 ---
 
-## 🤖 Machine-Readable AI Endpoints
+## Machine-Readable AI Endpoints
 
 This starter kit comes pre-configured with endpoints designed specifically for AI search engines, agents, and scrapers:
 
@@ -191,7 +191,7 @@ This starter kit comes pre-configured with endpoints designed specifically for A
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## ️ Tech Stack & Architecture
 
 - **Angular 22**: Standalone components, reactive Signals, zoneless change detection, inject-based DI.
 - **Application Builder (`@angular/build:application`)**: Ultra-fast esbuild bundler with static pre-rendering.
@@ -202,7 +202,7 @@ This starter kit comes pre-configured with endpoints designed specifically for A
 
 ---
 
-## 📁 Directory Structure
+## Directory Structure
 
 ```
 chintap-angular-starter/
@@ -249,7 +249,7 @@ chintap-angular-starter/
 
 ---
 
-## 🚢 Deployment
+## Deployment
 
 ### Netlify
 Push your repo to GitHub and import it on Netlify. The included `netlify.toml` handles the rest:
@@ -260,7 +260,7 @@ Push your repo to GitHub and import it on Netlify. The included `netlify.toml` h
 ### Any Static Host (Vercel, Cloudflare Pages, GitHub Pages, S3)
 Upload the contents of `dist/chintap-angular-starter/browser/` directly to any static file server or CDN.
 
-### 💸 Free-Tier Friendly Architecture
+### Free-Tier Friendly Architecture
 This starter kit is architected for zero-cost operation on standard static web hosts (such as Netlify, Cloudflare Pages, GitHub Pages, or Vercel):
 - **Pure Static Output**: Generates pre-rendered HTML/CSS/JS ready for any CDN without requiring a paid server runtime.
 - **Local-First Authentication**: In-browser session state via `localStorage` by default; optional hook for third-party identity providers.
@@ -269,16 +269,16 @@ This starter kit is architected for zero-cost operation on standard static web h
 
 ---
 
-## 🤝 Community & Contributing
+## Community & Contributing
 
 Contributions, issues, and feature requests are warmly welcome!
-- 📖 [Contributing Guidelines](CONTRIBUTING.md)
-- 📜 [Code of Conduct](CODE_OF_CONDUCT.md)
-- 🔒 [Security Policy](SECURITY.md)
-- 📋 [Changelog](CHANGELOG.md)
+-  [Contributing Guidelines](CONTRIBUTING.md)
+-  [Code of Conduct](CODE_OF_CONDUCT.md)
+-  [Security Policy](SECURITY.md)
+-  [Changelog](CHANGELOG.md)
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the [MIT License](LICENSE). Free to use for personal, commercial, and open-source projects.

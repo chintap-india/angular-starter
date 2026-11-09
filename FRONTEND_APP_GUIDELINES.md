@@ -1726,6 +1726,7 @@ Whenever incrementing the version, update all five touchpoints atomically:
 3. `README.md`: Version badge `[![Version](https://img.shields.io/badge/version-X.Y.Z-10b981.svg?style=flat)](CHANGELOG.md)`
 4. `CHANGELOG.md`: New entry `## [X.Y.Z] - YYYY-MM-DD` following [Keep a Changelog](https://keepachangelog.com/) standards.
 5. Footer Component / Display: Automatically picks up `siteConfig.version` or `package.json` version.
+6. `SECURITY.md`: Supported Versions table reflecting current active release branches (`X.Y.x`: `Yes`) with zero emojis.
 
 ### 27.3 Git Tagging & Release Verification Workflow
 1. Run full test suite: `npm test -- --watch=false` (100% passing tests required).

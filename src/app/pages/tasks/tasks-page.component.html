@@ -354,10 +354,10 @@
 
             <!-- ID Column (Hidden on mobile <640px) -->
             <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-sm !w-16 min-w-[3.5rem] !px-2 font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider text-center">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="max-sm:!hidden !w-16 min-w-[3.5rem] !px-2 font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider text-center">
                 ID
               </th>
-              <td mat-cell *matCellDef="let task" class="col-hidden-sm font-mono text-xs text-slate-500 dark:text-slate-300 font-semibold whitespace-nowrap !w-16 min-w-[3.5rem] !px-2 text-center">
+              <td mat-cell *matCellDef="let task" class="max-sm:!hidden font-mono text-xs text-slate-500 dark:text-slate-300 font-semibold whitespace-nowrap !w-16 min-w-[3.5rem] !px-2 text-center">
                 {{ formatTaskId(task.id) }}
               </td>
             </ng-container>
@@ -389,10 +389,10 @@
 
             <!-- Category Column (Hidden on tablet/mobile <1024px) -->
             <ng-container matColumnDef="category">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-lg font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-28 !px-2">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="max-lg:!hidden font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-28 !px-2">
                 Category
               </th>
-              <td mat-cell *matCellDef="let task" class="col-hidden-lg whitespace-nowrap !w-28 !px-2">
+              <td mat-cell *matCellDef="let task" class="max-lg:!hidden whitespace-nowrap !w-28 !px-2">
                 <span class="inline-flex items-center gap-1 text-[11px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 leading-none">
                   <mat-icon class="!text-[10px] !w-3 !h-3 leading-none flex items-center justify-center shrink-0">folder</mat-icon>
                   <span class="leading-none">{{ task.category }}</span>
@@ -402,10 +402,10 @@
 
             <!-- Priority Column (Hidden on mobile/small-tablet <768px) -->
             <ng-container matColumnDef="priority">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-md font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-24 !px-2">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="max-md:!hidden font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-24 !px-2">
                 Priority
               </th>
-              <td mat-cell *matCellDef="let task" class="col-hidden-md whitespace-nowrap !w-24 !px-2">
+              <td mat-cell *matCellDef="let task" class="max-md:!hidden whitespace-nowrap !w-24 !px-2">
                 <span
                   class="inline-flex items-center gap-1 text-[11px] font-mono font-bold uppercase px-2 py-0.5 rounded-md leading-none"
                   [ngClass]="{
@@ -425,10 +425,10 @@
 
             <!-- Status Column (Clickable to open Status Change Modal; hidden on mobile <640px) -->
             <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-sm font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-32 !px-2">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="max-sm:!hidden font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-32 !px-2">
                 Status
               </th>
-              <td mat-cell *matCellDef="let task" class="col-hidden-sm whitespace-nowrap !w-32 !px-2">
+              <td mat-cell *matCellDef="let task" class="max-sm:!hidden whitespace-nowrap !w-32 !px-2">
                 <button
                   type="button"
                   (click)="openStatusDialog(task)"
@@ -452,10 +452,10 @@
 
             <!-- Due Date Column (Hidden on laptop/tablet/mobile <1280px) -->
             <ng-container matColumnDef="dueDate">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-xl font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-28 !px-2">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="max-xl:!hidden font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-28 !px-2">
                 Due Date
               </th>
-              <td mat-cell *matCellDef="let task" class="col-hidden-xl whitespace-nowrap font-mono text-xs text-slate-600 dark:text-slate-300 !w-28 !px-2">
+              <td mat-cell *matCellDef="let task" class="max-xl:!hidden whitespace-nowrap font-mono text-xs text-slate-600 dark:text-slate-300 !w-28 !px-2">
                 @if (task.dueDate) {
                   <span class="inline-flex items-center gap-1 leading-none">
                     <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0">calendar_today</mat-icon>

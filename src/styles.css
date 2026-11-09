@@ -392,34 +392,6 @@ a:not(.mat-mdc-menu-item):has(mat-icon) span,
 }
 
 
-/* ========================================================================= */
-/* ENTERPRISE TABLE RESPONSIVE BREAKPOINT COLUMN VISIBILITY                  */
-/* ========================================================================= */
-
-@media (max-width: 639px) {
-  .col-hidden-sm {
-    display: none !important;
-  }
-}
-
-@media (max-width: 767px) {
-  .col-hidden-md {
-    display: none !important;
-  }
-}
-
-@media (max-width: 1023px) {
-  .col-hidden-lg {
-    display: none !important;
-  }
-}
-
-@media (max-width: 1279px) {
-  .col-hidden-xl {
-    display: none !important;
-  }
-}
-
 /* Cards View Hover: ONLY hovered card is elevated, NO sibling blurring or dimming */
 .tasks-card-item {
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
@@ -1017,6 +989,48 @@ html.dark .mat-mdc-option {
 
 html.dark .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
   color: #38bdf8 !important;
+}
+
+/* Task Properties Dropdown Panel: generous width, no wrapping, sleek rounded card */
+.task-dropdown-panel.mat-mdc-select-panel {
+  min-width: 175px !important;
+  max-width: 260px !important;
+  padding: 0.375rem !important;
+  border-radius: 0.875rem !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.06) !important;
+}
+
+.task-dropdown-panel .mat-mdc-option {
+  min-height: 34px !important;
+  height: 34px !important;
+  padding: 0 0.75rem !important;
+  border-radius: 0.5rem !important;
+  margin-bottom: 2px !important;
+  font-family: inherit !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+.task-dropdown-panel .mat-mdc-option .mdc-list-item__primary-text {
+  font-family: inherit !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  white-space: nowrap !important;
+}
+
+/* Eliminate browser default outline on mat-select to eliminate double borders */
+.mat-mdc-select,
+.mat-mdc-select:focus,
+.mat-mdc-select:focus-visible,
+.mat-mdc-select-trigger,
+.mat-mdc-select-trigger:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 

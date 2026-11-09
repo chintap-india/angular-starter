@@ -101,32 +101,45 @@
       <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 shrink-0 text-xs">
         
         <!-- Category Dropdown Pill -->
-        <div class="inline-flex items-center rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-2.5 py-0.5 shrink-0 shadow-2xs">
-          <mat-icon class="!text-xs !w-3 !h-3 mr-1 text-slate-400 flex items-center justify-center shrink-0">folder</mat-icon>
-          <mat-select formControlName="category" class="text-xs !w-auto min-w-[70px] leading-none" aria-label="Category">
+        <div class="inline-flex items-center gap-1 h-7 px-2.5 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow-2xs hover:bg-slate-100/80 dark:hover:bg-slate-750 focus-within:ring-2 focus-within:ring-slate-900 dark:focus-within:ring-slate-300 focus-within:border-transparent transition shrink-0 cursor-pointer">
+          <mat-icon class="!text-xs !w-3 !h-3 text-slate-400 shrink-0">folder</mat-icon>
+          <mat-select
+            formControlName="category"
+            panelClass="task-dropdown-panel"
+            class="text-xs font-sans font-medium leading-none cursor-pointer"
+            aria-label="Category"
+          >
+            <mat-select-trigger>
+              <span class="text-xs font-sans font-medium text-slate-800 dark:text-slate-200">{{ taskForm.controls.category.value }}</span>
+            </mat-select-trigger>
             @for (cat of categories; track cat) {
               <mat-option [value]="cat">
-                <span class="font-mono text-xs">{{ cat }}</span>
+                <span class="text-xs font-sans font-medium text-slate-800 dark:text-slate-200">{{ cat }}</span>
               </mat-option>
             }
           </mat-select>
         </div>
 
         <!-- Priority Dropdown Pill -->
-        <div class="inline-flex items-center rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-2.5 py-0.5 shrink-0 shadow-2xs">
-          <mat-select formControlName="priority" class="text-xs !w-auto min-w-[75px] leading-none" aria-label="Priority">
+        <div class="inline-flex items-center gap-1 h-7 px-2.5 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow-2xs hover:bg-slate-100/80 dark:hover:bg-slate-750 focus-within:ring-2 focus-within:ring-slate-900 dark:focus-within:ring-slate-300 focus-within:border-transparent transition shrink-0 cursor-pointer">
+          <mat-select
+            formControlName="priority"
+            panelClass="task-dropdown-panel"
+            class="text-xs font-sans font-medium leading-none cursor-pointer"
+            aria-label="Priority"
+          >
             <mat-select-trigger>
               @let curPriority = getPriorityObj(taskForm.controls.priority.value);
               <div class="flex items-center gap-1.5 leading-none">
                 <span class="w-2 h-2 rounded-full shrink-0" [ngClass]="curPriority?.dotColor"></span>
-                <span class="font-mono text-xs font-semibold uppercase">{{ curPriority?.label || taskForm.controls.priority.value }}</span>
+                <span class="text-xs font-sans font-medium text-slate-800 dark:text-slate-200">{{ curPriority?.label || taskForm.controls.priority.value }}</span>
               </div>
             </mat-select-trigger>
             @for (p of priorities; track p.value) {
               <mat-option [value]="p.value">
                 <div class="flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full shrink-0" [ngClass]="p.dotColor"></span>
-                  <span class="font-mono text-xs uppercase">{{ p.label }}</span>
+                  <span class="text-xs font-sans font-medium text-slate-800 dark:text-slate-200">{{ p.label }}</span>
                 </div>
               </mat-option>
             }
@@ -134,24 +147,29 @@
         </div>
 
         <!-- Status Dropdown Pill -->
-        <div class="inline-flex items-center rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-2.5 py-0.5 shrink-0 shadow-2xs">
-          <mat-select formControlName="status" class="text-xs !w-auto min-w-[80px] leading-none" aria-label="Status">
+        <div class="inline-flex items-center gap-1 h-7 px-2.5 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow-2xs hover:bg-slate-100/80 dark:hover:bg-slate-750 focus-within:ring-2 focus-within:ring-slate-900 dark:focus-within:ring-slate-300 focus-within:border-transparent transition shrink-0 cursor-pointer">
+          <mat-select
+            formControlName="status"
+            panelClass="task-dropdown-panel"
+            class="text-xs font-sans font-medium leading-none cursor-pointer"
+            aria-label="Status"
+          >
             <mat-select-trigger>
               @let curStatus = getStatusObj(taskForm.controls.status.value);
               <div class="flex items-center gap-1.5 leading-none">
-                <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0 text-slate-500 dark:text-slate-300">
+                <mat-icon class="!text-sm !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0" [ngClass]="getStatusColor(taskForm.controls.status.value)">
                   {{ curStatus?.icon || 'radio_button_unchecked' }}
                 </mat-icon>
-                <span class="text-xs font-medium">{{ curStatus?.label || taskForm.controls.status.value }}</span>
+                <span class="text-xs font-sans font-medium text-slate-800 dark:text-slate-200">{{ curStatus?.label || taskForm.controls.status.value }}</span>
               </div>
             </mat-select-trigger>
             @for (s of statuses; track s.value) {
               <mat-option [value]="s.value">
                 <div class="flex items-center gap-2">
-                  <mat-icon class="!text-sm !w-4 !h-4 leading-none flex items-center justify-center shrink-0 text-slate-500 dark:text-slate-300">
+                  <mat-icon class="!text-sm !w-4 !h-4 leading-none flex items-center justify-center shrink-0" [ngClass]="getStatusColor(s.value)">
                     {{ s.icon }}
                   </mat-icon>
-                  <span class="text-xs">{{ s.label }}</span>
+                  <span class="text-xs font-sans font-medium text-slate-800 dark:text-slate-200">{{ s.label }}</span>
                 </div>
               </mat-option>
             }
@@ -159,12 +177,12 @@
         </div>
 
         <!-- Due Date Pill -->
-        <div class="inline-flex items-center rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-2.5 py-0.5 shrink-0 shadow-2xs">
-          <mat-icon class="!text-xs !w-3 !h-3 mr-1 text-slate-400 flex items-center justify-center shrink-0">calendar_today</mat-icon>
+        <div class="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow-2xs hover:bg-slate-100/80 dark:hover:bg-slate-750 focus-within:ring-2 focus-within:ring-slate-900 dark:focus-within:ring-slate-300 focus-within:border-transparent transition shrink-0 cursor-pointer">
+          <mat-icon class="!text-xs !w-3 !h-3 text-slate-400 shrink-0">calendar_today</mat-icon>
           <input
             type="date"
             formControlName="dueDate"
-            class="text-xs bg-transparent border-0 p-0 text-slate-700 dark:text-slate-300 focus:outline-none cursor-pointer w-24 leading-none"
+            class="text-xs font-sans font-medium bg-transparent border-0 p-0 text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer w-24 leading-none"
             aria-label="Due date"
           />
         </div>

@@ -4,7 +4,7 @@ Thank you for your interest in contributing to the **Chintap Angular Starter Kit
 
 ---
 
-## 🛠️ Development Setup
+## ️ Development Setup
 
 1. **Fork and clone the repository**:
    ```bash
@@ -25,7 +25,7 @@ Thank you for your interest in contributing to the **Chintap Angular Starter Kit
 
 ---
 
-## 🧪 Testing Guidelines
+## Testing Guidelines
 
 Before opening a pull request, ensure all unit tests pass:
 
@@ -41,7 +41,7 @@ npx vitest run src/app/shared/components/navbar/navbar.component.spec.ts
 
 ---
 
-## 🏗️ Production Build Verification
+## ️ Production Build Verification
 
 Always test the static site generation (SSG) pipeline:
 
@@ -53,7 +53,7 @@ Verify that all static routes pre-render to `dist/chintap-angular-starter/browse
 
 ---
 
-## 📐 Coding Conventions
+## Coding Conventions
 
 - **Signals & Zoneless**: Prefer Angular Signals (`signal()`, `computed()`) and zoneless change detection over Zone.js and manual subscriptions.
 - **Standalone Components**: All Angular components must be standalone (`standalone: true` or default in Angular 22).
@@ -64,7 +64,7 @@ Verify that all static routes pre-render to `dist/chintap-angular-starter/browse
 
 ---
 
-## 📝 Commit Conventions
+## Commit Conventions
 
 We follow the [Conventional Commits](https://www.conventionalcommits.org/) standard:
 
@@ -78,6 +78,6 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) stand
 
 ---
 
-## 📄 License
+## License
 
 By contributing to this repository, you agree that your contributions will be licensed under the [MIT License](LICENSE).

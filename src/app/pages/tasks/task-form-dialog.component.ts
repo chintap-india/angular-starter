@@ -68,6 +68,17 @@ export class TaskFormDialogComponent {
     return this.statuses.find((s) => s.value === val);
   }
 
+  getStatusColor(val: any): string {
+    switch (val) {
+      case 'completed':
+        return 'text-emerald-500';
+      case 'in-progress':
+        return 'text-blue-500';
+      default:
+        return 'text-slate-400 dark:text-slate-400';
+    }
+  }
+
   getPriorityObj(val: any): { value: TaskPriority; label: string; dotColor: string } | undefined {
     return this.priorities.find((p) => p.value === val);
   }

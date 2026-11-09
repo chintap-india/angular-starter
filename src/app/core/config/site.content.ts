@@ -420,7 +420,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       {
         title: 'Enterprise Tasks Management',
         category: 'Interactive Application',
-        version: 'v1.5.10',
+        version: 'v1.5.11',
         logoKey: 'material',
         docUrl: '/tasks',
         description:

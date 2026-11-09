@@ -170,7 +170,9 @@ export class DinoGameComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.animationFrameId !== null) {
-      cancelAnimationFrame(this.animationFrameId);
+      if (typeof cancelAnimationFrame !== 'undefined') {
+        cancelAnimationFrame(this.animationFrameId);
+      }
       this.animationFrameId = null;
     }
     if (typeof window !== 'undefined') {
@@ -359,7 +361,9 @@ export class DinoGameComponent implements OnInit, OnDestroy {
     this.update(dt);
     this.renderFrame();
 
-    this.animationFrameId = requestAnimationFrame(t => this.loop(t));
+    if (typeof requestAnimationFrame !== 'undefined') {
+      this.animationFrameId = requestAnimationFrame(t => this.loop(t));
+    }
   }
 
   private update(dt: number): void {

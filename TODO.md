@@ -4,7 +4,7 @@ This document tracks upcoming developer tasks, maintenance errands, and migratio
 
 ---
 
-## ✅ Completed Tasks
+## Completed Tasks
 
 ### 1. Final Repository Migration to `chintap-india/angular-starter` (Completed: v1.2.0)
 - **Target Repository URL**: [`https://github.com/chintap-india/angular-starter`](https://github.com/chintap-india/angular-starter)
@@ -29,7 +29,7 @@ This document tracks upcoming developer tasks, maintenance errands, and migratio
 
 ---
 
-## 🌐 Upcoming Infrastructure & Domain Setup
+## Upcoming Infrastructure & Domain Setup
 
 ### 2. Custom Domain DNS Configuration
 - **Current Live URL**: [`https://chintap-angular-starter.netlify.app/`](https://chintap-angular-starter.netlify.app/)
@@ -42,7 +42,7 @@ This document tracks upcoming developer tasks, maintenance errands, and migratio
 
 ---
 
-## 🔒 Ongoing Governance & Policies
+## Ongoing Governance & Policies
 
 ### 3. Free-Tier Infrastructure Governance
 - Prioritize zero-cost static hosting features (static CDN edge, basic forms within provider limits, free SSL).
