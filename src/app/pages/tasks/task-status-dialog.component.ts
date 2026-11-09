@@ -41,11 +41,16 @@ export interface TaskStatusDialogData {
       </div>
 
       <!-- Status Selection Cards -->
-      <div class="mt-4 space-y-2.5">
+      <div class="mt-4 space-y-2.5" role="radiogroup" aria-label="Select task status">
         @for (option of statusOptions; track option.value) {
           <div
+            role="radio"
+            tabindex="0"
+            [attr.aria-checked]="selectedStatus() === option.value"
             (click)="selectedStatus.set(option.value)"
-            class="flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all duration-150"
+            (keydown.enter)="selectedStatus.set(option.value)"
+            (keydown.space)="$event.preventDefault(); selectedStatus.set(option.value)"
+            class="flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all duration-150 focus:outline-hidden focus:ring-2 focus:ring-slate-900 dark:focus:ring-slate-100"
             [ngClass]="{
               'border-slate-900 bg-slate-50 dark:border-slate-100 dark:bg-slate-800/90 ring-1 ring-slate-900 dark:ring-slate-100': selectedStatus() === option.value,
               'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 bg-slate-50/40 dark:bg-slate-800/40': selectedStatus() !== option.value
@@ -56,7 +61,7 @@ export interface TaskStatusDialogData {
                 class="w-7 h-7 rounded-lg flex items-center justify-center"
                 [ngClass]="option.iconBg"
               >
-                <mat-icon class="!text-base !w-4 !h-4" [ngClass]="option.iconColor">
+                <mat-icon class="!text-base !w-4 !h-4" [ngClass]="option.iconColor" aria-hidden="true">
                   {{ option.icon }}
                 </mat-icon>
               </div>
@@ -72,6 +77,7 @@ export interface TaskStatusDialogData {
 
             <!-- Radio indicator -->
             <div
+              aria-hidden="true"
               class="w-4 h-4 rounded-full border flex items-center justify-center"
               [ngClass]="selectedStatus() === option.value ? 'border-slate-900 bg-slate-900 dark:border-slate-100 dark:bg-slate-100' : 'border-slate-300 dark:border-slate-600'"
             >

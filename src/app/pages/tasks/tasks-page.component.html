@@ -28,6 +28,7 @@
             <button
               type="button"
               (click)="setView('table')"
+              [attr.aria-pressed]="activeTab() === 'directory' && viewMode() === 'table'"
               [ngClass]="activeTab() === 'directory' && viewMode() === 'table' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
               class="w-7 h-7 rounded-md transition cursor-pointer inline-flex items-center justify-center leading-none"
               matTooltip="Table View"
@@ -38,6 +39,7 @@
             <button
               type="button"
               (click)="setView('cards')"
+              [attr.aria-pressed]="activeTab() === 'directory' && viewMode() === 'cards'"
               [ngClass]="activeTab() === 'directory' && viewMode() === 'cards' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
               class="w-7 h-7 rounded-md transition cursor-pointer inline-flex items-center justify-center leading-none"
               matTooltip="List / Cards View"
@@ -48,6 +50,7 @@
             <button
               type="button"
               (click)="setView('metrics')"
+              [attr.aria-pressed]="activeTab() === 'metrics'"
               [ngClass]="activeTab() === 'metrics' ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold shadow-2xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
               class="w-7 h-7 rounded-md transition cursor-pointer inline-flex items-center justify-center leading-none"
               matTooltip="Sprint Analytics & Metrics"
@@ -63,6 +66,7 @@
           <button
             type="button"
             (click)="toggleFilterPanel()"
+            [attr.aria-expanded]="isFilterPanelOpen()"
             [ngClass]="isFilterPanelOpen() || activeFiltersCount() > 0 ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'"
             class="w-7 h-7 rounded-lg text-xs font-semibold relative inline-flex items-center justify-center transition cursor-pointer shadow-2xs leading-none shrink-0"
             matTooltip="Filters & Options"
@@ -428,6 +432,7 @@
                 <button
                   type="button"
                   (click)="openStatusDialog(task)"
+                  [attr.aria-label]="'Change status for ' + task.title + ' (current: ' + task.status + ')'"
                   matTooltip="Click to change status (Modal)"
                   class="inline-flex items-center justify-center gap-1 text-[11px] font-mono uppercase px-2 py-0.5 rounded-md font-semibold cursor-pointer hover:ring-2 hover:ring-emerald-500/40 transition group leading-none"
                   [ngClass]="{
@@ -474,7 +479,7 @@
                   <!-- Dedicated Page Link -->
                   <a
                     [routerLink]="['/tasks', task.id]"
-                    aria-label="Open dedicated task page"
+                    [attr.aria-label]="'Open dedicated page for ' + task.title"
                     matTooltip="Open Dedicated Task Page (/tasks/:id)"
                     class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-400 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-300 hover:bg-sky-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                   >
@@ -484,7 +489,7 @@
                   <button
                     type="button"
                     (click)="openDetailDialog(task)"
-                    aria-label="View task details"
+                    [attr.aria-label]="'View task details: ' + task.title"
                     matTooltip="View Full Details / Fullscreen Modal"
                     class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                   >
@@ -494,7 +499,7 @@
                   <button
                     type="button"
                     (click)="openEditDialog(task)"
-                    aria-label="Edit task"
+                    [attr.aria-label]="'Edit task: ' + task.title"
                     matTooltip="Edit Task (Modal)"
                     class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                   >
@@ -504,7 +509,7 @@
                   <button
                     type="button"
                     (click)="openDeleteDialog(task)"
-                    aria-label="Delete task"
+                    [attr.aria-label]="'Delete task: ' + task.title"
                     matTooltip="Delete Task (Modal)"
                     class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-400 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                   >
@@ -517,7 +522,7 @@
                   <button
                     type="button"
                     (click)="openDetailDialog(task)"
-                    aria-label="View task details in modal"
+                    [attr.aria-label]="'View task details: ' + task.title"
                     matTooltip="View Task (Modal)"
                     class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                   >
@@ -527,7 +532,7 @@
                     type="button"
                     [matMenuTriggerFor]="rowActionMenu"
                     [matMenuTriggerData]="{ task: task }"
-                    aria-label="More task actions"
+                    [attr.aria-label]="'More actions for ' + task.title"
                     matTooltip="Actions"
                     class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                   >
@@ -622,6 +627,7 @@
                         <button
                           type="button"
                           (click)="openStatusDialog(task)"
+                          [attr.aria-label]="'Change status for ' + task.title + ' (current: ' + task.status + ')'"
                           matTooltip="Change status (Modal)"
                           class="inline-flex items-center justify-center gap-1 text-[11px] font-mono uppercase px-2 py-0.5 rounded-md font-semibold cursor-pointer hover:ring-2 hover:ring-emerald-500/30 transition leading-none"
                           [ngClass]="{
@@ -651,7 +657,7 @@
                   <div class="hidden sm:inline-flex items-center gap-1 shrink-0">
                     <a
                       [routerLink]="['/tasks', task.id]"
-                      aria-label="Open dedicated task page"
+                      [attr.aria-label]="'Open dedicated page for ' + task.title"
                       matTooltip="Open Dedicated Task Page (/tasks/:id)"
                       class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-400 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-300 hover:bg-sky-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                     >
@@ -660,7 +666,7 @@
                     <button
                       type="button"
                       (click)="openDetailDialog(task)"
-                      aria-label="View task full details"
+                      [attr.aria-label]="'View task details: ' + task.title"
                       matTooltip="View Full Specs & Fullscreen Modal"
                       class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                     >
@@ -669,7 +675,7 @@
                     <button
                       type="button"
                       (click)="openEditDialog(task)"
-                      aria-label="Edit task"
+                      [attr.aria-label]="'Edit task: ' + task.title"
                       matTooltip="Edit Task (Modal)"
                       class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                     >
@@ -678,7 +684,7 @@
                     <button
                       type="button"
                       (click)="openDeleteDialog(task)"
-                      aria-label="Delete task"
+                      [attr.aria-label]="'Delete task: ' + task.title"
                       matTooltip="Delete Task (Modal)"
                       class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-400 dark:text-slate-300 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                     >
@@ -692,7 +698,7 @@
                       type="button"
                       [matMenuTriggerFor]="rowActionMenu"
                       [matMenuTriggerData]="{ task: task }"
-                      aria-label="Task actions"
+                      [attr.aria-label]="'Actions for ' + task.title"
                       matTooltip="Actions"
                       class="w-8 h-8 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                     >

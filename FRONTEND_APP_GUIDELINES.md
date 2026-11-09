@@ -1992,6 +1992,25 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
     - Secondary action: "Load Demo Tasks" for immediate testing
   - Preserve the filter "No matching results" state strictly for when items exist but a search query or filter returns zero matches.
 
+### 29.19 Clean Isolated Hover Highlighting, Hydration Guards & Resilient Submissions (v1.5.9)
+- **Zero Sibling Blurring / Dimming on Lists & Tables**:
+  - Never blur (`filter: blur(...)`) or drastically dim (`opacity: 0.35` / `0.65`) sibling items when hovering over a list card or table row.
+  - Sibling blurring impairs readability for low-vision users, creates motion sickness on fast mouse moves, and violates WCAG 1.4 visual clarity principles.
+  - Apply clean, isolated hover highlights directly to `:hover` and `:focus-within` on the targeted element: subtle background illumination (`bg-slate-50/70` in light mode, `bg-slate-800/80` in dark mode), sharp borders, and subtle elevation. Sibling rows must stay 100% sharp and readable at all times.
+- **Client Hydration Guard (`NG0505` Prevention)**:
+  - When configuring `provideClientHydration(withEventReplay())`, wrap it in an `isHydrationAvailable()` helper that checks `typeof document === 'undefined' || !!document.getElementById('ng-state') || !!document.querySelector('[ngh]')`.
+  - In development mode (`ng serve`), where `ssr: false` serves a client-only HTML shell, hydration is safely bypassed, avoiding `NG0505: Angular hydration was requested on the client, but there was no serialized information present`.
+  - In production SSG/SSR builds where `ng-state` or `[ngh]` is serialized, hydration is automatically engaged with full event replay.
+- **Resilient Zero-Data-Loss Form Submission**:
+  - Always provision static HTML form endpoints with `method="POST"` and `action="/"` so host providers (Netlify, Vercel) discover and bind form POST hooks at build time.
+  - Implement a client-side persistence buffer (e.g. `ContactSubmissionService` backed by `localStorage`) storing user notes immediately upon submission with `'saved_locally'` or `'delivered'` status.
+  - Provide a 1-click **"Send via Email"** (`mailto:`) direct mail fallback if network or endpoint returns an error, ensuring no user feedback or inquiry is ever silently discarded.
+- **Comprehensive Keyboard and ARIA Accessibility (WCAG 2.1/2.2 AA)**:
+  - Custom status selectors must use `role="radiogroup"` on the container and `role="radio"` with `[attr.aria-checked]` and `tabindex="0"` on each card, handling both `(keydown.enter)` and `(keydown.space)`.
+  - Contextual action icon buttons in data tables and cards must have disambiguated `aria-label` attributes (e.g., `'Edit task: ' + task.title`, `'Change status for ' + task.title`).
+  - View switcher toggles must advertise state via `[attr.aria-pressed]`, and collapsible filter panels via `[attr.aria-expanded]`.
+
+
 
 
 

@@ -26,6 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ContactDialogData } from '../../../features/modals/contact-dialog/contact-dialog.component';
+import { ContactSubmissionService } from '../../../core/services/contact-submission.service';
 
 interface SpeechRecognitionResultItem {
   transcript: string;
@@ -93,10 +94,12 @@ export class ContactFormComponent implements OnInit, OnDestroy {
   private readonly fb = inject(FormBuilder);
   private readonly snackBar = inject(MatSnackBar);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly submissionService = inject(ContactSubmissionService);
 
   @ViewChild('formDirective') formDirective?: FormGroupDirective;
 
   isSubmitting = false;
+  readonly fallbackMailto = signal<string | null>(null);
 
   // Speech Recognition
   readonly isSpeechSupported = signal<boolean>(false);
@@ -127,7 +130,19 @@ export class ContactFormComponent implements OnInit, OnDestroy {
 
   private applyInitialData(data: ContactDialogData): void {
     const rawIntent = (data.intent || '').toLowerCase();
-    const intentVal = rawIntent === 'cohort' ? 'academy' : (rawIntent || 'problem');
+    let intentVal = 'problem';
+    if (rawIntent === 'starter-kit' || rawIntent === 'starter') {
+      intentVal = 'starter-kit';
+    } else if (rawIntent === 'general' || rawIntent === 'hello') {
+      intentVal = 'general';
+    } else if (rawIntent === 'cohort' || rawIntent === 'academy') {
+      intentVal = 'academy';
+    } else if (rawIntent === 'issue' || rawIntent === 'broken-link') {
+      intentVal = 'issue';
+    } else if (['problem', 'idea', 'connected', 'collaboration'].includes(rawIntent)) {
+      intentVal = rawIntent;
+    }
+
     let messageVal = data.message || '';
     if (!messageVal && intentVal === 'academy') {
       messageVal =
@@ -145,11 +160,17 @@ export class ContactFormComponent implements OnInit, OnDestroy {
 
   getMessagePlaceholder(): string {
     const intent = this.contactForm.get('intent')?.value;
+    if (intent === 'starter-kit') {
+      return 'Describe your questions about the starter kit, architectural components, or custom setup...';
+    }
     if (intent === 'academy') {
       return 'Share your background, what you hope to build, or any questions about the cohort curriculum, schedule, or admissions...';
     }
     if (intent === 'issue') {
       return 'Please describe the broken link or issue you encountered, and on which page...';
+    }
+    if (intent === 'general') {
+      return 'Say hello, share feedback, or start a general conversation...';
     }
     return 'Share as much or as little context as you like...';
   }
@@ -163,27 +184,21 @@ export class ContactFormComponent implements OnInit, OnDestroy {
     if (this.isSubmitting) return;
 
     this.isSubmitting = true;
+    this.fallbackMailto.set(null);
 
-    const payload = new URLSearchParams();
-    payload.append('form-name', 'contact');
-    payload.append('intent', this.contactForm.get('intent')?.value || '');
-    payload.append('name', this.contactForm.get('name')?.value || '');
-    payload.append('email', this.contactForm.get('email')?.value || '');
-    payload.append('organization', this.contactForm.get('organization')?.value || '');
-    payload.append('message', this.contactForm.get('message')?.value || '');
+    const formVal = this.contactForm.value;
+    const result = await this.submissionService.submit({
+      name: formVal.name,
+      email: formVal.email,
+      message: formVal.message,
+      intent: formVal.intent,
+      organization: formVal.organization,
+      source: this.initialData?.source || (this.isModal ? 'modal' : 'page')
+    });
 
-    try {
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: payload.toString()
-      });
+    this.isSubmitting = false;
 
-      if (!response.ok) {
-        throw new Error(`Netlify form error: ${response.status}`);
-      }
-
-      this.isSubmitting = false;
+    if (result.success) {
       this.resetForm(formDirective);
       this.snackBar.open(
         'Thank you for reaching out! We received your note and will be in touch shortly.',
@@ -196,21 +211,27 @@ export class ContactFormComponent implements OnInit, OnDestroy {
         }
       );
       this.formSubmitted.emit();
-    } catch (err) {
-      console.warn('Form submission response (or local fallback):', err);
-      this.isSubmitting = false;
-      this.resetForm(formDirective);
-      this.snackBar.open(
-        'Thank you for reaching out! Your note has been registered.',
-        'Dismiss',
+    } else {
+      this.fallbackMailto.set(result.mailtoUrl);
+      const snackRef = this.snackBar.open(
+        'Note saved locally. Server transmission was not acknowledged.',
+        'Send via Email',
         {
-          duration: 6000,
+          duration: 9000,
           horizontalPosition: 'center',
           verticalPosition: 'bottom'
         }
       );
-      this.formSubmitted.emit();
+      snackRef.onAction().subscribe(() => {
+        if (typeof window !== 'undefined') {
+          window.open(result.mailtoUrl, '_blank');
+        }
+      });
     }
+  }
+
+  clearFallback(): void {
+    this.fallbackMailto.set(null);
   }
 
   isListeningFor(field: SpeechTargetField): boolean {
@@ -513,6 +534,7 @@ export class ContactFormComponent implements OnInit, OnDestroy {
     this.activeSpeechField.set(null);
     this.interimTranscript.set('');
     this.speechError.set(null);
+    this.fallbackMailto.set(null);
 
     const activeDirective = directive || this.formDirective;
     if (activeDirective) {

@@ -14,6 +14,33 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.9] - 2026-11-09
+
+### Fixed
+- **Clean Isolated Row & Card Hover Highlights (Zero Sibling Blurring)**:
+  - Eliminated sibling row blurring (`filter: blur(...)`) and opacity dimming (`opacity: 0.35` / `0.65`) from `src/styles.css`.
+  - Sibling rows and cards now remain 100% sharp and fully legible during hover interactions.
+  - Hover highlights are applied cleanly and exclusively to the targeted `.tasks-table-row:hover` and `.tasks-card-item:hover` with subtle background illumination and border emphasis.
+- **Client Hydration Guard (`NG0505` Resolution)**:
+  - Added `isHydrationAvailable()` guard in `src/app/app.config.ts` inspecting for serialized server markers (`ng-state` or `[ngh]`).
+  - Completely prevents `NG0505` warnings during CSR-only development (`ng serve`) while ensuring full hydration and event replay remain active on SSG/SSR builds.
+- **Contact Forms & Netlify Form Handling**:
+  - Fixed Netlify crawler form endpoint detection in `src/index.html` by adding `method="POST"` and `action="/"`, preventing HTTP 404 responses.
+  - Added missing form intents (`starter-kit`, `general`) to `ContactFormComponent` dropdown, fixing blank selects from homepage and footer triggers.
+  - Standardized footer "Get in Touch" trigger to open `ContactDialogComponent` via `ContactModalService` with `intent: 'general'`.
+- **Zero-Data-Loss Contact Architecture (`ContactSubmissionService`)**:
+  - Implemented `ContactSubmissionService` guaranteeing every user message is preserved in browser `localStorage` (`'chintap_contact_submissions'`) even in offline or network failure scenarios.
+  - Built-in 1-click **"Send via Email"** (`mailto:`) direct fallback button if network POST ever fails.
+  - Integrated 404 auto-reporting in `NotFoundPageComponent` through `ContactSubmissionService`.
+
+### Added
+- **Tasks Module Accessibility (WCAG 2.1/2.2 AA Compliance)**:
+  - Added `role="radiogroup"` and `role="radio"` with keyboard navigation (`tabindex="0"`, Enter, and Space selection) to `TaskStatusDialogComponent`.
+  - Added contextual, descriptive `aria-label` attributes to table and card view buttons (`'Edit task: ' + task.title`, `'Delete task: ' + task.title`, `'View task details: ' + task.title`, `'Open dedicated page for ' + task.title`, `'Change status for ' + task.title`).
+  - Added `aria-pressed` states to View Switcher buttons (Table, Cards, Metrics) and `aria-expanded` state to Filter panel toggle.
+- **Comprehensive Unit Tests**:
+  - Added test suites for `ContactSubmissionService` and `isHydrationAvailable()`, increasing total tests to 135 passing across 19 suites (100% pass rate).
+
 ## [1.5.8] - 2026-11-09
 
 ### Fixed

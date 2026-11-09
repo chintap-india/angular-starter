@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ContentService } from '../../core/services/content.service';
 import { SeoService } from '../../core/services/seo.service';
+import { ContactSubmissionService } from '../../core/services/contact-submission.service';
 import { ExploreNextComponent } from '../../shared/components/explore-next/explore-next.component';
 import { DinoGameComponent } from '../../shared/components/dino-game/dino-game.component';
 
@@ -29,6 +30,7 @@ export class NotFoundPageComponent implements OnInit {
   private readonly seo = inject(SeoService);
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly contactSubmission = inject(ContactSubmissionService);
 
   readonly attemptedPath = signal<string>('/unknown');
   readonly isReporting = signal<boolean>(false);
@@ -88,40 +90,30 @@ export class NotFoundPageComponent implements OnInit {
     this.isReporting.set(true);
 
     const referrer = typeof document !== 'undefined' ? document.referrer || 'Direct' : 'Unknown';
-    const payload = new URLSearchParams();
-    payload.append('form-name', 'contact');
-    payload.append('intent', 'issue');
-    payload.append('name', 'Chintap Visitor (404 Report)');
-    payload.append('email', '404-report@chintap.internal');
-    payload.append('organization', '404 Auto-Report');
-    payload.append('message', `Automatic 404 report for missing route: ${this.attemptedPath()} | Referrer: ${referrer}`);
+    const payload = {
+      name: 'Chintap Visitor (404 Report)',
+      email: 'hello@chintap.com',
+      organization: '404 Auto-Report',
+      intent: 'issue',
+      message: `Automatic 404 report for missing route: ${this.attemptedPath()} | Referrer: ${referrer}`
+    };
 
     try {
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: payload.toString()
+      const result = await this.contactSubmission.submit(payload, '404-page');
+      this.reported.set(true);
+      const msg = result.status === 'delivered'
+        ? `Report received for ${this.attemptedPath()}! Thank you for letting us know.`
+        : `Report saved locally for ${this.attemptedPath()}. Thank you!`;
+      this.snackBar.open(msg, 'Dismiss', {
+        duration: 6000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom'
       });
-
-      if (!response.ok) {
-        throw new Error(`Netlify form error: ${response.status}`);
-      }
-
-      this.reported.set(true);
-      this.snackBar.open(
-        `Report received for ${this.attemptedPath()}! Thank you for letting us know.`,
-        'Dismiss',
-        {
-          duration: 6000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom'
-        }
-      );
     } catch (err) {
-      console.warn('404 report response (or local fallback):', err);
+      console.warn('404 report error:', err);
       this.reported.set(true);
       this.snackBar.open(
-        `Report registered for ${this.attemptedPath()}. Thank you!`,
+        `Report noted for ${this.attemptedPath()}. Thank you!`,
         'Dismiss',
         {
           duration: 5000,

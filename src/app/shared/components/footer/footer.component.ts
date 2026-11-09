@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ContactDialogComponent } from '../../../features/modals/contact-dialog/contact-dialog.component';
+import { ContactModalService } from '../../../core/services/contact-modal.service';
 import { LegalDialogComponent } from '../../../features/modals/legal-dialog/legal-dialog.component';
 import { ContentService } from '../../../core/services/content.service';
 import { SITE_CONFIG } from '../../../core/config/site.config';
@@ -26,15 +26,11 @@ export class FooterComponent {
   readonly siteConfig = inject(SITE_CONFIG);
   readonly content = inject(SITE_CONTENT);
   private readonly dialog = inject(MatDialog);
+  private readonly contactModal = inject(ContactModalService);
   readonly currentYear = new Date().getFullYear();
 
   openContactDialog(): void {
-    this.dialog.open(ContactDialogComponent, {
-      width: '100%',
-      maxWidth: '560px',
-      maxHeight: '92dvh',
-      autoFocus: 'first-tabbable'
-    });
+    this.contactModal.open({ intent: 'general', source: 'footer' });
   }
 
   openLegal(type: 'privacy' | 'terms'): void {

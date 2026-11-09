@@ -1,4 +1,9 @@
 <form
+  name="contact"
+  method="POST"
+  action="/"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
   [formGroup]="contactForm"
   #formDirective="ngForm"
   (ngSubmit)="onSubmit(formDirective)"
@@ -6,8 +11,44 @@
   novalidate
   aria-label="Contact form"
 >
-  <!-- Hidden form-name input for Netlify bots -->
+  <!-- Hidden form-name & bot-field inputs for Netlify bots -->
   <input type="hidden" name="form-name" value="contact" />
+  <input type="hidden" name="bot-field" value="" />
+
+  <!-- Local save / email fallback alert -->
+  @if (fallbackMailto()) {
+    <div
+      role="alert"
+      class="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-100 border border-amber-200 dark:border-amber-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+    >
+      <div class="flex items-start gap-2.5">
+        <mat-icon class="!w-4 !h-4 !text-[18px] text-amber-600 dark:text-amber-400 shrink-0 mt-0.5">info</mat-icon>
+        <div>
+          <span class="font-bold">Note safely saved locally.</span>
+          <p class="text-amber-800 dark:text-amber-200 mt-0.5">Since the server did not acknowledge transmission, you can send it directly to hello&#64;chintap.com.</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 self-end sm:self-center shrink-0">
+        <a
+          [href]="fallbackMailto()"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-800 hover:bg-amber-900 text-white font-bold text-xs transition cursor-pointer"
+        >
+          <mat-icon class="!text-xs !w-3.5 !h-3.5 leading-none">mail</mat-icon>
+          <span>Send via Email</span>
+        </a>
+        <button
+          type="button"
+          (click)="clearFallback()"
+          class="p-1 text-amber-700 hover:text-amber-900 dark:text-amber-300 dark:hover:text-white"
+          aria-label="Dismiss alert"
+        >
+          <mat-icon class="!text-sm !w-4 !h-4 leading-none">close</mat-icon>
+        </button>
+      </div>
+    </div>
+  }
 
   <!-- Speech error alert -->
   @if (speechError()) {
@@ -70,11 +111,13 @@
   <mat-form-field appearance="outline" class="w-full">
     <mat-label>What are you exploring?</mat-label>
     <mat-select formControlName="intent" id="contact-intent" aria-label="What are you exploring?">
+      <mat-option value="starter-kit">Starter Kit customization or questions</mat-option>
       <mat-option value="problem">An everyday problem that needs a better solution</mat-option>
       <mat-option value="idea">An idea that hasn't found its shape yet</mat-option>
       <mat-option value="connected">A physical, digital, or connected product</mat-option>
       <mat-option value="academy">An Academy cohort or hands-on engineering programme</mat-option>
       <mat-option value="collaboration">A partnership or shared possibility</mat-option>
+      <mat-option value="general">General inquiry or conversation</mat-option>
       <mat-option value="issue">Report a broken link or page issue</mat-option>
     </mat-select>
   </mat-form-field>
