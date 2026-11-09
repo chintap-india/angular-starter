@@ -594,7 +594,8 @@ html.dark .mat-mdc-select-value {
 .mat-mdc-dialog-container .mdc-dialog__surface {
   border-radius: 1.5rem !important;
   background-color: #ffffff !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.18) !important;
   max-height: 90vh !important;
   max-height: 90dvh !important;
   display: flex !important;

@@ -135,14 +135,23 @@ describe('TaskDetailPageComponent', () => {
     expect(writeTextSpy).toHaveBeenCalled();
   });
 
-  it('should open edit and status dialogs', () => {
+  it('should open edit, status, and sprint details dialogs', () => {
     component.openEditDialog();
     expect((component as any).dialog.open).toHaveBeenCalled();
 
     component.openStatusDialog();
     expect((component as any).dialog.open).toHaveBeenCalled();
 
+    component.openSprintDetailsDialog();
+    expect((component as any).dialog.open).toHaveBeenCalled();
+
     component.openModalView();
     expect((component as any).dialog.open).toHaveBeenCalled();
+  });
+
+  it('should render clean single-column layout without redundant sidebar task actions card', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).not.toContain('Task Actions');
+    expect(compiled.querySelector('h1')?.textContent).toContain(sampleTask.title);
   });
 });

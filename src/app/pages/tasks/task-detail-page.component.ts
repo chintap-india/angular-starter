@@ -15,6 +15,7 @@ import { TaskFormDialogComponent } from './task-form-dialog.component';
 import { TaskStatusDialogComponent } from './task-status-dialog.component';
 import { TaskDeleteDialogComponent } from './task-delete-dialog.component';
 import { TaskDetailDialogComponent } from './task-detail-dialog.component';
+import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.component';
 
 @Component({
   selector: 'app-task-detail-page',
@@ -106,15 +107,15 @@ import { TaskDetailDialogComponent } from './task-detail-dialog.component';
                 <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">edit</mat-icon>
               </button>
 
-              <!-- Quick View in Modal Trigger -->
+              <!-- Sprint Details Modal Trigger -->
               <button
                 type="button"
-                (click)="openModalView()"
-                matTooltip="Open Modal Preview / Fullscreen"
-                aria-label="Open modal preview"
+                (click)="openSprintDetailsDialog()"
+                matTooltip="Sprint Details (Modal)"
+                aria-label="Sprint details"
                 class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 transition cursor-pointer leading-none"
               >
-                <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">visibility</mat-icon>
+                <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">info</mat-icon>
               </button>
 
               <!-- Copy Direct Link / Share -->
@@ -174,226 +175,136 @@ import { TaskDetailDialogComponent } from './task-detail-dialog.component';
         <mat-progress-bar mode="indeterminate" class="!h-0.5"></mat-progress-bar>
       }
 
-      <!-- Main Container -->
-      <main class="max-w-6xl mx-auto px-4 sm:px-8 py-8">
+      <!-- Main Container: Centered, Focused, Single-Column Layout -->
+      <main class="max-w-4xl mx-auto px-4 sm:px-8 py-6 sm:py-8 space-y-6">
         
         @if (task()) {
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Title & Category Card -->
+          <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
             
-            <!-- Left 8 Columns: Task Title & Markdown Description -->
-            <div class="lg:col-span-8 space-y-6">
+            <div class="flex flex-wrap items-center gap-2 text-xs">
+              <span class="inline-flex items-center gap-1 font-mono font-bold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
+                {{ formatTaskId(task()!.id) }}
+              </span>
               
-              <!-- Title & Category Card -->
-              <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
-                
-                <div class="flex flex-wrap items-center gap-2 text-xs">
-                  <span class="inline-flex items-center gap-1 font-mono font-bold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
-                    {{ formatTaskId(task()!.id) }}
-                  </span>
-                  
-                  <span class="inline-flex items-center gap-1 font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
-                    <mat-icon class="!text-xs !w-3.5 !h-3.5">folder</mat-icon>
-                    <span>{{ task()!.category }}</span>
-                  </span>
+              <span class="inline-flex items-center gap-1 font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
+                <mat-icon class="!text-xs !w-3.5 !h-3.5">folder</mat-icon>
+                <span>{{ task()!.category }}</span>
+              </span>
 
-                  <!-- Status Chip -->
-                  <span
-                    class="inline-flex items-center gap-1 font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full text-xs"
-                    [ngClass]="{
-                      'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800/80': task()!.status === 'completed',
-                      'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': task()!.status === 'in-progress',
-                      'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': task()!.status === 'todo'
-                    }"
-                  >
-                    <mat-icon class="!text-xs !w-3.5 !h-3.5">
-                      {{ task()!.status === 'completed' ? 'check_circle' : (task()!.status === 'in-progress' ? 'pending' : 'radio_button_unchecked') }}
-                    </mat-icon>
-                    <span>{{ task()!.status === 'in-progress' ? 'In Progress' : (task()!.status === 'completed' ? 'Completed' : 'To Do') }}</span>
-                  </span>
+              <!-- Status Chip (Clickable to open status modal) -->
+              <button
+                type="button"
+                (click)="openStatusDialog()"
+                matTooltip="Click to change status (Modal)"
+                class="inline-flex items-center gap-1 font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full text-xs cursor-pointer hover:ring-2 hover:ring-emerald-500/40 transition leading-none"
+                [ngClass]="{
+                  'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800/80': task()!.status === 'completed',
+                  'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': task()!.status === 'in-progress',
+                  'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': task()!.status === 'todo'
+                }"
+              >
+                <mat-icon class="!text-xs !w-3.5 !h-3.5">
+                  {{ task()!.status === 'completed' ? 'check_circle' : (task()!.status === 'in-progress' ? 'pending' : 'radio_button_unchecked') }}
+                </mat-icon>
+                <span>{{ task()!.status === 'in-progress' ? 'In Progress' : (task()!.status === 'completed' ? 'Completed' : 'To Do') }}</span>
+                <mat-icon class="!text-[10px] !w-2.5 !h-2.5 opacity-60 ml-0.5">expand_more</mat-icon>
+              </button>
 
-                  <!-- Priority Chip -->
-                  <span
-                    class="inline-flex items-center gap-1 font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full text-xs"
-                    [ngClass]="{
-                      'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-800/80': task()!.priority === 'urgent',
-                      'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': task()!.priority === 'high',
-                      'bg-sky-100 dark:bg-sky-950/70 text-sky-800 dark:text-sky-200 border border-sky-200 dark:border-sky-800/80': task()!.priority === 'medium',
-                      'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': task()!.priority === 'low'
-                    }"
-                  >
-                    <mat-icon class="!text-xs !w-3.5 !h-3.5">
-                      {{ task()!.priority === 'urgent' || task()!.priority === 'high' ? 'priority_high' : 'low_priority' }}
-                    </mat-icon>
-                    <span>Priority: {{ task()!.priority }}</span>
-                  </span>
-                </div>
+              <!-- Priority Chip -->
+              <span
+                class="inline-flex items-center gap-1 font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full text-xs"
+                [ngClass]="{
+                  'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-800/80': task()!.priority === 'urgent',
+                  'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': task()!.priority === 'high',
+                  'bg-sky-100 dark:bg-sky-950/70 text-sky-800 dark:text-sky-200 border border-sky-200 dark:border-sky-800/80': task()!.priority === 'medium',
+                  'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': task()!.priority === 'low'
+                }"
+              >
+                <mat-icon class="!text-xs !w-3.5 !h-3.5">
+                  {{ task()!.priority === 'urgent' || task()!.priority === 'high' ? 'priority_high' : 'low_priority' }}
+                </mat-icon>
+                <span>Priority: {{ task()!.priority }}</span>
+              </span>
 
-                <h1 
-                  class="text-2xl sm:text-3xl font-extrabold font-heading text-slate-900 dark:text-white leading-tight tracking-tight"
-                  [class.line-through]="task()!.status === 'completed'"
-                  [class.text-slate-400]="task()!.status === 'completed'"
-                >
-                  {{ task()!.title }}
-                </h1>
-
-                <p class="text-xs text-slate-500 dark:text-slate-300 flex flex-wrap items-center gap-4 pt-1">
-                  <span class="inline-flex items-center gap-1">
-                    <mat-icon class="!text-xs !w-3.5 !h-3.5">schedule</mat-icon>
-                    <span>Created {{ task()!.createdAt | date:'mediumDate' }}</span>
-                  </span>
-                  <span class="inline-flex items-center gap-1">
-                    <mat-icon class="!text-xs !w-3.5 !h-3.5">update</mat-icon>
-                    <span>Updated {{ task()!.updatedAt | date:'medium' }}</span>
-                  </span>
-                  @if (task()!.dueDate) {
-                    <span class="inline-flex items-center gap-1 text-slate-700 dark:text-slate-200 font-semibold font-mono">
-                      <mat-icon class="!text-xs !w-3.5 !h-3.5 text-slate-500 dark:text-slate-400">calendar_today</mat-icon>
-                      <span>Due: {{ task()!.dueDate }}</span>
-                    </span>
-                  }
-                </p>
-
-              </div>
-
-              <!-- Markdown Specifications & Description (Helvetica Neue) -->
-              <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
-                <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700/80">
-                  <div class="flex items-center gap-2">
-                    <mat-icon class="text-slate-600 dark:text-slate-400">description</mat-icon>
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                      Task Specifications & Notes
-                    </h2>
-                  </div>
-                  <button
-                    type="button"
-                    (click)="openEditDialog()"
-                    matTooltip="Edit Specifications"
-                    class="w-7 h-7 rounded-full inline-flex items-center justify-center text-slate-400 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
-                    aria-label="Edit specifications"
-                  >
-                    <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">edit</mat-icon>
-                  </button>
-                </div>
-
-                @if (task()!.description) {
-                  <div class="task-editor-font text-slate-800 dark:text-slate-200 leading-relaxed text-sm sm:text-base prose dark:prose-invert max-w-none pt-2">
-                    <div [innerHTML]="task()!.description | markdown" ngSkipHydration></div>
-                  </div>
-                } @else {
-                  <div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700 text-center space-y-3">
-                    <mat-icon class="!text-3xl !w-8 !h-8 text-slate-400 dark:text-slate-400">notes</mat-icon>
-                    <p class="text-sm text-slate-500 dark:text-slate-300">No markdown specifications provided yet.</p>
-                    <button
-                      type="button"
-                      (click)="openEditDialog()"
-                      mat-flat-button
-                      class="!rounded-full !bg-slate-900 dark:!bg-slate-100 !text-white dark:!text-slate-900 !px-5 !py-1.5 text-xs font-semibold"
-                    >
-                      Add Description
-                    </button>
-                  </div>
-                }
-              </div>
-
+              <!-- Sprint Details Modal Trigger -->
+              <button
+                type="button"
+                (click)="openSprintDetailsDialog()"
+                matTooltip="View full sprint details & metadata (Modal)"
+                aria-label="Sprint Details"
+                class="inline-flex items-center gap-1 font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full text-xs text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition cursor-pointer leading-none"
+              >
+                <mat-icon class="!text-xs !w-3.5 !h-3.5 text-slate-500 dark:text-slate-400">info</mat-icon>
+                <span>Sprint Details</span>
+              </button>
             </div>
 
-            <!-- Right 4 Columns: Metadata Sidebar & Quick Action Panels -->
-            <div class="lg:col-span-4 space-y-6">
-              
-              <!-- Quick Actions Card (Slate Theme Pill Buttons) -->
-              <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-3">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-300 mb-2">
-                  Task Actions
-                </h3>
-                
-                <!-- Pill Shaped Action Buttons -->
-                <button
-                  type="button"
-                  (click)="toggleComplete()"
-                  mat-stroked-button
-                  class="w-full !rounded-full !border !border-slate-300 dark:!border-slate-700 !text-slate-800 dark:!text-slate-200 !bg-white dark:!bg-slate-800 hover:!bg-slate-100 dark:hover:!bg-slate-700 !py-2 text-xs font-semibold cursor-pointer justify-start"
-                >
-                  <mat-icon class="!text-base !w-4 !h-4 leading-none mr-2" [ngClass]="task()!.status === 'completed' ? 'text-emerald-500 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'">
-                    {{ task()!.status === 'completed' ? 'check_circle' : 'radio_button_unchecked' }}
-                  </mat-icon>
-                  <span>{{ task()!.status === 'completed' ? 'Mark Incomplete' : 'Mark Completed' }}</span>
-                </button>
+            <h1 
+              class="text-2xl sm:text-3xl font-extrabold font-heading text-slate-900 dark:text-white leading-tight tracking-tight"
+              [class.line-through]="task()!.status === 'completed'"
+              [class.text-slate-400]="task()!.status === 'completed'"
+            >
+              {{ task()!.title }}
+            </h1>
 
-                <button
-                  type="button"
-                  (click)="openStatusDialog()"
-                  mat-stroked-button
-                  class="w-full !rounded-full !border !border-slate-300 dark:!border-slate-700 !text-slate-800 dark:!text-slate-200 !bg-white dark:!bg-slate-800 hover:!bg-slate-100 dark:hover:!bg-slate-700 !py-2 text-xs font-semibold cursor-pointer justify-start"
-                >
-                  <mat-icon class="!text-base !w-4 !h-4 leading-none mr-2 text-slate-500 dark:text-slate-400">published_with_changes</mat-icon>
-                  <span>Change Status</span>
-                </button>
+            <p class="text-xs text-slate-500 dark:text-slate-300 flex flex-wrap items-center gap-4 pt-1">
+              <span class="inline-flex items-center gap-1">
+                <mat-icon class="!text-xs !w-3.5 !h-3.5">schedule</mat-icon>
+                <span>Created {{ task()!.createdAt | date:'mediumDate' }}</span>
+              </span>
+              <span class="inline-flex items-center gap-1">
+                <mat-icon class="!text-xs !w-3.5 !h-3.5">update</mat-icon>
+                <span>Updated {{ task()!.updatedAt | date:'medium' }}</span>
+              </span>
+              @if (task()!.dueDate) {
+                <span class="inline-flex items-center gap-1 text-slate-700 dark:text-slate-200 font-semibold font-mono">
+                  <mat-icon class="!text-xs !w-3.5 !h-3.5 text-slate-500 dark:text-slate-400">calendar_today</mat-icon>
+                  <span>Due: {{ task()!.dueDate }}</span>
+                </span>
+              }
+            </p>
 
+          </div>
+
+          <!-- Markdown Specifications & Description (Helvetica Neue) -->
+          <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700/80">
+              <div class="flex items-center gap-2">
+                <mat-icon class="text-slate-600 dark:text-slate-400">description</mat-icon>
+                <h2 class="text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                  Task Specifications & Notes
+                </h2>
+              </div>
+              <button
+                type="button"
+                (click)="openEditDialog()"
+                matTooltip="Edit Specifications"
+                class="w-7 h-7 rounded-full inline-flex items-center justify-center text-slate-400 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
+                aria-label="Edit specifications"
+              >
+                <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">edit</mat-icon>
+              </button>
+            </div>
+
+            @if (task()!.description) {
+              <div class="task-editor-font text-slate-800 dark:text-slate-200 leading-relaxed text-sm sm:text-base prose dark:prose-invert max-w-none pt-2">
+                <div [innerHTML]="task()!.description | markdown" ngSkipHydration></div>
+              </div>
+            } @else {
+              <div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700 text-center space-y-3">
+                <mat-icon class="!text-3xl !w-8 !h-8 text-slate-400 dark:text-slate-400">notes</mat-icon>
+                <p class="text-sm text-slate-500 dark:text-slate-300">No markdown specifications provided yet.</p>
                 <button
                   type="button"
                   (click)="openEditDialog()"
                   mat-flat-button
-                  class="w-full !rounded-full !bg-slate-900 dark:!bg-slate-100 !text-white dark:!text-slate-900 hover:!bg-slate-800 dark:hover:!bg-white !py-2 text-xs font-bold cursor-pointer shadow-xs justify-start"
+                  class="!rounded-full !bg-slate-900 dark:!bg-slate-100 !text-white dark:!text-slate-900 !px-5 !py-1.5 text-xs font-semibold"
                 >
-                  <mat-icon class="!text-base !w-4 !h-4 leading-none mr-2">edit</mat-icon>
-                  <span>Edit Specifications</span>
+                  Add Description
                 </button>
-
-                <button
-                  type="button"
-                  (click)="copyTaskUrl()"
-                  mat-stroked-button
-                  class="w-full !rounded-full !border !border-slate-300 dark:!border-slate-700 !text-slate-800 dark:!text-slate-200 !bg-white dark:!bg-slate-800 hover:!bg-slate-100 dark:hover:!bg-slate-700 !py-2 text-xs font-semibold cursor-pointer justify-start"
-                >
-                  <mat-icon class="!text-base !w-4 !h-4 leading-none mr-2 text-slate-500 dark:text-slate-400">share</mat-icon>
-                  <span>Copy Task URL</span>
-                </button>
-
-                <div class="pt-2 border-t border-slate-100 dark:border-slate-700/80">
-                  <button
-                    type="button"
-                    (click)="openDeleteDialog()"
-                    mat-button
-                    class="w-full !rounded-full !text-rose-600 dark:text-rose-300 hover:!bg-rose-50 dark:hover:!bg-rose-950/40 !py-2 text-xs font-semibold cursor-pointer justify-start"
-                  >
-                    <mat-icon class="!text-base !w-4 !h-4 leading-none mr-2 text-rose-500 dark:text-rose-400">delete_outline</mat-icon>
-                    <span>Delete Task</span>
-                  </button>
-                </div>
               </div>
-
-              <!-- Metadata Summary Card -->
-              <div class="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-300">
-                  Sprint Details
-                </h3>
-
-                <dl class="space-y-3 text-xs">
-                  <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-700/80">
-                    <dt class="text-slate-500 dark:text-slate-300">ID</dt>
-                    <dd class="font-mono font-bold text-slate-900 dark:text-white">{{ formatTaskId(task()!.id) }}</dd>
-                  </div>
-                  <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-700/80">
-                    <dt class="text-slate-500 dark:text-slate-300">Category</dt>
-                    <dd class="font-bold text-slate-900 dark:text-white">{{ task()!.category }}</dd>
-                  </div>
-                  <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-700/80">
-                    <dt class="text-slate-500 dark:text-slate-300">Priority</dt>
-                    <dd class="font-mono font-bold uppercase text-slate-900 dark:text-white">{{ task()!.priority }}</dd>
-                  </div>
-                  <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-700/80">
-                    <dt class="text-slate-500 dark:text-slate-300">Due Date</dt>
-                    <dd class="font-mono text-slate-900 dark:text-white">{{ task()!.dueDate || 'Not Set' }}</dd>
-                  </div>
-                  <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-700/80">
-                    <dt class="text-slate-500 dark:text-slate-300">Route Link</dt>
-                    <dd class="font-mono text-slate-500 dark:text-slate-400 text-[11px] truncate max-w-[140px]">/tasks/{{ task()!.id }}</dd>
-                  </div>
-                </dl>
-              </div>
-
-            </div>
-
+            }
           </div>
         } @else if (!isLoading()) {
           <!-- Empty / Not Found State -->
@@ -529,7 +440,7 @@ export class TaskDetailPageComponent implements OnInit {
     if (!current) return;
 
     const ref = this.dialog.open(TaskFormDialogComponent, {
-      width: '720px',
+      width: '680px',
       maxWidth: '95vw',
       data: { mode: 'edit', task: current },
     });
@@ -546,26 +457,26 @@ export class TaskDetailPageComponent implements OnInit {
     });
   }
 
-  openModalView(): void {
+  openSprintDetailsDialog(): void {
     const current = this.task();
     if (!current) return;
 
-    const ref = this.dialog.open(TaskDetailDialogComponent, {
-      width: '760px',
+    const ref = this.dialog.open(TaskSprintDetailsDialogComponent, {
+      width: '520px',
       maxWidth: '95vw',
       data: { task: current },
     });
 
     ref.afterClosed().subscribe((res) => {
-      if (!res) return;
-      if (res.action === 'edit') {
+      if (res && res.action === 'edit') {
         this.openEditDialog();
-      } else if (res.action === 'status') {
-        this.openStatusDialog();
-      } else if (res.action === 'delete') {
-        this.openDeleteDialog();
       }
     });
+  }
+
+  openModalView(): void {
+    // Retained for backward compatibility: opens sprint details dialog
+    this.openSprintDetailsDialog();
   }
 
   openDeleteDialog(): void {

@@ -2010,6 +2010,21 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
   - Contextual action icon buttons in data tables and cards must have disambiguated `aria-label` attributes (e.g., `'Edit task: ' + task.title`, `'Change status for ' + task.title`).
   - View switcher toggles must advertise state via `[attr.aria-pressed]`, and collapsible filter panels via `[attr.aria-expanded]`.
 
+### 29.20 Dedicated Task Page Streamlining: Single-Column Layout & Modal Sprint Details (v1.5.10)
+- **Eliminate Redundant Action Sidebars When Sticky Navbars Exist**:
+  - If a dedicated view already features a sticky top navigation bar equipped with complete action controls (Toggle Complete, Change Status, Edit, Share, Delete, Adjacent Prev/Next Navigation), never duplicate those exact same actions as a large vertical sidebar card.
+  - Redundant sidebar action buttons consume high-value horizontal viewport width on desktop and create massive scrolling clutter on mobile screens where sidebars are forced below content.
+- **Distraction-Free Single-Column Document Layout**:
+  - Adopt a centered, high-readability single-column container (`max-w-4xl mx-auto space-y-6`), matching modern productivity tools (Linear, Notion, GitHub Issues).
+  - Give 100% visual focus to the primary task title, metadata chips, and the markdown specifications & notes editor/preview.
+- **Modal Encapsulation for Supplementary Sprint Metadata**:
+  - Secondary metadata (Canonical Task ID, Category, Status badge, Priority badge, Due Date, Created Timestamp, Updated Timestamp, Route Path with 1-click clipboard copy) is cleanest when encapsulated into an on-demand modal dialog (`TaskSprintDetailsDialogComponent`).
+  - Provide intuitive trigger points:
+    1. An info icon button (`mat-icon: info`) in the sticky top action bar.
+    2. A sleek "Sprint Details" pill in the Title card's badge strip alongside Category, Status, and Priority.
+  - This eliminates visual noise while keeping detailed sprint data instantly accessible with a single click.
+
+
 
 
 

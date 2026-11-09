@@ -14,7 +14,7 @@ export interface TaskStatusDialogData {
   standalone: true,
   imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule],
   template: `
-    <div class="p-6 max-w-md w-full bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl">
+    <div class="p-6 w-full h-full bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">
       <!-- Header -->
       <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700/80">
         <div class="flex items-center gap-2.5">

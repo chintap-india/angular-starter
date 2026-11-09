@@ -14,7 +14,7 @@ export interface TaskDeleteDialogData {
   standalone: true,
   imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule],
   template: `
-    <div class="p-6 max-w-md w-full bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl">
+    <div class="p-6 w-full h-full bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">
       <div class="flex items-start gap-4">
         <div class="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-950/70 border border-rose-200 dark:border-rose-800/80 flex items-center justify-center text-rose-600 dark:text-rose-300 shrink-0">
           <mat-icon class="!text-xl !w-5 !h-5">delete_forever</mat-icon>

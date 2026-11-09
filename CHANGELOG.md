@@ -14,6 +14,25 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.10] - 2026-11-09
+
+### Removed
+- **Redundant Sidebar Actions & Cluttered Right Rail on Dedicated Task Page**:
+  - Eliminated the redundant right-column "TASK ACTIONS" card (`lg:col-span-4`) containing duplicate buttons ("Mark Completed", "Change Status", "Edit Specifications", "Copy Task URL", "Delete Task").
+  - All actions are cleanly consolidated in the top sticky navigation pill bar, which is always accessible and visible without scrolling.
+  - Eliminated bottom-stacked action cards on mobile devices, resulting in an uncluttered, distraction-free reading experience.
+
+### Changed
+- **Focused Single-Column Task Document Layout**:
+  - Replaced the asymmetric 12-column grid (`lg:grid-cols-12`) with a clean, centered `max-w-4xl mx-auto` single-column layout.
+  - Focused the screen entirely on the core task contents: Title & Metadata Card, and Task Specifications & Notes (Markdown editor view).
+
+### Added
+- **Sprint Details Modal Dialog (`TaskSprintDetailsDialogComponent`)**:
+  - Encapsulated sprint metadata (Task ID, Category, Status badge, Priority badge, Due Date, Created Timestamp, Updated Timestamp, Route Path with 1-click copy) into a dedicated modal dialog.
+  - Accessible via a prominent **"Sprint Details"** pill button in the Title card's badge row and an info button (`info`) in the top sticky header toolbar.
+  - Added full unit test coverage for `TaskSprintDetailsDialogComponent` (141 total tests passing across 20 suites).
+
 ## [1.5.9] - 2026-11-09
 
 ### Fixed

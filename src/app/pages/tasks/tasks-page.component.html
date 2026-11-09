@@ -95,9 +95,9 @@
         </button>
       </div>
 
-      <!-- 3. Search Bar: Full-width on mobile row 2 (Order 3), inline on desktop row 1 (Order 2) -->
+      <!-- 3. Search Bar: Full-width on mobile row 2 (Order 3), inline full remaining space on desktop row 1 (Order 2) -->
       @if (tasks().length > 0) {
-        <div class="order-3 sm:order-2 w-full sm:w-56 lg:w-64 sm:mr-auto relative flex items-center">
+        <div class="order-3 sm:order-2 w-full sm:flex-1 relative flex items-center">
           <mat-icon class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 !text-sm !w-3.5 !h-3.5 pointer-events-none leading-none flex items-center justify-center shrink-0">search</mat-icon>
           <input
             type="text"

@@ -26,10 +26,10 @@ export interface TaskDetailDialogData {
   ],
   template: `
     <div
-      class="flex flex-col bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-all duration-200 overflow-hidden"
+      class="flex flex-col w-full h-full bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-all duration-200 overflow-hidden"
       [ngClass]="{
         'fixed inset-0 z-50 w-screen h-screen rounded-none': isFullscreen(),
-        'w-full max-w-3xl rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl max-h-[90vh]': !isFullscreen()
+        'w-full h-auto max-h-[90vh]': !isFullscreen()
       }"
     >
       <!-- Dialog Header Bar (Sleek, Compact, Zero Wasted Space) -->
