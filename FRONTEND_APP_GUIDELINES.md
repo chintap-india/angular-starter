@@ -1917,6 +1917,20 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
     - Stepper navigation: `‹ Page 1 of 4 ›` with first/prev/next/last controls.
   - This ensures that users can paginate through data sets freely without having to keep the filter panel open.
 
+### 29.13 Uncluttered Mobile Table Rows & Icon Button Standards (v1.5.3)
+- **Do Not Jam Micro-Metadata into Mobile Table Rows**:
+  - Never stuff multiple secondary badges (`#id`, category, priority, status, dates) under item titles in table rows on mobile viewports.
+  - Squeezing 5 micro-badges into every row causes vertical bloat (60–80px rows), visual clutter, and tiny unreadable text (`text-[10px]`).
+  - Instead, keep mobile table rows clean, lightweight, and focused:
+    - Dedicated Checkbox column.
+    - Title in clear, legible typography (`text-sm sm:text-base font-semibold`).
+    - Dedicated **View Button** (`visibility` icon) right in the row actions column so users can tap to open the full detail modal.
+- **Universal Toolbar Icon Buttons (`w-7 h-7`)**:
+  - Primary toolbars must standardize on compact `w-7 h-7` (28px × 28px) icon buttons with Material Tooltips for secondary controls (`tune` for Filters, `add` for Create Task).
+  - Collapsed panels must avoid wide text buttons (`[Seed 35+]`, `[Reset Defaults]`, `[Guest Reviewer]`) in favor of clean icon buttons (`playlist_add` for Seed, `restart_alt` for Reset).
+  - This preserves vital horizontal width on narrow devices (320px–375px) without wrapping or horizontal overflow.
+
+
 
 
 

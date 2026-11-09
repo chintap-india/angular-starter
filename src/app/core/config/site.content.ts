@@ -418,6 +418,21 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     },
     items: [
       {
+        title: 'Enterprise Tasks Management',
+        category: 'Interactive Application',
+        version: 'v1.5.3',
+        logoKey: 'material',
+        docUrl: '/tasks',
+        description:
+          'Production-grade sprint backlog and task management application showcasing Angular Signals, Material Design 3, real-time filtering, responsive tables, and sprint analytics.',
+        highlights: [
+          'Unified Table, Cards, and Sprint Analytics dashboard views',
+          'Full CRUD with Markdown previews & optimistic UI updates',
+          'Fast local search, priority filtering, and pagination with 35+ seeded tasks',
+          'High-contrast Slate dark theme adhering to WCAG 2.2 AA/AAA contrast standards',
+        ],
+      },
+      {
         title: 'Angular 22 Reactive Core',
         category: 'Framework',
         version: '^22.2.0',

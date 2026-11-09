@@ -83,19 +83,18 @@
 
         <div class="h-3.5 w-px bg-slate-300 dark:bg-slate-700 mx-0.5"></div>
 
-        <!-- Collapsed Panel Toggle (Filters & Options) -->
+        <!-- Filters Panel Toggle Icon Button -->
         <button
           type="button"
           (click)="toggleFilterPanel()"
           [ngClass]="isFilterPanelOpen() || activeFiltersCount() > 0 ? 'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 font-bold' : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'"
-          class="h-7 px-2 sm:px-2.5 rounded-full text-xs font-semibold inline-flex items-center justify-center gap-1.5 transition cursor-pointer shadow-2xs leading-none shrink-0"
-          matTooltip="Filters & Options Panel"
-          aria-label="Filters & Options Panel"
+          class="w-7 h-7 rounded-lg text-xs font-semibold relative inline-flex items-center justify-center transition cursor-pointer shadow-2xs leading-none shrink-0"
+          matTooltip="Filters & Options"
+          aria-label="Filters & Options"
         >
           <mat-icon class="!text-sm !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">tune</mat-icon>
-          <span class="hidden md:inline leading-none">Filters</span>
           @if (activeFiltersCount() > 0) {
-            <span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-sky-500 text-white text-[10px] font-bold leading-none">
+            <span class="absolute -top-1 -right-1 min-w-[14px] h-[14px] px-0.5 rounded-full bg-sky-500 text-white text-[9px] font-mono font-bold leading-none flex items-center justify-center ring-1 ring-white dark:ring-slate-900">
               {{ activeFiltersCount() }}
             </span>
           }
@@ -103,16 +102,15 @@
 
         <div class="h-3.5 w-px bg-slate-300 dark:bg-slate-700 mx-0.5"></div>
 
-        <!-- Create New Task Button (Pill-shaped) -->
+        <!-- Create New Task Icon Button -->
         <button
           type="button"
           (click)="openCreateDialog()"
           matTooltip="Create New Task (Modal)"
           aria-label="Create New Task"
-          class="h-7 px-2.5 sm:px-3.5 rounded-full bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 font-bold text-xs inline-flex items-center justify-center gap-1.5 transition cursor-pointer shadow-2xs leading-none shrink-0"
+          class="w-7 h-7 rounded-lg bg-slate-900 hover:bg-slate-800 dark:bg-slate-100 dark:hover:bg-white text-white dark:text-slate-900 font-bold inline-flex items-center justify-center transition cursor-pointer shadow-2xs leading-none shrink-0"
         >
           <mat-icon class="!text-sm !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">add</mat-icon>
-          <span class="hidden sm:inline leading-none">New Task</span>
         </button>
       </div>
 
@@ -232,46 +230,28 @@
           </button>
         </div>
 
-        <!-- Right: Utilities (Seed, Reset, Auth Session) + Rows per page -->
-        <div class="flex flex-wrap items-center gap-2 ml-auto">
-          <!-- Seed Demo -->
+        <!-- Right: Utilities (Seed, Reset as icon buttons) + Rows per page -->
+        <div class="flex items-center gap-1.5 ml-auto">
+          <!-- Seed Demo (Icon Button) -->
           <button
             type="button"
             (click)="seedBulkDemoTasks()"
             matTooltip="Seed 35+ Backlog Tasks"
             aria-label="Seed 35+ Backlog Tasks"
-            class="h-6 px-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 inline-flex items-center justify-center gap-1 transition cursor-pointer shadow-2xs text-[11px] font-semibold leading-none"
+            class="w-7 h-7 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 inline-flex items-center justify-center transition cursor-pointer shadow-2xs leading-none shrink-0"
           >
-            <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0">playlist_add</mat-icon>
-            <span>Seed 35+</span>
+            <mat-icon class="!text-sm !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">playlist_add</mat-icon>
           </button>
 
-          <!-- Reset Defaults -->
+          <!-- Reset Defaults (Icon Button) -->
           <button
             type="button"
             (click)="resetDefaults()"
             matTooltip="Reset Default Tasks"
             aria-label="Reset Default Tasks"
-            class="h-6 px-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 inline-flex items-center justify-center gap-1 transition cursor-pointer shadow-2xs text-[11px] font-semibold leading-none"
+            class="w-7 h-7 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 inline-flex items-center justify-center transition cursor-pointer shadow-2xs leading-none shrink-0"
           >
-            <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0">restart_alt</mat-icon>
-            <span>Reset</span>
-          </button>
-
-          <!-- Auth Session Toggle -->
-          <button
-            type="button"
-            (click)="toggleAuthMode()"
-            [matTooltip]="'Session: ' + (authService.currentUser()?.name || 'Guest') + ' (Click to toggle)'"
-            aria-label="Toggle user session"
-            class="h-6 px-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 inline-flex items-center justify-center gap-1.5 transition cursor-pointer shadow-2xs text-[11px] font-semibold leading-none relative"
-          >
-            <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0">manage_accounts</mat-icon>
-            <span>{{ authService.currentUser()?.name || 'Guest' }}</span>
-            <span
-              class="w-1.5 h-1.5 rounded-full"
-              [ngClass]="authService.currentUser()?.role === 'developer' ? 'bg-emerald-500' : 'bg-amber-500'"
-            ></span>
+            <mat-icon class="!text-sm !w-3.5 !h-3.5 leading-none flex items-center justify-center shrink-0">restart_alt</mat-icon>
           </button>
 
           <span class="h-3 w-px bg-slate-300 dark:bg-slate-700 hidden sm:block"></span>
@@ -316,7 +296,10 @@
             
             <!-- Checkbox Column -->
             <ng-container matColumnDef="select">
-              <th mat-header-cell *matHeaderCellDef class="!w-10 sm:!w-12 !px-1.5 sm:!px-2 text-center font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider">Done</th>
+              <th mat-header-cell *matHeaderCellDef class="!w-10 sm:!w-12 !px-1.5 sm:!px-2 text-center font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider">
+                <span class="hidden sm:inline">Done</span>
+                <mat-icon class="!text-sm !w-3.5 !h-3.5 text-slate-500 dark:text-slate-400 mx-auto sm:hidden">check</mat-icon>
+              </th>
               <td mat-cell *matCellDef="let task" class="!w-10 sm:!w-12 !px-1.5 sm:!px-2 text-center">
                 <mat-checkbox
                   [checked]="task.status === 'completed'"
@@ -327,7 +310,7 @@
               </td>
             </ng-container>
 
-            <!-- ID Column (Hidden on mobile <640px; tucked into title sub-row) -->
+            <!-- ID Column (Hidden on mobile <640px) -->
             <ng-container matColumnDef="id">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="col-hidden-sm !w-16 min-w-[3.5rem] !px-2 font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider text-center">
                 ID
@@ -337,67 +320,28 @@
               </td>
             </ng-container>
 
-            <!-- Title Column (Clickable to open Full Task Detail Dialog; displays micro-meta sub-row on mobile) -->
+            <!-- Title Column (Clean, legible font; tap to open Full Detail Dialog) -->
             <ng-container matColumnDef="title">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-auto min-w-[150px] sm:min-w-[200px] !px-2 sm:!px-3">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-auto min-w-[150px] sm:min-w-[200px] !px-2.5 sm:!px-3">
                 Task Title
               </th>
-              <td mat-cell *matCellDef="let task" class="py-2 sm:py-2.5 !px-2 sm:!px-3 overflow-hidden">
+              <td mat-cell *matCellDef="let task" class="py-2.5 sm:py-3 !px-2.5 sm:!px-3 overflow-hidden">
                 <button
                   type="button"
                   (click)="openDetailDialog(task)"
-                  class="font-bold text-xs sm:text-sm text-slate-900 dark:text-slate-100 hover:text-emerald-600 dark:hover:text-emerald-300 text-left transition cursor-pointer group inline-flex items-center gap-1.5 leading-snug max-w-full truncate"
-                  matTooltip="Click to view full specs & fullscreen details"
+                  class="font-semibold text-sm sm:text-base text-slate-900 dark:text-slate-100 hover:text-emerald-600 dark:hover:text-emerald-300 text-left transition cursor-pointer group inline-flex items-center gap-1.5 leading-normal max-w-full"
+                  matTooltip="Click to view full specs & details (Modal)"
                 >
-                  <span [class.line-through]="task.status === 'completed'" [class.text-slate-400]="task.status === 'completed'" class="leading-none truncate">
+                  <span [class.line-through]="task.status === 'completed'" [class.text-slate-400]="task.status === 'completed'" class="truncate">
                     {{ task.title }}
                   </span>
-                  <mat-icon class="!text-xs !w-3 !h-3 opacity-0 group-hover:opacity-100 text-emerald-600 transition shrink-0 leading-none flex items-center justify-center">open_in_new</mat-icon>
+                  <mat-icon class="!text-xs !w-3.5 !h-3.5 opacity-0 group-hover:opacity-100 text-emerald-600 transition shrink-0 leading-none flex items-center justify-center">visibility</mat-icon>
                 </button>
                 @if (task.description) {
-                  <p class="hidden sm:block text-[11px] text-slate-400 dark:text-slate-300 line-clamp-1 mt-0.5 max-w-md truncate">
+                  <p class="hidden sm:block text-xs text-slate-500 dark:text-slate-400 line-clamp-1 mt-0.5 max-w-md truncate">
                     {{ task.description.replace('#', '').replace('*', '').slice(0, 80) }}...
                   </p>
                 }
-
-                <!-- MOBILE PROGRESSIVE COLUMN TUCKING: Micro-meta sub-row (md:hidden) -->
-                <div class="flex flex-wrap items-center gap-1.5 mt-1 md:hidden leading-none">
-                  <span class="font-mono text-[10px] text-slate-500 dark:text-slate-300 font-bold shrink-0">#{{ formatTaskId(task.id) }}</span>
-                  <span class="text-slate-300 dark:text-slate-600">•</span>
-                  <span class="inline-flex items-center text-[10px] font-mono font-bold uppercase px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 shrink-0">
-                    {{ task.category }}
-                  </span>
-                  <span class="text-slate-300 dark:text-slate-600">•</span>
-                  <span
-                    class="inline-flex items-center text-[10px] font-mono font-bold uppercase px-1.5 py-0.2 rounded shrink-0"
-                    [ngClass]="{
-                      'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-200 border border-rose-200 dark:border-rose-800/80': task.priority === 'urgent',
-                      'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': task.priority === 'high',
-                      'bg-sky-100 dark:bg-sky-950/70 text-sky-800 dark:text-sky-200 border border-sky-200 dark:border-sky-800/80': task.priority === 'medium',
-                      'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': task.priority === 'low'
-                    }"
-                  >
-                    {{ task.priority }}
-                  </span>
-                  <span class="text-slate-300 dark:text-slate-600 sm:hidden">•</span>
-                  <span
-                    class="inline-flex sm:hidden items-center text-[10px] font-mono font-semibold uppercase px-1.5 py-0.2 rounded shrink-0"
-                    [ngClass]="{
-                      'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800/80': task.status === 'completed',
-                      'bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-200 border border-amber-200 dark:border-amber-800/80': task.status === 'in-progress',
-                      'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700': task.status === 'todo'
-                    }"
-                  >
-                    {{ task.status === 'in-progress' ? 'In Progress' : (task.status === 'completed' ? 'Done' : 'To Do') }}
-                  </span>
-                  @if (task.dueDate) {
-                    <span class="text-slate-300 dark:text-slate-600 xl:hidden">•</span>
-                    <span class="inline-flex xl:hidden items-center gap-0.5 text-[10px] font-mono text-slate-500 dark:text-slate-300 shrink-0">
-                      <mat-icon class="!text-[10px] !w-2.5 !h-2.5 leading-none flex items-center justify-center shrink-0">calendar_today</mat-icon>
-                      <span>{{ task.dueDate }}</span>
-                    </span>
-                  }
-                </div>
               </td>
             </ng-container>
 
@@ -480,12 +424,13 @@
               </td>
             </ng-container>
 
-            <!-- Actions Column (Desktop expanded icons / Mobile single kebab menu) -->
+            <!-- Actions Column (Desktop expanded icons / Mobile View button & kebab menu) -->
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef class="text-right !pr-2 md:!pr-3 font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-12 md:!w-36">
-                Actions
+              <th mat-header-cell *matHeaderCellDef class="text-right !pr-2 md:!pr-3 font-bold text-xs !text-slate-900 dark:!text-slate-100 uppercase tracking-wider !w-20 md:!w-36">
+                <span class="hidden sm:inline">Actions</span>
+                <span class="sm:hidden">View</span>
               </th>
-              <td mat-cell *matCellDef="let task" class="text-right !pr-2 md:!pr-3 whitespace-nowrap !w-12 md:!w-36">
+              <td mat-cell *matCellDef="let task" class="text-right !pr-2 md:!pr-3 whitespace-nowrap !w-20 md:!w-36">
                 <!-- Desktop Action Buttons (hidden on mobile and tablet < 768px) -->
                 <div class="hidden md:inline-flex items-center justify-end gap-1">
                   <!-- Dedicated Page Link -->
@@ -529,15 +474,24 @@
                   </button>
                 </div>
 
-                <!-- Mobile Action Kebab Menu Trigger (md:hidden) -->
-                <div class="md:hidden inline-flex items-center justify-end">
+                <!-- Mobile Action Buttons: Dedicated View Button + Kebab (md:hidden) -->
+                <div class="md:hidden inline-flex items-center justify-end gap-1">
+                  <button
+                    type="button"
+                    (click)="openDetailDialog(task)"
+                    aria-label="View task details in modal"
+                    matTooltip="View Task (Modal)"
+                    class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
+                  >
+                    <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">visibility</mat-icon>
+                  </button>
                   <button
                     type="button"
                     [matMenuTriggerFor]="rowActionMenu"
                     [matMenuTriggerData]="{ task: task }"
-                    aria-label="Task actions"
+                    aria-label="More task actions"
                     matTooltip="Actions"
-                    class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
+                    class="w-7 h-7 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
                   >
                     <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">more_vert</mat-icon>
                   </button>

@@ -14,6 +14,26 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.3] - 2026-11-09
+
+### Added
+- **Features Page Integration**:
+  - Added **Enterprise Tasks Management** architectural card to `/features` (`features.items` in `site.content.ts`), highlighting full Signal-driven CRUD, Markdown previews, real-time filtering, responsive tables, and sprint analytics.
+  - Added internal `routerLink` support for feature cards with local routes, rendering a direct `Live App →` CTA to `/tasks`.
+- **Dedicated Mobile View Modal Trigger**:
+  - Added a direct `visibility` icon button in table row actions on mobile viewports (`< 768px`), allowing users to tap and open the full task detail modal immediately instead of overcrowding table rows with metadata.
+
+### Changed
+- **Zero-Clutter Toolbar Icon Buttons**:
+  - Converted `Filters` and `Create Task` buttons into compact `w-7 h-7` icon buttons (`tune` and `add`), perfectly matching the 3 view switchers and eliminating horizontal squeezing on mobile displays.
+- **Collapsible Panel Utilities Simplification**:
+  - Converted `Seed 35+` and `Reset` to sleek `w-7 h-7` icon buttons (`playlist_add` and `restart_alt`) with tooltips.
+  - Removed the `Guest Reviewer` / Auth mode button from the collapsed panel to eliminate unnecessary clutter.
+- **Table Rows De-Cluttering & Font Readability**:
+  - Removed the crowded micro-meta subrow (`#id • CATEGORY • PRIORITY • STATUS • DUE DATE`) from table rows on mobile.
+  - Increased task title typography to `text-sm sm:text-base font-semibold` with comfortable line height, ensuring clear readability without zooming.
+  - Fixed mobile table header label truncation on the `select` (`Done`) and `actions` (`View`) columns.
+
 ## [1.5.2] - 2026-11-09
 
 ### Added
