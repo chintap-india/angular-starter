@@ -1951,6 +1951,17 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
     - Style text field focus directly via container border color and subtle rings (`focus:ring-1 focus:border-slate-500` / `dark:focus:ring-slate-400 dark:focus:border-slate-400`).
     - This guarantees a single, crisp, unified border conforming to the element's own `border-radius` with zero multi-line artifacts.
 
+### 29.16 Modal Actions & Zero-Clutter Header Standards (v1.5.6)
+- **Header Action Icon Buttons vs Bloated Footers**:
+  - In detail/inspection dialogs (e.g., View Task Modal), never waste 70–130px at the bottom on large text buttons (`[Delete Task]`, `[Change Status]`, `[Edit Task]`).
+  - Move core actions into the dialog **header** as compact, high-contrast `w-7 h-7 sm:w-8 sm:h-8` icon buttons (`edit`, `published_with_changes`, `delete_outline`, `open_in_new`, `fullscreen`, `close`) with Material Tooltips.
+  - Eliminate the footer entirely to dedicate 100% of vertical space to the actual content and markdown specifications.
+- **Zero Redundant Label Clutter in Modals**:
+  - Strip repetitive prefixes from metadata chips: use `[check Completed]` instead of `Status: Completed`; `[priority_high Urgent]` instead of `Priority: Urgent`; `[calendar 2026-12-13]` instead of `Due: 2026-12-13`.
+  - Omit loud section headings like `Description & Specifications` when the context is obvious and the content is framed inside a dedicated card.
+  - In editor dialogs, eliminate noisy helper text (`Markdown supported`, `Paste URL over text to auto-link`) and convert formatting controls (`Code`, `List`, `Task`, `Quote`) into pure icon buttons.
+
+
 
 
 

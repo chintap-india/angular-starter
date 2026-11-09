@@ -14,6 +14,19 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.6] - 2026-11-09
+
+### Changed
+- **Zero-Clutter View Task Modal (Header Action Icon Buttons)**:
+  - Converted `Edit Task`, `Change Status`, and `Delete Task` into compact, high-contrast `w-7 h-7 sm:w-8 sm:h-8` icon buttons (`edit`, `published_with_changes`, `delete_outline`) directly in the modal header action strip.
+  - Completely eliminated the bloated 80px footer and multi-row button wrapping on mobile, reclaiming 100% of vertical space for the task content and markdown description.
+  - Cleaned metadata strip: stripped redundant prefixes (`Status: `, `Priority: `, `Due: `, `Updated: `), leaving clean, self-explanatory pill chips.
+  - Removed loud `Description & Specifications` heading; content is presented cleanly inside the card without redundant noise.
+- **Zero-Clutter Markdown Editor Dialog**:
+  - Removed redundant sub-bar labels (`Markdown supported`, `Paste URL over text to auto-link`).
+  - Removed duplicate `Editor Only` / `Show Properties` button in the editor sub-bar; converted the header Focus Mode toggle to a clean `center_focus_strong` / `fit_screen` icon button.
+  - Converted formatting toolbar controls (`Code`, `List`, `Task`, `Quote`) from mixed text-buttons into uniform, compact icon buttons with Material Tooltips, saving massive horizontal and vertical real estate.
+
 ## [1.5.5] - 2026-11-09
 
 ### Fixed
