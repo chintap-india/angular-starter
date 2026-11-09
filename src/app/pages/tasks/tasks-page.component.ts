@@ -126,6 +126,19 @@ export class TasksPageComponent implements OnInit {
   readonly selectedStatus = signal<string>('all');
   readonly selectedPriority = signal<string>('all');
 
+  readonly isFilterPanelOpen = signal<boolean>(false);
+
+  readonly activeFiltersCount = computed<number>(() => {
+    let count = 0;
+    if (this.selectedStatus() !== 'all') count++;
+    if (this.selectedPriority() !== 'all') count++;
+    return count;
+  });
+
+  toggleFilterPanel(): void {
+    this.isFilterPanelOpen.update((open) => !open);
+  }
+
   readonly hasActiveFilters = computed(() => {
     return !!this.searchQuery().trim() || this.selectedStatus() !== 'all' || this.selectedPriority() !== 'all';
   });
@@ -261,6 +274,10 @@ export class TasksPageComponent implements OnInit {
   readonly totalPages = computed(() => {
     const total = this.sortedTasks().length;
     return Math.max(1, Math.ceil(total / this.pageSize()));
+  });
+
+  readonly currentPage = computed(() => {
+    return this.sortedTasks().length === 0 ? 0 : this.pageIndex() + 1;
   });
 
   readonly hasPrevPage = computed(() => this.pageIndex() > 0);

@@ -273,5 +273,23 @@ describe('TasksPageComponent', () => {
     expect(component.selectedPriority()).toBe('all');
     expect(component.hasActiveFilters()).toBe(false);
   });
+
+  it('should toggle filter panel and compute activeFiltersCount correctly', () => {
+    fixture.detectChanges();
+    expect(component.isFilterPanelOpen()).toBe(false);
+    expect(component.activeFiltersCount()).toBe(0);
+
+    component.toggleFilterPanel();
+    expect(component.isFilterPanelOpen()).toBe(true);
+
+    component.selectedStatus.set('todo');
+    expect(component.activeFiltersCount()).toBe(1);
+
+    component.selectedPriority.set('urgent');
+    expect(component.activeFiltersCount()).toBe(2);
+
+    component.toggleFilterPanel();
+    expect(component.isFilterPanelOpen()).toBe(false);
+  });
 });
 

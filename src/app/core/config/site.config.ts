@@ -61,7 +61,7 @@ export interface SiteConfig {
 }
 
 export const DEFAULT_SITE_CONFIG: SiteConfig = {
-  version: '1.5.1',
+  version: '1.5.2',
   name: 'Chintap Angular Starter',
   shortName: 'Angular Starter',
   tagline: 'SEO, AEO, LLMO, GEO & SSR Ready Starter Kit',

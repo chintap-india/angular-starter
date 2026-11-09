@@ -14,6 +14,31 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.2] - 2026-11-09
+
+### Added
+- **Streamlined Clutter-Free Primary Toolbar (Tier 1)**:
+  - Preserved strictly the 5 essential controls directly visible across mobile and desktop:
+    1. **Title & Search** (`Tasks` count badge + adaptive width inline quick search).
+    2. **Table View Button** (`table_rows`).
+    3. **List / Cards View Button** (`view_agenda`).
+    4. **Dashboard View Button** (`insights`).
+    5. **Add Button** (`+ New Task`).
+    6. **Filter & Options Panel Toggle** (`tune` icon button with active filter counter badge).
+  - Eliminated toolbar button crowding and icon wrapping across all viewport breakpoints.
+- **Collapsible Filters & Utilities Panel**:
+  - Moved secondary actions and filter controls into a clean, collapsible panel toggled via `isFilterPanelOpen = signal(false)`:
+    - Status filter chips (`All`, `To Do`, `In Progress`, `Completed`).
+    - Priority filter dropdown (`Urgent`, `High`, `Medium`, `Low`, `All`).
+    - `Clear Filters` button (`filter_alt_off`).
+    - Secondary utilities: `Seed 35+ Backlog Tasks` (`playlist_add`), `Reset Default Tasks` (`restart_alt`), and `User Session` toggle (`manage_accounts`).
+    - Rows per page selector (`10`, `25`, `50`, `100` / page).
+- **Persistent Bottom Pagination & Metrics Bar**:
+  - Added bottom pagination bar for directory table and card views (`Showing 1–10 of 35 tasks • Sprint: 15/35 (43%)` ... `[‹ Page 1 of 4 ›]`).
+  - Allows seamless navigation across pages without needing to open the collapsed panel.
+- **Automated Unit Testing**:
+  - Added unit test verifying `isFilterPanelOpen` toggle behavior and `activeFiltersCount` computation (126/126 tests passing).
+
 ## [1.5.1] - 2026-11-07
 
 ### Fixed

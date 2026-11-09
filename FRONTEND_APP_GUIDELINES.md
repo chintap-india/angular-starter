@@ -1893,6 +1893,31 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
   - Cards view must similarly collapse actions into `more_vert` on mobile screens (`< 640px` / `sm:hidden`), preventing action button strips from crowding card headers and category badges.
   - The shared `#rowActionMenu` must be declared outside of any scoped `@if` control flow blocks so it is globally available to both table and card views.
 
+### 29.12 Clutter-Free Tier 1 Toolbar & Collapsible Filter Panel Pattern (v1.5.2)
+- **Tier 1 Strict Minimalism (Zero UI Clutter)**:
+  - On the primary toolbar (Tier 1), only display the 5 essential controls directly visible across mobile and desktop:
+    1. **Title & Item Count Badge** (`Tasks [Count]`).
+    2. **Inline Quick Search** (`search` input with adaptive width and clear button).
+    3. **View Mode Segmented Switcher** (`table_rows`, `view_agenda`, `insights`) visible on all screen sizes with `inline-flex`.
+    4. **Filter & Options Panel Toggle** (`tune` button with dynamic active filter badge counter).
+    5. **Primary Creation CTA** (`+ New Task`).
+  - Do NOT clutter Tier 1 with secondary utility buttons or loose filter chips.
+- **Collapsible Filter & Secondary Utilities Panel**:
+  - Encapsulate all non-essential actions inside an expandable panel controlled by `isFilterPanelOpen = signal<boolean>(false)`:
+    - Status segmented filter pills (`All`, `To Do`, `In Progress`, `Completed`).
+    - Priority filter dropdown (`Urgent`, `High`, `Medium`, `Low`, `All`).
+    - `Clear Filters` button (`filter_alt_off`).
+    - Secondary utilities: `Seed 35+ Backlog Tasks` (`playlist_add`), `Reset Default Tasks` (`restart_alt`), and `User Session` toggle (`manage_accounts`).
+    - Page size selector (`10`, `25`, `50`, `100` / page).
+  - The panel is collapsed by default, giving users a pristine, uncluttered interface upon page load.
+- **Persistent Bottom Pagination & Metrics Bar**:
+  - Directory views (table and card views) must include a persistent bottom pagination bar:
+    - Summary range: `Showing 1–10 of 35 tasks`.
+    - Sprint metric: `Sprint: 15/35 (43%)`.
+    - Stepper navigation: `‹ Page 1 of 4 ›` with first/prev/next/last controls.
+  - This ensures that users can paginate through data sets freely without having to keep the filter panel open.
+
+
 
 
 
