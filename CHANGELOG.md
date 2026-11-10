@@ -14,6 +14,22 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.14] - 2026-11-10
+
+### Added
+- **Expose Tasks in Primary Navigation Menu Bar**:
+  - Added Tasks (`/tasks`) directly to `navigation.links` in `site.content.ts`.
+  - Accessible immediately in both desktop top navigation and mobile slideout menu bar with automatic active route highlighting.
+- **Interactive Tasks Architecture Showcase on Features Page**:
+  - Added a dedicated, high-impact Tasks Module Architecture Showcase banner on `/features` (`FeaturesPageComponent`).
+  - Highlights core metrics (35+ seeded tasks, 100% Signal-driven, 6 integrated dialogs, 148 passing tests).
+  - Outlines the 6 architectural pillars: Chintap Compact Template UX, Fine-Grained Signals Core, Comprehensive Dialog Suite, Dedicated Detail Routes (`/tasks/:id`), 1-Click Duplication, and High-Contrast Slate WCAG 2.2 AA/AAA Dark Theme.
+  - Included direct 1-click CTA button ("Launch Tasks App") navigating to `/tasks`.
+- **Test Suite Expansion**:
+  - Added unit test suite `features-page.component.spec.ts` asserting SEO schema initialization, tech stack cards, and Tasks architecture showcase rendering.
+  - Updated `navbar.component.spec.ts` asserting `/tasks` route configuration and navigation link rendering.
+  - Expanded total test suite to 148 tests across 21 test files (100% pass rate).
+
 ## [1.5.13] - 2026-11-09
 
 ### Added

@@ -43,6 +43,28 @@ export interface PracticeSection {
   codeSnippet: string;
 }
 
+export interface TasksShowcasePillar {
+  title: string;
+  icon: string;
+  description: string;
+}
+
+export interface TasksShowcaseStat {
+  value: string;
+  label: string;
+}
+
+export interface TasksShowcaseSection {
+  badge: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  route: string;
+  ctaLabel: string;
+  stats: TasksShowcaseStat[];
+  pillars: TasksShowcasePillar[];
+}
+
 export interface SiteContent {
   brand: {
     name: string;
@@ -103,6 +125,7 @@ export interface SiteContent {
       title: string;
       description: string;
     };
+    tasksShowcase: TasksShowcaseSection;
     items: StackFeature[];
     disclaimer: {
       title: string;
@@ -200,6 +223,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
     links: [
       { label: 'Home', path: '/' },
       { label: 'Features', path: '/features' },
+      { label: 'Tasks', path: '/tasks' },
       { label: 'Best Practices', path: '/best-practices' },
       { label: 'About', path: '/about' },
       { label: 'Contact', path: '/contact' },
@@ -416,11 +440,65 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       description:
         'Every architectural choice in this starter kit has been benchmarked for sub-second developer velocity, rock-solid type safety, and maximum visibility across both human crawlers and AI answer engines.',
     },
+    tasksShowcase: {
+      badge: 'Interactive Application Showcase',
+      title: 'Enterprise Tasks Management Module',
+      subtitle:
+        'A reference architecture demonstrating Signals reactivity, Chintap Compact Template UX, full CRUD, and high-performance client state.',
+      description:
+        'The Tasks module serves as a live, end-to-end blueprint for building production-grade Angular applications. It embodies enterprise UX patterns including multi-view dashboards (Table, Cards, Analytics), 6 integrated modal dialogs, deep-linked detail pages, and 100% zoneless-ready Signals.',
+      route: '/tasks',
+      ctaLabel: 'Launch Tasks App',
+      stats: [
+        { value: '35+', label: 'Seeded Tasks' },
+        { value: '100%', label: 'Signal-Driven' },
+        { value: '6', label: 'Integrated Dialogs' },
+        { value: '144', label: 'Passing Unit Tests' },
+      ],
+      pillars: [
+        {
+          title: 'Chintap Compact Template UX',
+          icon: 'view_compact',
+          description:
+            'Two-tier sticky navigation with tucked top-bar pagination that reclaims ~64px vertical viewport space, plus active-row focus depth.',
+        },
+        {
+          title: 'Fine-Grained Signals Core',
+          icon: 'bolt',
+          description:
+            '100% Signal-driven state with instant local search, multi-field filtering (Category, Priority, Status), and live sprint analytics.',
+        },
+        {
+          title: 'Comprehensive Dialog Suite',
+          icon: 'widgets',
+          description:
+            'Task editor with live Markdown preview, quick status changer, sprint details breakdown, fullscreen viewer, and delete confirmations.',
+        },
+        {
+          title: 'Dedicated Task Detail Routes',
+          icon: 'article',
+          description:
+            'Single-column deep-link pages (/tasks/:id) with action capsules, dynamic SEO & JSON-LD breadcrumbs, and prev/next steppers.',
+        },
+        {
+          title: '1-Click Task Duplication',
+          icon: 'content_copy',
+          description:
+            'Effortlessly clone tasks with (Copy) naming, preserved specifications, and automatic status reset to todo in backlog.',
+        },
+        {
+          title: 'Accessible & Strict Dark Theme',
+          icon: 'contrast',
+          description:
+            'High-contrast Slate dark palette conforming to WCAG 2.2 AA/AAA, zero all-caps label transforms, and pure CSS colored indicators.',
+        },
+      ],
+    },
     items: [
       {
         title: 'Enterprise Tasks Management',
         category: 'Interactive Application',
-        version: 'v1.5.13',
+        version: 'v1.5.14',
         logoKey: 'material',
         docUrl: '/tasks',
         description:

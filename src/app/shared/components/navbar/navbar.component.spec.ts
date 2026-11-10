@@ -17,6 +17,7 @@ describe('NavbarComponent', () => {
         provideRouter([
           { path: '', component: class {} },
           { path: 'features', component: class {} },
+          { path: 'tasks', component: class {} },
           { path: 'best-practices', component: class {} },
           { path: 'about', component: class {} },
           { path: 'contact', component: class {} }
@@ -48,6 +49,7 @@ describe('NavbarComponent', () => {
     const links = Array.from(nav.querySelectorAll('a')).map((a: any) => a.getAttribute('routerLink') || a.getAttribute('href'));
     expect(links).toContain('/');
     expect(links).toContain('/features');
+    expect(links).toContain('/tasks');
     expect(links).toContain('/best-practices');
     expect(links).toContain('/about');
     expect(links).toContain('/contact');

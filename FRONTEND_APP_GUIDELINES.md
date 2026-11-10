@@ -2052,3 +2052,14 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
   - Always reset workflow lifecycle status to `todo` so the duplicated item correctly enters the sprint backlog queue.
   - Upon successful duplication or creation from a detail page, navigate the user immediately to the newly created task's route with an informative confirmation snackbar notification.
 
+### 29.24 Navigation Exposure & Feature Showcase Architecture (v1.5.14)
+- **Top-Level Navigation Exposure**:
+  - Key interactive reference applications (such as the Tasks module) must be explicitly listed in the primary navigation config (`navigation.links`) to guarantee 1-click discovery from any route across both desktop and mobile viewports.
+- **Architectural Showcase Pattern on Features Page**:
+  - On architectural marketing pages (`/features`), elevate flagship reference applications above generic third-party dependency cards.
+  - Implement a dedicated showcase banner with:
+    - Live route direct CTA button (`/tasks`)
+    - Live key engineering metrics (seeded tasks, Signal-driven state %, modal count, passing unit tests)
+    - Structured architectural pillar cards detailing specific design decisions (Compact Template, Signals Core, Dialog Suite, Deep-Link Routes, Duplication Engine, A11y & Dark Theme).
+
+

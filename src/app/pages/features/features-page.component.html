@@ -13,6 +13,75 @@
     </p>
   </header>
 
+  <!-- Interactive Tasks Module Showcase Spotlight Section -->
+  <section class="mb-16 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 text-white p-6 sm:p-10 lg:p-12 border border-slate-800 shadow-xl overflow-hidden relative" aria-labelledby="tasks-showcase-title">
+    <!-- Subtle Background Ambient Glow -->
+    <div class="absolute -top-32 -right-32 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-32 -left-32 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="relative z-10 space-y-8">
+      <!-- Section Header -->
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-slate-800/80">
+        <div class="space-y-3 max-w-3xl">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-800/70 text-emerald-300 text-xs font-semibold">
+            <mat-icon class="!text-sm !w-4 !h-4 text-emerald-400">task_alt</mat-icon>
+            <span>{{ content.features.tasksShowcase.badge }}</span>
+          </div>
+          <h2 id="tasks-showcase-title" class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight font-heading text-white">
+            {{ content.features.tasksShowcase.title }}
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+            {{ content.features.tasksShowcase.subtitle }}
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3 shrink-0">
+          <a
+            [routerLink]="content.features.tasksShowcase.route"
+            mat-flat-button
+            class="!rounded-full !bg-white hover:!bg-slate-100 !text-slate-950 !px-6 !py-3 font-bold text-xs sm:text-sm tracking-tight shadow-md transition inline-flex items-center gap-2 cursor-pointer"
+          >
+            <span>{{ content.features.tasksShowcase.ctaLabel }}</span>
+            <mat-icon class="!text-sm !w-4 !h-4">arrow_forward</mat-icon>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Counters Strip -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 sm:p-5 rounded-2xl bg-slate-800/60 border border-slate-700/60">
+        @for (stat of content.features.tasksShowcase.stats; track stat.label) {
+          <div class="text-center space-y-1">
+            <div class="font-mono text-2xl sm:text-3xl font-extrabold text-emerald-400">
+              {{ stat.value }}
+            </div>
+            <div class="text-xs font-medium text-slate-300">
+              {{ stat.label }}
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- 6 Architecture Pillars Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        @for (pillar of content.features.tasksShowcase.pillars; track pillar.title) {
+          <div class="p-5 rounded-2xl bg-slate-800/40 border border-slate-700/60 hover:border-slate-600 hover:bg-slate-800/70 transition space-y-2.5">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-emerald-950/80 border border-emerald-800/60 flex items-center justify-center text-emerald-400 shrink-0">
+                <mat-icon class="!text-base !w-4 !h-4">{{ pillar.icon }}</mat-icon>
+              </div>
+              <h3 class="font-bold text-sm text-slate-100 leading-snug">
+                {{ pillar.title }}
+              </h3>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              {{ pillar.description }}
+            </p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
   <!-- Feature Grid with Official SVG Logos & Docs Links -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
     @for (feature of features; track feature.title) {
