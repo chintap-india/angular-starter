@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { TaskDetailPageComponent } from './task-detail-page.component';
 import { MockTaskApiService } from '../../core/services/mock-task-api.service';
 import { SeoService } from '../../core/services/seo.service';
-import { TaskItem } from '../../core/models/task.model';
+import { TaskItem, formatTaskId } from '../../core/models/task.model';
 
 describe('TaskDetailPageComponent', () => {
   let component: TaskDetailPageComponent;
@@ -107,9 +107,9 @@ describe('TaskDetailPageComponent', () => {
     component.toggleComplete();
     expect(taskApi.toggleComplete).toHaveBeenCalledWith('task-1');
     expect((component as any).snackBar.open).toHaveBeenCalledWith(
-      'Task marked as active.',
+      `Task ${formatTaskId(sampleTask.id)} ("${sampleTask.title}") marked as active.`,
       'Dismiss',
-      expect.any(Object)
+      expect.objectContaining({ duration: 3500, verticalPosition: 'bottom' })
     );
   });
 
@@ -163,9 +163,9 @@ describe('TaskDetailPageComponent', () => {
     expect(taskApi.createTask).toHaveBeenCalled();
     expect(navigateSpy).toHaveBeenCalledWith(['/tasks', 'task-new']);
     expect((component as any).snackBar.open).toHaveBeenCalledWith(
-      'Task created successfully!',
+      `Task ${formatTaskId(createdTask.id)} ("${createdTask.title}") created successfully!`,
       'Dismiss',
-      expect.any(Object)
+      expect.objectContaining({ duration: 3500, verticalPosition: 'bottom' })
     );
   });
 
@@ -193,9 +193,9 @@ describe('TaskDetailPageComponent', () => {
     expect(taskApi.createTask).toHaveBeenCalled();
     expect(navigateSpy).toHaveBeenCalledWith(['/tasks', 'task-copy']);
     expect((component as any).snackBar.open).toHaveBeenCalledWith(
-      'Task duplicated successfully!',
+      `Task ${formatTaskId(duplicatedTask.id)} ("${duplicatedTask.title}") duplicated successfully!`,
       'Dismiss',
-      expect.any(Object)
+      expect.objectContaining({ duration: 3500, verticalPosition: 'bottom' })
     );
   });
 
@@ -219,5 +219,28 @@ describe('TaskDetailPageComponent', () => {
     expect(mainContainer?.classList.contains('px-4')).toBe(true);
     expect(mainContainer?.classList.contains('sm:px-6')).toBe(true);
     expect(mainContainer?.classList.contains('lg:px-8')).toBe(true);
+  });
+
+  it('should render clean not found state without sprint backlog phrase when task is missing', () => {
+    component.task.set(null);
+    component.isLoading.set(false);
+    component.requestedTaskId.set('nonexistent-id');
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('Task Not Found');
+    expect(compiled.textContent).toContain('The task you requested (#nonexistent-id) does not exist or may have been deleted.');
+    expect(compiled.textContent).not.toContain('from your sprint backlog');
+  });
+
+  it('should filter search results when typing into detail search bar', () => {
+    component.onSearchChange('Branding');
+    expect(component.isSearchOpen()).toBe(true);
+    expect(component.searchResults().length).toBeGreaterThan(0);
+    expect(component.searchResults().some((t) => t.category === 'Branding')).toBe(true);
+
+    component.onSearchChange('');
+    expect(component.isSearchOpen()).toBe(false);
+    expect(component.searchResults().length).toBe(0);
   });
 });

@@ -81,12 +81,7 @@ export const SITE_CONSTELLATION_NODES: ConstellationPageNode[] = [
     x: 450,
     y: 550,
     labelOffset: { x: 0, y: 26, anchor: 'middle' },
-    children: [
-      { id: 'tsk-c1', label: '01 Reactive Forms', sublabel: 'Typed validation & errors', dx: -75, dy: 50 },
-      { id: 'tsk-c2', label: '02 Markdown Preview', sublabel: 'XSS-safe live rendering', dx: -25, dy: 75 },
-      { id: 'tsk-c3', label: '03 Mock API Latency', sublabel: 'Async network simulation', dx: 30, dy: 75 },
-      { id: 'tsk-c4', label: '04 Local-First', sublabel: 'SSR-safe localStorage', dx: 80, dy: 50 }
-    ]
+    children: []
   },
   {
     id: 'about',

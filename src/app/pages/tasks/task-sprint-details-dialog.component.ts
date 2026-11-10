@@ -171,7 +171,11 @@ export class TaskSprintDetailsDialogComponent {
     if (typeof window !== 'undefined') {
       const url = `${window.location.origin}/tasks/${this.data.task.id}`;
       navigator.clipboard?.writeText(url).then(() => {
-        this.snackBar.open('Task link copied to clipboard!', 'Dismiss', { duration: 2500 });
+        this.snackBar.open(
+          `Task ${formatTaskId(this.data.task.id)} ("${this.data.task.title}") link copied to clipboard!`,
+          'Dismiss',
+          { duration: 3000, verticalPosition: 'bottom' }
+        );
       });
     }
   }

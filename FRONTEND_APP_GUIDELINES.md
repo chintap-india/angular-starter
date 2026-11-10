@@ -2074,4 +2074,15 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
 - **Consistent Viewport Padding**:
   - Responsive padding across all views must use standard Tailwind container scale `px-4 sm:px-6 lg:px-8` to ensure no visual shifts or staggered alignment occur when navigating between routes.
 
+### 29.26 Contextual Feedback & Roomy Toast Architecture (v1.5.16)
+- **Informative Operation Context**:
+  - Transient feedback notifications (toasts / snackbars) triggered upon state mutation (creation, edit, status transition, duplication, deletion, clipboard actions) must never display generic ambiguous messages like "Task updated" or "Status updated".
+  - Always interpolate both the formatted Task ID (`formatTaskId(task.id)`) and the primary entity title:
+    ```ts
+    `Task ${formatTaskId(task.id)} ("${task.title}") status updated to "${statusLabel}"!`
+    ```
+- **Roomy Toast Sizing & Reading Durations**:
+  - Configure Material SnackBars with adequate horizontal breathing room (`max-width: 640px`, padding `12px 18px`, `font-size: 0.875rem`, `line-height: 1.5`) so multi-clause operational messages never feel cramped.
+  - Extend display duration to `3500ms` with standard bottom viewport positioning (`verticalPosition: 'bottom'`) to ensure comfortable comprehension before auto-dismissal.
+
 

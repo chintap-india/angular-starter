@@ -1114,6 +1114,40 @@ input[type="date"]::-webkit-datetime-edit:focus {
   scrollbar-width: none !important;
 }
 
+/* Enterprise High-Contrast Toast / Snackbar Architecture */
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: #0f172a;
+  --mat-snack-bar-button-color: #38bdf8;
+}
+
+.dark .mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: #020617;
+  --mat-snack-bar-button-color: #38bdf8;
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  border-radius: 14px !important;
+  padding: 12px 18px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  max-width: 640px !important;
+  min-width: 320px !important;
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__label {
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  font-weight: 500 !important;
+  color: #f8fafc !important;
+  padding-right: 12px !important;
+}
+
+.mat-mdc-snack-bar-container .mat-mdc-snack-bar-action {
+  font-weight: 700 !important;
+  letter-spacing: 0.025em !important;
+  color: #38bdf8 !important;
+}
+
 
 
 

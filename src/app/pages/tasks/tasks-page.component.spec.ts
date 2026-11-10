@@ -9,7 +9,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { SeoService } from '../../core/services/seo.service';
 import { SITE_CONFIG, DEFAULT_SITE_CONFIG } from '../../core/config/site.config';
 import { SITE_CONTENT, DEFAULT_SITE_CONTENT } from '../../core/config/site.content';
-import { TaskItem } from '../../core/models/task.model';
+import { TaskItem, formatTaskId } from '../../core/models/task.model';
 
 describe('TasksPageComponent', { timeout: 45000 }, () => {
   let component: TasksPageComponent;
@@ -145,9 +145,9 @@ describe('TasksPageComponent', { timeout: 45000 }, () => {
     component.toggleComplete(task);
     expect(taskApi.toggleComplete).toHaveBeenCalledWith(task.id);
     expect((component as any).snackBar.open).toHaveBeenCalledWith(
-      'Task marked as completed.',
+      `Task ${formatTaskId(task.id)} ("${task.title}") marked as completed.`,
       'Dismiss',
-      expect.objectContaining({ duration: 2500, verticalPosition: 'bottom' })
+      expect.objectContaining({ duration: 3500, verticalPosition: 'bottom' })
     );
   });
 

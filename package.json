@@ -1,6 +1,6 @@
 {
   "name": "chintap-angular-starter",
-  "version": "1.5.15",
+  "version": "1.5.16",
   "description": "Production-grade Angular 22 starter kit with out-of-the-box best practices for SEO, AEO, LLMO, GEO, and SSR/SSG.",
   "scripts": {
     "ng": "ng",

@@ -14,6 +14,29 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.16] - 2026-11-10
+
+### Added
+- **Desktop Keyboard Navigation & Shortcuts Modal**:
+  - Implemented pro keyboard shortcut handling (`/`, `⌘K`, `?`, `C`/`N`, `J`/`K`, `Enter`, `X`/`Space`, `D`, `E`, `S`, `Delete`, `Esc`, `1`/`2`/`3`, `F`, `[`, `]`, `L`) across the Tasks module.
+  - Added `TaskShortcutsDialogComponent` providing a keyboard shortcuts cheat sheet dialog categorized by Creation & Actions, Navigation & Stepping, and Search & Views.
+- **Task Details Quick Search Bar**:
+  - Added live autocomplete search bar with instant dropdown search results and jump-to-task navigation on the Task Details page header.
+
+### Enhanced
+- **Task Action Toast Notifications Context & Clarity**:
+  - Updated all task operation snackbars (create, edit, status change, completion toggle, duplication, deletion, and link sharing) across `TasksPageComponent`, `TaskDetailPageComponent`, and `TaskSprintDetailsDialogComponent` to explicitly include both the Task ID (e.g., `#1`) and full task title.
+  - Extended notification duration to 3500ms with consistent `verticalPosition: 'bottom'` across all action flows.
+- **Roomier High-Contrast Toast Architecture**:
+  - Enhanced global snackbar surface styles in `styles.css` with 14px rounded borders, generous `12px 18px` padding, 14px typography with 1.5 line height, and `max-width: 640px` to comfortably accommodate multi-sentence task descriptions without awkward wrapping.
+  - Enforced deep slate palettes (`#0f172a` in light mode, `#020617` in dark mode) with sky-blue action highlights.
+- **Empty State Copy Polish**:
+  - Refined the Task Not Found message in `TaskDetailPageComponent` to cleanly state `"The task you requested (#...) does not exist or may have been deleted."`.
+- **Constellation Modal Hierarchy Cleanup**:
+  - Removed arbitrary child nodes from the Tasks constellation node in `YouAreHereDialogComponent` to maintain a concise, focused network visualization.
+- **Unit Test Coverage Parity**:
+  - Expanded test suites across `tasks-page.component.spec.ts` and `task-detail-page.component.spec.ts` to 151 passing tests with 100% pass rate.
+
 ## [1.5.15] - 2026-11-10
 
 ### Fixed

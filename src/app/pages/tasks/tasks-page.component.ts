@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { Component, inject, OnInit, signal, computed, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -31,6 +31,7 @@ import { TaskFormDialogComponent } from './task-form-dialog.component';
 import { TaskDetailDialogComponent } from './task-detail-dialog.component';
 import { TaskStatusDialogComponent } from './task-status-dialog.component';
 import { TaskDeleteDialogComponent } from './task-delete-dialog.component';
+import { TaskShortcutsDialogComponent } from './task-shortcuts-dialog.component';
 import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
 
 /**
@@ -87,6 +88,9 @@ export class TasksPageComponent implements OnInit {
 
   readonly tasks = this.taskApi.tasksSignal;
   readonly isLoading = this.taskApi.loadingSignal;
+
+  @ViewChild('searchInput') searchInputElement?: ElementRef<HTMLInputElement>;
+  readonly focusedTaskIndex = signal<number>(-1);
 
   readonly activeTab = signal<'directory' | 'metrics'>('directory');
   readonly viewMode = signal<'table' | 'cards'>('table');
@@ -374,10 +378,14 @@ export class TasksPageComponent implements OnInit {
       if (res && res.action === 'save') {
         this.taskApi.createTask(res.dto as CreateTaskDto).subscribe({
           next: (created) => {
-            this.snackBar.open(`Task "${created.title}" created!`, 'Dismiss', {
-              duration: 3000,
-              verticalPosition: 'bottom',
-            });
+            this.snackBar.open(
+              `Task ${formatTaskId(created.id)} ("${created.title}") created successfully!`,
+              'Dismiss',
+              {
+                duration: 3500,
+                verticalPosition: 'bottom',
+              }
+            );
           },
         });
       }
@@ -394,11 +402,15 @@ export class TasksPageComponent implements OnInit {
     ref.afterClosed().subscribe((res) => {
       if (res && res.action === 'save') {
         this.taskApi.updateTask(task.id, res.dto as UpdateTaskDto).subscribe({
-          next: () => {
-            this.snackBar.open('Task updated successfully!', 'Dismiss', {
-              duration: 3000,
-              verticalPosition: 'bottom',
-            });
+          next: (updated) => {
+            this.snackBar.open(
+              `Task ${formatTaskId(updated.id)} ("${updated.title}") updated successfully!`,
+              'Dismiss',
+              {
+                duration: 3500,
+                verticalPosition: 'bottom',
+              }
+            );
           },
         });
       }
@@ -408,9 +420,10 @@ export class TasksPageComponent implements OnInit {
   toggleComplete(task: TaskItem): void {
     this.taskApi.toggleComplete(task.id).subscribe({
       next: (updated) => {
-        const msg =
-          updated.status === 'completed' ? 'Task marked as completed.' : 'Task marked as active.';
-        this.snackBar.open(msg, 'Dismiss', { duration: 2500, verticalPosition: 'bottom' });
+        const action =
+          updated.status === 'completed' ? 'marked as completed' : 'marked as active';
+        const msg = `Task ${formatTaskId(updated.id)} ("${updated.title}") ${action}.`;
+        this.snackBar.open(msg, 'Dismiss', { duration: 3500, verticalPosition: 'bottom' });
       },
     });
   }
@@ -454,8 +467,12 @@ export class TasksPageComponent implements OnInit {
     ref.afterClosed().subscribe((res) => {
       if (res && res.action === 'save') {
         this.taskApi.createTask(res.dto as CreateTaskDto).subscribe({
-          next: () => {
-            this.snackBar.open('Task duplicated successfully!', 'Dismiss', { duration: 2500 });
+          next: (created) => {
+            this.snackBar.open(
+              `Task ${formatTaskId(created.id)} ("${created.title}") duplicated successfully!`,
+              'Dismiss',
+              { duration: 3500, verticalPosition: 'bottom' }
+            );
           },
         });
       }
@@ -472,17 +489,21 @@ export class TasksPageComponent implements OnInit {
     ref.afterClosed().subscribe((res) => {
       if (res && res.action === 'update') {
         this.taskApi.updateTask(task.id, { status: res.status }).subscribe({
-          next: () => {
+          next: (updated) => {
             const statusLabel =
               res.status === 'in-progress'
                 ? 'In Progress'
                 : res.status === 'completed'
                   ? 'Completed'
                   : 'To Do';
-            this.snackBar.open(`Status updated to "${statusLabel}"!`, 'Dismiss', {
-              duration: 3000,
-              verticalPosition: 'bottom',
-            });
+            this.snackBar.open(
+              `Task ${formatTaskId(updated.id)} ("${updated.title}") status updated to "${statusLabel}"!`,
+              'Dismiss',
+              {
+                duration: 3500,
+                verticalPosition: 'bottom',
+              }
+            );
           },
         });
       }
@@ -500,10 +521,14 @@ export class TasksPageComponent implements OnInit {
       if (confirmed) {
         this.taskApi.deleteTask(task.id).subscribe({
           next: () => {
-            this.snackBar.open(`Task "${task.title}" deleted.`, 'Dismiss', {
-              duration: 3000,
-              verticalPosition: 'bottom',
-            });
+            this.snackBar.open(
+              `Task ${formatTaskId(task.id)} ("${task.title}") deleted.`,
+              'Dismiss',
+              {
+                duration: 3500,
+                verticalPosition: 'bottom',
+              }
+            );
           },
         });
       }
@@ -532,6 +557,130 @@ export class TasksPageComponent implements OnInit {
     } else {
       this.authService.loginAsDeveloper();
       this.snackBar.open('Logged in as Lead Developer', 'Dismiss', { duration: 2500 });
+    }
+  }
+
+  openShortcutsDialog(): void {
+    this.dialog.open(TaskShortcutsDialogComponent, {
+      width: '560px',
+      maxWidth: '95vw',
+    });
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardShortcuts(event: KeyboardEvent): void {
+    if (this.dialog.openDialogs.length > 0) {
+      return;
+    }
+
+    const target = event.target as HTMLElement | null;
+    const isTyping =
+      target &&
+      (target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.tagName === 'SELECT' ||
+        target.isContentEditable);
+
+    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      this.searchInputElement?.nativeElement.focus();
+      return;
+    }
+
+    if (isTyping) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        (target as HTMLElement).blur();
+      }
+      return;
+    }
+
+    const key = event.key;
+    const lowerKey = key.toLowerCase();
+
+    if (key === '/') {
+      event.preventDefault();
+      this.searchInputElement?.nativeElement.focus();
+    } else if (key === '?') {
+      event.preventDefault();
+      this.openShortcutsDialog();
+    } else if (lowerKey === 'c' || lowerKey === 'n') {
+      event.preventDefault();
+      this.openCreateDialog();
+    } else if (key === '1') {
+      event.preventDefault();
+      this.setView('table');
+    } else if (key === '2') {
+      event.preventDefault();
+      this.setView('cards');
+    } else if (key === '3') {
+      event.preventDefault();
+      this.setView('metrics');
+    } else if (lowerKey === 'f') {
+      event.preventDefault();
+      this.toggleFilterPanel();
+    } else if (lowerKey === 'j' || key === 'ArrowDown') {
+      event.preventDefault();
+      const count = this.pagedTasks().length;
+      if (count > 0) {
+        this.focusedTaskIndex.update((idx) => Math.min(idx + 1, count - 1));
+      }
+    } else if (lowerKey === 'k' || key === 'ArrowUp') {
+      event.preventDefault();
+      const count = this.pagedTasks().length;
+      if (count > 0) {
+        this.focusedTaskIndex.update((idx) => Math.max(idx - 1, 0));
+      }
+    } else if (key === 'Enter') {
+      const idx = this.focusedTaskIndex();
+      const tasks = this.pagedTasks();
+      if (idx >= 0 && idx < tasks.length) {
+        event.preventDefault();
+        this.openDetailDialog(tasks[idx]);
+      }
+    } else if (lowerKey === 'x' || key === ' ') {
+      const idx = this.focusedTaskIndex();
+      const tasks = this.pagedTasks();
+      if (idx >= 0 && idx < tasks.length) {
+        event.preventDefault();
+        this.toggleComplete(tasks[idx]);
+      }
+    } else if (lowerKey === 'd') {
+      const idx = this.focusedTaskIndex();
+      const tasks = this.pagedTasks();
+      if (idx >= 0 && idx < tasks.length) {
+        event.preventDefault();
+        this.openDuplicateDialog(tasks[idx]);
+      }
+    } else if (lowerKey === 'e') {
+      const idx = this.focusedTaskIndex();
+      const tasks = this.pagedTasks();
+      if (idx >= 0 && idx < tasks.length) {
+        event.preventDefault();
+        this.openEditDialog(tasks[idx]);
+      }
+    } else if (lowerKey === 's') {
+      const idx = this.focusedTaskIndex();
+      const tasks = this.pagedTasks();
+      if (idx >= 0 && idx < tasks.length) {
+        event.preventDefault();
+        this.openStatusDialog(tasks[idx]);
+      }
+    } else if (key === 'Delete' || key === 'Backspace') {
+      const idx = this.focusedTaskIndex();
+      const tasks = this.pagedTasks();
+      if (idx >= 0 && idx < tasks.length) {
+        event.preventDefault();
+        this.openDeleteDialog(tasks[idx]);
+      }
+    } else if (key === 'Escape') {
+      if (this.searchQuery()) {
+        this.onFilterQueryChange('');
+      } else if (this.isFilterPanelOpen()) {
+        this.toggleFilterPanel();
+      } else {
+        this.focusedTaskIndex.set(-1);
+      }
     }
   }
 }

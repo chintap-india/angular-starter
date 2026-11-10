@@ -1,5 +1,6 @@
-import { Component, inject, OnInit, signal, computed, effect } from '@angular/core';
+import { Component, inject, OnInit, signal, computed, effect, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,12 +17,14 @@ import { TaskStatusDialogComponent } from './task-status-dialog.component';
 import { TaskDeleteDialogComponent } from './task-delete-dialog.component';
 import { TaskDetailDialogComponent } from './task-detail-dialog.component';
 import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.component';
+import { TaskShortcutsDialogComponent } from './task-shortcuts-dialog.component';
 
 @Component({
   selector: 'app-task-detail-page',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule,
     MatButtonModule,
     MatIconModule,
@@ -36,13 +39,13 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
       
       <!-- Top Sticky Action Bar & Breadcrumbs -->
       <header class="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex flex-col md:flex-row md:items-center justify-between gap-2.5 sm:gap-4">
           
           <!-- Left: Breadcrumbs & Back Navigation -->
           <div class="flex items-center gap-2 sm:gap-3 min-w-0">
             <a
               routerLink="/tasks"
-              matTooltip="Back to Tasks Directory"
+              matTooltip="Back to Tasks Directory (Esc)"
               aria-label="Back to tasks directory"
               class="w-9 h-9 rounded-full inline-flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition cursor-pointer leading-none shrink-0"
             >
@@ -65,15 +68,69 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
             </nav>
           </div>
 
+          <!-- Center: Global Quick Task Search Bar -->
+          <div class="relative w-full md:max-w-xs lg:max-w-sm flex items-center">
+            <mat-icon class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 !text-sm !w-3.5 !h-3.5 pointer-events-none leading-none flex items-center justify-center shrink-0">search</mat-icon>
+            <input
+              #detailSearchInput
+              type="text"
+              [ngModel]="searchQuery()"
+              (ngModelChange)="onSearchChange($event)"
+              (keydown.enter)="submitSearch()"
+              placeholder="Search tasks... (Press / or ⌘K)"
+              class="w-full pl-8 pr-14 py-1.5 sm:py-1 text-xs rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:border-slate-500 dark:focus:ring-slate-400 dark:focus:border-slate-400 transition shadow-2xs"
+            />
+            <div class="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
+              @if (searchQuery()) {
+                <button
+                  type="button"
+                  (click)="onSearchChange('')"
+                  class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer w-4 h-4 inline-flex items-center justify-center leading-none"
+                  aria-label="Clear search"
+                >
+                  <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0">close</mat-icon>
+                </button>
+              }
+              <kbd class="hidden sm:inline-flex items-center px-1.5 py-0.5 text-[9px] font-mono font-bold text-slate-400 dark:text-slate-400 bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700 shadow-2xs leading-none">
+                /
+              </kbd>
+            </div>
+
+            <!-- Instant Search Dropdown Overlay -->
+            @if (isSearchOpen() && searchResults().length > 0) {
+              <div class="absolute top-full left-0 right-0 mt-1.5 p-1 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-xl z-50 max-h-64 overflow-y-auto space-y-0.5">
+                @for (res of searchResults(); track res.id) {
+                  <button
+                    type="button"
+                    (click)="selectSearchResult(res)"
+                    class="w-full text-left p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800/80 transition flex items-center justify-between gap-2 cursor-pointer"
+                  >
+                    <div class="min-w-0 flex items-center gap-1.5">
+                      <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                        {{ formatTaskId(res.id) }}
+                      </span>
+                      <span class="text-xs font-semibold text-slate-900 dark:text-white truncate">
+                        {{ res.title }}
+                      </span>
+                    </div>
+                    <span class="text-[10px] text-slate-400 shrink-0 font-medium">
+                      {{ res.category }}
+                    </span>
+                  </button>
+                }
+              </div>
+            }
+          </div>
+
           <!-- Right: Enterprise Action Icon Bar -->
           @if (task()) {
-            <div class="flex items-center justify-end gap-1.5 p-1 rounded-full bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 shadow-xs self-end sm:self-auto overflow-x-auto max-w-full">
+            <div class="flex items-center justify-end gap-1.5 p-1 rounded-full bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700/80 shadow-xs self-end md:self-auto overflow-x-auto max-w-full">
               
               <!-- Quick Complete / Incomplete Toggle -->
               <button
                 type="button"
                 (click)="toggleComplete()"
-                [matTooltip]="task()!.status === 'completed' ? 'Mark as Incomplete' : 'Mark as Completed'"
+                [matTooltip]="task()!.status === 'completed' ? 'Mark as Incomplete (X)' : 'Mark as Completed (X)'"
                 aria-label="Toggle task completion"
                 class="w-8 h-8 rounded-full inline-flex items-center justify-center transition cursor-pointer leading-none"
                 [ngClass]="task()!.status === 'completed' 
@@ -89,7 +146,7 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
               <button
                 type="button"
                 (click)="openStatusDialog()"
-                matTooltip="Change Status Modal"
+                matTooltip="Change Status Modal (S)"
                 aria-label="Change status"
                 class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 transition cursor-pointer leading-none"
               >
@@ -100,7 +157,7 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
               <button
                 type="button"
                 (click)="openEditDialog()"
-                matTooltip="Edit Task Modal"
+                matTooltip="Edit Task Modal (E)"
                 aria-label="Edit task"
                 class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 transition cursor-pointer leading-none"
               >
@@ -111,7 +168,7 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
               <button
                 type="button"
                 (click)="openDuplicateDialog()"
-                matTooltip="Duplicate Task"
+                matTooltip="Duplicate Task (D)"
                 aria-label="Duplicate task"
                 class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 transition cursor-pointer leading-none"
               >
@@ -122,7 +179,7 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
               <button
                 type="button"
                 (click)="openCreateDialog()"
-                matTooltip="Create New Task"
+                matTooltip="Create New Task (C or N)"
                 aria-label="Create new task"
                 class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 transition cursor-pointer leading-none"
               >
@@ -144,18 +201,29 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
               <button
                 type="button"
                 (click)="copyTaskUrl()"
-                matTooltip="Copy Task URL to Clipboard"
+                matTooltip="Copy Task URL (L)"
                 aria-label="Share task link"
                 class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 transition cursor-pointer leading-none"
               >
                 <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">share</mat-icon>
               </button>
 
+              <!-- Keyboard Shortcuts Helper Trigger -->
+              <button
+                type="button"
+                (click)="openShortcutsDialog()"
+                matTooltip="Keyboard Shortcuts (?)"
+                aria-label="Keyboard shortcuts"
+                class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 transition cursor-pointer leading-none"
+              >
+                <mat-icon class="!text-lg !w-4.5 !h-4.5 leading-none flex items-center justify-center shrink-0">keyboard</mat-icon>
+              </button>
+
               <!-- Delete Task Modal Trigger -->
               <button
                 type="button"
                 (click)="openDeleteDialog()"
-                matTooltip="Delete Task"
+                matTooltip="Delete Task (Delete)"
                 aria-label="Delete task"
                 class="w-8 h-8 rounded-full inline-flex items-center justify-center text-rose-500 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition cursor-pointer leading-none"
               >
@@ -169,7 +237,7 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
                 type="button"
                 (click)="navigateToAdjacentTask(-1)"
                 [disabled]="!hasPrevTask()"
-                matTooltip="Previous Task"
+                matTooltip="Previous Task ([)"
                 aria-label="Previous task"
                 class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none transition cursor-pointer leading-none"
               >
@@ -180,7 +248,7 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
                 type="button"
                 (click)="navigateToAdjacentTask(1)"
                 [disabled]="!hasNextTask()"
-                matTooltip="Next Task"
+                matTooltip="Next Task (])"
                 aria-label="Next task"
                 class="w-8 h-8 rounded-full inline-flex items-center justify-center text-slate-500 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 disabled:opacity-30 disabled:pointer-events-none transition cursor-pointer leading-none"
               >
@@ -336,7 +404,7 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
               Task Not Found
             </h2>
             <p class="text-sm text-slate-500 dark:text-slate-300">
-              The task you requested (#{{ requestedTaskId() }}) does not exist or may have been deleted from your sprint backlog.
+              The task you requested (#{{ requestedTaskId() }}) does not exist or may have been deleted.
             </p>
             <div class="pt-4 flex items-center justify-center gap-3">
               <a
@@ -383,6 +451,22 @@ export class TaskDetailPageComponent implements OnInit {
     const current = this.task();
     if (!current) return -1;
     return this.allTasks().findIndex((t) => t.id === current.id);
+  });
+
+  @ViewChild('detailSearchInput') detailSearchInputElement?: ElementRef<HTMLInputElement>;
+  readonly searchQuery = signal<string>('');
+  readonly isSearchOpen = signal<boolean>(false);
+
+  readonly searchResults = computed<TaskItem[]>(() => {
+    const q = this.searchQuery().trim().toLowerCase();
+    if (!q) return [];
+    return this.allTasks().filter(
+      (t) =>
+        t.title.toLowerCase().includes(q) ||
+        t.id.toLowerCase().includes(q) ||
+        (t.category && t.category.toLowerCase().includes(q)) ||
+        (t.description && t.description.toLowerCase().includes(q))
+    ).slice(0, 8);
   });
 
   readonly hasPrevTask = computed(() => this.currentIndex() > 0);
@@ -436,8 +520,9 @@ export class TaskDetailPageComponent implements OnInit {
     this.taskApi.toggleComplete(current.id).subscribe({
       next: (updated) => {
         this.task.set(updated);
-        const msg = updated.status === 'completed' ? 'Task marked as completed.' : 'Task marked as active.';
-        this.snackBar.open(msg, 'Dismiss', { duration: 2500, verticalPosition: 'bottom' });
+        const action = updated.status === 'completed' ? 'marked as completed' : 'marked as active';
+        const msg = `Task ${formatTaskId(updated.id)} ("${updated.title}") ${action}.`;
+        this.snackBar.open(msg, 'Dismiss', { duration: 3500, verticalPosition: 'bottom' });
       },
     });
   }
@@ -457,7 +542,17 @@ export class TaskDetailPageComponent implements OnInit {
         this.taskApi.updateTask(current.id, { status: res.status }).subscribe({
           next: (updated) => {
             this.task.set(updated);
-            this.snackBar.open('Status updated successfully!', 'Dismiss', { duration: 2500 });
+            const statusLabel =
+              res.status === 'in-progress'
+                ? 'In Progress'
+                : res.status === 'completed'
+                  ? 'Completed'
+                  : 'To Do';
+            this.snackBar.open(
+              `Task ${formatTaskId(updated.id)} ("${updated.title}") status updated to "${statusLabel}"!`,
+              'Dismiss',
+              { duration: 3500, verticalPosition: 'bottom' }
+            );
           },
         });
       }
@@ -479,7 +574,11 @@ export class TaskDetailPageComponent implements OnInit {
         this.taskApi.updateTask(current.id, res.dto as UpdateTaskDto).subscribe({
           next: (updated) => {
             this.task.set(updated);
-            this.snackBar.open('Task specifications updated!', 'Dismiss', { duration: 2500 });
+            this.snackBar.open(
+              `Task ${formatTaskId(updated.id)} ("${updated.title}") specifications updated!`,
+              'Dismiss',
+              { duration: 3500, verticalPosition: 'bottom' }
+            );
           },
         });
       }
@@ -497,7 +596,11 @@ export class TaskDetailPageComponent implements OnInit {
       if (res && res.action === 'save') {
         this.taskApi.createTask(res.dto as CreateTaskDto).subscribe({
           next: (created) => {
-            this.snackBar.open('Task created successfully!', 'Dismiss', { duration: 2500 });
+            this.snackBar.open(
+              `Task ${formatTaskId(created.id)} ("${created.title}") created successfully!`,
+              'Dismiss',
+              { duration: 3500, verticalPosition: 'bottom' }
+            );
             this.router.navigate(['/tasks', created.id]);
           },
         });
@@ -527,7 +630,11 @@ export class TaskDetailPageComponent implements OnInit {
       if (res && res.action === 'save') {
         this.taskApi.createTask(res.dto as CreateTaskDto).subscribe({
           next: (created) => {
-            this.snackBar.open('Task duplicated successfully!', 'Dismiss', { duration: 2500 });
+            this.snackBar.open(
+              `Task ${formatTaskId(created.id)} ("${created.title}") duplicated successfully!`,
+              'Dismiss',
+              { duration: 3500, verticalPosition: 'bottom' }
+            );
             this.router.navigate(['/tasks', created.id]);
           },
         });
@@ -571,7 +678,11 @@ export class TaskDetailPageComponent implements OnInit {
       if (confirmed) {
         this.taskApi.deleteTask(current.id).subscribe({
           next: () => {
-            this.snackBar.open(`Task "${current.title}" deleted.`, 'Dismiss', { duration: 3000 });
+            this.snackBar.open(
+              `Task ${formatTaskId(current.id)} ("${current.title}") deleted.`,
+              'Dismiss',
+              { duration: 3500, verticalPosition: 'bottom' }
+            );
             this.router.navigate(['/tasks']);
           },
         });
@@ -582,8 +693,13 @@ export class TaskDetailPageComponent implements OnInit {
   copyTaskUrl(): void {
     if (typeof window !== 'undefined') {
       const url = window.location.href;
+      const current = this.task();
+      const taskInfo = current ? ` for ${formatTaskId(current.id)} ("${current.title}")` : '';
       navigator.clipboard?.writeText(url).then(() => {
-        this.snackBar.open('Task URL copied to clipboard!', 'Dismiss', { duration: 2500 });
+        this.snackBar.open(`Task URL${taskInfo} copied to clipboard!`, 'Dismiss', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+        });
       });
     }
   }
@@ -594,6 +710,113 @@ export class TaskDetailPageComponent implements OnInit {
     const target = tasks[idx + delta];
     if (target) {
       this.router.navigate(['/tasks', target.id]);
+    }
+  }
+
+  onSearchChange(query: string): void {
+    this.searchQuery.set(query);
+    this.isSearchOpen.set(!!query.trim());
+  }
+
+  selectSearchResult(task: TaskItem): void {
+    this.searchQuery.set('');
+    this.isSearchOpen.set(false);
+    this.router.navigate(['/tasks', task.id]);
+  }
+
+  submitSearch(): void {
+    const results = this.searchResults();
+    if (results.length > 0) {
+      this.selectSearchResult(results[0]);
+    } else if (this.searchQuery().trim()) {
+      this.router.navigate(['/tasks'], {
+        queryParams: { q: this.searchQuery().trim() },
+      });
+      this.searchQuery.set('');
+      this.isSearchOpen.set(false);
+    }
+  }
+
+  openShortcutsDialog(): void {
+    this.dialog.open(TaskShortcutsDialogComponent, {
+      width: '560px',
+      maxWidth: '95vw',
+    });
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardShortcuts(event: KeyboardEvent): void {
+    const target = event.target as HTMLElement | null;
+    const isEditingField =
+      target &&
+      (target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable);
+
+    const key = event.key;
+    const lowerKey = key.toLowerCase();
+
+    // Global Shortcuts active even inside inputs
+    if ((event.metaKey || event.ctrlKey) && lowerKey === 'k') {
+      event.preventDefault();
+      this.detailSearchInputElement?.nativeElement.focus();
+      this.detailSearchInputElement?.nativeElement.select();
+      return;
+    }
+
+    if (key === 'Escape') {
+      if (this.isSearchOpen()) {
+        this.isSearchOpen.set(false);
+        return;
+      }
+      if (isEditingField) {
+        (target as HTMLElement).blur();
+        return;
+      }
+    }
+
+    // Navigation and Action shortcuts (disabled when typing into fields)
+    if (isEditingField) return;
+
+    if (key === '/' || key === '?') {
+      event.preventDefault();
+      if (key === '/') {
+        this.detailSearchInputElement?.nativeElement.focus();
+        this.detailSearchInputElement?.nativeElement.select();
+      } else {
+        this.openShortcutsDialog();
+      }
+    } else if (key === '[') {
+      if (this.hasPrevTask()) {
+        event.preventDefault();
+        this.navigateToAdjacentTask(-1);
+      }
+    } else if (key === ']') {
+      if (this.hasNextTask()) {
+        event.preventDefault();
+        this.navigateToAdjacentTask(1);
+      }
+    } else if (lowerKey === 'c' || lowerKey === 'n') {
+      event.preventDefault();
+      this.openCreateDialog();
+    } else if (lowerKey === 'd') {
+      event.preventDefault();
+      this.openDuplicateDialog();
+    } else if (lowerKey === 'e') {
+      event.preventDefault();
+      this.openEditDialog();
+    } else if (lowerKey === 's') {
+      event.preventDefault();
+      this.openStatusDialog();
+    } else if (lowerKey === 'x' || key === ' ') {
+      event.preventDefault();
+      this.toggleComplete();
+    } else if (lowerKey === 'l') {
+      event.preventDefault();
+      this.copyTaskUrl();
+    } else if (key === 'Delete' || key === 'Backspace') {
+      event.preventDefault();
+      this.openDeleteDialog();
     }
   }
 }
