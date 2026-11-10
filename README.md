@@ -9,7 +9,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38bdf8.svg?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
 [![Material 3](https://img.shields.io/badge/Material_Design-M3-7c3aed.svg?style=flat&logo=google)](https://material.angular.io/)
 [![SSG Prerender](https://img.shields.io/badge/SSG-Prerender_7_Routes-10b981.svg?style=flat)](https://angular.dev/guide/ssr)
-[![Tests](https://img.shields.io/badge/Tests-165%2F165_Passing-brightgreen.svg?style=flat&logo=vitest)](https://vitest.dev)
+[![Tests](https://img.shields.io/badge/Tests-169%2F169_Passing-brightgreen.svg?style=flat&logo=vitest)](https://vitest.dev)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Chintap Angular Starter** is a developer template for building modern, high-performance web applications that excel not just in traditional search engines, but in the emerging AI search and generative answer landscape.
@@ -57,11 +57,14 @@ Open [http://localhost:4200](http://localhost:4200) in your browser.
 ### 3. Run Unit Tests
 
 ```bash
-# Run unit test suite (124 tests across 17 suites)
+# Run unit test suite once (169 tests across 23 suites)
+npm test -- --no-watch
+
+# Or run test suite in interactive watch mode
 npm test
 
-# Or run tests directly with Vitest
-npm run test:run
+# Or run a specific test suite (e.g. authentication tests)
+npx vitest run src/app/core/services/auth.service.spec.ts
 ```
 
 ### 4. Build for Production (SSG)
@@ -176,6 +179,74 @@ Explore modern enterprise Angular 22 form engineering and data management at `/t
 - **Netlify Identity & Google OAuth**: 100% free-tier Netlify Identity (up to 1,000 monthly active users) with Google OAuth support and local developer/guest fallback.
 - **Task Authorship & Attribution**: Full tracking of task creator identities and personalized "My Tasks" filter chip.
 - **Activity Audit Trail**: Real-time immutable event stream capturing task creations, status updates, edits, duplicates, and deletions.
+
+---
+
+## 🔐 Authentication, Sign-In & Testing Guide
+
+The authentication subsystem ([`src/app/core/services/auth.service.ts`](src/app/core/services/auth.service.ts)) provides a **Zero-Cost, Local-First Architecture** with seamless Netlify Identity & Google OAuth integration:
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        AUTHENTICATION MODES                            │
+├──────────────────────────────────┬─────────────────────────────────────┤
+│ 1. Automated Unit Tests          │ 100% Mocked in Vitest               │
+│    Zero network, zero settings   │ Mocked storage & Netlify widget     │
+├──────────────────────────────────┼─────────────────────────────────────┤
+│ 2. Localhost Development         │ Instant Offline Simulation          │
+│    Zero keys, zero config        │ Developer & Guest instant profiles  │
+├──────────────────────────────────┼─────────────────────────────────────┤
+│ 3. Production Deployment         │ Netlify Identity + Google OAuth     │
+│    1,000 free monthly users      │ 1-Click enable in Netlify dashboard │
+└──────────────────────────────────┴─────────────────────────────────────┘
+```
+
+### 1. Running Sign-In Automated Tests
+
+**Settings Required: None.**
+
+Unit tests are 100% self-contained and run offline in CI/CD without any external network calls, tokens, or environment variables. The test harness (`auth.service.spec.ts`, `task-auth-gate.component.spec.ts`) automatically stubs `localStorage` and `window.netlifyIdentity`.
+
+```bash
+# Run all authentication service tests
+npx vitest run src/app/core/services/auth.service.spec.ts
+
+# Run task authentication gate tests
+npx vitest run src/app/pages/tasks/task-auth-gate.component.spec.ts
+
+# Run all 169 unit tests across the whole project
+npm test -- --no-watch
+```
+
+### 2. Testing Sign-In Locally in Your Browser
+
+**Settings Required: None.**
+
+When running `npm start` on `http://localhost:4200`, the starter kit automatically falls back to **Offline Simulation Mode**:
+- **Continue with Google**: Instantly signs in as simulated user `Alex Developer` (`alex.developer@gmail.com`) with a generated avatar.
+- **Lead Developer**: Signs in with full editor permissions (`builder@chintap.dev`).
+- **Guest Reviewer**: Signs in with read-only guest permissions (`guest@chintap.local`).
+- **Role Switching**: Click the user pill in the top navigation bar to switch between Developer and Guest modes on the fly.
+- **My Tasks Filtering**: Tasks created during your session reflect your identity and can be filtered with the **My Tasks** chip.
+
+### 3. Enabling Production Netlify Identity & Google OAuth
+
+To connect live user registration and Google OAuth on your deployed Netlify site (100% free tier, up to 1,000 monthly active users):
+
+1. **Enable Netlify Identity**:
+   - Go to your [Netlify Dashboard](https://app.netlify.com) and select your site.
+   - Navigate to **Site configuration** → **Identity**.
+   - Click **Enable Identity**.
+
+2. **Enable Google OAuth**:
+   - Under **Registration preferences** → **External providers**, click **Add provider**.
+   - Select **Google**.
+   - *For instant evaluation*: Netlify provides a built-in default OAuth application (no Google Cloud setup needed to test!).
+   - *For custom brand domain*: Enter your own **Client ID** and **Client Secret** created in the [Google Cloud Console](https://console.cloud.google.com/apis/credentials).
+
+3. **Configure Registration (Optional)**:
+   - Set **Registration** to **Open** (anyone can sign up) or **Invite only** (only invited users can sign up).
+   - Set **Webhook notifications** or **Git Gateway** if combining with Netlify CMS / Decap.
 
 ---
 
