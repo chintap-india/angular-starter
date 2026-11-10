@@ -84,4 +84,40 @@ describe('MarkdownPipe', () => {
     expect(result).not.toContain('<script>');
     expect(result).not.toContain('alert');
   });
+
+  it('should sanitize inline event handlers such as onerror and onclick', () => {
+    const result = pipe.transform('<img src="invalid-image" onerror="alert(1)">') as string;
+    expect(result).not.toContain('onerror');
+    expect(result).not.toContain('alert(1)');
+  });
+
+  it('should sanitize iframe tags', () => {
+    const result = pipe.transform('<iframe src="https://malicious.com"></iframe>') as string;
+    expect(result).not.toContain('<iframe');
+    expect(result).not.toContain('malicious.com');
+  });
+
+  it('should neutralize javascript: and data: pseudo-protocols in markdown links', () => {
+    const jsResult = pipe.transform('[Click here](javascript:alert("XSS"))') as string;
+    expect(jsResult).not.toContain('href="javascript:');
+    expect(jsResult).toContain('href="#"');
+
+    const dataResult = pipe.transform('[Data link](data:text/html,<script>alert(1)</script>)') as string;
+    expect(dataResult).not.toContain('href="data:');
+    expect(dataResult).toContain('href="#"');
+  });
+
+  it('should preserve legitimate links with http, https, mailto, and relative paths', () => {
+    const httpsResult = pipe.transform('[Google](https://google.com)') as string;
+    expect(httpsResult).toContain('href="https://google.com"');
+
+    const httpResult = pipe.transform('[Localhost](http://localhost:4200)') as string;
+    expect(httpResult).toContain('href="http://localhost:4200"');
+
+    const mailtoResult = pipe.transform('[Email Team](mailto:team@company.com)') as string;
+    expect(mailtoResult).toContain('href="mailto:team@company.com"');
+
+    const relativeResult = pipe.transform('[Internal Tasks](/tasks)') as string;
+    expect(relativeResult).toContain('href="/tasks"');
+  });
 });
