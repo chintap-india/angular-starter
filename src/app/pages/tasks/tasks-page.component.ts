@@ -32,6 +32,7 @@ import { TaskDetailDialogComponent } from './task-detail-dialog.component';
 import { TaskStatusDialogComponent } from './task-status-dialog.component';
 import { TaskDeleteDialogComponent } from './task-delete-dialog.component';
 import { TaskShortcutsDialogComponent } from './task-shortcuts-dialog.component';
+import { TaskAuthGateComponent } from './task-auth-gate.component';
 import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
 
 /**
@@ -46,6 +47,7 @@ import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
  * - Row Focus Depth: Dynamic hover/focus-within styling highlighting the active row while softly dimming peripherals.
  * - Dual Layout Switching: Seamless instant toggle between sortable Material Table (`table`) and Markdown Cards (`cards`).
  * - Sprint Metrics Dashboard: Cohesive KPI cards, multi-segment priority distribution bar, workload bars, and action queue.
+ * - Activity Audit Trail: Real-time immutable activity ledger with filter chips for task creations, status updates, edits, duplicates, and deletions.
  */
 @Component({
   selector: 'app-tasks-page',
@@ -73,6 +75,7 @@ import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
     MatButtonToggleModule,
     MatTabsModule,
     MatMenuModule,
+    TaskAuthGateComponent,
     MarkdownPipe,
   ],
   templateUrl: './tasks-page.component.html',
@@ -88,20 +91,25 @@ export class TasksPageComponent implements OnInit {
 
   readonly tasks = this.taskApi.tasksSignal;
   readonly isLoading = this.taskApi.loadingSignal;
+  readonly activities = this.taskApi.activitiesSignal;
 
   @ViewChild('searchInput') searchInputElement?: ElementRef<HTMLInputElement>;
   readonly focusedTaskIndex = signal<number>(-1);
 
-  readonly activeTab = signal<'directory' | 'metrics'>('directory');
+  readonly activeTab = signal<'directory' | 'metrics' | 'activity'>('directory');
   readonly viewMode = signal<'table' | 'cards'>('table');
 
-  readonly activeView = computed<'table' | 'cards' | 'metrics'>(() => {
-    return this.activeTab() === 'metrics' ? 'metrics' : this.viewMode();
+  readonly activeView = computed<'table' | 'cards' | 'metrics' | 'activity'>(() => {
+    if (this.activeTab() === 'metrics') return 'metrics';
+    if (this.activeTab() === 'activity') return 'activity';
+    return this.viewMode();
   });
 
-  setView(view: 'table' | 'cards' | 'metrics'): void {
+  setView(view: 'table' | 'cards' | 'metrics' | 'activity'): void {
     if (view === 'metrics') {
       this.activeTab.set('metrics');
+    } else if (view === 'activity') {
+      this.activeTab.set('activity');
     } else {
       this.activeTab.set('directory');
       this.viewMode.set(view);
@@ -119,6 +127,7 @@ export class TasksPageComponent implements OnInit {
     'select',
     'id',
     'title',
+    'author',
     'category',
     'priority',
     'status',
@@ -129,6 +138,7 @@ export class TasksPageComponent implements OnInit {
   readonly searchQuery = signal<string>('');
   readonly selectedStatus = signal<string>('all');
   readonly selectedPriority = signal<string>('all');
+  readonly filterMyTasksOnly = signal<boolean>(false);
 
   readonly isFilterPanelOpen = signal<boolean>(false);
 
@@ -136,21 +146,46 @@ export class TasksPageComponent implements OnInit {
     let count = 0;
     if (this.selectedStatus() !== 'all') count++;
     if (this.selectedPriority() !== 'all') count++;
+    if (this.filterMyTasksOnly()) count++;
     return count;
   });
+
+  readonly activityActionFilter = signal<string>('all');
+
+  readonly filteredActivities = computed(() => {
+    const list = this.activities() || [];
+    const filter = this.activityActionFilter();
+    if (filter === 'all') return list;
+    return list.filter((a) => a.action === filter);
+  });
+
+  setActivityFilter(filter: string): void {
+    this.activityActionFilter.set(filter);
+  }
+
+  toggleMyTasksOnly(): void {
+    this.filterMyTasksOnly.update((v) => !v);
+    this.pageIndex.set(0);
+  }
 
   toggleFilterPanel(): void {
     this.isFilterPanelOpen.update((open) => !open);
   }
 
   readonly hasActiveFilters = computed(() => {
-    return !!this.searchQuery().trim() || this.selectedStatus() !== 'all' || this.selectedPriority() !== 'all';
+    return (
+      !!this.searchQuery().trim() ||
+      this.selectedStatus() !== 'all' ||
+      this.selectedPriority() !== 'all' ||
+      this.filterMyTasksOnly()
+    );
   });
 
   resetFilters(): void {
     this.searchQuery.set('');
     this.selectedStatus.set('all');
     this.selectedPriority.set('all');
+    this.filterMyTasksOnly.set(false);
     this.pageIndex.set(0);
   }
 
@@ -159,23 +194,28 @@ export class TasksPageComponent implements OnInit {
     const query = this.searchQuery().toLowerCase().trim();
     const status = this.selectedStatus();
     const priority = this.selectedPriority();
+    const myTasksOnly = this.filterMyTasksOnly();
+    const userEmail = this.authService.currentUser()?.email;
 
     return list.filter((task) => {
       if (!task) return false;
       const title = (task.title || '').toLowerCase();
       const description = (task.description || '').toLowerCase();
       const category = (task.category || '').toLowerCase();
+      const authorName = (task.createdBy?.name || '').toLowerCase();
 
       const matchesQuery =
         !query ||
         title.includes(query) ||
         description.includes(query) ||
-        category.includes(query);
+        category.includes(query) ||
+        authorName.includes(query);
 
       const matchesStatus = status === 'all' || task.status === status;
       const matchesPriority = priority === 'all' || task.priority === priority;
+      const matchesMyTasks = !myTasksOnly || (!!userEmail && task.createdBy?.email === userEmail);
 
-      return matchesQuery && matchesStatus && matchesPriority;
+      return matchesQuery && matchesStatus && matchesPriority && matchesMyTasks;
     });
   });
 
@@ -616,6 +656,9 @@ export class TasksPageComponent implements OnInit {
     } else if (key === '3') {
       event.preventDefault();
       this.setView('metrics');
+    } else if (key === '4') {
+      event.preventDefault();
+      this.setView('activity');
     } else if (lowerKey === 'f') {
       event.preventDefault();
       this.toggleFilterPanel();

@@ -8,8 +8,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 import { ContentService } from '../../../core/services/content.service';
 import { ThemeService } from '../../../core/services/theme.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { ContactModalService } from '../../../core/services/contact-modal.service';
 import { SITE_CONFIG } from '../../../core/config/site.config';
 import { SITE_CONTENT } from '../../../core/config/site.content';
@@ -22,13 +25,16 @@ import { SITE_CONTENT } from '../../../core/config/site.content';
     RouterModule,
     MatButtonModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatMenuModule,
+    MatDividerModule,
   ],
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent {
   readonly contentService = inject(ContentService);
   readonly themeService = inject(ThemeService);
+  readonly authService = inject(AuthService);
   readonly siteConfig = inject(SITE_CONFIG);
   readonly content = inject(SITE_CONTENT);
   private readonly contactModal = inject(ContactModalService);

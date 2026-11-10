@@ -334,5 +334,32 @@ describe('TasksPageComponent', { timeout: 45000 }, () => {
     expect(compiled.textContent).toContain('No tasks created yet');
     expect(compiled.querySelector('table')).toBeNull();
   });
+
+  it('should switch to activity audit view and filter activity records', () => {
+    fixture.detectChanges();
+    component.setView('activity');
+    expect(component.activeTab()).toBe('activity');
+    expect(component.activeView()).toBe('activity');
+
+    const allActivities = component.filteredActivities();
+    expect(allActivities.length).toBeGreaterThan(0);
+
+    component.setActivityFilter('created');
+    const createdOnly = component.filteredActivities();
+    expect(createdOnly.every((a) => a.action === 'created')).toBe(true);
+  });
+
+  it('should toggle My Tasks filter correctly', () => {
+    fixture.detectChanges();
+    expect(component.filterMyTasksOnly()).toBe(false);
+
+    component.toggleMyTasksOnly();
+    expect(component.filterMyTasksOnly()).toBe(true);
+    expect(component.hasActiveFilters()).toBe(true);
+
+    component.resetFilters();
+    expect(component.filterMyTasksOnly()).toBe(false);
+  });
 });
+
 

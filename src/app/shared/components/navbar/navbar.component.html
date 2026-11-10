@@ -84,7 +84,79 @@
     </nav>
 
     <!-- CTA & Theme Toggle Actions -->
-    <div class="hidden lg:flex items-center gap-3">
+    <div class="hidden lg:flex items-center gap-2 xl:gap-3">
+      <!-- User Profile & Auth Trigger -->
+      @if (authService.currentUser()) {
+        <div class="relative">
+          <button
+            type="button"
+            [matMenuTriggerFor]="desktopUserMenu"
+            class="flex items-center gap-1.5 p-1 pl-1.5 pr-2 rounded-full bg-stone-100 dark:bg-stone-800 hover:bg-stone-200/70 dark:hover:bg-stone-700/80 border border-stone-200 dark:border-stone-700 text-xs font-semibold text-stone-800 dark:text-stone-200 transition cursor-pointer"
+            matTooltip="Account & Session Settings"
+            aria-label="User session settings"
+          >
+            @if (authService.currentUser()?.avatarUrl) {
+              <img [src]="authService.currentUser()!.avatarUrl" [alt]="authService.currentUser()!.name" class="w-5 h-5 rounded-full object-cover shrink-0" />
+            } @else {
+              <div class="w-5 h-5 rounded-full bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-[10px] font-bold flex items-center justify-center shrink-0">
+                {{ (authService.currentUser()?.name || 'U').charAt(0).toUpperCase() }}
+              </div>
+            }
+            <span class="truncate max-w-[85px] hidden xl:inline">{{ authService.currentUser()?.name }}</span>
+            <mat-icon class="!text-xs !w-3 !h-3 opacity-60">expand_more</mat-icon>
+          </button>
+
+          <mat-menu #desktopUserMenu="matMenu" class="!rounded-2xl shadow-xl min-w-[220px]">
+            <div class="px-4 py-2.5 border-b border-stone-100 dark:border-stone-800 space-y-0.5">
+              <p class="text-xs font-bold text-stone-900 dark:text-white truncate">{{ authService.currentUser()?.name }}</p>
+              <p class="text-[11px] font-mono text-stone-500 dark:text-stone-400 truncate">{{ authService.currentUser()?.email }}</p>
+              <div class="pt-1 flex items-center gap-1.5">
+                <span class="px-1.5 py-0.2 rounded text-[9px] uppercase font-bold tracking-wider bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300">
+                  {{ authService.currentUser()?.role }}
+                </span>
+                <span class="px-1.5 py-0.2 rounded text-[9px] uppercase font-bold tracking-wider bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300">
+                  {{ authService.currentUser()?.provider || 'local' }}
+                </span>
+              </div>
+            </div>
+
+            <a mat-menu-item routerLink="/tasks">
+              <mat-icon matMenuItemIcon class="text-emerald-600">checklist</mat-icon>
+              <span class="text-xs font-semibold">Tasks Backlog</span>
+            </a>
+
+            <button mat-menu-item (click)="authService.currentUser()?.role === 'developer' ? authService.loginAsGuest() : authService.loginAsDeveloper()">
+              <mat-icon matMenuItemIcon class="text-amber-600">swap_horiz</mat-icon>
+              <span class="text-xs font-semibold">
+                {{ authService.currentUser()?.role === 'developer' ? 'Switch to Guest Mode' : 'Switch to Developer Mode' }}
+              </span>
+            </button>
+
+            @if (authService.currentUser()?.provider === 'local') {
+              <button mat-menu-item (click)="authService.loginWithNetlify()">
+                <mat-icon matMenuItemIcon class="text-teal-600">verified_user</mat-icon>
+                <span class="text-xs font-semibold">Sign In via Netlify</span>
+              </button>
+            }
+
+            <mat-divider></mat-divider>
+
+            <button mat-menu-item (click)="authService.logout()" class="!text-rose-600 dark:!text-rose-400">
+              <mat-icon matMenuItemIcon class="!text-rose-600 dark:!text-rose-400">logout</mat-icon>
+              <span class="text-xs font-semibold">Sign Out</span>
+            </button>
+          </mat-menu>
+        </div>
+      } @else {
+        <button
+          type="button"
+          (click)="authService.loginWithNetlify()"
+          class="text-xs font-bold text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white px-3 py-1.5 rounded-full border border-stone-300 dark:border-stone-700 hover:bg-stone-100 dark:hover:bg-stone-800 transition cursor-pointer"
+        >
+          Sign In
+        </button>
+      }
+
       <!-- Theme Switcher Button -->
       <button
         type="button"
@@ -240,6 +312,41 @@
           <span class="text-xs font-mono text-stone-400 dark:text-stone-500 font-normal">· Constellation</span>
         </span>
       </button>
+
+      <!-- Mobile Auth Status -->
+      <div class="pt-2 pb-1 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between text-xs">
+        @if (authService.currentUser()) {
+          <div class="flex items-center gap-2 truncate">
+            @if (authService.currentUser()?.avatarUrl) {
+              <img [src]="authService.currentUser()!.avatarUrl" [alt]="authService.currentUser()!.name" class="w-6 h-6 rounded-full object-cover shrink-0" />
+            } @else {
+              <div class="w-6 h-6 rounded-full bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-[10px] font-bold flex items-center justify-center shrink-0">
+                {{ (authService.currentUser()?.name || 'U').charAt(0).toUpperCase() }}
+              </div>
+            }
+            <div class="truncate">
+              <span class="font-bold text-stone-900 dark:text-white block truncate">{{ authService.currentUser()?.name }}</span>
+              <span class="text-[10px] font-mono text-stone-500 block truncate">{{ authService.currentUser()?.email }}</span>
+            </div>
+          </div>
+          <button
+            type="button"
+            (click)="authService.logout()"
+            class="text-[11px] font-semibold text-rose-600 dark:text-rose-400 hover:underline cursor-pointer"
+          >
+            Sign Out
+          </button>
+        } @else {
+          <span class="text-stone-500">Not signed in</span>
+          <button
+            type="button"
+            (click)="authService.loginWithNetlify(); mobileMenuOpen.set(false)"
+            class="text-xs font-bold text-stone-900 dark:text-white underline cursor-pointer"
+          >
+            Sign In
+          </button>
+        }
+      </div>
 
       <div class="pt-3 border-t border-stone-200 dark:border-stone-800">
         <button

@@ -14,6 +14,37 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.17] - 2026-11-10
+
+### Added
+- **Netlify Identity & Google OAuth Integration**:
+  - Integrated 100% free-tier Netlify Identity authentication (up to 1,000 monthly active users with zero paid subscription dependencies).
+  - Added Google OAuth login and email/password authentication alongside instant Lead Developer and Guest Reviewer local sessions.
+  - Implemented `TaskAuthGateComponent` protecting backlog state when signed out with transparent free-tier attribution.
+- **Task Author Attribution & Personalized "My Tasks" Filter**:
+  - Extended task models with `TaskAuthor` interface (`id`, `name`, `email`, `avatarUrl`, `role`, `provider`).
+  - Added Author column in the Tasks table view with avatar, initials badge, and email tooltips.
+  - Added author indicator chips to Cards view and Task Detail page header metadata.
+  - Added "My Tasks" filter chip in the collapsible filter toolbar allowing users to instantly isolate tasks created under their current session.
+- **Real-Time Immutable Activity Audit Trail**:
+  - Implemented client-side activity ledger logging all task lifecycle operations (`created`, `status_changed`, `updated`, `duplicated`, `completed`, `reopened`, `deleted`).
+  - Added a 4th View Switcher button (`activity`) in the Tier 1 toolbar with shortcut `4`.
+  - Added dedicated Activity Audit Trail timeline view with action filter chips (`All`, `Created`, `Status`, `Completed`).
+  - Added task-specific Activity History card to the dedicated Task Detail page (`/tasks/:id`).
+- **Navbar User Profile & Session Menu**:
+  - Added interactive user session pill and dropdown menu to top navbar displaying user avatar, name, email, role badge, provider badge, and direct sign-out / mode switching.
+
+### Fixed & Polish
+- **Task Detail Dialog Title Priority & Action Overflow**:
+  - Prioritized task title display in the modal header by replacing rigid width constraints with flexible `flex-1 min-w-0` and tooltip support.
+  - Consolidated secondary actions into a clean responsive dropdown menu (`more_vert`) on mobile and desktop, eliminating title truncation.
+- **App-Wide Locale Date Formatting Standardization**:
+  - Standardized all raw ISO date representations across the app (`tasks-page.component.html`, `task-detail-page.component.ts`, `task-detail-dialog.component.ts`, `task-sprint-details-dialog.component.ts`) with Angular's locale-aware `date:'mediumDate'`.
+  - Eliminated timezone offset boundary shifts when formatting date strings across differing global locales.
+
+### Testing
+- Expanded unit test coverage across 23 test suites and 165 passing tests with 100% pass rate.
+
 ## [1.5.16] - 2026-11-10
 
 ### Added

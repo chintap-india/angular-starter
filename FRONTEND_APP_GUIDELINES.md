@@ -2085,4 +2085,26 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
   - Configure Material SnackBars with adequate horizontal breathing room (`max-width: 640px`, padding `12px 18px`, `font-size: 0.875rem`, `line-height: 1.5`) so multi-clause operational messages never feel cramped.
   - Extend display duration to `3500ms` with standard bottom viewport positioning (`verticalPosition: 'bottom'`) to ensure comfortable comprehension before auto-dismissal.
 
+### 29.27 Netlify Identity, Google OAuth, Task Authorship & Activity Audit Trail (v1.5.17)
+- **Zero-Subscription Free Tier Authentication Policy**:
+  - Integrate authentication solutions that operate strictly within generous free tiers (e.g. Netlify Identity free tier supporting 1,000 monthly active users without requiring credit card registration or subscription commitments).
+  - Always provide an immediate local developer and guest reviewer session fallback in `AuthService`, ensuring that testing, offline development, and automated CI pipelines run friction-free without external network dependency.
+  - Enforce SSR safety by checking `isPlatformBrowser(this.platformId)` before querying browser `window.netlifyIdentity` or `localStorage`.
+- **CSS Selector Precision for Injected Iframes**:
+  - When suppressing vendor promotional badges in global stylesheets, avoid generic iframe selectors like `iframe[src*="netlify"]` or `iframe[id*="netlify" i] { display: none !important; }`. Such rules unintentionally hide authentication modals (such as `#netlify-identity-widget`).
+  - Scope badge suppression specifically to `iframe[src*="netlify-badge"]`, and explicitly guarantee accessibility of auth overlays via `#netlify-identity-widget { z-index: 99999 !important; }`.
+- **Task Author Attribution & Personalized "My Tasks" Filtering**:
+  - Associate each task entity with a structured `TaskAuthor` interface (`id`, `name`, `email`, `avatarUrl`, `role`, `provider`).
+  - Render concise author chips (initials avatar or profile picture with tooltip displaying author name and email) in both table columns and cards.
+  - Provide a 1-click **"My Tasks"** filter chip in the collapsible filter toolbar to allow engineers to quickly view their own assigned items without multi-step manual search queries.
+- **Immutable Activity Audit Trail**:
+  - Log all entity lifecycle mutations (`created`, `status_changed`, `updated`, `duplicated`, `completed`, `reopened`, `deleted`) to a client-side immutable activity ledger.
+  - Expose a 4th View Switcher button (`activity`) in Tier 1 toolbar with keyboard shortcut `4`.
+  - Provide segmented event filter chips (`All`, `Created`, `Status`, `Completed`) and display timeline cards with colored action badges, actor attribution, relative/absolute timestamps, and deep links to target entities.
+- **Dialog Header Title Prioritization & Action Overflow**:
+  - In modal dialog headers, prioritize the entity title over secondary buttons by applying flexible `flex-1 min-w-0` and removing artificial width ceilings (`max-w-[150px]`).
+  - Collapse secondary actions (Status change, Duplicate, Open dedicated page, Fullscreen, Delete) into a clean responsive dropdown menu (`mat-menu`), preserving title legibility across mobile viewports.
+- **Locale-Aware Date Formatting Standardization**:
+  - Format all calendar date strings across templates using Angular's locale-aware `date:'mediumDate'` pipe without hardcoded timezone overrides (such as `'UTC'`), preventing date offset boundary shifts across differing user locales.
+
 

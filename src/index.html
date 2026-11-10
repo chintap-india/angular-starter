@@ -141,6 +141,9 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"></noscript>
     <link rel="preload" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap"></noscript>
+
+    <!-- Netlify Identity Widget (100% Free-Tier Auth & Google OAuth Support) -->
+    <script defer src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body class="bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-stone-100 font-sans antialiased selection:bg-stone-800 selection:text-white dark:selection:bg-stone-200 dark:selection:text-stone-900 min-h-screen transition-colors duration-200">
     <!-- Static Netlify Form for build-time crawler detection -->
@@ -154,5 +157,14 @@
       <textarea name="message"></textarea>
     </form>
     <app-root></app-root>
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", function(user) {
+          if (!user && window.location.hash.indexOf("invite_token") !== -1) {
+            window.netlifyIdentity.open("signup");
+          }
+        });
+      }
+    </script>
   </body>
 </html>

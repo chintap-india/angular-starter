@@ -9,9 +9,41 @@ import {
   UpdateTaskDto,
   TaskQueryParams,
   TaskPageResult,
+  TaskAuthor,
+  TaskActivityItem,
+  TaskActivityAction,
 } from '../models/task.model';
+import { AuthService } from './auth.service';
 
 const STORAGE_KEY = 'chintap_tasks_crud_v2';
+const ACTIVITY_STORAGE_KEY = 'chintap_tasks_activity_v1';
+
+export const SEED_AUTHORS: Record<string, TaskAuthor> = {
+  dev: {
+    id: 'dev-1',
+    name: 'Lead Developer',
+    email: 'builder@chintap.dev',
+    role: 'developer',
+    avatarUrl: 'images/tech/angular.svg',
+    provider: 'local',
+  },
+  architect: {
+    id: 'arch-1',
+    name: 'Frontend Architect',
+    email: 'architect@chintap.dev',
+    role: 'developer',
+    avatarUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=FA',
+    provider: 'local',
+  },
+  devops: {
+    id: 'devops-1',
+    name: 'DevOps Engineer',
+    email: 'ops@chintap.dev',
+    role: 'developer',
+    avatarUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=DO',
+    provider: 'local',
+  },
+};
 
 const INITIAL_TASKS: TaskItem[] = [
   {
@@ -175,19 +207,89 @@ Deliver preloaded responsive WebP vectors and inline SVG brand assets to guarant
   },
 ];
 
+const INITIAL_ACTIVITIES: TaskActivityItem[] = [
+  {
+    id: 'act-1',
+    taskId: 'task-1',
+    taskTitle: 'Configure site.config.ts with your domain & brand',
+    action: 'created',
+    details: 'Task created for Initial Setup milestone',
+    performedBy: SEED_AUTHORS['architect'],
+    timestamp: new Date(Date.now() - 86400000 * 3).toISOString(),
+  },
+  {
+    id: 'act-2',
+    taskId: 'task-1',
+    taskTitle: 'Configure site.config.ts with your domain & brand',
+    action: 'completed',
+    details: 'Verified branding domain and Schema.org metadata',
+    previousValue: 'in-progress',
+    newValue: 'completed',
+    performedBy: SEED_AUTHORS['dev'],
+    timestamp: new Date(Date.now() - 86400000 * 2).toISOString(),
+  },
+  {
+    id: 'act-3',
+    taskId: 'task-2',
+    taskTitle: 'Replace logo-light.svg and logo-dark.svg in public/images/',
+    action: 'status_changed',
+    details: 'Status transitioned from To Do to In Progress',
+    previousValue: 'todo',
+    newValue: 'in-progress',
+    performedBy: SEED_AUTHORS['dev'],
+    timestamp: new Date(Date.now() - 86400000 * 1).toISOString(),
+  },
+  {
+    id: 'act-4',
+    taskId: 'task-6',
+    taskTitle: 'Implement OpenTelemetry Distributed Tracing in SSR Hydration',
+    action: 'created',
+    details: 'Observability task logged for DevOps backlog',
+    performedBy: SEED_AUTHORS['devops'],
+    timestamp: new Date(Date.now() - 86400000 * 4).toISOString(),
+  },
+  {
+    id: 'act-5',
+    taskId: 'task-9',
+    taskTitle: 'Audit Third-Party NPM Dependencies for Critical Vulnerabilities',
+    action: 'completed',
+    details: 'Completed dependency audit with automated CI gating',
+    previousValue: 'in-progress',
+    newValue: 'completed',
+    performedBy: SEED_AUTHORS['devops'],
+    timestamp: new Date(Date.now() - 86400000 * 3).toISOString(),
+  },
+  {
+    id: 'act-6',
+    taskId: 'task-10',
+    taskTitle: 'Optimize Largest Contentful Paint (LCP) Hero Asset WebP Pipelines',
+    action: 'completed',
+    details: 'Preloaded responsive WebP vectors verified with Lighthouse',
+    previousValue: 'in-progress',
+    newValue: 'completed',
+    performedBy: SEED_AUTHORS['architect'],
+    timestamp: new Date(Date.now() - 86400000 * 2).toISOString(),
+  },
+];
+
 @Injectable({
   providedIn: 'root',
 })
 export class MockTaskApiService {
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly authService = inject(AuthService);
   private tasks: TaskItem[] = [];
+  private activities: TaskActivityItem[] = [];
 
   readonly tasksSignal = signal<TaskItem[]>([]);
+  readonly activitiesSignal = signal<TaskActivityItem[]>([]);
   readonly loadingSignal = signal<boolean>(false);
 
   constructor() {
     this.tasks = this.loadFromStorage();
+    this.activities = this.loadActivitiesFromStorage();
     this.tasksSignal.set(this.tasks);
+    this.activitiesSignal.set(this.activities);
   }
 
   private loadFromStorage(): TaskItem[] {
@@ -213,6 +315,8 @@ export class MockTaskApiService {
                 dueDate: item.dueDate ? String(item.dueDate) : undefined,
                 createdAt: item.createdAt || new Date().toISOString(),
                 updatedAt: item.updatedAt || new Date().toISOString(),
+                createdBy: item.createdBy || SEED_AUTHORS['dev'],
+                assignedTo: item.assignedTo,
               }));
 
             if (sanitized.length > 0) {
@@ -227,6 +331,23 @@ export class MockTaskApiService {
     return [...INITIAL_TASKS];
   }
 
+  private loadActivitiesFromStorage(): TaskActivityItem[] {
+    if (isPlatformBrowser(this.platformId)) {
+      try {
+        const stored = localStorage.getItem(ACTIVITY_STORAGE_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return parsed;
+          }
+        }
+      } catch (err) {
+        console.warn('Could not read activities from localStorage, using defaults:', err);
+      }
+    }
+    return [...INITIAL_ACTIVITIES];
+  }
+
   private saveToStorage(items: TaskItem[]): void {
     this.tasks = items;
     this.tasksSignal.set([...items]);
@@ -237,6 +358,58 @@ export class MockTaskApiService {
         console.warn('Could not save tasks to localStorage:', err);
       }
     }
+  }
+
+  private saveActivitiesToStorage(items: TaskActivityItem[]): void {
+    this.activities = items;
+    this.activitiesSignal.set([...items]);
+    if (isPlatformBrowser(this.platformId)) {
+      try {
+        localStorage.setItem(ACTIVITY_STORAGE_KEY, JSON.stringify(items));
+      } catch (err) {
+        console.warn('Could not save activities to localStorage:', err);
+      }
+    }
+  }
+
+  private getCurrentAuthor(): TaskAuthor {
+    const user = this.authService.currentUser();
+    if (user) {
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        avatarUrl: user.avatarUrl,
+        provider: user.provider,
+      };
+    }
+    return SEED_AUTHORS['dev'];
+  }
+
+  private recordActivity(entry: {
+    taskId: string;
+    taskTitle: string;
+    action: TaskActivityAction;
+    details: string;
+    previousValue?: string;
+    newValue?: string;
+    performedBy?: TaskAuthor;
+  }): void {
+    const activityItem: TaskActivityItem = {
+      id: 'act-' + Date.now().toString(36) + '-' + Math.random().toString(36).substring(2, 6),
+      taskId: entry.taskId,
+      taskTitle: entry.taskTitle,
+      action: entry.action,
+      details: entry.details,
+      previousValue: entry.previousValue,
+      newValue: entry.newValue,
+      performedBy: entry.performedBy || this.getCurrentAuthor(),
+      timestamp: new Date().toISOString(),
+    };
+
+    const updated = [activityItem, ...this.activities];
+    this.saveActivitiesToStorage(updated);
   }
 
   getTasks(): Observable<TaskItem[]> {
@@ -253,6 +426,14 @@ export class MockTaskApiService {
         this.loadingSignal.set(false);
       })
     );
+  }
+
+  getActivities(taskId?: string): Observable<TaskActivityItem[]> {
+    if (!taskId) {
+      return of([...this.activities]);
+    }
+    const filtered = this.activities.filter((a) => a.taskId === taskId);
+    return of(filtered);
   }
 
   getTask(id: string): Observable<TaskItem | undefined> {
@@ -280,6 +461,7 @@ export class MockTaskApiService {
   }
 
   createTask(dto: CreateTaskDto): Observable<TaskItem> {
+    const author = dto.createdBy || this.getCurrentAuthor();
     const newTask: TaskItem = {
       id: this.getNextTaskId(),
       title: dto.title.trim(),
@@ -290,10 +472,19 @@ export class MockTaskApiService {
       dueDate: dto.dueDate,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      createdBy: author,
+      assignedTo: dto.assignedTo,
     };
 
     const updated = [newTask, ...this.tasks];
     this.saveToStorage(updated);
+    this.recordActivity({
+      taskId: newTask.id,
+      taskTitle: newTask.title,
+      action: 'created',
+      details: `Created new sprint task in category "${newTask.category}"`,
+      performedBy: author,
+    });
     this.loadingSignal.set(false);
 
     return of(newTask);
@@ -318,16 +509,48 @@ export class MockTaskApiService {
     const updatedList = [...this.tasks];
     updatedList[index] = updatedTask;
     this.saveToStorage(updatedList);
-    this.loadingSignal.set(false);
 
+    // Record appropriate audit activity
+    if (dto.status && dto.status !== existing.status) {
+      this.recordActivity({
+        taskId: id,
+        taskTitle: updatedTask.title,
+        action: dto.status === 'completed' ? 'completed' : 'status_changed',
+        details: `Status transitioned from "${existing.status}" to "${dto.status}"`,
+        previousValue: existing.status,
+        newValue: dto.status,
+        performedBy: this.getCurrentAuthor(),
+      });
+    } else {
+      this.recordActivity({
+        taskId: id,
+        taskTitle: updatedTask.title,
+        action: 'updated',
+        details: 'Task specifications and details updated',
+        performedBy: this.getCurrentAuthor(),
+      });
+    }
+
+    this.loadingSignal.set(false);
     return of(updatedTask);
   }
 
   deleteTask(id: string): Observable<boolean> {
+    const taskToDelete = this.tasks.find((t) => t.id === id);
     const filtered = this.tasks.filter((t) => t.id !== id);
     this.saveToStorage(filtered);
-    this.loadingSignal.set(false);
 
+    if (taskToDelete) {
+      this.recordActivity({
+        taskId: id,
+        taskTitle: taskToDelete.title,
+        action: 'deleted',
+        details: 'Permanently deleted task from sprint backlog',
+        performedBy: this.getCurrentAuthor(),
+      });
+    }
+
+    this.loadingSignal.set(false);
     return of(true);
   }
 

@@ -124,7 +124,8 @@ export class TaskShortcutsDialogComponent {
         { key: 'F', description: 'Toggle filters panel' },
         { key: '1', description: 'Switch to Table view' },
         { key: '2', description: 'Switch to Cards view' },
-        { key: '3', description: 'Switch to Sprint metrics' }
+        { key: '3', description: 'Switch to Sprint metrics' },
+        { key: '4', description: 'Switch to Activity audit' }
       ]
     }
   ];

@@ -712,11 +712,11 @@ html.dark .mat-mdc-dialog-container .mdc-dialog__surface {
   }
 }
 
-/* Suppress Netlify badge iframe if injected at edge */
-iframe[src*="netlify"],
-iframe[title*="Netlify" i],
-iframe[id*="netlify" i],
-iframe[class*="netlify" i],
+/* Suppress Netlify badge iframe if injected at edge (preserve Netlify Identity modal) */
+iframe[src*="netlify-badge"],
+iframe[title*="Netlify badge" i],
+iframe[id*="netlify-badge" i],
+iframe[class*="netlify-badge" i],
 .netlify-badge,
 #netlify-badge {
   display: none !important;
@@ -727,6 +727,10 @@ iframe[class*="netlify" i],
   height: 0 !important;
   position: absolute !important;
   left: -9999px !important;
+}
+
+#netlify-identity-widget {
+  z-index: 99999 !important;
 }
 
 /* Network Graph Keyframe Animations */

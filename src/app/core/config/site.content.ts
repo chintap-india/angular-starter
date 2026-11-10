@@ -505,17 +505,18 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       {
         title: 'Enterprise Tasks Management',
         category: 'Interactive Application',
-        version: 'v1.5.16',
+        version: 'v1.5.17',
         logoKey: 'material',
         docUrl: '/tasks',
         description:
-          'Production-grade sprint backlog and task management application showcasing Angular Signals, Material Design 3, real-time filtering, responsive tables, and sprint analytics.',
+          'Production-grade sprint backlog and task management application showcasing Angular Signals, Material Design 3, real-time filtering, responsive tables, sprint analytics, and immutable activity audit trail.',
         highlights: [
-          'Unified Table, Cards, and Sprint Analytics dashboard views',
-          'Full CRUD with Markdown previews & optimistic UI updates',
-          'Desktop keyboard navigation & shortcuts cheat sheet (C/N, J/K, S, D, E, /, ⌘K, ?)',
+          'Netlify Identity free-tier auth & Google OAuth with local developer/guest fallback',
+          'Task author attribution and personalized "My Tasks" filter chip',
+          'Real-time immutable Activity Audit Trail logging task lifecycle events',
+          'Unified Table, Cards, Metrics, and Activity timeline views',
+          'Desktop keyboard navigation & shortcuts cheat sheet (C/N, J/K, 1-4, S, D, E, /, ⌘K, ?)',
           'Fast local search, priority filtering, and pagination with 35+ seeded tasks',
-          'High-contrast Slate dark theme adhering to WCAG 2.2 AA/AAA contrast standards',
         ],
       },
       {

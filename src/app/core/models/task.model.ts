@@ -1,6 +1,36 @@
 export type TaskPriority = 'low' | 'medium' | 'high' | 'urgent';
 export type TaskStatus = 'todo' | 'in-progress' | 'completed';
 
+export interface TaskAuthor {
+  id: string;
+  name: string;
+  email: string;
+  avatarUrl?: string;
+  role?: 'developer' | 'guest' | 'admin';
+  provider?: 'netlify' | 'google' | 'local';
+}
+
+export type TaskActivityAction =
+  | 'created'
+  | 'status_changed'
+  | 'updated'
+  | 'duplicated'
+  | 'completed'
+  | 'reopened'
+  | 'deleted';
+
+export interface TaskActivityItem {
+  id: string;
+  taskId: string;
+  taskTitle: string;
+  action: TaskActivityAction;
+  details: string;
+  previousValue?: string;
+  newValue?: string;
+  performedBy: TaskAuthor;
+  timestamp: string;
+}
+
 export interface TaskItem {
   id: string;
   title: string;
@@ -11,6 +41,8 @@ export interface TaskItem {
   dueDate?: string;
   createdAt: string;
   updatedAt: string;
+  createdBy?: TaskAuthor;
+  assignedTo?: TaskAuthor;
 }
 
 export interface CreateTaskDto {
@@ -20,6 +52,8 @@ export interface CreateTaskDto {
   status?: TaskStatus;
   category?: string;
   dueDate?: string;
+  createdBy?: TaskAuthor;
+  assignedTo?: TaskAuthor;
 }
 
 export interface UpdateTaskDto {
@@ -29,6 +63,7 @@ export interface UpdateTaskDto {
   status?: TaskStatus;
   category?: string;
   dueDate?: string;
+  assignedTo?: TaskAuthor;
 }
 
 export interface TaskQueryParams {

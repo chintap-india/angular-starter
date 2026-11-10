@@ -7,6 +7,7 @@ export interface UserProfile {
   email: string;
   role: 'developer' | 'guest' | 'admin';
   avatarUrl?: string;
+  provider?: 'netlify' | 'google' | 'local';
 }
 
 declare global {
@@ -24,6 +25,7 @@ const AUTH_STORAGE_KEY = 'chintap_auth_profile_v1';
  * - Default: Local browser state via localStorage with zero external network requests.
  * - Optional: Netlify Identity integration stays strictly within Netlify's free tier
  *   (up to 1,000 active users/month without any paid add-ons or credit cards).
+ * - External OAuth: Supports Google OAuth and email/password signup via Netlify Identity.
  */
 @Injectable({
   providedIn: 'root',
@@ -52,13 +54,14 @@ export class AuthService {
         console.warn('Auth profile storage read failed:', e);
       }
     }
-    // Default local developer session for starter kit preview
+    // Default starter developer session
     return {
       id: 'dev-1',
-      name: 'Developer User',
-      email: 'dev@chintap.local',
+      name: 'Lead Developer',
+      email: 'builder@chintap.dev',
       role: 'developer',
       avatarUrl: 'images/tech/angular.svg',
+      provider: 'local',
     };
   }
 
@@ -81,11 +84,14 @@ export class AuthService {
   }
 
   private setUserFromNetlify(netlifyUser: any): void {
+    const provider = netlifyUser.app_metadata?.provider || 'netlify';
     const profile: UserProfile = {
       id: netlifyUser.id,
       name: netlifyUser.user_metadata?.full_name || netlifyUser.email.split('@')[0],
       email: netlifyUser.email,
       role: 'developer',
+      avatarUrl: netlifyUser.user_metadata?.avatar_url,
+      provider: provider === 'google' ? 'google' : 'netlify',
     };
     this.saveUser(profile);
   }
@@ -105,6 +111,32 @@ export class AuthService {
     }
   }
 
+  loginWithGoogle(): void {
+    if (typeof window !== 'undefined' && window.netlifyIdentity) {
+      // Trigger Netlify Identity modal on login tab
+      window.netlifyIdentity.open('login');
+    } else {
+      // Offline / Localhost Google Simulation for immediate developer evaluation
+      const googleUser: UserProfile = {
+        id: 'google-' + Date.now().toString(36),
+        name: 'Alex Developer',
+        email: 'alex.developer@gmail.com',
+        role: 'developer',
+        avatarUrl: 'https://api.dicebear.com/7.x/bottts/svg?seed=alex.developer',
+        provider: 'google',
+      };
+      this.saveUser(googleUser);
+    }
+  }
+
+  loginWithNetlify(): void {
+    if (typeof window !== 'undefined' && window.netlifyIdentity) {
+      window.netlifyIdentity.open('login');
+    } else {
+      this.loginAsDeveloper();
+    }
+  }
+
   loginAsDeveloper(): void {
     const devUser: UserProfile = {
       id: 'dev-' + Date.now().toString(36),
@@ -112,6 +144,7 @@ export class AuthService {
       email: 'builder@chintap.dev',
       role: 'developer',
       avatarUrl: 'images/tech/angular.svg',
+      provider: 'local',
     };
     this.saveUser(devUser);
   }
@@ -122,15 +155,28 @@ export class AuthService {
       name: 'Guest Reviewer',
       email: 'guest@chintap.local',
       role: 'guest',
+      avatarUrl: 'https://api.dicebear.com/7.x/identicon/svg?seed=guest',
+      provider: 'local',
     };
     this.saveUser(guestUser);
+  }
+
+  loginWithCustomUser(name: string, email: string, role: 'developer' | 'guest' | 'admin' = 'developer'): void {
+    const customUser: UserProfile = {
+      id: 'usr-' + Date.now().toString(36),
+      name: name.trim() || 'Team Member',
+      email: email.trim() || 'user@chintap.dev',
+      role,
+      avatarUrl: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name || email)}`,
+      provider: 'local',
+    };
+    this.saveUser(customUser);
   }
 
   openNetlifyModal(): void {
     if (typeof window !== 'undefined' && window.netlifyIdentity) {
       window.netlifyIdentity.open();
     } else {
-      // Mock toggle if Netlify Identity script is not actively loaded
       if (this.isAuthenticated()) {
         this.logout();
       } else {
@@ -142,7 +188,11 @@ export class AuthService {
   logout(): void {
     this.saveUser(null);
     if (typeof window !== 'undefined' && window.netlifyIdentity) {
-      window.netlifyIdentity.logout();
+      try {
+        window.netlifyIdentity.logout();
+      } catch (e) {
+        console.warn('Netlify identity logout error:', e);
+      }
     }
   }
 }

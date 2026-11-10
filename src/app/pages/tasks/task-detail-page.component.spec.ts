@@ -243,4 +243,13 @@ describe('TaskDetailPageComponent', { timeout: 45000 }, () => {
     expect(component.isSearchOpen()).toBe(false);
     expect(component.searchResults().length).toBe(0);
   });
+
+  it('should compute task-specific activity history and render author info', () => {
+    const activities = component.taskActivities();
+    expect(Array.isArray(activities)).toBe(true);
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('Activity History & Audit Trail');
+  });
 });
+

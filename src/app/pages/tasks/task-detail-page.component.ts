@@ -12,12 +12,14 @@ import { MockTaskApiService } from '../../core/services/mock-task-api.service';
 import { SeoService } from '../../core/services/seo.service';
 import { TaskItem, TaskPriority, TaskStatus, CreateTaskDto, UpdateTaskDto, formatTaskId } from '../../core/models/task.model';
 import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
+import { AuthService } from '../../core/services/auth.service';
 import { TaskFormDialogComponent } from './task-form-dialog.component';
 import { TaskStatusDialogComponent } from './task-status-dialog.component';
 import { TaskDeleteDialogComponent } from './task-delete-dialog.component';
 import { TaskDetailDialogComponent } from './task-detail-dialog.component';
 import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.component';
 import { TaskShortcutsDialogComponent } from './task-shortcuts-dialog.component';
+import { TaskAuthGateComponent } from './task-auth-gate.component';
 
 @Component({
   selector: 'app-task-detail-page',
@@ -32,6 +34,7 @@ import { TaskShortcutsDialogComponent } from './task-shortcuts-dialog.component'
     MatDialogModule,
     MatSnackBarModule,
     MatProgressBarModule,
+    TaskAuthGateComponent,
     MarkdownPipe,
   ],
   template: `
@@ -268,166 +271,232 @@ import { TaskShortcutsDialogComponent } from './task-shortcuts-dialog.component'
       <!-- Main Container: Aligned to Navbar Width (max-w-7xl) -->
       <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
         
-        @if (task()) {
-          <!-- Title & Category Card -->
-          <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
-            
-            <div class="flex flex-wrap items-center gap-2 text-xs">
-              <span class="inline-flex items-center gap-1 font-mono font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                {{ formatTaskId(task()!.id) }}
-              </span>
+        @if (!authService.isAuthenticated()) {
+          <app-task-auth-gate></app-task-auth-gate>
+        } @else {
+          @if (task()) {
+            <!-- Title & Category Card -->
+            <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
               
-              <span class="inline-flex items-center gap-1 font-sans font-medium px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                <mat-icon class="!text-xs !w-3.5 !h-3.5 text-slate-500 dark:text-slate-400">folder</mat-icon>
-                <span>{{ task()!.category }}</span>
-              </span>
-
-              <!-- Status Chip (Clickable to open status modal) -->
-              <button
-                type="button"
-                (click)="openStatusDialog()"
-                matTooltip="Click to change status (Modal)"
-                class="inline-flex items-center gap-1 font-sans font-medium px-2.5 py-1 rounded-full text-xs cursor-pointer hover:ring-2 hover:ring-emerald-500/40 transition leading-none"
-                [ngClass]="{
-                  'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/80': task()!.status === 'completed',
-                  'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/80': task()!.status === 'in-progress',
-                  'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700': task()!.status === 'todo'
-                }"
-              >
-                <mat-icon class="!text-xs !w-3.5 !h-3.5">
-                  {{ task()!.status === 'completed' ? 'check_circle' : (task()!.status === 'in-progress' ? 'pending' : 'radio_button_unchecked') }}
-                </mat-icon>
-                <span>{{ task()!.status === 'in-progress' ? 'In Progress' : (task()!.status === 'completed' ? 'Completed' : 'To Do') }}</span>
-                <mat-icon class="!text-[10px] !w-2.5 !h-2.5 opacity-60 ml-0.5">expand_more</mat-icon>
-              </button>
-
-              <!-- Priority Chip -->
-              <span
-                class="inline-flex items-center gap-1 font-sans font-medium px-2.5 py-1 rounded-full text-xs"
-                [ngClass]="{
-                  'bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/80': task()!.priority === 'urgent',
-                  'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/80': task()!.priority === 'high',
-                  'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800/80': task()!.priority === 'medium',
-                  'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700': task()!.priority === 'low'
-                }"
-              >
-                <mat-icon class="!text-xs !w-3.5 !h-3.5">
-                  {{ task()!.priority === 'urgent' || task()!.priority === 'high' ? 'priority_high' : 'low_priority' }}
-                </mat-icon>
-                  <span>Priority: {{ task()!.priority | titlecase }}</span>
-              </span>
-
-              <!-- Sprint Details Modal Trigger -->
-              <button
-                type="button"
-                (click)="openSprintDetailsDialog()"
-                matTooltip="View full sprint details & metadata (Modal)"
-                aria-label="Sprint Details"
-                class="inline-flex items-center gap-1 font-sans font-medium px-2.5 py-1 rounded-full text-xs text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition cursor-pointer leading-none"
-              >
-                <mat-icon class="!text-xs !w-3.5 !h-3.5 text-slate-500 dark:text-slate-400">info</mat-icon>
-                <span>Sprint Details</span>
-              </button>
-            </div>
-
-            <h1 
-              class="text-2xl sm:text-3xl font-extrabold font-heading text-slate-900 dark:text-white leading-snug tracking-tight"
-            >
-              {{ task()!.title }}
-            </h1>
-
-            <p class="text-xs text-slate-500 dark:text-slate-300 flex flex-wrap items-center gap-4 pt-1">
-              <span class="inline-flex items-center gap-1">
-                <mat-icon class="!text-xs !w-3.5 !h-3.5">schedule</mat-icon>
-                <span>Created {{ task()!.createdAt | date:'mediumDate' }}</span>
-              </span>
-              <span class="inline-flex items-center gap-1" [matTooltip]="'Updated ' + (task()!.updatedAt | date:'medium')">
-                <mat-icon class="!text-xs !w-3.5 !h-3.5">update</mat-icon>
-                <span>Updated {{ task()!.updatedAt | date:'mediumDate' }}</span>
-              </span>
-              @if (task()!.dueDate) {
-                <span class="inline-flex items-center gap-1 text-slate-700 dark:text-slate-200 font-semibold font-mono" matTooltip="Target completion date">
-                  <mat-icon class="!text-xs !w-3.5 !h-3.5 text-slate-500 dark:text-slate-400">calendar_today</mat-icon>
-                  <span>Due: {{ task()!.dueDate | date:'mediumDate' }}</span>
+              <div class="flex flex-wrap items-center gap-2 text-xs">
+                <span class="inline-flex items-center gap-1 font-mono font-semibold px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                  {{ formatTaskId(task()!.id) }}
                 </span>
-              }
-            </p>
+                
+                <span class="inline-flex items-center gap-1 font-sans font-medium px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                  <mat-icon class="!text-xs !w-3.5 !h-3.5 text-slate-500 dark:text-slate-400">folder</mat-icon>
+                  <span>{{ task()!.category }}</span>
+                </span>
 
-          </div>
+                <!-- Status Chip (Clickable to open status modal) -->
+                <button
+                  type="button"
+                  (click)="openStatusDialog()"
+                  matTooltip="Click to change status (Modal)"
+                  class="inline-flex items-center gap-1 font-sans font-medium px-2.5 py-1 rounded-full text-xs cursor-pointer hover:ring-2 hover:ring-emerald-500/40 transition leading-none"
+                  [ngClass]="{
+                    'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/80': task()!.status === 'completed',
+                    'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/80': task()!.status === 'in-progress',
+                    'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700': task()!.status === 'todo'
+                  }"
+                >
+                  <mat-icon class="!text-xs !w-3.5 !h-3.5">
+                    {{ task()!.status === 'completed' ? 'check_circle' : (task()!.status === 'in-progress' ? 'pending' : 'radio_button_unchecked') }}
+                  </mat-icon>
+                  <span>{{ task()!.status === 'in-progress' ? 'In Progress' : (task()!.status === 'completed' ? 'Completed' : 'To Do') }}</span>
+                  <mat-icon class="!text-[10px] !w-2.5 !h-2.5 opacity-60 ml-0.5">expand_more</mat-icon>
+                </button>
 
-          <!-- Description Section (Helvetica Neue) -->
-          <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
-            <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700/80">
-              <div class="flex items-center gap-2">
-                <mat-icon class="text-slate-600 dark:text-slate-400">description</mat-icon>
-                <h2 class="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                  Description
-                </h2>
+                <!-- Priority Chip -->
+                <span
+                  class="inline-flex items-center gap-1 font-sans font-medium px-2.5 py-1 rounded-full text-xs"
+                  [ngClass]="{
+                    'bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/80': task()!.priority === 'urgent',
+                    'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/80': task()!.priority === 'high',
+                    'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800/80': task()!.priority === 'medium',
+                    'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700': task()!.priority === 'low'
+                  }"
+                >
+                  <mat-icon class="!text-xs !w-3.5 !h-3.5">
+                    {{ task()!.priority === 'urgent' || task()!.priority === 'high' ? 'priority_high' : 'low_priority' }}
+                  </mat-icon>
+                  <span>Priority: {{ task()!.priority | titlecase }}</span>
+                </span>
+
+                <!-- Sprint Details Modal Trigger -->
+                <button
+                  type="button"
+                  (click)="openSprintDetailsDialog()"
+                  matTooltip="View full sprint details & metadata (Modal)"
+                  aria-label="Sprint Details"
+                  class="inline-flex items-center gap-1 font-sans font-medium px-2.5 py-1 rounded-full text-xs text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition cursor-pointer leading-none"
+                >
+                  <mat-icon class="!text-xs !w-3.5 !h-3.5 text-slate-500 dark:text-slate-400">info</mat-icon>
+                  <span>Sprint Details</span>
+                </button>
               </div>
-              <button
-                type="button"
-                (click)="openEditDialog()"
-                matTooltip="Edit Description"
-                class="w-7 h-7 rounded-full inline-flex items-center justify-center text-slate-400 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
-                aria-label="Edit description"
+
+              <h1 
+                class="text-2xl sm:text-3xl font-extrabold font-heading text-slate-900 dark:text-white leading-snug tracking-tight"
               >
-                <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">edit</mat-icon>
-              </button>
+                {{ task()!.title }}
+              </h1>
+
+              <p class="text-xs text-slate-500 dark:text-slate-300 flex flex-wrap items-center gap-4 pt-1">
+                @if (task()!.createdBy) {
+                  <span class="inline-flex items-center gap-1.5 text-slate-700 dark:text-slate-300 font-medium" [matTooltip]="task()!.createdBy!.email ? task()!.createdBy!.name + ' (' + task()!.createdBy!.email + ')' : task()!.createdBy!.name">
+                    @if (task()!.createdBy!.avatarUrl) {
+                      <img [src]="task()!.createdBy!.avatarUrl" [alt]="task()!.createdBy!.name" class="w-4 h-4 rounded-full object-cover shrink-0" />
+                    } @else {
+                      <mat-icon class="!text-xs !w-3.5 !h-3.5 text-slate-500 dark:text-slate-400">person</mat-icon>
+                    }
+                    <span>By {{ task()!.createdBy!.name }}</span>
+                  </span>
+                }
+                <span class="inline-flex items-center gap-1">
+                  <mat-icon class="!text-xs !w-3.5 !h-3.5">schedule</mat-icon>
+                  <span>Created {{ task()!.createdAt | date:'mediumDate' }}</span>
+                </span>
+                <span class="inline-flex items-center gap-1" [matTooltip]="'Updated ' + (task()!.updatedAt | date:'medium')">
+                  <mat-icon class="!text-xs !w-3.5 !h-3.5">update</mat-icon>
+                  <span>Updated {{ task()!.updatedAt | date:'mediumDate' }}</span>
+                </span>
+                @if (task()!.dueDate) {
+                  <span class="inline-flex items-center gap-1 text-slate-700 dark:text-slate-200 font-semibold font-mono" matTooltip="Target completion date">
+                    <mat-icon class="!text-xs !w-3.5 !h-3.5 text-slate-500 dark:text-slate-400">calendar_today</mat-icon>
+                    <span>Due: {{ task()!.dueDate | date:'mediumDate' }}</span>
+                  </span>
+                }
+              </p>
+
             </div>
 
-            @if (task()!.description) {
-              <div class="task-editor-font text-slate-800 dark:text-slate-200 leading-relaxed text-sm sm:text-base prose dark:prose-invert max-w-none pt-2">
-                <div [innerHTML]="task()!.description | markdown" ngSkipHydration></div>
-              </div>
-            } @else {
-              <div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700 text-center space-y-3">
-                <mat-icon class="!text-3xl !w-8 !h-8 text-slate-400 dark:text-slate-400">notes</mat-icon>
-                <p class="text-sm text-slate-500 dark:text-slate-300">No description provided yet.</p>
+            <!-- Description Section (Helvetica Neue) -->
+            <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700/80">
+                <div class="flex items-center gap-2">
+                  <mat-icon class="text-slate-600 dark:text-slate-400">description</mat-icon>
+                  <h2 class="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                    Description
+                  </h2>
+                </div>
                 <button
                   type="button"
                   (click)="openEditDialog()"
-                  mat-flat-button
-                  class="!rounded-full !bg-slate-900 dark:!bg-slate-100 !text-white dark:!text-slate-900 !px-5 !py-1.5 text-xs font-semibold"
+                  matTooltip="Edit Description"
+                  class="w-7 h-7 rounded-full inline-flex items-center justify-center text-slate-400 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none"
+                  aria-label="Edit description"
                 >
-                  Add Description
+                  <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">edit</mat-icon>
                 </button>
               </div>
-            }
-          </div>
-        } @else if (!isLoading()) {
-          <!-- Empty / Not Found State -->
-          <div class="p-12 sm:p-16 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-center max-w-xl mx-auto shadow-sm space-y-4">
-            <div class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 mx-auto">
-              <mat-icon class="!text-3xl !w-8 !h-8">search_off</mat-icon>
+
+              @if (task()!.description) {
+                <div class="task-editor-font text-slate-800 dark:text-slate-200 leading-relaxed text-sm sm:text-base prose dark:prose-invert max-w-none pt-2">
+                  <div [innerHTML]="task()!.description | markdown" ngSkipHydration></div>
+                </div>
+              } @else {
+                <div class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-dashed border-slate-200 dark:border-slate-700 text-center space-y-3">
+                  <mat-icon class="!text-3xl !w-8 !h-8 text-slate-400 dark:text-slate-400">notes</mat-icon>
+                  <p class="text-sm text-slate-500 dark:text-slate-300">No description provided yet.</p>
+                  <button
+                    type="button"
+                    (click)="openEditDialog()"
+                    mat-flat-button
+                    class="!rounded-full !bg-slate-900 dark:!bg-slate-100 !text-white dark:!text-slate-900 !px-5 !py-1.5 text-xs font-semibold"
+                  >
+                    Add Description
+                  </button>
+                </div>
+              }
             </div>
-            <h2 class="text-xl font-bold font-heading text-slate-900 dark:text-white">
-              Task Not Found
-            </h2>
-            <p class="text-sm text-slate-500 dark:text-slate-300">
-              The task you requested (#{{ requestedTaskId() }}) does not exist or may have been deleted.
-            </p>
-            <div class="pt-4 flex items-center justify-center gap-3">
-              <a
-                routerLink="/tasks"
-                mat-flat-button
-                aria-label="Back to tasks directory"
-                class="!rounded-full !bg-slate-900 dark:!bg-slate-100 !text-white dark:!text-slate-900 hover:!bg-slate-800 dark:hover:!bg-white !px-5 !py-2 text-xs font-bold shadow-xs inline-flex items-center gap-1.5 leading-none"
-              >
-                <mat-icon class="!text-sm !w-4 !h-4 leading-none">arrow_back</mat-icon>
-                <span>All Tasks</span>
-              </a>
-              <button
-                type="button"
-                (click)="openCreateDialog()"
-                mat-stroked-button
-                aria-label="Create new task"
-                class="!rounded-full !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:text-slate-300 hover:!bg-slate-100 dark:hover:!bg-slate-800 !px-5 !py-2 text-xs font-bold shadow-xs cursor-pointer inline-flex items-center gap-1.5 leading-none"
-              >
-                <mat-icon class="!text-sm !w-4 !h-4 leading-none">add</mat-icon>
-                <span>New Task</span>
-              </button>
+
+            <!-- Task Specific Activity Audit Trail Card -->
+            <div class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-4">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700/80">
+                <div class="flex items-center gap-2">
+                  <mat-icon class="text-slate-600 dark:text-slate-400">history</mat-icon>
+                  <h2 class="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                    Activity History & Audit Trail
+                  </h2>
+                </div>
+                <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                  {{ taskActivities().length }} events
+                </span>
+              </div>
+
+              @if (taskActivities().length === 0) {
+                <p class="text-xs text-slate-400 dark:text-slate-500 py-4 text-center">No recorded activity for this task yet.</p>
+              } @else {
+                <div class="relative pl-6 space-y-3.5 before:content-[''] before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-200 dark:before:bg-slate-700">
+                  @for (act of taskActivities(); track act.id) {
+                    <div class="relative">
+                      <div
+                        class="absolute -left-6 top-1 w-5 h-5 rounded-full border-2 border-white dark:border-slate-900 flex items-center justify-center text-white"
+                        [ngClass]="{
+                          'bg-emerald-500': act.action === 'created' || act.action === 'completed',
+                          'bg-amber-500': act.action === 'status_changed' || act.action === 'updated',
+                          'bg-indigo-500': act.action === 'duplicated',
+                          'bg-rose-500': act.action === 'deleted'
+                        }"
+                      >
+                        <mat-icon class="!text-[10px] !w-2.5 !h-2.5 leading-none flex items-center justify-center">
+                          {{ act.action === 'created' ? 'add' : (act.action === 'completed' ? 'check' : (act.action === 'status_changed' ? 'sync_alt' : (act.action === 'duplicated' ? 'content_copy' : 'edit'))) }}
+                        </mat-icon>
+                      </div>
+
+                      <div class="text-xs">
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <span class="font-semibold text-slate-900 dark:text-white">{{ act.performedBy.name }}</span>
+                          <span class="px-1.5 py-0.2 rounded text-[10px] uppercase font-bold tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                            {{ act.action.replace('_', ' ') }}
+                          </span>
+                          <span class="text-[11px] font-mono text-slate-400 dark:text-slate-500 ml-auto">
+                            {{ act.timestamp | date:'medium' }}
+                          </span>
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 mt-0.5">{{ act.details }}</p>
+                      </div>
+                    </div>
+                  }
+                </div>
+              }
             </div>
-          </div>
+          } @else if (!isLoading()) {
+            <!-- Empty / Not Found State -->
+            <div class="p-12 sm:p-16 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 text-center max-w-xl mx-auto shadow-sm space-y-4">
+              <div class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 mx-auto">
+                <mat-icon class="!text-3xl !w-8 !h-8">search_off</mat-icon>
+              </div>
+              <h2 class="text-xl font-bold font-heading text-slate-900 dark:text-white">
+                Task Not Found
+              </h2>
+              <p class="text-sm text-slate-500 dark:text-slate-300">
+                The task you requested (#{{ requestedTaskId() }}) does not exist or may have been deleted.
+              </p>
+              <div class="pt-4 flex items-center justify-center gap-3">
+                <a
+                  routerLink="/tasks"
+                  mat-flat-button
+                  aria-label="Back to tasks directory"
+                  class="!rounded-full !bg-slate-900 dark:!bg-slate-100 !text-white dark:!text-slate-900 hover:!bg-slate-800 dark:hover:!bg-white !px-5 !py-2 text-xs font-bold shadow-xs inline-flex items-center gap-1.5 leading-none"
+                >
+                  <mat-icon class="!text-sm !w-4 !h-4 leading-none">arrow_back</mat-icon>
+                  <span>All Tasks</span>
+                </a>
+                <button
+                  type="button"
+                  (click)="openCreateDialog()"
+                  mat-stroked-button
+                  aria-label="Create new task"
+                  class="!rounded-full !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:text-slate-300 hover:!bg-slate-100 dark:hover:!bg-slate-800 !px-5 !py-2 text-xs font-bold shadow-xs cursor-pointer inline-flex items-center gap-1.5 leading-none"
+                >
+                  <mat-icon class="!text-sm !w-4 !h-4 leading-none">add</mat-icon>
+                  <span>New Task</span>
+                </button>
+              </div>
+            </div>
+          }
         }
 
       </main>
@@ -439,6 +508,7 @@ export class TaskDetailPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly taskApi = inject(MockTaskApiService);
+  readonly authService = inject(AuthService);
   private readonly dialog = inject(MatDialog);
   private readonly snackBar = inject(MatSnackBar);
   private readonly seo = inject(SeoService);
@@ -449,6 +519,13 @@ export class TaskDetailPageComponent implements OnInit {
   protected readonly formatTaskId = formatTaskId;
 
   private readonly allTasks = this.taskApi.tasksSignal;
+  readonly allActivities = this.taskApi.activitiesSignal;
+
+  readonly taskActivities = computed(() => {
+    const t = this.task();
+    if (!t) return [];
+    return this.allActivities().filter((a) => a.taskId === t.id);
+  });
 
   readonly currentIndex = computed(() => {
     const current = this.task();
