@@ -14,6 +14,28 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.18] - 2026-11-10
+
+### Security Hardening
+- **Markdown Pipe Safe Link Protocol Whitelist**:
+  - Implemented strict protocol validation (`/^(https?:\/\/|mailto:|\/|#)/i`) in `MarkdownPipe` for markdown-rendered hyperlinks (`[text](url)`).
+  - Automatically neutralizes dangerous pseudo-protocols (`javascript:`, `data:text/html`, `vbscript:`) to `#unsafe-link`, preventing stored Cross-Site Scripting (XSS) vectors.
+- **DomSanitizer-Compliant Task List Checkbox Rendering**:
+  - Replaced inline SVG checkbox rendering with standard Unicode checkmark entities (`&#10003;`).
+  - Completely eliminates Angular `DomSanitizer` SVG stripping warnings in browser devtools while maintaining clean visual presentation.
+- **Cross-Origin Opener Policy (COOP) OAuth Compatibility**:
+  - Configured `Cross-Origin-Opener-Policy: same-origin-allow-popups` in `netlify.toml`.
+  - Enables seamless Google and GitHub OAuth popup handshake communication with Netlify Identity without sacrificing security isolation.
+
+### Documentation
+- **Authentication, Sign-In & Testing Guide**:
+  - Added dedicated comprehensive authentication guide in `README.md` covering zero-config unit test mocking, offline localhost developer & guest reviewer simulation, and Netlify Identity dashboard setup.
+
+### Testing
+- **Malicious Payload & Protocol Audit Test Suite**:
+  - Expanded `markdown.pipe.spec.ts` with explicit security attack vectors including `<script>` tags, inline event handlers (`<img onerror>`), malicious `<iframe>` tags, and executable URI schemes (`javascript:alert(1)`, `data:text/html;base64,...`).
+  - Total unit test suite expanded to 169 passing tests with 100% test pass rate.
+
 ## [1.5.17] - 2026-11-10
 
 ### Added

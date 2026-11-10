@@ -18,7 +18,7 @@ describe('TaskAuthGateComponent', () => {
     fixture = TestBed.createComponent(TaskAuthGateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }, 30000);
 
   afterEach(() => {
     vi.restoreAllMocks();

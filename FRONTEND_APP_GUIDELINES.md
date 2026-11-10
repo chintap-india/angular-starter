@@ -2107,4 +2107,13 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
 - **Locale-Aware Date Formatting Standardization**:
   - Format all calendar date strings across templates using Angular's locale-aware `date:'mediumDate'` pipe without hardcoded timezone overrides (such as `'UTC'`), preventing date offset boundary shifts across differing user locales.
 
-
+### 29.28 Markdown XSS Protocol Whitelisting, Clean Checkboxes & COOP OAuth Compatibility (v1.5.18)
+- **Protocol Whitelisting for Dynamic Markdown Hyperlinks**:
+  - Enforce strict URL scheme whitelisting (`/^(https?:\/\/|mailto:|\/|#)/i`) when parsing markdown anchor tags (`[text](url)`).
+  - Automatically rewrite unwhitelisted or executable schemes (`javascript:`, `data:`, `vbscript:`) to a safe inert hash (`#unsafe-link`) before passing through Angular's `DomSanitizer`, mitigating stored Cross-Site Scripting (XSS).
+- **DomSanitizer Immunity via Clean Unicode Checkmarks**:
+  - In custom markdown pipes rendering task list checkboxes (`[x]` or `[ ]`), avoid inlining raw `<svg>` trees within `SecurityContext.HTML`. Angular's sanitizer safely strips unknown or complex SVG tags, generating harmless but noisy console warnings.
+  - Use clean Unicode entities (e.g. `&#10003;` for checked boxes) wrapped in styled `<span aria-hidden="true">` elements to guarantee 100% sanitizer compatibility without console warnings.
+- **Cross-Origin Opener Policy for OAuth Handshakes**:
+  - When configuring high-security HTTP headers in hosting configuration (e.g. `netlify.toml`), set `Cross-Origin-Opener-Policy: same-origin-allow-popups` rather than rigid `same-origin`.
+  - This allows federated OAuth providers (Google, GitHub) to communicate back to the parent window during interactive authentication popups without browser window isolation exceptions.

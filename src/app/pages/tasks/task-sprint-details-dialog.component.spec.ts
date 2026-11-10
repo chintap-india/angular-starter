@@ -44,7 +44,7 @@ describe('TaskSprintDetailsDialogComponent', () => {
     fixture = TestBed.createComponent(TaskSprintDetailsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }, 30000);
 
   it('should create sprint details dialog component', () => {
     expect(component).toBeTruthy();

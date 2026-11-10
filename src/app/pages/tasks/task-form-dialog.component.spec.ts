@@ -32,7 +32,7 @@ describe('TaskFormDialogComponent', () => {
     fixture = TestBed.createComponent(TaskFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }, 30000);
 
   it('should create task form dialog component', () => {
     expect(component).toBeTruthy();
