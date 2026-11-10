@@ -14,6 +14,17 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.5.15] - 2026-11-10
+
+### Fixed
+- **Task Detail Page Container Real Estate Alignment**:
+  - Replaced constrained `max-w-4xl` and `max-w-6xl` containers in `TaskDetailPageComponent` (`/tasks/:taskId`) with `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`.
+  - The sticky breadcrumb action bar and main content cards now align directly with the navbar boundary edges (`chintap` logo on the left and primary CTA on the right) across widescreen desktop displays, eliminating unused whitespace gutters.
+- **Tasks Page Padding Alignment**:
+  - Aligned `TasksPageComponent` root container padding from `px-2 sm:px-4 lg:px-6` to standard enterprise `px-4 sm:px-6 lg:px-8` to guarantee horizontal gutter consistency across all viewport breakpoints.
+- **Unit Test Coverage**:
+  - Added layout alignment tests in `task-detail-page.component.spec.ts` asserting both the subheader container and main content container maintain strict `max-w-7xl px-4 sm:px-6 lg:px-8` classes.
+
 ## [1.5.14] - 2026-11-10
 
 ### Added

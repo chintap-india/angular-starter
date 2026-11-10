@@ -2062,4 +2062,16 @@ The `chintap-compact-template` is the official enterprise standard for tabular a
     - Live key engineering metrics (seeded tasks, Signal-driven state %, modal count, passing unit tests)
     - Structured architectural pillar cards detailing specific design decisions (Compact Template, Signals Core, Dialog Suite, Deep-Link Routes, Duplication Engine, A11y & Dark Theme).
 
+### 29.25 Enterprise Container Real Estate & Navbar Alignment Parity (v1.5.15)
+- **Unified Container Geometry**:
+  - All application page views (list views, detail views, dashboard views, and marketing showcases) must strictly conform to the primary layout grid defined by the global header and footer:
+    ```html
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    ```
+- **Elimination of Artificial Column Choking**:
+  - Avoid restricting desktop detail pages to arbitrary narrow widths (e.g., `max-w-4xl` or `max-w-6xl`) that waste desktop real estate and introduce awkward horizontal gutters relative to the navbar.
+  - Page subheaders (breadcrumbs, sticky action capsules) and primary content cards must align with the exact horizontal boundaries of the header brand logo on the left and primary CTA buttons on the right.
+- **Consistent Viewport Padding**:
+  - Responsive padding across all views must use standard Tailwind container scale `px-4 sm:px-6 lg:px-8` to ensure no visual shifts or staggered alignment occur when navigating between routes.
+
 

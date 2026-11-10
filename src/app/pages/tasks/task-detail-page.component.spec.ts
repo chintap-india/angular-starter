@@ -204,4 +204,20 @@ describe('TaskDetailPageComponent', () => {
     expect(compiled.textContent).not.toContain('Task Actions');
     expect(compiled.querySelector('h1')?.textContent).toContain(sampleTask.title);
   });
+
+  it('should align sticky header and main content container with max-w-7xl navbar layout', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const headerContainer = compiled.querySelector('header > div');
+    const mainContainer = compiled.querySelector('main');
+
+    expect(headerContainer?.classList.contains('max-w-7xl')).toBe(true);
+    expect(headerContainer?.classList.contains('px-4')).toBe(true);
+    expect(headerContainer?.classList.contains('sm:px-6')).toBe(true);
+    expect(headerContainer?.classList.contains('lg:px-8')).toBe(true);
+
+    expect(mainContainer?.classList.contains('max-w-7xl')).toBe(true);
+    expect(mainContainer?.classList.contains('px-4')).toBe(true);
+    expect(mainContainer?.classList.contains('sm:px-6')).toBe(true);
+    expect(mainContainer?.classList.contains('lg:px-8')).toBe(true);
+  });
 });

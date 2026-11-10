@@ -35,8 +35,8 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
     <div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
       
       <!-- Top Sticky Action Bar & Breadcrumbs -->
-      <header class="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 px-4 sm:px-8 py-2.5 sm:py-3">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4">
+      <header class="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4">
           
           <!-- Left: Breadcrumbs & Back Navigation -->
           <div class="flex items-center gap-2 sm:gap-3 min-w-0">
@@ -197,8 +197,8 @@ import { TaskSprintDetailsDialogComponent } from './task-sprint-details-dialog.c
         <mat-progress-bar mode="indeterminate" class="!h-0.5"></mat-progress-bar>
       }
 
-      <!-- Main Container: Centered, Focused, Single-Column Layout -->
-      <main class="max-w-4xl mx-auto px-4 sm:px-8 py-6 sm:py-8 space-y-6">
+      <!-- Main Container: Aligned to Navbar Width (max-w-7xl) -->
+      <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
         
         @if (task()) {
           <!-- Title & Category Card -->

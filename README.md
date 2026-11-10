@@ -2,7 +2,7 @@
 
 > **Production-grade Angular 22 starter kit with out-of-the-box best practices for SEO, AEO, LLMO, GEO, and SSR/SSG.**
 
-[![Version](https://img.shields.io/badge/version-1.5.14-10b981.svg?style=flat)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.5.15-10b981.svg?style=flat)](CHANGELOG.md)
 [![Live Demo](https://img.shields.io/badge/Live_Demo-chintap--angular--starter.netlify.app-00dc82.svg?style=flat&logo=netlify)](https://chintap-angular-starter.netlify.app/)
 [![Angular](https://img.shields.io/badge/Angular-22-dd0031.svg?style=flat&logo=angular)](https://angular.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8%2B-blue.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
