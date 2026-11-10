@@ -45,7 +45,7 @@ import { TaskShortcutsDialogComponent } from './task-shortcuts-dialog.component'
           <div class="flex items-center gap-2 sm:gap-3 min-w-0">
             <a
               routerLink="/tasks"
-              matTooltip="Back to Tasks Directory (Esc)"
+              matTooltip="All Tasks (Esc)"
               aria-label="Back to tasks directory"
               class="w-9 h-9 rounded-full inline-flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition cursor-pointer leading-none shrink-0"
             >
@@ -410,18 +410,21 @@ import { TaskShortcutsDialogComponent } from './task-shortcuts-dialog.component'
               <a
                 routerLink="/tasks"
                 mat-flat-button
-                class="!rounded-full !bg-slate-900 dark:!bg-slate-100 !text-white dark:!text-slate-900 hover:!bg-slate-800 dark:hover:!bg-white !px-6 !py-2 text-xs font-bold shadow-xs"
+                aria-label="Back to tasks directory"
+                class="!rounded-full !bg-slate-900 dark:!bg-slate-100 !text-white dark:!text-slate-900 hover:!bg-slate-800 dark:hover:!bg-white !px-5 !py-2 text-xs font-bold shadow-xs inline-flex items-center gap-1.5 leading-none"
               >
-                Back to Tasks Directory
+                <mat-icon class="!text-sm !w-4 !h-4 leading-none">arrow_back</mat-icon>
+                <span>All Tasks</span>
               </a>
               <button
                 type="button"
                 (click)="openCreateDialog()"
                 mat-stroked-button
-                class="!rounded-full !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:text-slate-300 hover:!bg-slate-100 dark:hover:!bg-slate-800 !px-6 !py-2 text-xs font-bold shadow-xs cursor-pointer inline-flex items-center gap-1.5"
+                aria-label="Create new task"
+                class="!rounded-full !border-slate-300 dark:!border-slate-700 !text-slate-700 dark:text-slate-300 hover:!bg-slate-100 dark:hover:!bg-slate-800 !px-5 !py-2 text-xs font-bold shadow-xs cursor-pointer inline-flex items-center gap-1.5 leading-none"
               >
-                <mat-icon class="!text-base !w-4 !h-4 leading-none">add_task</mat-icon>
-                <span>Create Task</span>
+                <mat-icon class="!text-sm !w-4 !h-4 leading-none">add</mat-icon>
+                <span>New Task</span>
               </button>
             </div>
           </div>
