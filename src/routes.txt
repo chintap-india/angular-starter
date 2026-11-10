@@ -1,7 +1,11 @@
 /
-/features
-/best-practices
-/about
-/contact
-/tasks
 /404
+/about
+/best-practices
+/blog
+/blogs/mastering-ssg-and-sub-second-fcp
+/blogs/seo-and-aeo-in-the-ai-search-era
+/blogs/signals-reactivity-in-angular-22
+/contact
+/features
+/tasks

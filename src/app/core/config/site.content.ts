@@ -224,6 +224,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       { label: 'Home', path: '/' },
       { label: 'Features', path: '/features' },
       { label: 'Tasks', path: '/tasks' },
+      { label: 'Blog', path: '/blog' },
       { label: 'Best Practices', path: '/best-practices' },
       { label: 'About', path: '/about' },
       { label: 'Contact', path: '/contact' },

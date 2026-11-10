@@ -1,0 +1,218 @@
+<main class="min-h-screen bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-6xl mx-auto space-y-12">
+    <!-- Header Hero -->
+    <header class="text-center max-w-3xl mx-auto space-y-4">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-300/40 dark:border-emerald-700/40">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        Chintap Journal • Architecture & Engineering
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-stone-900 dark:text-white">
+        Articles, Guides & Deep Dives
+      </h1>
+      <p class="text-base sm:text-lg text-stone-600 dark:text-stone-400 leading-relaxed">
+        Technical perspectives on modern Angular 22 Signals, Static Site Generation (SSG), sub-second FCP, and AI-era discovery.
+      </p>
+
+      <!-- Search Toolbar -->
+      <div class="pt-4 max-w-md mx-auto">
+        <div class="relative">
+          <mat-icon class="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-lg w-5 h-5 flex items-center justify-center pointer-events-none">search</mat-icon>
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            placeholder="Search articles by title, topic, or keyword..."
+            class="w-full pl-10 pr-10 py-2.5 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-sm text-stone-900 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 transition"
+          />
+          @if (searchQuery()) {
+            <button
+              (click)="searchQuery.set('')"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 transition"
+              aria-label="Clear search"
+            >
+              <mat-icon class="text-base w-4 h-4 flex items-center justify-center">close</mat-icon>
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="flex flex-wrap items-center justify-center gap-2 pt-2">
+        @for (category of categories(); track category) {
+          <button
+            type="button"
+            (click)="setCategory(category)"
+            [class.bg-emerald-600]="selectedCategory() === category"
+            [class.text-white]="selectedCategory() === category"
+            [class.bg-white]="selectedCategory() !== category"
+            [class.text-stone-600]="selectedCategory() !== category"
+            [class.dark:bg-stone-900]="selectedCategory() !== category"
+            [class.dark:text-stone-300]="selectedCategory() !== category"
+            class="px-3.5 py-1.5 rounded-lg text-xs font-semibold border border-stone-200 dark:border-stone-800 hover:border-emerald-500 dark:hover:border-emerald-500 transition shadow-xs"
+          >
+            {{ category }}
+          </button>
+        }
+      </div>
+    </header>
+
+    <!-- Featured Post Hero Spotlight (shown when not searching / filtering) -->
+    @if (!isSearchingOrFiltered() && featuredPost(); as featured) {
+      <section aria-labelledby="featured-post-heading">
+        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-sm hover:shadow-md transition group">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 p-6 sm:p-8 items-center">
+            <!-- Left Content -->
+            <div class="lg:col-span-7 space-y-4">
+              <div class="flex flex-wrap items-center gap-2.5 text-xs text-stone-500 dark:text-stone-400">
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-semibold border border-emerald-200 dark:border-emerald-800">
+                  Featured Article
+                </span>
+                <span class="px-2.5 py-0.5 rounded-full bg-stone-100 dark:bg-stone-800 font-medium text-stone-700 dark:text-stone-300">
+                  {{ featured.category }}
+                </span>
+                <span>•</span>
+                <time [attr.datetime]="featured.date">{{ featured.date | date:'MMM d, y' }}</time>
+                <span>•</span>
+                <span>{{ featured.readingTimeMinutes }} min read</span>
+              </div>
+
+              <h2 id="featured-post-heading" class="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tracking-tight group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition">
+                <a [routerLink]="['/blogs', featured.slug]" class="focus:outline-hidden">
+                  {{ featured.title }}
+                </a>
+              </h2>
+
+              <p class="text-sm sm:text-base text-stone-600 dark:text-stone-300 leading-relaxed line-clamp-3">
+                {{ featured.summary }}
+              </p>
+
+              <!-- Tags -->
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                @for (tag of featured.tags; track tag) {
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400">
+                    #{{ tag }}
+                  </span>
+                }
+              </div>
+
+              <!-- Author & Action -->
+              <div class="flex items-center justify-between pt-4 border-t border-stone-100 dark:border-stone-800">
+                <div class="flex items-center gap-3">
+                  @if (featured.authorAvatarUrl) {
+                    <img [src]="featured.authorAvatarUrl" [alt]="featured.author" class="w-9 h-9 rounded-full object-cover border border-stone-200 dark:border-stone-700" />
+                  }
+                  <div>
+                    <p class="text-xs font-bold text-stone-900 dark:text-white leading-tight">{{ featured.author }}</p>
+                    <p class="text-[11px] text-stone-500 dark:text-stone-400 leading-tight">{{ featured.authorRole || 'Contributor' }}</p>
+                  </div>
+                </div>
+                <a
+                  [routerLink]="['/blogs', featured.slug]"
+                  class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300"
+                >
+                  Read Article
+                  <mat-icon class="text-sm w-4 h-4 flex items-center justify-center">arrow_forward</mat-icon>
+                </a>
+              </div>
+            </div>
+
+            <!-- Right Visual Graphic -->
+            <div class="lg:col-span-5 relative h-56 lg:h-72 rounded-xl overflow-hidden bg-gradient-to-br from-emerald-900/20 via-stone-900/30 to-amber-900/20 border border-stone-200 dark:border-stone-800 flex items-center justify-center p-6">
+              <div class="text-center space-y-2">
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mx-auto text-emerald-600 dark:text-emerald-400">
+                  <mat-icon class="text-3xl w-8 h-8 flex items-center justify-center">auto_stories</mat-icon>
+                </div>
+                <p class="text-xs font-mono text-stone-500 dark:text-stone-400">Angular 22 Reference Guide</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    }
+
+    <!-- Articles Grid Section -->
+    <section aria-labelledby="all-articles-heading" class="space-y-6">
+      <div class="flex items-center justify-between">
+        <h2 id="all-articles-heading" class="text-xl font-bold text-stone-900 dark:text-white tracking-tight">
+          @if (isSearchingOrFiltered()) {
+            Filtered Articles ({{ filteredPosts().length }})
+          } @else {
+            All Articles
+          }
+        </h2>
+        <span class="text-xs text-stone-500 font-mono">
+          Showing {{ filteredPosts().length }} published posts
+        </span>
+      </div>
+
+      <!-- Cards Grid -->
+      @if (filteredPosts().length > 0) {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          @for (post of filteredPosts(); track post.slug) {
+            <article class="flex flex-col bg-white dark:bg-stone-900 rounded-xl border border-stone-200 dark:border-stone-800 overflow-hidden shadow-xs hover:shadow-md hover:border-emerald-500/50 dark:hover:border-emerald-500/50 transition group">
+              <!-- Card Header Pill -->
+              <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between text-xs text-stone-500">
+                    <span class="px-2.5 py-0.5 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 font-semibold text-[11px]">
+                      {{ post.category }}
+                    </span>
+                    <span class="font-mono text-[11px]">{{ post.readingTimeMinutes }} min read</span>
+                  </div>
+
+                  <h3 class="text-lg font-bold text-stone-900 dark:text-white tracking-tight group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition">
+                    <a [routerLink]="['/blogs', post.slug]" class="focus:outline-hidden">
+                      {{ post.title }}
+                    </a>
+                  </h3>
+
+                  <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed line-clamp-3">
+                    {{ post.summary }}
+                  </p>
+                </div>
+
+                <!-- Footer Author & Date -->
+                <div class="pt-4 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    @if (post.authorAvatarUrl) {
+                      <img [src]="post.authorAvatarUrl" [alt]="post.author" class="w-7 h-7 rounded-full object-cover border border-stone-200 dark:border-stone-700" />
+                    }
+                    <div>
+                      <p class="text-xs font-semibold text-stone-900 dark:text-white leading-tight">{{ post.author }}</p>
+                      <time [attr.datetime]="post.date" class="text-[10px] text-stone-500 block leading-tight">{{ post.date | date:'MMM d, y' }}</time>
+                    </div>
+                  </div>
+                  <a
+                    [routerLink]="['/blogs', post.slug]"
+                    class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-0.5 transition inline-flex items-center gap-1"
+                    aria-label="Read full article"
+                  >
+                    Read
+                    <mat-icon class="text-sm w-3.5 h-3.5 flex items-center justify-center">arrow_forward</mat-icon>
+                  </a>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
+      } @else {
+        <!-- Zero Search Results State -->
+        <div class="text-center py-16 px-4 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 space-y-4 max-w-md mx-auto">
+          <div class="w-12 h-12 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center mx-auto text-stone-400">
+            <mat-icon>search_off</mat-icon>
+          </div>
+          <h3 class="text-base font-bold text-stone-900 dark:text-white">No articles matched your search</h3>
+          <p class="text-xs text-stone-500 dark:text-stone-400">
+            Try adjusting your search keywords or switching category filters.
+          </p>
+          <button
+            mat-stroked-button
+            (click)="clearFilters()"
+            class="!text-xs !rounded-lg"
+          >
+            Clear All Filters
+          </button>
+        </div>
+      }
+    </section>
+  </div>
+</main>

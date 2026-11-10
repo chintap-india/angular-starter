@@ -4,6 +4,10 @@
   "description": "Production-grade Angular 22 starter kit with out-of-the-box best practices for SEO, AEO, LLMO, GEO, and SSR/SSG.",
   "scripts": {
     "ng": "ng",
+    "manifest:blog": "node scripts/build-blog-manifest.mjs",
+    "prebuild": "node scripts/build-blog-manifest.mjs",
+    "prestart": "node scripts/build-blog-manifest.mjs",
+    "pretest": "node scripts/build-blog-manifest.mjs",
     "start": "NG_BUILD_SASS_EMBEDDED=false ng serve",
     "build": "NG_BUILD_SASS_EMBEDDED=false ng build && cp dist/chintap-angular-starter/browser/404/index.html dist/chintap-angular-starter/browser/404.html 2>/dev/null || true && mkdir -p dist/chintap-angular-starter/browser/.well-known && cp -r public/.well-known/* dist/chintap-angular-starter/browser/.well-known/ 2>/dev/null || true",
     "watch": "NG_BUILD_SASS_EMBEDDED=false ng build --watch --configuration development",

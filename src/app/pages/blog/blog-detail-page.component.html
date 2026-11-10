@@ -1,0 +1,161 @@
+<main class="min-h-screen bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 py-10 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto space-y-8">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="Breadcrumbs" class="flex items-center gap-2 text-xs font-mono text-stone-500 dark:text-stone-400">
+      <a routerLink="/" class="hover:text-emerald-600 dark:hover:text-emerald-400 transition">Home</a>
+      <span>/</span>
+      <a routerLink="/blog" class="hover:text-emerald-600 dark:hover:text-emerald-400 transition">Blog</a>
+      @if (post()) {
+        <span>/</span>
+        <span class="text-stone-800 dark:text-stone-200 truncate max-w-[200px] sm:max-w-none">{{ post()!.title }}</span>
+      }
+    </nav>
+
+    @if (loading()) {
+      <!-- Loading Skeleton -->
+      <div class="space-y-6 py-12 animate-pulse">
+        <div class="h-6 bg-stone-200 dark:bg-stone-800 rounded w-1/4"></div>
+        <div class="h-10 bg-stone-200 dark:bg-stone-800 rounded w-3/4"></div>
+        <div class="h-4 bg-stone-200 dark:bg-stone-800 rounded w-1/2"></div>
+        <div class="h-64 bg-stone-200 dark:bg-stone-800 rounded-2xl"></div>
+      </div>
+    } @else if (post(); as article) {
+      <article class="space-y-8">
+        <!-- Post Header -->
+        <header class="space-y-5 border-b border-stone-200 dark:border-stone-800 pb-8">
+          <div class="flex flex-wrap items-center gap-3 text-xs">
+            <span class="px-2.5 py-1 rounded-full font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-300/40 dark:border-emerald-700/40">
+              {{ article.category }}
+            </span>
+            <span class="text-stone-400">•</span>
+            <time [attr.datetime]="article.date" class="font-mono text-stone-600 dark:text-stone-400">
+              {{ article.date | date:'MMM d, y' }}
+            </time>
+            <span class="text-stone-400">•</span>
+            <span class="font-mono text-stone-600 dark:text-stone-400">{{ article.readingTimeMinutes }} min read</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-stone-900 dark:text-white leading-tight">
+            {{ article.title }}
+          </h1>
+
+          <p class="text-base sm:text-lg text-stone-600 dark:text-stone-300 leading-relaxed font-normal">
+            {{ article.summary }}
+          </p>
+
+          <!-- Author Info & Actions Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-4 pt-4">
+            <div class="flex items-center gap-3">
+              @if (article.authorAvatarUrl) {
+                <img [src]="article.authorAvatarUrl" [alt]="article.author" class="w-10 h-10 rounded-full object-cover border border-stone-200 dark:border-stone-700" />
+              }
+              <div>
+                <p class="text-sm font-bold text-stone-900 dark:text-white">{{ article.author }}</p>
+                <p class="text-xs text-stone-500 dark:text-stone-400">{{ article.authorRole || 'Contributor' }}</p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button
+                type="button"
+                (click)="copyShareLink()"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 hover:border-emerald-500 text-stone-700 dark:text-stone-300 transition shadow-xs"
+                title="Copy share link"
+              >
+                <mat-icon class="text-base w-4 h-4 flex items-center justify-center">share</mat-icon>
+                Share
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- Markdown Content -->
+        <section class="prose prose-stone dark:prose-invert max-w-none text-stone-800 dark:text-stone-200 leading-relaxed text-base">
+          @if (article.body) {
+            <div [innerHTML]="article.body | markdown" ngSkipHydration class="space-y-4"></div>
+          }
+        </section>
+
+        <!-- Tags List -->
+        @if (article.tags.length > 0) {
+          <div class="pt-6 border-t border-stone-200 dark:border-stone-800 space-y-2">
+            <p class="text-xs font-bold uppercase tracking-wider text-stone-500">Topics & Tags</p>
+            <div class="flex flex-wrap gap-2">
+              @for (tag of article.tags; track tag) {
+                <span class="text-xs font-mono px-2.5 py-1 rounded-md bg-stone-100 dark:bg-stone-800/80 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700/50">
+                  #{{ tag }}
+                </span>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Author Byline Card -->
+        <div class="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 flex items-start gap-4">
+          @if (article.authorAvatarUrl) {
+            <img [src]="article.authorAvatarUrl" [alt]="article.author" class="w-12 h-12 rounded-full object-cover shrink-0 border border-stone-200 dark:border-stone-700" />
+          }
+          <div class="space-y-1">
+            <h3 class="text-sm font-bold text-stone-900 dark:text-white">Written by {{ article.author }}</h3>
+            <p class="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+              {{ article.authorRole || 'Contributor' }} at Chintap. Focusing on fine-grained reactivity, enterprise Angular architectures, and search engine optimization.
+            </p>
+          </div>
+        </div>
+
+        <!-- Next / Previous Article Navigation -->
+        @if (adjacentPosts(); as adjacent) {
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6">
+            @if (adjacent.prev; as prev) {
+              <a
+                [routerLink]="['/blogs', prev.slug]"
+                class="p-4 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 hover:border-emerald-500 dark:hover:border-emerald-500 transition group space-y-1"
+              >
+                <div class="flex items-center gap-1 text-[11px] font-mono text-stone-400 group-hover:text-emerald-600 transition">
+                  <mat-icon class="text-xs w-3 h-3 flex items-center justify-center">arrow_back</mat-icon>
+                  Previous Article
+                </div>
+                <p class="text-xs font-bold text-stone-900 dark:text-white line-clamp-1 group-hover:text-emerald-600 transition">{{ prev.title }}</p>
+              </a>
+            } @else {
+              <div></div>
+            }
+
+            @if (adjacent.next; as next) {
+              <a
+                [routerLink]="['/blogs', next.slug]"
+                class="p-4 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 hover:border-emerald-500 dark:hover:border-emerald-500 transition group space-y-1 text-right"
+              >
+                <div class="flex items-center justify-end gap-1 text-[11px] font-mono text-stone-400 group-hover:text-emerald-600 transition">
+                  Next Article
+                  <mat-icon class="text-xs w-3 h-3 flex items-center justify-center">arrow_forward</mat-icon>
+                </div>
+                <p class="text-xs font-bold text-stone-900 dark:text-white line-clamp-1 group-hover:text-emerald-600 transition">{{ next.title }}</p>
+              </a>
+            }
+          </div>
+        }
+      </article>
+    } @else {
+      <!-- Article Not Found State -->
+      <div class="text-center py-20 px-4 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 space-y-5 max-w-md mx-auto">
+        <div class="w-14 h-14 rounded-full bg-rose-50 dark:bg-rose-950/40 text-rose-500 flex items-center justify-center mx-auto border border-rose-200 dark:border-rose-900">
+          <mat-icon class="text-2xl">menu_book</mat-icon>
+        </div>
+        <h2 class="text-xl font-bold text-stone-900 dark:text-white">Article Not Found</h2>
+        <p class="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
+          The requested article may have been archived or the URL has changed.
+        </p>
+        <div class="pt-2">
+          <a
+            routerLink="/blog"
+            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-500 transition"
+          >
+            <mat-icon class="text-sm w-4 h-4 flex items-center justify-center">arrow_back</mat-icon>
+            Return to Blog Index
+          </a>
+        </div>
+      </div>
+    }
+  </div>
+</main>

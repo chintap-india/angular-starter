@@ -38,6 +38,22 @@ export const routes: Routes = [
     redirectTo: 'tasks',
   },
   {
+    path: 'blog',
+    loadComponent: () =>
+      import('./pages/blog/blog-page.component').then(m => m.BlogPageComponent),
+    title: 'Blog & Technical Articles | Chintap Angular Starter',
+  },
+  {
+    path: 'blogs/:slug',
+    loadComponent: () =>
+      import('./pages/blog/blog-detail-page.component').then(m => m.BlogDetailPageComponent),
+    title: 'Blog Post | Chintap Angular Starter',
+  },
+  {
+    path: 'blog/:slug',
+    redirectTo: 'blogs/:slug',
+  },
+  {
     path: 'about',
     loadComponent: () =>
       import('./pages/about/about-page.component').then(m => m.AboutPageComponent),

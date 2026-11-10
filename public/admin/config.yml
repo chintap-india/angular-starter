@@ -1,0 +1,45 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Where uploaded images will be stored and referenced
+media_folder: public/images/blog
+public_folder: /images/blog
+
+# Optional: Editorial workflow for Draft -> In Review -> Published stages
+publish_mode: editorial_workflow
+
+# Display settings
+site_url: https://chintap-angular-starter.netlify.app
+logo_url: /images/tech/angular.svg
+
+collections:
+  - name: blog
+    label: Blog Posts
+    label_singular: Blog Post
+    folder: content/blog
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    summary: "{{title}} — {{date | date('MMM D, YYYY')}} by {{author}}"
+    sortable_fields: ["date", "title", "category"]
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Slug, name: slug, widget: string, hint: "SEO-friendly URL slug (e.g. signals-reactivity-in-angular-22)" }
+      - { label: Publish Date, name: date, widget: datetime, format: "YYYY-MM-DDTHH:mm:ssZ", date_format: "YYYY-MM-DD", time_format: "HH:mm" }
+      - { label: Author, name: author, widget: string, default: "Lead Developer" }
+      - { label: Author Role, name: authorRole, widget: string, default: "Lead Architect", required: false }
+      - { label: Author Avatar, name: authorAvatarUrl, widget: string, default: "/images/tech/angular.svg", required: false }
+      - {
+          label: Category,
+          name: category,
+          widget: select,
+          options: ["Architecture", "Signals", "SEO & Performance", "Guides", "DevOps"],
+          default: "Architecture"
+        }
+      - { label: Tags, name: tags, widget: list, default: ["Angular", "Performance"] }
+      - { label: Summary, name: summary, widget: text, hint: "Brief summary used for search engines, cards, and AI answer engines" }
+      - { label: Cover Image, name: coverImage, widget: image, required: false }
+      - { label: Featured, name: featured, widget: boolean, default: false, required: false }
+      - { label: Body, name: body, widget: markdown }

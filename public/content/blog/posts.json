@@ -1,0 +1,61 @@
+[
+  {
+    "slug": "signals-reactivity-in-angular-22",
+    "title": "Fine-Grained Signals Reactivity in Modern Angular Architecture",
+    "date": "2026-11-08T10:00:00Z",
+    "author": "Alex Rivers",
+    "authorRole": "Principal Frontend Architect",
+    "authorAvatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=alex.rivers",
+    "category": "Signals",
+    "tags": [
+      "Angular",
+      "Signals",
+      "Reactivity",
+      "Architecture"
+    ],
+    "summary": "Explore how fine-grained Angular Signals deliver deterministic state management, eliminate zoneless change detection bottlenecks, and maximize runtime performance.",
+    "coverImage": "images/chintap-og.jpg",
+    "featured": true,
+    "readingTimeMinutes": 2
+  },
+  {
+    "slug": "mastering-ssg-and-sub-second-fcp",
+    "title": "Mastering Static Site Generation (SSG) for Sub-Second First Contentful Paint",
+    "date": "2026-11-05T14:30:00Z",
+    "author": "Elena Rostova",
+    "authorRole": "Performance & SSR Specialist",
+    "authorAvatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=elena.rostova",
+    "category": "SEO & Performance",
+    "tags": [
+      "SSG",
+      "Performance",
+      "Core Web Vitals",
+      "FCP",
+      "Angular"
+    ],
+    "summary": "Discover how pre-rendering every route into semantic HTML at build time guarantees sub-second First Contentful Paint (FCP) and near-zero Cumulative Layout Shift (CLS).",
+    "coverImage": "images/chintap-og.jpg",
+    "featured": false,
+    "readingTimeMinutes": 2
+  },
+  {
+    "slug": "seo-and-aeo-in-the-ai-search-era",
+    "title": "Engineering for Answer Engine Optimization (AEO) in the AI Search Era",
+    "date": "2026-11-01T09:15:00Z",
+    "author": "Marcus Chen",
+    "authorRole": "Director of Search & Knowledge Engineering",
+    "authorAvatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=marcus.chen",
+    "category": "Architecture",
+    "tags": [
+      "AEO",
+      "SEO",
+      "JSON-LD",
+      "AI Agents",
+      "Schema.org"
+    ],
+    "summary": "How to structure web applications with Schema.org JSON-LD graphs, machine-readable ARD manifests, and llms.txt to dominate both traditional Google Search and AI Overview citations.",
+    "coverImage": "images/chintap-og.jpg",
+    "featured": false,
+    "readingTimeMinutes": 2
+  }
+]
