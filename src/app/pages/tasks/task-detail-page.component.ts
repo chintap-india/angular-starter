@@ -341,14 +341,14 @@ import { TaskShortcutsDialogComponent } from './task-shortcuts-dialog.component'
                 <mat-icon class="!text-xs !w-3.5 !h-3.5">schedule</mat-icon>
                 <span>Created {{ task()!.createdAt | date:'mediumDate' }}</span>
               </span>
-              <span class="inline-flex items-center gap-1">
+              <span class="inline-flex items-center gap-1" [matTooltip]="'Updated ' + (task()!.updatedAt | date:'medium')">
                 <mat-icon class="!text-xs !w-3.5 !h-3.5">update</mat-icon>
-                <span>Updated {{ task()!.updatedAt | date:'medium' }}</span>
+                <span>Updated {{ task()!.updatedAt | date:'mediumDate' }}</span>
               </span>
               @if (task()!.dueDate) {
-                <span class="inline-flex items-center gap-1 text-slate-700 dark:text-slate-200 font-semibold font-mono">
+                <span class="inline-flex items-center gap-1 text-slate-700 dark:text-slate-200 font-semibold font-mono" matTooltip="Target completion date">
                   <mat-icon class="!text-xs !w-3.5 !h-3.5 text-slate-500 dark:text-slate-400">calendar_today</mat-icon>
-                  <span>Due: {{ task()!.dueDate }}</span>
+                  <span>Due: {{ task()!.dueDate | date:'mediumDate' }}</span>
                 </span>
               }
             </p>

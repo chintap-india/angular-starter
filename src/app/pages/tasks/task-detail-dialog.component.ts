@@ -4,6 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 import { RouterModule } from '@angular/router';
 import { TaskItem, formatTaskId } from '../../core/models/task.model';
 import { MarkdownPipe } from '../../shared/pipes/markdown.pipe';
@@ -22,6 +24,8 @@ export interface TaskDetailDialogData {
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
+    MatMenuModule,
+    MatDividerModule,
     MarkdownPipe,
   ],
   template: `
@@ -32,13 +36,13 @@ export interface TaskDetailDialogData {
         'w-full h-auto max-h-[90vh]': !isFullscreen()
       }"
     >
-      <!-- Dialog Header Bar (Sleek, Compact, Zero Wasted Space) -->
+      <!-- Dialog Header Bar (Title Priority with Overflow Menu) -->
       <div class="px-4 sm:px-6 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2 sm:gap-4 bg-slate-50/70 dark:bg-slate-800/40 shrink-0">
-        <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+        <div class="flex items-center gap-2.5 sm:gap-3 flex-1 min-w-0">
           <div class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-800 dark:text-slate-200 shrink-0">
             <mat-icon class="!text-base !w-4 !h-4">article</mat-icon>
           </div>
-          <div class="min-w-0">
+          <div class="flex-1 min-w-0">
             <div class="flex items-center gap-1.5 sm:gap-2">
               <span class="font-mono text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400">
                 {{ formatTaskId(data.task.id) }}
@@ -48,15 +52,18 @@ export interface TaskDetailDialogData {
                 {{ data.task.category }}
               </span>
             </div>
-            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white truncate max-w-[150px] xs:max-w-xs sm:max-w-md lg:max-w-lg m-0 leading-tight">
+            <h2
+              class="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-snug break-words line-clamp-2 sm:line-clamp-1 m-0"
+              [matTooltip]="data.task.title"
+            >
               {{ data.task.title }}
             </h2>
           </div>
         </div>
 
-        <!-- Action Icon Buttons: Edit, Change Status, Delete | Open Page, Fullscreen & Close -->
+        <!-- Action Controls: Edit, Status, More Actions Menu, Window Controls -->
         <div class="inline-flex items-center gap-1 shrink-0">
-          <!-- Edit Task Icon Button -->
+          <!-- Edit Task Button (Always directly accessible) -->
           <button
             type="button"
             (click)="triggerEdit()"
@@ -67,64 +74,87 @@ export interface TaskDetailDialogData {
             <mat-icon class="!text-sm !w-3.5 !h-3.5 sm:!text-base sm:!w-4 sm:!h-4 leading-none flex items-center justify-center shrink-0">edit</mat-icon>
           </button>
 
-          <!-- Change Status Icon Button -->
+          <!-- Change Status (Visible on desktop >= sm, inside dropdown on mobile) -->
           <button
             type="button"
             (click)="triggerStatusChange()"
             matTooltip="Change Status"
             aria-label="Change Status"
-            class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 inline-flex items-center justify-center transition cursor-pointer shadow-2xs leading-none shrink-0"
+            class="hidden sm:inline-flex w-8 h-8 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 items-center justify-center transition cursor-pointer shadow-2xs leading-none shrink-0"
           >
-            <mat-icon class="!text-sm !w-3.5 !h-3.5 sm:!text-base sm:!w-4 sm:!h-4 text-slate-600 dark:text-slate-400 leading-none flex items-center justify-center shrink-0">published_with_changes</mat-icon>
+            <mat-icon class="!text-base !w-4 !h-4 text-slate-600 dark:text-slate-400 leading-none flex items-center justify-center shrink-0">published_with_changes</mat-icon>
           </button>
 
-          <!-- Duplicate Task Icon Button -->
+          <!-- More Actions Dropdown Menu Trigger (Kebab ⋮) -->
           <button
             type="button"
-            (click)="triggerDuplicate()"
-            matTooltip="Duplicate Task"
-            aria-label="Duplicate Task"
+            [matMenuTriggerFor]="taskDetailMenu"
+            matTooltip="More actions"
+            aria-label="More task actions"
             class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 inline-flex items-center justify-center transition cursor-pointer shadow-2xs leading-none shrink-0"
           >
-            <mat-icon class="!text-sm !w-3.5 !h-3.5 sm:!text-base sm:!w-4 sm:!h-4 text-slate-600 dark:text-slate-400 leading-none flex items-center justify-center shrink-0">content_copy</mat-icon>
+            <mat-icon class="!text-sm !w-3.5 !h-3.5 sm:!text-base sm:!w-4 sm:!h-4 text-slate-600 dark:text-slate-400 leading-none flex items-center justify-center shrink-0">more_vert</mat-icon>
           </button>
 
-          <!-- Delete Task Icon Button -->
-          <button
-            type="button"
-            (click)="triggerDelete()"
-            matTooltip="Delete Task"
-            aria-label="Delete Task"
-            class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white dark:bg-slate-800 text-rose-600 dark:text-rose-400 border border-slate-200 dark:border-slate-700 hover:bg-rose-50 dark:hover:bg-rose-950/50 inline-flex items-center justify-center transition cursor-pointer shadow-2xs leading-none shrink-0"
-          >
-            <mat-icon class="!text-sm !w-3.5 !h-3.5 sm:!text-base sm:!w-4 sm:!h-4 text-rose-600 dark:text-rose-400 leading-none flex items-center justify-center shrink-0">delete_outline</mat-icon>
-          </button>
+          <mat-menu #taskDetailMenu="matMenu" xPosition="before" class="!rounded-2xl !py-1">
+            <!-- Mobile-only Change Status item -->
+            <button mat-menu-item (click)="triggerStatusChange()" class="sm:!hidden">
+              <mat-icon class="text-slate-600 dark:text-slate-400">published_with_changes</mat-icon>
+              <span>Change Status</span>
+            </button>
 
-          <div class="h-3.5 w-px bg-slate-300 dark:bg-slate-700 mx-0.5"></div>
+            <!-- Duplicate Task -->
+            <button mat-menu-item (click)="triggerDuplicate()">
+              <mat-icon class="text-slate-600 dark:text-slate-400">content_copy</mat-icon>
+              <span>Duplicate Task</span>
+            </button>
 
-          <!-- Open Dedicated Task Page -->
+            <!-- Open Dedicated Task Page (Mobile: in menu, Desktop: icon button) -->
+            <a mat-menu-item [routerLink]="['/tasks', data.task.id]" (click)="close()" class="sm:!hidden">
+              <mat-icon class="text-slate-600 dark:text-slate-400">open_in_new</mat-icon>
+              <span>Open Dedicated Page</span>
+            </a>
+
+            <!-- Fullscreen Toggle (Mobile: in menu, Desktop: icon button) -->
+            <button mat-menu-item (click)="toggleFullscreen()" class="sm:!hidden">
+              <mat-icon class="text-slate-600 dark:text-slate-400">{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
+              <span>{{ isFullscreen() ? 'Exit Full Screen' : 'View Full Screen' }}</span>
+            </button>
+
+            <mat-divider class="!my-1"></mat-divider>
+
+            <!-- Delete Task -->
+            <button mat-menu-item (click)="triggerDelete()" class="!text-rose-600 dark:!text-rose-400">
+              <mat-icon class="!text-rose-600 dark:!text-rose-400">delete_outline</mat-icon>
+              <span>Delete Task</span>
+            </button>
+          </mat-menu>
+
+          <div class="hidden sm:block h-3.5 w-px bg-slate-300 dark:bg-slate-700 mx-0.5"></div>
+
+          <!-- Open Dedicated Task Page (Desktop >= sm) -->
           <a
             [routerLink]="['/tasks', data.task.id]"
             (click)="close()"
             matTooltip="Open Dedicated Task Page (/tasks/:id)"
-            class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none shrink-0"
+            class="hidden sm:inline-flex w-8 h-8 rounded-lg items-center justify-center text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none shrink-0"
             aria-label="Open dedicated task page"
           >
             <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">open_in_new</mat-icon>
           </a>
 
-          <!-- Fullscreen Toggle -->
+          <!-- Fullscreen Toggle (Desktop >= sm) -->
           <button
             type="button"
             (click)="toggleFullscreen()"
             [matTooltip]="isFullscreen() ? 'Exit Full Screen' : 'View Full Screen'"
-            class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg inline-flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none shrink-0"
+            class="hidden sm:inline-flex w-8 h-8 rounded-lg items-center justify-center text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer leading-none shrink-0"
             aria-label="Toggle full screen"
           >
             <mat-icon class="!text-base !w-4 !h-4 leading-none flex items-center justify-center shrink-0">{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
           </button>
 
-          <!-- Close Modal -->
+          <!-- Close Modal (Always visible) -->
           <button
             type="button"
             (click)="close()"
@@ -173,16 +203,16 @@ export interface TaskDetailDialogData {
             <span class="capitalize">{{ data.task.priority }}</span>
           </span>
 
-          <!-- Due Date -->
+          <!-- Due Date (Locale Consistent) -->
           @if (data.task.dueDate) {
-            <span class="inline-flex items-center gap-1 text-xs font-mono px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+            <span class="inline-flex items-center gap-1.5 text-xs font-mono px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700" matTooltip="Target completion date">
               <mat-icon class="!text-xs !w-3 !h-3 text-slate-400">calendar_today</mat-icon>
-              <span>{{ data.task.dueDate }}</span>
+              <span>{{ data.task.dueDate | date:'mediumDate' }}</span>
             </span>
           }
 
-          <!-- Updated Date -->
-          <span class="inline-flex items-center gap-1 text-xs font-mono px-2.5 py-0.5 rounded-full bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 border border-slate-200/60 dark:border-slate-700/60 ml-auto">
+          <!-- Updated Date (Locale Consistent) -->
+          <span class="inline-flex items-center gap-1.5 text-xs font-mono px-2.5 py-0.5 rounded-full bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 border border-slate-200/60 dark:border-slate-700/60 ml-auto" [matTooltip]="'Updated ' + (data.task.updatedAt | date:'medium')">
             <mat-icon class="!text-xs !w-3 !h-3 text-slate-400">update</mat-icon>
             <span>{{ data.task.updatedAt | date:'mediumDate' }}</span>
           </span>

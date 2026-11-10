@@ -95,7 +95,7 @@ export interface TaskSprintDetailsDialogData {
         <div class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800/80">
           <span class="text-slate-500 dark:text-slate-400 font-medium">Due Date</span>
           <span class="font-mono font-medium text-slate-800 dark:text-slate-200">
-            {{ data.task.dueDate ? data.task.dueDate : 'Not specified' }}
+            {{ data.task.dueDate ? (data.task.dueDate | date:'mediumDate') : 'Not specified' }}
           </span>
         </div>
 

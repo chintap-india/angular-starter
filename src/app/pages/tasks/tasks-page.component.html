@@ -482,7 +482,7 @@
                 @if (task.dueDate) {
                   <span class="inline-flex items-center gap-1 leading-none">
                     <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0">calendar_today</mat-icon>
-                    <span class="leading-none">{{ task.dueDate }}</span>
+                    <span class="leading-none">{{ task.dueDate | date:'mediumDate' }}</span>
                   </span>
                 } @else {
                   <span class="text-slate-400 dark:text-slate-600 leading-none">—</span>
@@ -674,7 +674,7 @@
                         @if (task.dueDate) {
                           <span class="inline-flex items-center gap-1 text-xs text-slate-500 dark:text-slate-300 font-mono leading-none">
                             <mat-icon class="!text-xs !w-3 !h-3 leading-none flex items-center justify-center shrink-0">calendar_today</mat-icon>
-                            <span class="leading-none">Due: {{ task.dueDate }}</span>
+                            <span class="leading-none">Due: {{ task.dueDate | date:'mediumDate' }}</span>
                           </span>
                         }
                       </div>
