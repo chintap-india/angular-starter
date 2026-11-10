@@ -46,7 +46,7 @@ The Best Practices page details the **5 Foundational Pillars of Modern Discovery
   - Clear authorship attribution, physical address, and canonical source references.
 
 ### 5. SSR / SSG (Server-Side Rendering & Static Site Generation)
-- **Purpose**: Eliminate cumulative layout shift and deliver sub-100ms First Contentful Paint.
+- **Purpose**: Eliminate cumulative layout shift and deliver sub-50ms Edge TTFB and sub-second First Contentful Paint.
 - **Implementation**:
   - Application Builder (`@angular/build:application`) prerendering.
   - Prerender list defined in `src/routes.txt` (7 static routes).

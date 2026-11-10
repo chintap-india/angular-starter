@@ -29,7 +29,7 @@
 | **AEO** | **Answer Engine Optimization** | Schema.org `@graph` JSON-LD generation, automated `FAQPage` schema injection for Google AI Overviews, Perplexity, and Bing Copilot, plus structured semantic content blocks. |
 | **LLMO** | **Large Language Model Optimization** | Standardized `/llms.txt` and `/llms-full.txt` (conforming to [llmstxt.org](https://llmstxt.org)), Agent Resource Discovery manifest (`/.well-known/ard.json`) for autonomous AI agents, scrapers, and RAG pipelines. |
 | **GEO** | **Generative Engine Optimization** | Rich `SoftwareApplication`, `Organization`, geographical coordinates (`latitude`/`longitude`), postal address, author credentials, and entity knowledge graph for LLM citation algorithms. |
-| **SSR / SSG** | **Static Site Generation & Pre-rendering** | Angular 22 Application Builder (`@angular/build:application`), pre-rendering all static routes at compile time (`src/routes.txt`), sub-100ms First Contentful Paint (FCP), zero cumulative layout shifts. |
+| **SSR / SSG** | **Static Site Generation & Pre-rendering** | Angular 22 Application Builder (`@angular/build:application`), pre-rendering all static routes at compile time (`src/routes.txt`), sub-50ms Edge TTFB and sub-second First Contentful Paint (FCP), zero cumulative layout shifts. |
 
 ---
 

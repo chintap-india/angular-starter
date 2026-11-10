@@ -372,7 +372,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
           category: 'SSG & Performance',
           question: 'How does the Static Site Generation (SSG) and pre-rendering pipeline function?',
           answer:
-            "At build time, Angular's Application Builder spins up an internal Node.js server renderer that evaluates every static route specified in src/routes.txt (/, /features, /best-practices, /about, /contact, /tasks, /404). It outputs complete, pre-rendered semantic HTML files into dist/chintap-angular-starter/browser/. When visitors or search engine bots arrive, the CDN immediately delivers fully rendered markup with sub-100ms First Contentful Paint (FCP).",
+            "At build time, Angular's Application Builder spins up an internal Node.js server renderer that evaluates every static route specified in src/routes.txt (/, /features, /best-practices, /about, /contact, /tasks, /404). It outputs complete, pre-rendered semantic HTML files into dist/chintap-angular-starter/browser/. When visitors or search engine bots arrive, the CDN immediately delivers pre-rendered markup with sub-50ms Edge TTFB and sub-second First Contentful Paint (FCP).",
           details: [
             'Compile-Time Static Pre-rendering: Pure static HTML output for lightning-fast edge delivery.',
             'Zero Server Infrastructure: Runs on any static CDN (Netlify, Vercel, Cloudflare Pages, GitHub Pages, S3) with 0ms cold starts.',
@@ -446,14 +446,14 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       subtitle:
         'A reference architecture demonstrating Signals reactivity, Chintap Compact Template UX, full CRUD, and high-performance client state.',
       description:
-        'The Tasks module serves as a live, end-to-end blueprint for building production-grade Angular applications. It embodies enterprise UX patterns including multi-view dashboards (Table, Cards, Analytics), 6 integrated modal dialogs, deep-linked detail pages, and 100% zoneless-ready Signals.',
+        'The Tasks module serves as a live, end-to-end blueprint for building production-grade Angular applications. It embodies enterprise UX patterns including multi-view dashboards (Table, Cards, Analytics), 7 integrated modal dialogs, desktop keyboard navigation, deep-linked detail pages, and 100% zoneless-ready Signals.',
       route: '/tasks',
       ctaLabel: 'Launch Tasks App',
       stats: [
         { value: '35+', label: 'Seeded Tasks' },
         { value: '100%', label: 'Signal-Driven' },
-        { value: '6', label: 'Integrated Dialogs' },
-        { value: '144', label: 'Passing Unit Tests' },
+        { value: '7', label: 'Integrated Dialogs' },
+        { value: '151', label: 'Passing Unit Tests' },
       ],
       pillars: [
         {
@@ -469,10 +469,16 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
             '100% Signal-driven state with instant local search, multi-field filtering (Category, Priority, Status), and live sprint analytics.',
         },
         {
+          title: 'Desktop Keyboard Shortcuts',
+          icon: 'keyboard',
+          description:
+            'Vim-style J/K list navigation, single-key creation (C/N), status toggling (S), instant search (/ or ⌘K), and built-in visual cheat sheet (?).',
+        },
+        {
           title: 'Comprehensive Dialog Suite',
           icon: 'widgets',
           description:
-            'Task editor with live Markdown preview, quick status changer, sprint details breakdown, fullscreen viewer, and delete confirmations.',
+            'Task editor with live Markdown preview, quick status changer, sprint details breakdown, fullscreen viewer, keyboard cheat sheet, and delete confirmations.',
         },
         {
           title: 'Dedicated Task Detail Routes',
@@ -506,6 +512,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
         highlights: [
           'Unified Table, Cards, and Sprint Analytics dashboard views',
           'Full CRUD with Markdown previews & optimistic UI updates',
+          'Desktop keyboard navigation & shortcuts cheat sheet (C/N, J/K, S, D, E, /, ⌘K, ?)',
           'Fast local search, priority filtering, and pagination with 35+ seeded tasks',
           'High-contrast Slate dark theme adhering to WCAG 2.2 AA/AAA contrast standards',
         ],
@@ -564,7 +571,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
         description:
           'Pre-renders every route at build time into pure semantic HTML. Search engines and AI agents read full content without executing client JavaScript.',
         highlights: [
-          'Sub-100ms First Contentful Paint (FCP)',
+          'Sub-second First Contentful Paint (FCP < 0.8s)',
           'Client hydration with event replay (withEventReplay)',
           'Automatic routes discovery via routes.txt',
           'Zero layout shifts (CLS < 0.01)',
