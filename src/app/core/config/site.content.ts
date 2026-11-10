@@ -372,7 +372,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
           category: 'SSG & Performance',
           question: 'How does the Static Site Generation (SSG) and pre-rendering pipeline function?',
           answer:
-            "At build time, Angular's Application Builder spins up an internal Node.js server renderer that evaluates every static route specified in src/routes.txt (/, /features, /best-practices, /about, /contact, /tasks, /404). It outputs complete, pre-rendered semantic HTML files into dist/chintap-angular-starter/browser/. When visitors or search engine bots arrive, the CDN immediately delivers pre-rendered markup with sub-50ms Edge TTFB and sub-second First Contentful Paint (FCP).",
+            "At build time, Angular's Application Builder spins up an internal Node.js server renderer that evaluates every static route specified in src/routes.txt (/, /features, /best-practices, /about, /contact, /tasks, /404). It outputs complete, pre-rendered semantic HTML files into dist/chintap-angular-starter/browser/. When visitors or search engine bots arrive, the CDN immediately delivers pre-rendered markup via edge caching with fast First Contentful Paint (FCP) and zero layout shifts.",
           details: [
             'Compile-Time Static Pre-rendering: Pure static HTML output for lightning-fast edge delivery.',
             'Zero Server Infrastructure: Runs on any static CDN (Netlify, Vercel, Cloudflare Pages, GitHub Pages, S3) with 0ms cold starts.',
@@ -450,7 +450,8 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       route: '/tasks',
       ctaLabel: 'Launch Tasks App',
       stats: [
-        { value: '35+', label: 'Seeded Tasks' },
+        { value: '3', label: 'Dashboard Views' },
+        { value: '15+', label: 'Keyboard Shortcuts' },
         { value: '100%', label: 'Signal-Driven' },
         { value: '7', label: 'Integrated Dialogs' },
         { value: '151', label: 'Passing Unit Tests' },
@@ -571,7 +572,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
         description:
           'Pre-renders every route at build time into pure semantic HTML. Search engines and AI agents read full content without executing client JavaScript.',
         highlights: [
-          'Sub-second First Contentful Paint (FCP < 0.8s)',
+          'Fast First Contentful Paint (FCP) via pre-rendered HTML',
           'Client hydration with event replay (withEventReplay)',
           'Automatic routes discovery via routes.txt',
           'Zero layout shifts (CLS < 0.01)',

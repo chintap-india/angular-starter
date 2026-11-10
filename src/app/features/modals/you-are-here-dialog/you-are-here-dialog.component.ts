@@ -69,7 +69,7 @@ export const SITE_CONSTELLATION_NODES: ConstellationPageNode[] = [
       { id: 'bp-c1', label: '01 Traditional SEO', sublabel: 'Canonical URLs & OG tags', dx: 45, dy: -75 },
       { id: 'bp-c2', label: '02 Answer Engines', sublabel: '40–60w concise answers', dx: 80, dy: -30 },
       { id: 'bp-c3', label: '03 LLMO Manifests', sublabel: '/llms.txt & ard.json', dx: 80, dy: 25 },
-      { id: 'bp-c4', label: '04 Core Web Vitals', sublabel: 'Sub-second FCP, zero CLS', dx: 50, dy: 70 }
+      { id: 'bp-c4', label: '04 Core Web Vitals', sublabel: 'Fast FCP, zero CLS', dx: 50, dy: 70 }
     ]
   },
   {

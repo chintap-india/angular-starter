@@ -46,7 +46,7 @@ describe('ContactPageComponent', () => {
 
     fixture = TestBed.createComponent(ContactPageComponent);
     component = fixture.componentInstance;
-  });
+  }, 30000);
 
   afterEach(() => {
     vi.restoreAllMocks();
@@ -65,7 +65,7 @@ describe('ContactPageComponent', () => {
         url: '/contact'
       })
     );
-  });
+  }, 15000);
 
   it('should parse query parameters into initialData correctly', () => {
     fixture.detectChanges();

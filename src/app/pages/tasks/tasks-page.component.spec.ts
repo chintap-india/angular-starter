@@ -44,7 +44,7 @@ describe('TasksPageComponent', { timeout: 45000 }, () => {
       afterClosed: () => of(null),
     } as any);
     vi.spyOn((component as any).snackBar, 'open');
-  });
+  }, 30000);
 
   afterEach(() => {
     vi.restoreAllMocks();

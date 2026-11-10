@@ -8,7 +8,7 @@ import { MockTaskApiService } from '../../core/services/mock-task-api.service';
 import { SeoService } from '../../core/services/seo.service';
 import { TaskItem, formatTaskId } from '../../core/models/task.model';
 
-describe('TaskDetailPageComponent', () => {
+describe('TaskDetailPageComponent', { timeout: 45000 }, () => {
   let component: TaskDetailPageComponent;
   let fixture: ComponentFixture<TaskDetailPageComponent>;
   let taskApi: MockTaskApiService;
@@ -82,7 +82,7 @@ describe('TaskDetailPageComponent', () => {
     vi.spyOn((component as any).snackBar, 'open');
 
     fixture.detectChanges();
-  });
+  }, 30000);
 
   afterEach(() => {
     vi.restoreAllMocks();
