@@ -41,3 +41,8 @@ jobs:
         run: npm run build
         env:
           NG_BUILD_SASS_EMBEDDED: 'false'
+
+      - name: Install Trail CLI & Run Trail Check
+        run: |
+          npm install -g @trailhq/trail-code
+          trail build --check

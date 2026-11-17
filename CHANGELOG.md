@@ -14,6 +14,18 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.6.0] - 2026-11-17
+
+### Added
+- **Trail-Code Integration**:
+  - Integrated `@trailhq/trail-code` for deterministic context mapping and multi-agent memory.
+  - Built a 460-node, 1,212-edge structural code graph in `.trail/cache/`.
+  - Added shared team learnings directory in `.trail/learnings/`.
+  - Configured multi-agent support across Google Antigravity (`AGENTS.md`, `.agents/mcp_config.json`), Cursor (`.cursor/rules/trail.mdc`, `.cursor/mcp.json`), Claude Code (`.claude/settings.json`, `.trail/hook.cjs`), GitHub Copilot (`.github/copilot-instructions.md`), and Gemini CLI (`GEMINI.md`).
+  - Added universal Model Context Protocol (MCP) server configuration (`.mcp.json` and `.vscode/mcp.json`).
+  - Added npm scripts: `trail:build` and `trail:check`.
+  - Integrated automated `trail build --check` in GitHub Actions CI workflow (`.github/workflows/ci.yml`).
+
 ## [1.5.18] - 2026-11-10
 
 ### Security Hardening

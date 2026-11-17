@@ -2,7 +2,7 @@
 
 > **Production-grade Angular 22 starter kit with out-of-the-box best practices for SEO, AEO, LLMO, GEO, and SSR/SSG.**
 
-[![Version](https://img.shields.io/badge/version-1.5.18-10b981.svg?style=flat)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.6.0-10b981.svg?style=flat)](CHANGELOG.md)
 [![Live Demo](https://img.shields.io/badge/Live_Demo-chintap--angular--starter.netlify.app-00dc82.svg?style=flat&logo=netlify)](https://chintap-angular-starter.netlify.app/)
 [![Angular](https://img.shields.io/badge/Angular-22-dd0031.svg?style=flat&logo=angular)](https://angular.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8%2B-blue.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
@@ -339,6 +339,24 @@ This starter kit is architected for zero-cost operation on standard static web h
 - **Local-First Authentication**: In-browser session state via `localStorage` by default; optional hook for third-party identity providers.
 - **Client-Side Form Handling**: Contact and task forms feature native client-side validation, ready to connect to any free webhook, form endpoint, or headless backend.
 - **Zero Paid Dependencies**: Requires no proprietary paid APIs, analytics trackers, or paid database subscriptions to run out of the box.
+
+---
+
+## 🤖 AI Coding Agents & Trail-Code
+
+This repository is configured with [Trail-Code](https://github.com/trailhq/Trail-Code) (`@trailhq/trail-code`) for context engineering, codebase mapping, and persistent agent memory.
+
+- **Deterministic Code Map**: Built with tree-sitter into `.trail/cache/` to map methods, services, components, and call relationships locally with zero token cost.
+- **Persistent Learnings**: Stored in `.trail/learnings/` so architectural decisions, solved bugs, and agent insights persist across sessions and team members.
+- **Multi-Agent Wiring**: Pre-configured for Antigravity (`AGENTS.md`, `.agents/mcp_config.json`), Cursor (`.cursor/rules/trail.mdc`, `.cursor/mcp.json`), Claude Code (`.claude/settings.json`, `.trail/hook.cjs`), GitHub Copilot (`.github/copilot-instructions.md`), and Gemini CLI (`GEMINI.md`).
+- **Helper Scripts**:
+  ```bash
+  # Rebuild the code map locally
+  npm run trail:build
+
+  # Check diff against repo learnings and branch conflicts
+  npm run trail:check
+  ```
 
 ---
 
