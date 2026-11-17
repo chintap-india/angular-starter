@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
@@ -42,7 +44,8 @@ jobs:
         env:
           NG_BUILD_SASS_EMBEDDED: 'false'
 
-      - name: Install Trail CLI & Run Trail Check
+      - name: Install Trail CLI & Run Trail Verification
         run: |
           npm install -g @trailhq/trail-code
-          trail build --check
+          trail build
+          trail check

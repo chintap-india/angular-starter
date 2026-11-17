@@ -24,7 +24,7 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
   - Configured multi-agent support across Google Antigravity (`AGENTS.md`, `.agents/mcp_config.json`), Cursor (`.cursor/rules/trail.mdc`, `.cursor/mcp.json`), Claude Code (`.claude/settings.json`, `.trail/hook.cjs`), GitHub Copilot (`.github/copilot-instructions.md`), and Gemini CLI (`GEMINI.md`).
   - Added universal Model Context Protocol (MCP) server configuration (`.mcp.json` and `.vscode/mcp.json`).
   - Added npm scripts: `trail:build` and `trail:check`.
-  - Integrated automated `trail build --check` in GitHub Actions CI workflow (`.github/workflows/ci.yml`).
+  - Integrated automated `trail build` context graph generation and `trail check` diff verification in GitHub Actions CI workflow (`.github/workflows/ci.yml`).
 
 ## [1.5.18] - 2026-11-10
 
