@@ -36,13 +36,9 @@ jobs:
 
       - name: Run Unit Tests (Vitest)
         run: npm test -- --watch=false
-        env:
-          NG_BUILD_SASS_EMBEDDED: 'false'
 
       - name: Build Production Bundle & Static Site Generation (SSG)
         run: npm run build
-        env:
-          NG_BUILD_SASS_EMBEDDED: 'false'
 
       - name: Install Trail CLI & Run Trail Verification
         run: |

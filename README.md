@@ -2,7 +2,7 @@
 
 > **Production-grade Angular 22 starter kit with out-of-the-box best practices for SEO, AEO, LLMO, GEO, and SSR/SSG.**
 
-[![Version](https://img.shields.io/badge/version-1.6.0-10b981.svg?style=flat)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.6.1-10b981.svg?style=flat)](CHANGELOG.md)
 [![Live Demo](https://img.shields.io/badge/Live_Demo-chintap--angular--starter.netlify.app-00dc82.svg?style=flat&logo=netlify)](https://chintap-angular-starter.netlify.app/)
 [![Angular](https://img.shields.io/badge/Angular-22-dd0031.svg?style=flat&logo=angular)](https://angular.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8%2B-blue.svg?style=flat&logo=typescript)](https://www.typescriptlang.org/)
@@ -74,6 +74,23 @@ npx vitest run src/app/core/services/auth.service.spec.ts
 npm run build
 ```
 The output is written to `dist/chintap-angular-starter/browser/` with all pre-rendered HTML files (`index.html`, `features/index.html`, `best-practices/index.html`, `tasks/index.html`, `about/index.html`, `contact/index.html`, `404.html`), ready for static hosting.
+
+### 5. Troubleshooting & Legacy OS Support
+
+Modern environments (Apple Silicon macOS Sonoma/Sequoia+, modern Linux, and Windows) use Angular CLI's high-performance native Dart VM Sass compiler (`sass-embedded`) out of the box with zero configuration.
+
+If you are developing on an older OS (such as macOS Monterey/Ventura or legacy Linux distributions with older glibc) and encounter a native binary error such as `Current Mac OS X version is lower than minimum supported version`, you can temporarily force Angular CLI to use the pure-JavaScript Dart Sass compiler by setting:
+
+```bash
+# macOS / Linux
+export NG_BUILD_SASS_EMBEDDED=false
+
+# Windows (Command Prompt)
+set NG_BUILD_SASS_EMBEDDED=false
+
+# Windows (PowerShell)
+$env:NG_BUILD_SASS_EMBEDDED="false"
+```
 
 ---
 

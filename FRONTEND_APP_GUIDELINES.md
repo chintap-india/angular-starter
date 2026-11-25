@@ -1040,18 +1040,21 @@ Display the version badge in the global `FooterComponent`:
 
 ## 12. Sass Compiler Compatibility (`NG_BUILD_SASS_EMBEDDED`)
 
-When building on macOS versions prior to Sonoma (e.g., Monterey / Ventura) or in custom CI environments, the native Dart VM binary in `sass-embedded` may fail with `Current Mac OS X version is lower than minimum supported version`.
+Modern development environments (macOS Sonoma, Sequoia, Apple Silicon, modern Linux, and Windows) run Angular CLI's native Dart VM binary (`sass-embedded`) with optimal compilation speed out of the box.
 
-To ensure 100% cross-platform compatibility without hanging or crashing, configure `NG_BUILD_SASS_EMBEDDED=false` in all `npm` scripts:
+When building on legacy macOS versions prior to Sonoma (e.g., Monterey / Ventura) or in restrictive custom CI environments with outdated glibc, the native Dart VM binary in `sass-embedded` may fail with `Current Mac OS X version is lower than minimum supported version`.
 
-```json
-"scripts": {
-  "start": "NG_BUILD_SASS_EMBEDDED=false ng serve",
-  "build": "NG_BUILD_SASS_EMBEDDED=false ng build",
-  "watch": "NG_BUILD_SASS_EMBEDDED=false ng build --watch --configuration development"
-}
+In those legacy environments, set the environment variable `NG_BUILD_SASS_EMBEDDED=false` in the terminal session or CI configuration:
+
+```bash
+# macOS / Linux
+export NG_BUILD_SASS_EMBEDDED=false
+
+# Windows (PowerShell)
+$env:NG_BUILD_SASS_EMBEDDED="false"
 ```
-This forces Angular CLI to use the pure-JS Dart Sass async compiler (`sass.initAsyncCompiler()`), guaranteeing reliable builds across all operating systems.
+
+This forces Angular CLI to use the pure-JS Dart Sass async compiler (`sass.initAsyncCompiler()`), guaranteeing reliable builds without cluttering `package.json` scripts or breaking Windows cross-platform compatibility.
 
 ---
 

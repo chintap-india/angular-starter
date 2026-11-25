@@ -14,6 +14,22 @@ Given a version number `MAJOR.MINOR.PATCH`, increment the:
 - **`MINOR`** version when adding functionality in a backward-compatible manner (e.g., new pages, new CRUD modules, new pipes, or new configuration schemas).
 - **`PATCH`** version when making backward-compatible bug fixes, UI/UX polish, styling corrections, or documentation updates.
 
+## [1.6.1] - 2026-11-25
+
+### Fixed
+- **Cross-Platform NPM Script Compatibility**:
+  - Removed hardcoded inline `NG_BUILD_SASS_EMBEDDED=false` environment variables from `package.json` scripts (`start`, `build`, `watch`, `test`).
+  - Restored full cross-platform compatibility on Windows (Command Prompt and PowerShell) where inline POSIX assignments cause execution failures.
+  - Enabled native `sass-embedded` Dart VM compilation on modern Apple Silicon macOS (M1–M5) and modern Linux distros, accelerating build times.
+
+### Documentation
+- **Legacy OS & Sass Troubleshooting**:
+  - Added dedicated Troubleshooting & Legacy OS Support documentation in `README.md` and `FRONTEND_APP_GUIDELINES.md` detailing how to use `NG_BUILD_SASS_EMBEDDED=false` in shell environments when developing on legacy macOS (Monterey/Ventura) or older Linux containers.
+
+### CI/CD
+- **Clean CI Workflow Configurations**:
+  - Cleaned redundant `NG_BUILD_SASS_EMBEDDED: 'false'` declarations in `.github/workflows/ci.yml`.
+
 ## [1.6.0] - 2026-11-17
 
 ### Added

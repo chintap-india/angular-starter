@@ -505,7 +505,7 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
       {
         title: 'Enterprise Tasks Management',
         category: 'Interactive Application',
-        version: 'v1.6.0',
+        version: 'v1.6.1',
         logoKey: 'material',
         docUrl: '/tasks',
         description:
